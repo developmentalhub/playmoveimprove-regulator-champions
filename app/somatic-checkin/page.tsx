@@ -1,9 +1,8 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-// CARDS FOR THE INTERACTIVE MICRO COURSE DECK
 const COURSE_CARDS = [
   {
     step: 'Step 1 of 5',
@@ -59,7 +58,6 @@ const COURSE_CARDS = [
 
 export default function SomaticCheckinPage() {
   const [currentCard, setCurrentCard] = useState(0);
-
   const [tightnessLocation, setTightnessLocation] = useState<string[]>([]);
   const [selectedSensory, setSelectedSensory] = useState<string[]>([]);
   const [relationalChoice, setRelationalChoice] = useState('');
@@ -69,7 +67,7 @@ export default function SomaticCheckinPage() {
     setTightnessLocation((previous) =>
       previous.includes(item)
         ? previous.filter((existingItem) => existingItem !== item)
-        : [...previous, item]
+        : [...previous, item],
     );
   };
 
@@ -77,20 +75,19 @@ export default function SomaticCheckinPage() {
     setSelectedSensory((previous) =>
       previous.includes(item)
         ? previous.filter((existingItem) => existingItem !== item)
-        : [...previous, item]
+        : [...previous, item],
     );
   };
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
-      {/* HEADER */}
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Link
-            href="/portal"
+            href="/"
             className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
           >
-            ← Back to Member Portal
+            ← Back to Home
           </Link>
 
           <span className="rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-[11px] font-bold text-amber-950">
@@ -100,7 +97,6 @@ export default function SomaticCheckinPage() {
       </header>
 
       <main className="mx-auto max-w-4xl space-y-12 px-6 py-10">
-        {/* HERO TITLE */}
         <section className="mx-auto max-w-2xl space-y-3 text-center">
           <span className="inline-block rounded-full bg-teal-100 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-teal-900">
             Staffroom Regulation Pacing
@@ -117,7 +113,6 @@ export default function SomaticCheckinPage() {
           </p>
         </section>
 
-        {/* SECTION 1: INTERACTIVE MICRO COURSE CARD DECK */}
         <section className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-bold text-slate-900">
@@ -207,7 +202,6 @@ export default function SomaticCheckinPage() {
           </div>
         </section>
 
-        {/* SECTION 2: SOMATIC STAFFROOM RESET TOOL */}
         <section className="space-y-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm md:p-10">
           <div className="space-y-2 border-b border-slate-200 pb-6">
             <span className="text-xs font-bold uppercase tracking-wider text-teal-800">
@@ -226,7 +220,6 @@ export default function SomaticCheckinPage() {
 
           {!toolSubmitted ? (
             <div className="space-y-8">
-              {/* STEP A: BODY TIGHTNESS */}
               <div className="space-y-3">
                 <p className="block text-xs font-bold uppercase text-slate-700">
                   1. Where are you holding tension right now? Select all that
@@ -261,7 +254,6 @@ export default function SomaticCheckinPage() {
                 </div>
               </div>
 
-              {/* STEP B: SENSORY VAGUS NERVE ANCHORS */}
               <div className="space-y-3">
                 <p className="block text-xs font-bold uppercase text-slate-700">
                   2. Choose your staffroom sensory soothing anchors for today:
@@ -313,7 +305,6 @@ export default function SomaticCheckinPage() {
                 </div>
               </div>
 
-              {/* STEP C: RELATIONAL ENVIRONMENT CHOICE */}
               <div className="space-y-3">
                 <p className="block text-xs font-bold uppercase text-slate-700">
                   3. Relational Mindset Shift for Your Shift:
@@ -407,7 +398,6 @@ export default function SomaticCheckinPage() {
           )}
         </section>
 
-        {/* SECTION 3: PRINTABLE POSTER DOWNLOAD */}
         <section className="space-y-6 rounded-3xl bg-teal-950 p-8 text-white md:p-10">
           <div className="space-y-2">
             <span className="block text-xs font-bold uppercase tracking-wider text-teal-300">
@@ -426,7 +416,7 @@ export default function SomaticCheckinPage() {
 
           <div className="max-w-2xl">
             <a
-              href="/pdf/educator-routine-ladder-1.pdf"
+              href="/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="block space-y-2 rounded-2xl border border-teal-700 bg-teal-900/80 p-5 text-left transition hover:bg-teal-800"
