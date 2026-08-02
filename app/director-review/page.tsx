@@ -1,259 +1,414 @@
-'use client';
+﻿'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
+import { FormEvent, useState } from 'react';
+
+type SubmissionStatus =
+  | 'idle'
+  | 'submitting'
+  | 'success'
+  | 'error';
+
+type DirectorEnquiryForm = {
+  directorName: string;
+  email: string;
+  serviceName: string;
+  phone: string;
+  roomCount: string;
+  primaryPressurePoint: string;
+  notes: string;
+};
+
+const initialFormData: DirectorEnquiryForm = {
+  directorName: '',
+  email: '',
+  serviceName: '',
+  phone: '',
+  roomCount: '3-4 Rooms',
+  primaryPressurePoint:
+    'Drop-off separation distress and morning room volume',
+  notes: '',
+};
 
 export default function DirectorReviewPage() {
-  const [formData, setFormData] = useState({
-    directorName: '',
-    email: '',
-    serviceName: '',
-    roomCount: '3-4 Rooms',
-    primaryPressurePoint: 'Drop-off separation distress & morning room volume',
-    staffConfidenceScore: '3',
-    qipPriority: 'QA5 - Supporting child self-regulation & co-regulation',
-    notes: '',
-  });
+  const [formData, setFormData] =
+    useState<DirectorEnquiryForm>(initialFormData);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionStatus, setSubmissionStatus] =
+    useState<SubmissionStatus>('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const [submissionMessage, setSubmissionMessage] =
+    useState('');
+
+  const updateField = (
+    field: keyof DirectorEnquiryForm,
+    value: string,
+  ) => {
+    setFormData((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
+
+    setSubmissionStatus('submitting');
+    setSubmissionMessage('');
 
     try {
-      await fetch('/api/quote', {
+      const response = await fetch('/api/director-review', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          fullName: formData.directorName,
-          email: formData.email,
-          serviceName: `Director Review: ${formData.serviceName}`,
-          message: `Rooms: ${formData.roomCount} | Main Issue: ${formData.primaryPressurePoint} | Staff Confidence: ${formData.staffConfidenceScore}/5 | QIP Focus: ${formData.qipPriority} | Notes: ${formData.notes}`,
+          formType: 'public_director_enquiry',
+          directorName: formData.directorName,
+          directorEmail: formData.email,
+          serviceName: formData.serviceName,
+          phone: formData.phone,
+          roomCount: formData.roomCount,
+          primaryPressurePoint:
+            formData.primaryPressurePoint,
+          notes: formData.notes,
         }),
       });
 
-      setSubmitted(true);
-    } catch (err) {
-      console.error('Director review submission failed:', err);
-      setSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error ||
+            'Your enquiry could not be submitted.',
+        );
+      }
+
+      setSubmissionStatus('success');
+      setSubmissionMessage(
+        'Thank you. Your enquiry has been received and Play Move Improve can now prepare the most relevant next step for your service.',
+      );
+    } catch (error) {
+      console.error(
+        'Director enquiry submission failed:',
+        error,
+      );
+
+      setSubmissionStatus('error');
+      setSubmissionMessage(
+        error instanceof Error
+          ? error.message
+          : 'Your enquiry could not be submitted. Please try again.',
+      );
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-800 pb-20">
-      
-      {/* HEADER */}
-      <header className="border-b border-slate-200 bg-white sticky top-0 z-40 px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
+    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
           <Link
-            href="/portal"
+            href="/"
             className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
           >
-            &larr; Back to Member Hub
+            &larr; Back to Home
           </Link>
-          <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-[11px] font-bold text-amber-950">
-            Baseline Intake
+
+          <span className="rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-[11px] font-bold text-amber-950">
+            Short Director Enquiry
           </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-6 py-10 space-y-8">
-
-        {/* TITLE BANNER */}
-        <section className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-            Step 1 of Implementation
+      <main className="mx-auto max-w-2xl space-y-8 px-6 py-10">
+        <section className="space-y-3 text-center">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Explore Regulator Champions
           </span>
+
           <h1 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-            Director Starting-Point Review
+            Request a Regulator Champions Proposal
           </h1>
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Help us map your centre&apos;s current pressure points and QIP goals so we can tailor your service&apos;s 12-month Regulation Champions pathway.
+
+          <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600">
+            Tell us a little about your service and the room
+            pressure you are currently experiencing. This is a
+            short enquiry, not the full onboarding review.
+          </p>
+
+          <p className="text-xs font-semibold text-teal-800">
+            Takes approximately two minutes.
           </p>
         </section>
 
-        {submitted ? (
-          <div className="rounded-3xl border border-emerald-300 bg-emerald-50 p-8 text-center space-y-4 shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 block">
-              Review Submitted Successfully
+        {submissionStatus === 'success' ? (
+          <section className="space-y-5 rounded-3xl border border-emerald-300 bg-emerald-50 p-8 text-center shadow-sm">
+            <span className="block text-xs font-bold uppercase tracking-wider text-emerald-800">
+              Enquiry Received
             </span>
+
             <h2 className="text-xl font-bold text-emerald-950">
               Thank You, {formData.directorName}
             </h2>
-            <p className="text-xs text-emerald-900 max-w-md mx-auto leading-relaxed">
-              Your baseline profile for <strong>{formData.serviceName}</strong> has been logged. Your team can now complete their private 2-minute confidence checks.
+
+            <p className="mx-auto max-w-md text-sm leading-relaxed text-emerald-900">
+              {submissionMessage}
             </p>
-            <div className="pt-2 flex flex-col sm:flex-row justify-center gap-3">
+
+            <p className="mx-auto max-w-md text-xs leading-relaxed text-emerald-800">
+              You have not started the longer Centre
+              Starting-Point Review. That onboarding review is
+              completed after a service joins the program.
+            </p>
+
+            <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
               <Link
-                href="/educator-confidence"
-                className="rounded-xl bg-teal-800 px-5 py-3 text-xs font-bold text-white shadow-xs hover:bg-teal-900 transition"
+                href="/proposal"
+                className="rounded-xl bg-teal-800 px-5 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-teal-900"
               >
-                Go to Educator Confidence Check &rarr;
+                View Program Proposal &rarr;
               </Link>
+
               <Link
-                href="/portal"
-                className="rounded-xl border border-teal-700 bg-white px-5 py-3 text-xs font-bold text-teal-950 hover:bg-teal-100 transition"
+                href="/"
+                className="rounded-xl border border-teal-700 bg-white px-5 py-3 text-xs font-bold text-teal-950 transition hover:bg-teal-100"
               >
-                Return to Member Hub
+                Return to Home
               </Link>
             </div>
-          </div>
+          </section>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="rounded-3xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm space-y-5"
+            className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {submissionStatus === 'error' && (
+              <div
+                role="alert"
+                className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm leading-relaxed text-rose-900"
+              >
+                {submissionMessage}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                  Director / Nominated Supervisor Name *
+                <label
+                  htmlFor="directorName"
+                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+                >
+                  Director or Nominated Supervisor *
                 </label>
+
                 <input
+                  id="directorName"
+                  name="directorName"
                   type="text"
                   required
+                  autoComplete="name"
                   placeholder="e.g. Sarah Jenkins"
                   value={formData.directorName}
-                  onChange={(e) => setFormData({ ...formData, directorName: e.target.value })}
-                  className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+                  onChange={(event) =>
+                    updateField(
+                      'directorName',
+                      event.target.value,
+                    )
+                  }
+                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+                >
                   Work Email Address *
                 </label>
+
                 <input
+                  id="email"
+                  name="email"
                   type="email"
                   required
+                  autoComplete="email"
                   placeholder="director@centre.com.au"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+                  onChange={(event) =>
+                    updateField('email', event.target.value)
+                  }
+                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                  Centre / Service Name *
+                <label
+                  htmlFor="serviceName"
+                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+                >
+                  Centre or Service Name *
                 </label>
+
                 <input
+                  id="serviceName"
+                  name="serviceName"
                   type="text"
                   required
                   placeholder="e.g. Sunshine Early Learning"
                   value={formData.serviceName}
-                  onChange={(e) => setFormData({ ...formData, serviceName: e.target.value })}
-                  className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+                  onChange={(event) =>
+                    updateField(
+                      'serviceName',
+                      event.target.value,
+                    )
+                  }
+                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                  Total Active Rooms
-                </label>
-                <select
-                  value={formData.roomCount}
-                  onChange={(e) => setFormData({ ...formData, roomCount: e.target.value })}
-                  className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+                <label
+                  htmlFor="phone"
+                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
                 >
-                  <option value="1-2 Rooms">1–2 Rooms</option>
-                  <option value="3-4 Rooms">3–4 Rooms</option>
-                  <option value="5-6 Rooms">5–6 Rooms</option>
-                  <option value="7+ Rooms">7+ Rooms (Multi-site)</option>
-                </select>
+                  Phone Number
+                </label>
+
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder="Optional"
+                  value={formData.phone}
+                  onChange={(event) =>
+                    updateField('phone', event.target.value)
+                  }
+                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
+                />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                What is your centre&apos;s biggest daily pressure point right now?
-              </label>
-              <select
-                value={formData.primaryPressurePoint}
-                onChange={(e) => setFormData({ ...formData, primaryPressurePoint: e.target.value })}
-                className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+              <label
+                htmlFor="roomCount"
+                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
               >
-                <option value="Drop-off separation distress & morning room volume">
-                  Drop-off separation distress &amp; morning room volume
-                </option>
-                <option value="Pack-up time power struggles & instruction refusal">
-                  Pack-up time power struggles &amp; instruction refusal
-                </option>
-                <option value="Rest time restlessness & non-sleeper body regulation">
-                  Rest time restlessness &amp; non-sleeper body regulation
-                </option>
-                <option value="3 PM sensory fatigue, room running, and squealing spikes">
-                  3 PM sensory fatigue, room running, and squealing spikes
-                </option>
-                <option value="Inconsistent strategies between permanent and casual staff">
-                  Inconsistent strategies between permanent and casual staff
+                Number of Active Rooms
+              </label>
+
+              <select
+                id="roomCount"
+                name="roomCount"
+                value={formData.roomCount}
+                onChange={(event) =>
+                  updateField(
+                    'roomCount',
+                    event.target.value,
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
+              >
+                <option value="1-2 Rooms">1–2 Rooms</option>
+                <option value="3-4 Rooms">3–4 Rooms</option>
+                <option value="5-6 Rooms">5–6 Rooms</option>
+                <option value="7+ Rooms">
+                  7+ Rooms or Multi-site
                 </option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                How confident is your team in co-regulating dysregulated behaviors? (1 = Low, 5 = Very High)
+              <label
+                htmlFor="primaryPressurePoint"
+                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+              >
+                What is your biggest daily pressure point?
               </label>
-              <div className="grid grid-cols-5 gap-2">
-                {['1', '2', '3', '4', '5'].map((score) => (
-                  <button
-                    key={score}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, staffConfidenceScore: score })}
-                    className={`py-3 rounded-xl border text-xs font-bold transition ${
-                      formData.staffConfidenceScore === score
-                        ? 'bg-teal-800 text-white border-teal-800 shadow-xs'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-teal-600'
-                    }`}
-                  >
-                    {score}
-                  </button>
-                ))}
-              </div>
+
+              <select
+                id="primaryPressurePoint"
+                name="primaryPressurePoint"
+                value={formData.primaryPressurePoint}
+                onChange={(event) =>
+                  updateField(
+                    'primaryPressurePoint',
+                    event.target.value,
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
+              >
+                <option value="Drop-off separation distress and morning room volume">
+                  Drop-off separation distress and morning
+                  room volume
+                </option>
+
+                <option value="Pack-up transitions and instruction refusal">
+                  Pack-up transitions and instruction refusal
+                </option>
+
+                <option value="Rest-time regulation and non-sleeper participation">
+                  Rest-time regulation and non-sleeper
+                  participation
+                </option>
+
+                <option value="Afternoon sensory fatigue, running and noise">
+                  Afternoon sensory fatigue, running and noise
+                </option>
+
+                <option value="Inconsistent strategies across the educator team">
+                  Inconsistent strategies across the educator
+                  team
+                </option>
+
+                <option value="Other">
+                  Other or several combined concerns
+                </option>
+              </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                Current QIP Priority Focus
+              <label
+                htmlFor="notes"
+                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+              >
+                Anything Else We Should Know?
               </label>
-              <input
-                type="text"
-                value={formData.qipPriority}
-                onChange={(e) => setFormData({ ...formData, qipPriority: e.target.value })}
-                placeholder="e.g. QA5 - Relationships with Children"
-                className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
-              />
-            </div>
 
-            <div>
-              <label className="block text-[11px] font-bold uppercase text-slate-700 mb-1">
-                Additional Notes or Specific Room Context (Optional)
-              </label>
               <textarea
+                id="notes"
+                name="notes"
                 rows={3}
-                placeholder="Include details about upcoming Assessment & Rating dates or specific room challenges..."
+                placeholder="Optional. Add a short note about your service, current priorities or upcoming Assessment and Rating visit."
                 value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
+                onChange={(event) =>
+                  updateField('notes', event.target.value)
+                }
+                className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
               />
             </div>
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full rounded-2xl bg-teal-800 py-4 text-xs font-bold text-white shadow-xs hover:bg-teal-900 transition disabled:opacity-60"
+              disabled={submissionStatus === 'submitting'}
+              className="w-full rounded-2xl bg-teal-800 py-4 text-sm font-bold text-white shadow-xs transition hover:bg-teal-900 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSubmitting ? 'Saving Review Profile...' : 'Save Director Starting-Point Profile →'}
+              {submissionStatus === 'submitting'
+                ? 'Sending Enquiry...'
+                : 'Request My Centre Proposal →'}
             </button>
+
+            <p className="text-center text-xs leading-relaxed text-slate-500">
+              The detailed Centre Starting-Point Review is
+              completed later by services that join the
+              12-month pathway.
+            </p>
           </form>
         )}
-
       </main>
     </div>
   );

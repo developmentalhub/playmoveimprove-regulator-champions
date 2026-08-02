@@ -1,104 +1,136 @@
 'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+
+type NavigationLink = {
+  href: string;
+  label: string;
+};
+
+const primaryNavLinks: NavigationLink[] = [
+  { href: '/', label: 'Home' },
+  { href: '/feed', label: 'CALM Feed' },
+  { href: '/free-guide', label: 'Free Guide' },
+  { href: '/playbooks', label: '10 Action Plans' },
+  { href: '/nqs-mapping', label: 'NQS Evidence' },
+];
+
+const secondaryNavLinks: NavigationLink[] = [
+  {
+    href: '/director-review',
+    label: 'Director Review',
+  },
+  {
+    href: '/',
+    label: 'Member Hub',
+  },
+  {
+    href: '/somatic-checkin',
+    label: 'Somatic Tool',
+  },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Public high-converting routes
-  const primaryNavLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/feed', label: 'CALM Feed' },
-    { href: '/free-guide', label: 'Free Guide' },
-    { href: '/playbooks', label: '10 Action Plans' },
-    { href: '/nqs-mapping', label: 'NQS Evidence' },
-  ];
+  const isActive = (link: NavigationLink) => {
+    if (link.label === 'Member Hub') {
+      return false;
+    }
 
-  // Member & Baseline routes
-  const secondaryNavLinks = [
-    { href: '/portal', label: 'Member Hub' },
-    { href: '/somatic-checkin', label: 'Somatic Tool' },
-  ];
+    return pathname === link.href;
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-teal-800/80 bg-teal-950/90 text-white backdrop-blur-md shadow-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3.5">
-        
-        {/* BRAND LOGO */}
-        <Link href="/" className="flex items-center gap-3 shrink-0 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white shadow-xs group-hover:bg-teal-600 transition">
+    <header className="sticky top-0 z-50 border-b border-teal-800/80 bg-teal-950/95 text-white shadow-md backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+        <Link
+          href="/"
+          onClick={closeMobileMenu}
+          className="group flex shrink-0 items-center gap-3"
+        >
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white shadow-xs transition group-hover:bg-teal-600">
             PMI
           </div>
+
           <div>
-            <span className="block text-[10px] font-bold uppercase tracking-widest text-teal-300 leading-tight">
+            <span className="block text-[10px] font-bold uppercase leading-tight tracking-widest text-teal-300">
               Play Move Improve
             </span>
-            <span className="text-xs font-extrabold text-white tracking-tight">
+
+            <span className="text-xs font-extrabold tracking-tight text-white">
               Regulator Champions
             </span>
           </div>
         </Link>
 
-        {/* DESKTOP NAVIGATION */}
-        <nav className="hidden lg:flex items-center gap-1.5 rounded-2xl border border-teal-800/80 bg-teal-900/40 p-1.5">
-          {primaryNavLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
-                  isActive
-                    ? 'bg-teal-700 text-white shadow-xs'
-                    : 'text-teal-200 hover:bg-teal-800/50 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+        <nav
+          className="hidden items-center gap-1 rounded-2xl border border-teal-800/80 bg-teal-900/40 p-1.5 xl:flex"
+          aria-label="Main navigation"
+        >
+          {primaryNavLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${
+                isActive(link)
+                  ? 'bg-teal-700 text-white shadow-xs'
+                  : 'text-teal-200 hover:bg-teal-800/50 hover:text-white'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
 
-          <div className="mx-1 h-4 w-px bg-teal-800/80" />
+          <div
+            className="mx-1 h-4 w-px bg-teal-800/80"
+            aria-hidden="true"
+          />
 
-          {secondaryNavLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
-                  isActive
-                    ? 'bg-teal-800 text-white shadow-xs'
-                    : 'text-teal-300 hover:bg-teal-800/40 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          {secondaryNavLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+                isActive(link)
+                  ? 'bg-teal-800 text-white shadow-xs'
+                  : 'text-teal-300 hover:bg-teal-800/40 hover:text-white'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* DESKTOP CTA BUTTON */}
-        <div className="hidden sm:flex items-center gap-2 shrink-0">
+        <div className="hidden shrink-0 sm:block">
           <Link
             href="/proposal"
             className="rounded-xl border border-amber-300 bg-amber-400 px-4 py-2 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
           >
-            Proposal &amp; Quote ($4,790)
+            Proposal &amp; Quote
           </Link>
         </div>
 
-        {/* MOBILE MENU TOGGLE */}
         <button
           type="button"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="rounded-xl p-2 text-teal-200 hover:bg-teal-800 hover:text-white transition lg:hidden"
+          onClick={() => setMobileMenuOpen((current) => !current)}
+          className="rounded-xl p-2 text-teal-200 transition hover:bg-teal-800 hover:text-white xl:hidden"
           aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
         >
-          <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+          <svg
+            className="h-6 w-6 fill-current"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             {mobileMenuOpen ? (
               <path
                 fillRule="evenodd"
@@ -116,65 +148,62 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE DROPDOWN MENU */}
       {mobileMenuOpen && (
-        <div className="border-t border-teal-800/80 bg-teal-950 px-6 py-5 space-y-4 shadow-xl lg:hidden">
+        <nav
+          id="mobile-navigation"
+          className="space-y-5 border-t border-teal-800/80 bg-teal-950 px-5 py-5 shadow-xl xl:hidden"
+          aria-label="Mobile navigation"
+        >
           <div className="space-y-1">
-            <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
               Public Resources
             </span>
-            {primaryNavLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block rounded-xl px-3 py-2 text-xs font-bold transition ${
-                    isActive
-                      ? 'bg-teal-700 text-white'
-                      : 'text-teal-200 hover:bg-teal-900 hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+
+            {primaryNavLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={closeMobileMenu}
+                className={`block rounded-xl px-3 py-2.5 text-xs font-bold transition ${
+                  isActive(link)
+                    ? 'bg-teal-700 text-white'
+                    : 'text-teal-200 hover:bg-teal-900 hover:text-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          <div className="border-t border-teal-900 pt-3 space-y-1">
-            <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
-              Member Access
+          <div className="space-y-1 border-t border-teal-900 pt-4">
+            <span className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
+              Enquiries and Access
             </span>
-            {secondaryNavLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block rounded-xl px-3 py-2 text-xs font-semibold transition ${
-                    isActive
-                      ? 'bg-teal-800 text-white'
-                      : 'text-teal-300 hover:bg-teal-900 hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+
+            {secondaryNavLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={closeMobileMenu}
+                className={`block rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
+                  isActive(link)
+                    ? 'bg-teal-800 text-white'
+                    : 'text-teal-300 hover:bg-teal-900 hover:text-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
-          <div className="pt-2">
-            <Link
-              href="/proposal"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block w-full rounded-xl bg-amber-400 py-3 text-center text-xs font-bold text-slate-950 shadow-xs hover:bg-amber-300 transition"
-            >
-              Print Service Proposal ($4,790)
-            </Link>
-          </div>
-        </div>
+          <Link
+            href="/proposal"
+            onClick={closeMobileMenu}
+            className="block w-full rounded-xl bg-amber-400 py-3 text-center text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
+          >
+            Proposal &amp; Quote
+          </Link>
+        </nav>
       )}
     </header>
   );

@@ -1,13 +1,88 @@
 import { NextResponse } from 'next/server';
 
-const SB_URL = "https://vfflpjpvbazvzxbuxwme.supabase.co";
-const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmZmxwanB2YmF6dnp4YnV4d21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NTAxODIsImV4cCI6MjA5NTIyNjE4Mn0.x_U8pHlAcdgnbsMIYV8eigPLtiBp2rYAx6ljt4pIkkw";
+type DirectorReviewRequest = {
+  formType?: 'public_director_enquiry' | 'centre_starting_point_review';
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+  directorName?: string;
+  directorEmail?: string;
+  email?: string;
+  serviceName?: string;
+  phone?: string;
 
-    const notesSummary = `
+  roomCount?: string;
+  primaryPressurePoint?: string;
+  staffConfidenceScore?: string;
+  qipPriority?: string;
+  notes?: string;
+
+  leadershipCapacity?: string;
+  leadershipNotes?: string;
+  teamConsistency?: string;
+  teamPressurePoints?: string;
+  familyCommunication?: string;
+  familySupportNotes?: string;
+  babiesPatterns?: string;
+  toddlerPatterns?: string;
+  preschoolPatterns?: string;
+  priorityRoutines?: string[];
+  topPriority?: string;
+};
+
+function getEnvironmentVariables() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Supabase environment variables are missing.');
+  }
+
+  return {
+    supabaseUrl,
+    supabaseAnonKey,
+  };
+}
+
+function isCentreStartingPointReview(body: DirectorReviewRequest) {
+  if (body.formType === 'centre_starting_point_review') {
+    return true;
+  }
+
+  return Boolean(
+    body.leadershipCapacity ||
+      body.leadershipNotes ||
+      body.teamConsistency ||
+      body.teamPressurePoints ||
+      body.familyCommunication ||
+      body.familySupportNotes ||
+      body.babiesPatterns ||
+      body.toddlerPatterns ||
+      body.preschoolPatterns ||
+      body.topPriority ||
+      (Array.isArray(body.priorityRoutines) &&
+        body.priorityRoutines.length > 0),
+  );
+}
+
+function createPublicEnquiryNotes(body: DirectorReviewRequest) {
+  return `
+Public Director Enquiry
+
+Number of Rooms: ${body.roomCount || 'Not provided'}
+Primary Pressure Point: ${body.primaryPressurePoint || 'Not provided'}
+Current Team Confidence: ${
+    body.staffConfidenceScore
+      ? `${body.staffConfidenceScore}/5`
+      : 'Not provided'
+  }
+QIP Priority: ${body.qipPriority || 'Not provided'}
+Additional Notes: ${body.notes || 'None provided'}
+  `.trim();
+}
+
+function createStartingPointReviewNotes(body: DirectorReviewRequest) {
+  return `
+Centre Starting-Point Review
+
 Leadership Capacity: ${body.leadershipCapacity || 'N/A'}
 Leadership Notes: ${body.leadershipNotes || 'N/A'}
 Team Consistency: ${body.teamConsistency || 'N/A'}
@@ -17,43 +92,106 @@ Family Notes: ${body.familySupportNotes || 'N/A'}
 Babies Room: ${body.babiesPatterns || 'N/A'}
 Toddler Room: ${body.toddlerPatterns || 'N/A'}
 Preschool Room: ${body.preschoolPatterns || 'N/A'}
-Priority Routines: ${Array.isArray(body.priorityRoutines) ? body.priorityRoutines.join(', ') : 'None selected'}
+Priority Routines: ${
+    Array.isArray(body.priorityRoutines)
+      ? body.priorityRoutines.join(', ')
+      : 'None selected'
+}
 Top Priority Outcome: ${body.topPriority || 'N/A'}
-    `.trim();
+  `.trim();
+}
 
-    const response = await fetch(`${SB_URL}/rest/v1/champion_enquiries`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SB_KEY,
-        'Authorization': `Bearer ${SB_KEY}`,
-        'Prefer': 'return=minimal',
-      },
-      body: JSON.stringify({
-        contact_name: body.directorName,
-        contact_email: body.directorEmail,
-        centre_name: body.serviceName,
-        phone: body.phone || null,
-        selected_tier: 'Director Starting-Point Review',
-        notes: notesSummary,
-      }),
-    });
+export async function POST(request: Request) {
+  try {
+    const body = (await request.json()) as DirectorReviewRequest;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Supabase Director Review insert error:', errorText);
+    const contactName = body.directorName?.trim();
+    const contactEmail = (
+      body.directorEmail ||
+      body.email ||
+      ''
+    ).trim();
+    const centreName = body.serviceName?.trim();
+
+    if (!contactName || !contactEmail || !centreName) {
       return NextResponse.json(
-        { success: false, error: 'Database record creation failed.' },
-        { status: 500 }
+        {
+          success: false,
+          error: 'Name, work email and service name are required.',
+        },
+        { status: 400 },
       );
     }
 
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error('Director review API error:', err);
+    const isStartingPointReview =
+      isCentreStartingPointReview(body);
+
+    const selectedTier = isStartingPointReview
+      ? 'Centre Starting-Point Review'
+      : 'Public Director Enquiry';
+
+    const notes = isStartingPointReview
+      ? createStartingPointReviewNotes(body)
+      : createPublicEnquiryNotes(body);
+
+    const { supabaseUrl, supabaseAnonKey } =
+      getEnvironmentVariables();
+
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/champion_enquiries`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          contact_name: contactName,
+          contact_email: contactEmail,
+          centre_name: centreName,
+          phone: body.phone?.trim() || null,
+          selected_tier: selectedTier,
+          notes,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+
+      console.error(
+        'Supabase director review insert error:',
+        errorText,
+      );
+
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'Your enquiry could not be saved. Please try again.',
+        },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      formType: isStartingPointReview
+        ? 'centre_starting_point_review'
+        : 'public_director_enquiry',
+    });
+  } catch (error) {
+    console.error('Director review API error:', error);
+
     return NextResponse.json(
-      { success: false, error: 'Internal server error.' },
-      { status: 500 }
+      {
+        success: false,
+        error:
+          'Your enquiry could not be submitted. Please try again.',
+      },
+      { status: 500 },
     );
   }
 }

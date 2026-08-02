@@ -215,9 +215,9 @@ export default function FreeRegulationToolsPage() {
                 </h3>
 
                 <p className="text-sm leading-relaxed text-slate-600">
-                  Reflect on noise, visual load, lighting, waiting, transitions
-                  and environmental demands that may be making participation
-                  harder.
+                  A professional observation tool used by Play Move Improve
+                  consultants during service visits. Not intended for general
+                  educator use.
                 </p>
               </div>
 
@@ -242,9 +242,9 @@ export default function FreeRegulationToolsPage() {
                 </h3>
 
                 <p className="text-sm leading-relaxed text-slate-600">
-                  Reflect on adult presence, regulation language and the
-                  movement opportunities available to children throughout the
-                  day.
+                  A classroom screening snapshot for flagging developmental
+                  concerns by child initials. Intended for educators comfortable
+                  with structured observation, not a casual reflection tool.
                 </p>
               </div>
 
@@ -383,10 +383,7 @@ export default function FreeRegulationToolsPage() {
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={handleQuestionSubmit}
-                className="space-y-5"
-              >
+              <form onSubmit={handleQuestionSubmit} className="space-y-5">
                 {submissionStatus === 'error' && (
                   <div
                     role="alert"

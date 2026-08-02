@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ export default function EducatorConfidencePage() {
   const [formData, setFormData] = useState({
     educatorName: '',
     role: 'Educator (Diploma / Cert III)',
-    roomContext: 'Toddler Room (18m–3 Years)',
+    roomContext: 'Toddler Room (18mâ€“3 Years)',
     somaticAwarenessScore: '3',
     deescalationConfidenceScore: '3',
     primaryPersonalTrigger: '3 PM sensory fatigue, running, and room squealing',
@@ -49,7 +49,7 @@ export default function EducatorConfidencePage() {
       <header className="border-b border-slate-200 bg-white sticky top-0 z-40 px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <Link
-            href="/portal"
+            href="/"
             className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
           >
             &larr; Back to Member Hub
@@ -147,8 +147,8 @@ export default function EducatorConfidencePage() {
                 onChange={(e) => setFormData({ ...formData, roomContext: e.target.value })}
                 className="w-full rounded-xl border border-slate-300 p-3 text-xs outline-none focus:ring-2 focus:ring-teal-600"
               >
-                <option value="Nursery (0–18 Months)">Nursery (0–18 Months)</option>
-                <option value="Toddler Room (18m–3 Years)">Toddler Room (18m–3 Years)</option>
+                <option value="Nursery (0â€“18 Months)">Nursery (0â€“18 Months)</option>
+                <option value="Toddler Room (18mâ€“3 Years)">Toddler Room (18mâ€“3 Years)</option>
                 <option value="3-Year-Old Room">3-Year-Old Room</option>
                 <option value="4-Year-Old / Kinder Room">4-Year-Old / Kinder Room</option>
                 <option value="Prep / Early Primary">Prep / Early Primary</option>
@@ -249,7 +249,7 @@ export default function EducatorConfidencePage() {
               disabled={isSubmitting}
               className="w-full rounded-2xl bg-teal-800 py-4 text-xs font-bold text-white shadow-xs hover:bg-teal-900 transition disabled:opacity-60"
             >
-              {isSubmitting ? 'Saving Private Reflection...' : 'Complete Baseline Check →'}
+              {isSubmitting ? 'Saving Private Reflection...' : 'Complete Baseline Check â†’'}
             </button>
           </form>
         )}

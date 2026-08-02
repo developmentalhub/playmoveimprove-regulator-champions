@@ -1,107 +1,140 @@
-'use client';
+﻿import Link from 'next/link';
 
-import React from 'react';
-import Link from 'next/link';
+const programLinks = [
+  {
+    href: '/feed',
+    label: 'CALM Feed',
+  },
+  {
+    href: '/free-guide',
+    label: 'Free Guide',
+  },
+  {
+    href: '/playbooks',
+    label: '10 Action Plans',
+  },
+  {
+    href: '/nqs-mapping',
+    label: 'NQS Evidence',
+  },
+  {
+    href: '/somatic-checkin',
+    label: 'Somatic Tool',
+  },
+];
+
+const enquiryLinks = [
+  {
+    href: '/director-review',
+    label: 'Director Review',
+  },
+  {
+    href: '/proposal',
+    label: 'Proposal & Quote',
+  },
+];
+
+const legalLinks = [
+  {
+    href: '/privacy',
+    label: 'Privacy',
+  },
+  {
+    href: '/terms',
+    label: 'Terms',
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-900 text-slate-300 font-sans print:hidden">
-      <div className="mx-auto max-w-7xl px-6 py-12 space-y-8">
-        
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 border-b border-slate-800 pb-8">
-          
-          {/* BRAND COLUMN */}
-          <div className="md:col-span-5 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white">
-                PMI
-              </div>
-              <span className="text-sm font-extrabold text-white tracking-tight">
-                Play Move Improve
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Whole-centre co-regulation capability for early childhood services. Built by Paediatric Exercise Physiologist &amp; Developmental Educator Robyn Papworth.
-            </p>
-            <p className="text-[11px] text-slate-500 font-semibold">
-              ABN: 17 415 190 263 • Play Move Improve Pty Ltd
-            </p>
+    <footer className="border-t border-slate-200 bg-white text-slate-700">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="space-y-4">
+          <div>
+            <span className="block text-xs font-bold uppercase tracking-widest text-teal-700">
+              Play Move Improve
+            </span>
+
+            <h2 className="mt-1 text-lg font-extrabold text-slate-900">
+              Regulator Champions
+            </h2>
           </div>
 
-          {/* QUICK LINKS */}
-          <div className="md:col-span-3 space-y-2">
-            <strong className="block text-xs font-bold uppercase tracking-wider text-teal-400">
-              Public Resources
-            </strong>
-            <ul className="space-y-1.5 text-xs font-medium">
-              <li>
-                <Link href="/feed" className="hover:text-white transition">
-                  CALM Visual Feed
-                </Link>
-              </li>
-              <li>
-                <Link href="/free-guide" className="hover:text-white transition">
-                  Micro Course Module
-                </Link>
-              </li>
-              <li>
-                <Link href="/playbooks" className="hover:text-white transition">
-                  10 Scenario Action Plans
-                </Link>
-              </li>
-              <li>
-                <Link href="/learning-journey" className="hover:text-white transition">
-                  Guided Learning Journey
-                </Link>
-              </li>
-              <li>
-                <Link href="/nqs-mapping" className="hover:text-white transition">
-                  NQS Evidence Matrix
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* MEMBER & DIRECTORS */}
-          <div className="md:col-span-4 space-y-2">
-            <strong className="block text-xs font-bold uppercase tracking-wider text-teal-400">
-              Service Leadership
-            </strong>
-            <ul className="space-y-1.5 text-xs font-medium">
-              <li>
-                <Link href="/proposal" className="hover:text-white transition text-amber-300 font-bold">
-                  Print Service Proposal ($4,790) &rarr;
-                </Link>
-              </li>
-              <li>
-                <Link href="/director-review" className="hover:text-white transition">
-                  Director Starting-Point Review
-                </Link>
-              </li>
-              <li>
-                <Link href="/educator-confidence" className="hover:text-white transition">
-                  Educator Baseline Check
-                </Link>
-              </li>
-              <li>
-                <Link href="/portal" className="hover:text-white transition">
-                  12-Month Member Portal
-                </Link>
-              </li>
-              <li className="pt-2 text-[11px] text-slate-400">
-                Email: <a href="mailto:robyn@playmoveimprove.com.au" className="underline hover:text-white">robyn@playmoveimprove.com.au</a>
-              </li>
-            </ul>
-          </div>
-
+          <p className="max-w-sm text-sm leading-relaxed text-slate-600">
+            Practical whole-centre professional learning that helps early
+            childhood teams build consistent, developmentally informed
+            responses to regulation needs.
+          </p>
         </div>
 
-        {/* BOTTOM COPYRIGHT */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <p>© {new Date().getFullYear()} Play Move Improve Pty Ltd. All rights reserved.</p>
-          <p>Designed for Kindy Uplift, SRF, and NQS Quality Area Compliance.</p>
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
+            Program Resources
+          </h3>
+
+          <div className="space-y-2.5">
+            {programLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-slate-600 transition hover:text-teal-800"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
+            Directors and Enquiries
+          </h3>
+
+          <div className="space-y-2.5">
+            {enquiryLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm font-semibold text-teal-800 transition hover:text-teal-950"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-4 text-xs leading-relaxed text-slate-500">
+            Start with the short Director Review if you are exploring whether
+            Regulator Champions may suit your service.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
+            Legal
+          </h3>
+
+          <div className="space-y-2.5">
+            {legalLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-slate-600 transition hover:text-teal-800"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {new Date().getFullYear()} Play Move Improve. All rights reserved.
+          </p>
+
+          <p>Victoria, Australia</p>
+        </div>
       </div>
     </footer>
   );
