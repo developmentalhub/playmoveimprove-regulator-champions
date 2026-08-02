@@ -156,19 +156,32 @@ export default function FeedPage() {
           </article>
         ))}
 
-        {/* BOTTOM CALL TO ACTION */}
-        <div className="rounded-3xl bg-teal-900 p-6 text-center text-white space-y-3">
-          <h3 className="text-base font-bold">Want All 8 Printable Routine Ladders?</h3>
-          <p className="text-xs text-teal-100 max-w-xs mx-auto leading-relaxed">
-            Get physical A3 room posters, video demonstrations, and site-wide access for your service.
-          </p>
-          <Link
-            href="/proposal"
-            className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 hover:bg-amber-300 transition shadow-xs"
-          >
-            Get $4,790 Centre Quote &amp; Proposal &rarr;
-          </Link>
-        </div>
+       {/* BOTTOM CALL TO ACTION */}
+<div className="rounded-3xl bg-teal-900 p-6 text-center text-white space-y-3">
+  <h3 className="text-base font-bold">
+    Want All 8 Printable Routine Ladders?
+  </h3>
+
+  <p className="text-xs text-teal-100 max-w-xs mx-auto leading-relaxed">
+    Start with the fully available Ladder 1 physical A3 room posters,
+    video demonstrations, and site-wide access for your service.
+    Ladders 2 through 8 are released progressively across the
+    12-month membership.
+  </p>
+
+  <p className="text-[11px] text-teal-200 max-w-xs mx-auto leading-relaxed">
+    Each ladder is introduced in stages so educators and families have
+    time to practise without being overwhelmed by too much information
+    at once.
+  </p>
+
+  <Link
+    href="/proposal"
+    className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 hover:bg-amber-300 transition shadow-xs"
+  >
+    Get $4,790 Centre Quote &amp; Proposal &rarr;
+  </Link>
+</div>
 
       </main>
     </div>

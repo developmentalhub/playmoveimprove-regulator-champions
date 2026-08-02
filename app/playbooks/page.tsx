@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-// Month 1 Action Plans mapped directly to your exact 4 public/pdf/ files
-const MONTH_ONE_ACTION_PLANS = [
+// Ladder 1 Action Plans mapped directly to your public files.
+const LADDER_ONE_ACTION_PLANS = [
   {
     id: 'staffroom-reset',
     roomName: '01. Staffroom Arrival & Vagus Reset',
@@ -51,7 +51,7 @@ const MONTH_ONE_ACTION_PLANS = [
     actionSteps: [
       'Lower your physical height parallel to the child at the doorway threshold.',
       'Greet the child at eye level without forcibly pulling them away from their parent.',
-      'Offer a heavy carrying object (like a wooden block tub) to anchor their hands.',
+      'Offer a heavy carrying object, such as a wooden block tub, to anchor their hands.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
@@ -101,7 +101,7 @@ const MONTH_ONE_ACTION_PLANS = [
       'Shifting from home environment to group expectations requires clear somatic safety cues.',
     actionSteps: [
       'Position a dedicated educator right at the doorway threshold.',
-      'Provide a predictable nonverbal arrival job (like placing a name card on the board).',
+      'Provide a predictable nonverbal arrival job, such as placing a name card on the board.',
       'Keep spoken instructions to 4 words or fewer during arrival.',
     ],
     printablePoster:
@@ -134,7 +134,7 @@ const MONTH_ONE_ACTION_PLANS = [
     styledVsSubstance:
       'Absorbing room complaints during shift handovers elevates adult stress before entering the floor.',
     actionSteps: [
-      'Set a professional boundary: Focus on child regulation needs, not character labels.',
+      'Set a professional boundary: focus on child regulation needs, not character labels.',
       'Share one steady regulation anchor that worked well during the early shift.',
       'Enter the room with a clean slate and aligned team expectations.',
     ],
@@ -153,7 +153,7 @@ const MONTH_ONE_ACTION_PLANS = [
     actionSteps: [
       'Give a 2-minute visual count indicator before ending yard play.',
       'Position educators at outdoor doorway thresholds to pace entry speed.',
-      'Provide a heavy carrying job (moving cones or balls) during room entry.',
+      'Provide a heavy carrying job, such as moving cones or balls, during room entry.',
     ],
     printablePoster: '/pdf/Calm-Posters.pdf',
   },
@@ -181,13 +181,14 @@ export default function PlaybooksPage() {
     useState<string>('nursery-dropoff');
 
   const currentPlan =
-    MONTH_ONE_ACTION_PLANS.find((p) => p.id === selectedId) ||
-    MONTH_ONE_ACTION_PLANS[1];
+    LADDER_ONE_ACTION_PLANS.find(
+      (plan) => plan.id === selectedId,
+    ) || LADDER_ONE_ACTION_PLANS[1];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-800 pb-20">
+    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
       {/* HEADER */}
-      <header className="border-b border-slate-200 bg-white sticky top-0 z-40 px-6 py-4">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Link
             href="/"
@@ -196,77 +197,77 @@ export default function PlaybooksPage() {
             &larr; Back to Home
           </Link>
 
-          <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-[11px] font-bold text-amber-950">
-            Month 1 Focus Area
+          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-950">
+            Ladder 1 Fully Available
           </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-8 space-y-8">
+      <main className="mx-auto max-w-5xl space-y-8 px-6 py-8">
         {/* PAGE TITLE */}
-        <section className="text-center space-y-2 max-w-2xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-            Curriculum Roadmap Scope
+        <section className="mx-auto max-w-2xl space-y-2 text-center">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Current Regulation Ladder
           </span>
 
           <h1 className="text-2xl font-extrabold text-slate-900 md:text-4xl">
-            Month 1: Morning Routines &amp; The CALM Model
+            Ladder 1: Morning Routines &amp; The CALM Framework
           </h1>
 
-          <p className="text-xs text-slate-600 md:text-sm leading-relaxed">
-            Practical scenario action plans designed specifically for
-            morning arrivals, staffroom preparation, drop-off distress,
-            and establishing calm room foundations.
+          <p className="text-xs leading-relaxed text-slate-600 md:text-sm">
+            Ladder 1 is the current, fully available starting point,
+            with practical action plans for morning arrivals, staffroom
+            preparation, drop-off distress, and calm room foundations.
           </p>
         </section>
 
         {/* MONTH 2 UNLOCK NOTICE BANNER */}
-        <section className="rounded-2xl border border-amber-300 bg-amber-50 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+        <section className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-amber-300 bg-amber-50 p-4 shadow-xs sm:flex-row sm:items-center sm:p-5">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500"></span>
 
-              <strong className="text-xs font-bold text-amber-950 uppercase tracking-wider">
-                Upcoming Next Month (Month 2 Pathway)
+              <strong className="text-xs font-bold uppercase tracking-wider text-amber-950">
+                Ladder 2 Releasing Next
               </strong>
             </div>
 
-            <p className="text-xs text-amber-900 leading-relaxed">
+            <p className="text-xs leading-relaxed text-amber-900">
               <strong>Month 2 Focus:</strong> The EASE Model &amp;
               Escalation Practices (Environment, Attachment, Sensory
               Seeking, and De-escalating Room Meltdowns).
             </p>
 
-            <p className="text-xs text-amber-900 leading-relaxed">
+            <p className="text-xs leading-relaxed text-amber-900">
               EASE builds on the CALM Framework, offering a more
               detailed tool specifically for escalation and meltdown
               moments.
             </p>
           </div>
 
-          <span className="rounded-xl bg-amber-200/80 border border-amber-300 px-3 py-1.5 text-[11px] font-bold text-amber-950 shrink-0">
+          <span className="shrink-0 rounded-xl border border-amber-300 bg-amber-200/80 px-3 py-1.5 text-[11px] font-bold text-amber-950">
             Unlocks in Month 2
           </span>
         </section>
 
         {/* ROOM SELECTOR BUTTON BAR */}
         <section className="overflow-x-auto pb-2">
-          <div className="flex gap-2 min-w-max">
-            {MONTH_ONE_ACTION_PLANS.map((p) => {
-              const isSelected = p.id === selectedId;
+          <div className="flex min-w-max gap-2">
+            {LADDER_ONE_ACTION_PLANS.map((plan) => {
+              const isSelected = plan.id === selectedId;
 
               return (
                 <button
-                  key={p.id}
+                  key={plan.id}
                   type="button"
-                  onClick={() => setSelectedId(p.id)}
-                  className={`rounded-2xl px-4 py-2.5 text-xs font-bold border transition shrink-0 ${
+                  onClick={() => setSelectedId(plan.id)}
+                  className={`shrink-0 rounded-2xl border px-4 py-2.5 text-xs font-bold transition ${
                     isSelected
-                      ? 'bg-teal-800 text-white border-teal-800 shadow-xs'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-teal-600'
+                      ? 'border-teal-800 bg-teal-800 text-white shadow-xs'
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-teal-600'
                   }`}
                 >
-                  {p.roomName}
+                  {plan.roomName}
                 </button>
               );
             })}
@@ -274,80 +275,80 @@ export default function PlaybooksPage() {
         </section>
 
         {/* ACTIVE ACTION PLAN DISPLAY CARD */}
-        <section className="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-          {/* LEFT COLUMN: SCENARIO WATERCOLOUR ARTWORK */}
-          <div className="lg:col-span-5 relative bg-teal-950 min-h-72 lg:min-h-full flex items-center justify-center">
+        <section className="grid grid-cols-1 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md lg:grid-cols-12">
+          {/* LEFT COLUMN */}
+          <div className="relative flex min-h-72 items-center justify-center bg-teal-950 lg:col-span-5 lg:min-h-full">
             <img
               src={currentPlan.image}
               alt={currentPlan.roomName}
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
 
-            <div className="absolute inset-0 bg-linear-to-t from-teal-950/90 via-transparent to-transparent flex items-end p-6 lg:hidden">
+            <div className="absolute inset-0 flex items-end bg-linear-to-t from-teal-950/90 via-transparent to-transparent p-6 lg:hidden">
               <span className="rounded-full bg-amber-400 px-3 py-1 text-[10px] font-bold text-slate-950">
                 {currentPlan.badgeTag}
               </span>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: STRATEGY & ACTION STEPS */}
-          <div className="lg:col-span-7 p-6 md:p-8 space-y-6">
+          {/* RIGHT COLUMN */}
+          <div className="space-y-6 p-6 md:p-8 lg:col-span-7">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-teal-800 block">
+                <span className="block text-[10px] font-bold uppercase tracking-widest text-teal-800">
                   {currentPlan.badgeTag}
                 </span>
 
-                <h2 className="text-xl font-extrabold text-slate-900 mt-0.5">
+                <h2 className="mt-0.5 text-xl font-extrabold text-slate-900">
                   {currentPlan.roomName}
                 </h2>
               </div>
 
-              <span className="hidden lg:inline-block rounded-full bg-teal-100 px-3 py-1 text-[10px] font-bold text-teal-900">
-                Month 1 Active
+              <span className="hidden rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-bold text-emerald-900 lg:inline-block">
+                Ladder 1 Available Now
               </span>
             </div>
 
             {/* TRIGGER & INSIGHT */}
             <div className="space-y-3">
-              <div className="rounded-2xl bg-rose-50 border border-rose-200 p-4 space-y-1">
-                <strong className="block text-[11px] font-bold uppercase text-rose-950 tracking-wider">
+              <div className="space-y-1 rounded-2xl border border-rose-200 bg-rose-50 p-4">
+                <strong className="block text-[11px] font-bold uppercase tracking-wider text-rose-950">
                   Morning Room Trigger:
                 </strong>
 
-                <p className="text-xs text-rose-900 leading-relaxed font-medium">
+                <p className="text-xs font-medium leading-relaxed text-rose-900">
                   {currentPlan.trigger}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-[#FDFBF7] border border-slate-200 p-4 space-y-1">
-                <strong className="block text-[11px] font-bold uppercase text-teal-900 tracking-wider">
-                  CALM Model Insight:
+              <div className="space-y-1 rounded-2xl border border-slate-200 bg-[#FDFBF7] p-4">
+                <strong className="block text-[11px] font-bold uppercase tracking-wider text-teal-900">
+                  CALM Framework Insight:
                 </strong>
 
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-xs leading-relaxed text-slate-700">
                   {currentPlan.styledVsSubstance}
                 </p>
               </div>
             </div>
 
-            {/* 3-STEP ACTION STEPS */}
+            {/* ACTION STEPS */}
             <div className="space-y-3">
-              <strong className="block text-xs font-bold uppercase text-slate-900 tracking-wider">
+              <strong className="block text-xs font-bold uppercase tracking-wider text-slate-900">
                 3-Step Morning Action Plan:
               </strong>
 
               <div className="space-y-2">
-                {currentPlan.actionSteps.map((step, idx) => (
+                {currentPlan.actionSteps.map((step, index) => (
                   <div
-                    key={idx}
-                    className="flex items-start gap-3 rounded-xl bg-teal-50 border border-teal-200/80 p-3"
+                    key={index}
+                    className="flex items-start gap-3 rounded-xl border border-teal-200/80 bg-teal-50 p-3"
                   >
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-800 text-[10px] font-bold text-white">
-                      {idx + 1}
+                      {index + 1}
                     </span>
 
-                    <p className="text-xs font-medium text-teal-950 leading-relaxed">
+                    <p className="text-xs font-medium leading-relaxed text-teal-950">
                       {step}
                     </p>
                   </div>
@@ -356,38 +357,49 @@ export default function PlaybooksPage() {
             </div>
 
             {/* DOWNLOAD PDF ACTION */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100">
-              <span className="text-[11px] text-slate-500 font-medium">
-                Includes printable room routine cards
+            <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-2 sm:flex-row">
+              <span className="text-[11px] font-medium text-slate-500">
+                Ladder 1 printable routine cards available now
               </span>
 
               <a
                 href={currentPlan.printablePoster}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto rounded-xl bg-amber-400 px-5 py-2.5 text-center text-xs font-bold text-slate-950 hover:bg-amber-300 transition shadow-xs"
+                className="w-full rounded-xl bg-amber-400 px-5 py-2.5 text-center text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300 sm:w-auto"
               >
-                Download Printable Action Plan &rarr;
+                Download Ladder 1 Resource &rarr;
               </a>
             </div>
           </div>
         </section>
 
+        {/* RELEASE CONTEXT */}
+        <section className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
+          <p className="text-xs leading-relaxed text-teal-900">
+            Ladder 1 is available in full now. Ladders 2 through 8 will
+            unlock progressively across the 12-month membership, giving
+            teams time to practise each stage before new content is
+            introduced.
+          </p>
+        </section>
+
         {/* CTA TO PROPOSAL PACK */}
-        <section className="rounded-3xl bg-teal-900 p-8 text-center text-white space-y-4">
+        <section className="space-y-4 rounded-3xl bg-teal-900 p-8 text-center text-white">
           <h3 className="text-lg font-bold md:text-xl">
-            Ready to Implement Month 1 Across Your Entire Service?
+            Ready to Begin Ladder 1 Across Your Entire Service?
           </h3>
 
-          <p className="text-xs text-teal-100 max-w-md mx-auto leading-relaxed">
-            The $4,790 Whole Centre Membership provides 12 months of
-            structured learning, printed room action plans, and
-            complete site access.
+          <p className="mx-auto max-w-md text-xs leading-relaxed text-teal-100">
+            The $4,790 Whole-Centre Membership provides 12 months of
+            structured learning, Ladder 1 access from commencement, and
+            progressive releases as your team moves through the
+            remaining Regulation Ladders.
           </p>
 
           <Link
             href="/proposal"
-            className="inline-block rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 hover:bg-amber-300 transition shadow-xs"
+            className="inline-block rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
           >
             Get $4,790 Centre Quote &amp; Proposal &rarr;
           </Link>
