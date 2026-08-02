@@ -34,7 +34,7 @@ export const regulationLadders: RegulationLadder[] = [
       'This ladder helps educators notice their own body state, prepare for predictable pressure points and make small changes before responding to children.',
     availability: 'available',
     printablePdf:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards.pdf',
+  '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
     rungs: [
       {
         number: 1,

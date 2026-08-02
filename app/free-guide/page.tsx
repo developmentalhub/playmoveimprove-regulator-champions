@@ -1,63 +1,132 @@
 'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
 
-// Micro Course Steps mapped directly to ladder rungs
-const COURSE_STEPS = [
+const LADDER_ONE_RUNGS = [
   {
-    stepNumber: 1,
-    title: 'Morning Battery Check',
-    subtitle: 'Ladder 1 · Rung 1',
+    number: 1,
+    title: 'Notice Your Starting Point',
     image: '/images/ladders/ladder1_rung01.png',
-    summary: 'Before checking your phone or stepping onto the floor, notice your body battery. Are you holding jaw tension or shallow chest breathing?',
-    actionPrompt: 'Unclench your teeth and drop your shoulders away from your ears.',
+    focus:
+      'Begin by noticing your current energy, tension and emotional load.',
+    practicePrompt:
+      'Before entering the room, pause for a few seconds. Notice your shoulders, jaw, breathing and the speed of your thoughts without trying to judge or immediately change them.',
+    reflectionQuestion:
+      'What did you notice about your body and energy before beginning?',
   },
   {
-    stepNumber: 2,
-    title: '60-Second Light & Air Reset',
-    subtitle: 'Ladder 1 · Rung 2',
+    number: 2,
+    title: 'Choose What You Need',
     image: '/images/ladders/ladder1_rung02.png',
-    summary: 'Step outside for 60 seconds before entering the building. Natural light and outdoor air signal safety to your nervous system.',
-    actionPrompt: 'Take three slow exhales in outdoor light.',
+    focus:
+      'Use a small action that supports the state you need for the next part of the day.',
+    practicePrompt:
+      'Choose one realistic support before entering the room. This may be quiet, fresh air, water, slower breathing, movement or a brief conversation with a colleague.',
+    reflectionQuestion:
+      'What support did you choose, and why did it suit your needs?',
   },
   {
-    stepNumber: 3,
-    title: 'Commute Sensory Pacing',
-    subtitle: 'Ladder 1 · Rung 3',
+    number: 3,
+    title: 'Prepare for a Pressure Point',
     image: '/images/ladders/ladder1_rung03.png',
-    summary: 'Match your commute audio to your sensory state. Choose silence or soft acoustics when your brain feels overloaded before arrival.',
-    actionPrompt: 'Protect your focus during your morning travel.',
+    focus:
+      'Identify one routine that is likely to place extra demand on you.',
+    practicePrompt:
+      'Choose one predictable pressure point such as arrivals, lunch, pack-up or staff handover. Decide in advance what will help you respond with less urgency.',
+    reflectionQuestion:
+      'Which routine did you prepare for, and what was your plan?',
   },
   {
-    stepNumber: 4,
-    title: 'Staffroom Energy Boundary',
-    subtitle: 'Ladder 1 · Rung 4',
+    number: 4,
+    title: 'Enter the Room Deliberately',
     image: '/images/ladders/ladder1_rung04.png',
-    summary: 'Avoid absorbing staffroom venting before your shift starts. Replace room complaints with quiet, steady connection.',
-    actionPrompt: 'Offer one word of encouragement to a co-worker today.',
+    focus:
+      'Notice the difference between rushing into the room and entering with awareness.',
+    practicePrompt:
+      'As you enter, slow down enough to observe the room before giving instructions or taking over a situation.',
+    reflectionQuestion:
+      'What did you notice when you paused before responding?',
   },
   {
-    stepNumber: 5,
-    title: 'Step Onto Floor as a Mobile Anchor',
-    subtitle: 'Ladder 1 · Rung 5',
+    number: 5,
+    title: 'Match Before You Guide',
     image: '/images/ladders/ladder1_rung05.png',
-    summary: 'Enter the room regulated. When room volume spikes, loan your calm nervous system to dysregulated children rather than shouting.',
-    actionPrompt: 'Lower your physical height parallel to children before speaking.',
+    focus:
+      'Respond to the child’s current state before expecting them to move immediately into yours.',
+    practicePrompt:
+      'Notice whether the child is energetic, hesitant, distressed or withdrawn. Adjust your volume, pace, body position and amount of language before guiding the next step.',
+    reflectionQuestion:
+      'What did you change about your own approach?',
+  },
+  {
+    number: 6,
+    title: 'Reduce Unnecessary Language',
+    image: '/images/ladders/ladder1_rung06.png',
+    focus:
+      'Notice when your own stress causes you to add more words.',
+    practicePrompt:
+      'During one difficult moment, reduce your response to one clear sentence or instruction. Allow processing time before speaking again.',
+    reflectionQuestion:
+      'What happened when you used fewer words?',
+  },
+  {
+    number: 7,
+    title: 'Check Your Body Position',
+    image: '/images/ladders/ladder1_rung07.png',
+    focus:
+      'Consider how adult height, distance and movement may affect the interaction.',
+    practicePrompt:
+      'Choose a position that allows you to remain available without crowding or looming over the child. Maintain supervision and safety throughout.',
+    reflectionQuestion:
+      'How did your body position influence the interaction?',
+  },
+  {
+    number: 8,
+    title: 'Notice When You Are Carrying Too Much',
+    image: '/images/ladders/ladder1_rung08.png',
+    focus:
+      'Identify when empathy has shifted into emotional overload.',
+    practicePrompt:
+      'During a demanding interaction, notice whether you are trying to solve everything at once or carrying the feelings of the child, family and team.',
+    reflectionQuestion:
+      'What pressure were you carrying that did not need to be solved immediately?',
+  },
+  {
+    number: 9,
+    title: 'Use a Brief Reset',
+    image: '/images/ladders/ladder1_rung09.png',
+    focus:
+      'Practise returning to the room after a difficult moment without needing a perfect break.',
+    practicePrompt:
+      'Use a brief realistic reset such as water, fresh air, stretching your hands, relaxing your shoulders or asking a colleague for one minute of support.',
+    reflectionQuestion:
+      'Which reset was available to you, and what changed afterwards?',
+  },
+  {
+    number: 10,
+    title: 'Reflect Without Blame',
+    image: '/images/ladders/ladder1_rung10.png',
+    focus:
+      'Review the day as information rather than proof that you succeeded or failed.',
+    practicePrompt:
+      'Choose one difficult moment and identify what increased the pressure, what helped and what you would change next time.',
+    reflectionQuestion:
+      'What will you repeat or adjust during the next similar situation?',
   },
 ];
 
 export default function FreeGuidePage() {
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentRungIndex, setCurrentRungIndex] = useState(0);
 
-  const totalSteps = COURSE_STEPS.length;
-  const isLastStep = currentStep === totalSteps - 1;
+  const currentRung = LADDER_ONE_RUNGS[currentRungIndex];
+  const totalRungs = LADDER_ONE_RUNGS.length;
+  const isFirstRung = currentRungIndex === 0;
+  const isLastRung = currentRungIndex === totalRungs - 1;
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-800 pb-20">
-      
-      {/* HEADER BAR */}
-      <header className="border-b border-slate-200 bg-white sticky top-0 z-40 px-6 py-4">
+    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-2xl items-center justify-between">
           <Link
             href="/"
@@ -65,110 +134,179 @@ export default function FreeGuidePage() {
           >
             ← Home
           </Link>
-          <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-[11px] font-bold text-amber-950">
-            Micro Course Module
+
+          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-950">
+            Ladder 1 Available Now
           </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-xl px-4 py-8 space-y-6">
+      <main className="mx-auto max-w-xl space-y-6 px-4 py-8">
+        <section className="space-y-2 text-center">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Regulation Ladder 1
+          </span>
 
-        {/* PROGRESS BAR */}
+          <h1 className="text-2xl font-extrabold text-slate-900">
+            Regulated Educator, Regulated Room
+          </h1>
+
+          <p className="text-sm leading-relaxed text-slate-600">
+            Notice how your own stress, sensory needs and preparation
+            influence the room.
+          </p>
+        </section>
+
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs font-bold text-slate-600">
-            <span>Step {currentStep + 1} of {totalSteps}</span>
-            <span>{COURSE_STEPS[currentStep].subtitle}</span>
+            <span>
+              Rung {currentRung.number} of {totalRungs}
+            </span>
+
+            <span>Ladder 1</span>
           </div>
-          <div className="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden">
+
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
             <div
               className="h-full bg-teal-700 transition-all duration-300"
-              style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+              style={{
+                width: `${((currentRungIndex + 1) / totalRungs) * 100}%`,
+              }}
             />
           </div>
         </div>
 
-        {/* INTERACTIVE COURSE CARD */}
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden space-y-0">
-          
-          {/* STEP IMAGE */}
+        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md">
           <div className="relative w-full bg-slate-100">
             <img
-              src={COURSE_STEPS[currentStep].image}
-              alt={COURSE_STEPS[currentStep].title}
-              className="w-full h-auto object-cover max-h-80"
+              src={currentRung.image}
+              alt={`Rung ${currentRung.number}: ${currentRung.title}`}
+              className="max-h-80 h-auto w-full object-cover"
             />
           </div>
 
-          {/* CARD CONTENT */}
-          <div className="p-6 space-y-4">
+          <div className="space-y-5 p-6">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-teal-800 block">
-                Step {COURSE_STEPS[currentStep].stepNumber}
+              <span className="block text-[10px] font-bold uppercase tracking-widest text-teal-800">
+                Rung {currentRung.number} of {totalRungs}
               </span>
-              <h1 className="text-xl font-extrabold text-slate-900 mt-0.5">
-                {COURSE_STEPS[currentStep].title}
-              </h1>
+
+              <h2 className="mt-0.5 text-xl font-extrabold text-slate-900">
+                {currentRung.title}
+              </h2>
             </div>
 
-            <p className="text-xs text-slate-700 leading-relaxed font-medium">
-              {COURSE_STEPS[currentStep].summary}
-            </p>
+            <div className="space-y-2">
+              <strong className="block text-xs font-bold uppercase tracking-wider text-teal-900">
+                Focus
+              </strong>
 
-            <div className="rounded-2xl bg-amber-50 border border-amber-200 p-3.5 text-xs font-bold text-amber-950">
-              Focus: {COURSE_STEPS[currentStep].actionPrompt}
+              <p className="text-sm font-medium leading-relaxed text-slate-700">
+                {currentRung.focus}
+              </p>
             </div>
 
-            {/* CONTROLS */}
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+              <strong className="block text-xs font-bold uppercase tracking-wider text-amber-950">
+                Practice
+              </strong>
+
+              <p className="mt-1 text-sm leading-relaxed text-amber-950">
+                {currentRung.practicePrompt}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
+              <strong className="block text-xs font-bold uppercase tracking-wider text-teal-950">
+                Reflect
+              </strong>
+
+              <p className="mt-1 text-sm leading-relaxed text-teal-950">
+                {currentRung.reflectionQuestion}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
               <button
                 type="button"
-                disabled={currentStep === 0}
-                onClick={() => setCurrentStep((prev) => prev - 1)}
-                className="rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-200 transition disabled:opacity-40"
+                disabled={isFirstRung}
+                onClick={() =>
+                  setCurrentRungIndex((previous) => previous - 1)
+                }
+                className="rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 ← Previous
               </button>
 
-              {!isLastStep ? (
+              {!isLastRung ? (
                 <button
                   type="button"
-                  onClick={() => setCurrentStep((prev) => prev + 1)}
-                  className="rounded-xl bg-teal-800 px-6 py-2.5 text-xs font-bold text-white hover:bg-teal-900 transition shadow-xs cursor-pointer"
+                  onClick={() =>
+                    setCurrentRungIndex((previous) => previous + 1)
+                  }
+                  className="rounded-xl bg-teal-800 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-teal-900"
                 >
-                  Next Step →
+                  Next Rung →
                 </button>
               ) : (
                 <button
                   type="button"
-                  onClick={() => setCurrentStep(0)}
-                  className="rounded-xl bg-emerald-700 px-6 py-2.5 text-xs font-bold text-white hover:bg-emerald-800 transition shadow-xs cursor-pointer"
+                  onClick={() => setCurrentRungIndex(0)}
+                  className="rounded-xl bg-emerald-700 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-800"
                 >
-                  Restart Module ↺
+                  Restart Ladder ↺
                 </button>
               )}
             </div>
-
           </div>
+        </section>
 
-        </div>
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="text-center text-xs font-bold uppercase tracking-wider text-slate-700">
+            Jump to a Rung
+          </h2>
 
-        {/* PRINTABLE PDF DOWNLOADS */}
-        <div className="rounded-3xl border border-teal-200 bg-teal-50 p-6 space-y-4">
-          <div className="text-center space-y-1">
+          <div className="mt-4 grid grid-cols-5 gap-2">
+            {LADDER_ONE_RUNGS.map((rung, index) => {
+              const isActive = index === currentRungIndex;
+
+              return (
+                <button
+                  key={rung.number}
+                  type="button"
+                  onClick={() => setCurrentRungIndex(index)}
+                  aria-label={`Open Rung ${rung.number}: ${rung.title}`}
+                  className={`rounded-xl border px-2 py-2.5 text-xs font-bold transition ${
+                    isActive
+                      ? 'border-teal-800 bg-teal-800 text-white'
+                      : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-teal-600'
+                  }`}
+                >
+                  {rung.number}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="space-y-4 rounded-3xl border border-teal-200 bg-teal-50 p-6">
+          <div className="space-y-1 text-center">
             <h2 className="text-sm font-bold text-teal-950">
               Printable PDF Card Packs
             </h2>
-            <p className="text-xs text-teal-900 leading-relaxed">
-              Download the matching PDF cards for your room walls, leadership team, or family handover doors.
+
+            <p className="text-xs leading-relaxed text-teal-900">
+              Download the matching cards for educators, managers and
+              families, along with the CALM room posters.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+          <div className="grid grid-cols-1 gap-2.5 pt-1 sm:grid-cols-2">
             <a
               href="/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl bg-teal-800 px-3.5 py-2.5 text-center text-xs font-bold text-white shadow-xs hover:bg-teal-900 transition"
+              className="rounded-xl bg-teal-800 px-3.5 py-2.5 text-center text-xs font-bold text-white shadow-xs transition hover:bg-teal-900"
             >
               Educator Routine Cards →
             </a>
@@ -177,7 +315,7 @@ export default function FreeGuidePage() {
               href="/pdf/Calm-Posters.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl bg-amber-400 px-3.5 py-2.5 text-center text-xs font-bold text-slate-950 shadow-xs hover:bg-amber-300 transition"
+              className="rounded-xl bg-amber-400 px-3.5 py-2.5 text-center text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
             >
               CALM Room Posters →
             </a>
@@ -186,7 +324,7 @@ export default function FreeGuidePage() {
               href="/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-teal-700 bg-white px-3.5 py-2.5 text-center text-xs font-bold text-teal-950 hover:bg-teal-100 transition"
+              className="rounded-xl border border-teal-700 bg-white px-3.5 py-2.5 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
             >
               Manager / Director Cards →
             </a>
@@ -195,27 +333,31 @@ export default function FreeGuidePage() {
               href="/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-teal-700 bg-white px-3.5 py-2.5 text-center text-xs font-bold text-teal-950 hover:bg-teal-100 transition"
+              className="rounded-xl border border-teal-700 bg-white px-3.5 py-2.5 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
             >
               Parent &amp; Family Cards →
             </a>
           </div>
-        </div>
+        </section>
 
-        {/* CTA TO PROPOSAL FOR DIRECTORS */}
-        <div className="rounded-3xl bg-teal-900 p-6 text-center text-white space-y-3">
-          <h3 className="text-base font-bold">Want All 8 Printable Routine Ladders?</h3>
-          <p className="text-xs text-teal-100 max-w-xs mx-auto leading-relaxed">
-            The full $4,790 Whole Centre Membership includes physical room posters, video demonstrations, and 12 months of staffroom learning sets.
+        <section className="space-y-3 rounded-3xl bg-teal-900 p-6 text-center text-white">
+          <h3 className="text-base font-bold">
+            Want the Full Eight-Ladder Regulation Pathway?
+          </h3>
+
+          <p className="mx-auto max-w-xs text-xs leading-relaxed text-teal-100">
+            Ladder 1 is available now. Ladders 2 through 8 and their
+            supporting resources are released progressively across the
+            12-month Whole-Centre Membership.
           </p>
+
           <Link
             href="/proposal"
-            className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 hover:bg-amber-300 transition shadow-xs"
+            className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
           >
             View Official Centre Proposal Pack ($4,790) →
           </Link>
-        </div>
-
+        </section>
       </main>
     </div>
   );
