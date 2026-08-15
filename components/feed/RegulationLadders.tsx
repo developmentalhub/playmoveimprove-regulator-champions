@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
   regulationLadders,
   type RegulationLadder,
@@ -11,6 +12,20 @@ type RegulationLaddersProps = {
   userEmail: string;
 };
 
+type MemberPlan = 'preview' | 'full';
+
+type AccessStatusResponse = {
+  success?: boolean;
+  hasAccess?: boolean;
+  plan?: MemberPlan | null;
+};
+
+const PREVIEW_LADDER_IDS = new Set([
+  'regulated-educator',
+  'connected-drop-offs',
+  'participation-beyond-sitting',
+]);
+
 export default function RegulationLadders({
   userEmail,
 }: RegulationLaddersProps) {
@@ -18,6 +33,55 @@ export default function RegulationLadders({
     null,
   );
   const [currentRungIndex, setCurrentRungIndex] = useState(0);
+  const [memberPlan, setMemberPlan] = useState<MemberPlan | null>(null);
+  const [isCheckingAccess, setIsCheckingAccess] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadAccessPlan = async () => {
+      try {
+        const response = await fetch('/api/access-status', {
+          method: 'GET',
+          cache: 'no-store',
+        });
+
+        const result =
+          (await response.json()) as AccessStatusResponse;
+
+        if (!isMounted) {
+          return;
+        }
+
+        if (
+          response.ok &&
+          result.success === true &&
+          result.hasAccess === true &&
+          (result.plan === 'preview' || result.plan === 'full')
+        ) {
+          setMemberPlan(result.plan);
+        } else {
+          setMemberPlan(null);
+        }
+      } catch (error) {
+        console.error('Member access plan check failed:', error);
+
+        if (isMounted) {
+          setMemberPlan(null);
+        }
+      } finally {
+        if (isMounted) {
+          setIsCheckingAccess(false);
+        }
+      }
+    };
+
+    void loadAccessPlan();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const selectedLadder = useMemo<RegulationLadder | null>(() => {
     if (!selectedLadderId) {
@@ -31,8 +95,23 @@ export default function RegulationLadders({
     );
   }, [selectedLadderId]);
 
+  const hasPlanAccess = (ladder: RegulationLadder) => {
+    if (memberPlan === 'full') {
+      return true;
+    }
+
+    if (memberPlan === 'preview') {
+      return PREVIEW_LADDER_IDS.has(ladder.id);
+    }
+
+    return false;
+  };
+
   const handleOpenLadder = (ladder: RegulationLadder) => {
-    if (ladder.availability !== 'available') {
+    if (
+      ladder.availability !== 'available' ||
+      !hasPlanAccess(ladder)
+    ) {
       return;
     }
 
@@ -59,7 +138,40 @@ export default function RegulationLadders({
     );
   };
 
-  if (selectedLadder && selectedLadder.rungs.length > 0) {
+  if (isCheckingAccess) {
+    return (
+      <section className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <div
+          className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-teal-800 border-t-transparent"
+          aria-label="Checking member access"
+        />
+
+        <p className="mt-4 text-sm font-semibold text-slate-600">
+          Checking your pathway access…
+        </p>
+      </section>
+    );
+  }
+
+  if (!memberPlan) {
+    return (
+      <section className="rounded-3xl border border-rose-200 bg-rose-50 p-6">
+        <h2 className="text-lg font-bold text-rose-950">
+          Member access could not be confirmed
+        </h2>
+
+        <p className="mt-2 text-sm leading-relaxed text-rose-900">
+          Please sign out and enter your service access code again.
+        </p>
+      </section>
+    );
+  }
+
+  if (
+    selectedLadder &&
+    selectedLadder.rungs.length > 0 &&
+    hasPlanAccess(selectedLadder)
+  ) {
     const currentRung = selectedLadder.rungs[currentRungIndex];
 
     return (
@@ -152,7 +264,9 @@ export default function RegulationLadders({
     <section className="space-y-8">
       <div className="max-w-3xl">
         <span className="inline-block rounded-full bg-teal-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-teal-800">
-          Eight-Topic Pathway
+          {memberPlan === 'preview'
+            ? '3-Ladder Preview'
+            : '8-Ladder Pathway'}
         </span>
 
         <h2 className="mt-3 text-2xl font-bold text-slate-900">
@@ -160,11 +274,31 @@ export default function RegulationLadders({
         </h2>
 
         <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">
-          Each ladder moves through ten practical reflection points. Educators
-          apply one change, record what they noticed and build evidence of
-          learning over time.
+          Each available ladder moves through ten practical reflection points.
+          Educators apply one change, record what they noticed and build
+          evidence of learning over time.
         </p>
       </div>
+
+      {memberPlan === 'preview' && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <h3 className="font-bold text-amber-950">
+            Your Preview includes Ladders 1 to 3
+          </h3>
+
+          <p className="mt-2 text-sm leading-relaxed text-amber-900">
+            Your service can complete the first three Regulation Ladders during
+            the Preview period. Ladders 4 to 8 are part of the Full pathway.
+          </p>
+
+          <Link
+            href="/proposal?plan=full"
+            className="mt-4 inline-block text-sm font-bold text-amber-950 underline"
+          >
+            View Full 8-Ladder pathway
+          </Link>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
         <h3 className="font-bold text-teal-950">
@@ -181,6 +315,7 @@ export default function RegulationLadders({
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {regulationLadders.map((ladder) => {
           const isAvailable = ladder.availability === 'available';
+          const hasAccess = hasPlanAccess(ladder);
 
           return (
             <article
@@ -195,12 +330,18 @@ export default function RegulationLadders({
 
                   <span
                     className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${
-                      isAvailable
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-amber-100 text-amber-800'
+                      !hasAccess
+                        ? 'bg-slate-100 text-slate-600'
+                        : isAvailable
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-amber-100 text-amber-800'
                     }`}
                   >
-                    {isAvailable ? 'Available now' : 'In development'}
+                    {!hasAccess
+                      ? 'Full pathway'
+                      : isAvailable
+                        ? 'Available now'
+                        : 'In development'}
                   </span>
                 </div>
 
@@ -217,7 +358,13 @@ export default function RegulationLadders({
                 </p>
               </div>
 
-              {isAvailable ? (
+              {!hasAccess ? (
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm leading-relaxed text-slate-700">
+                    This ladder is included in the Full 8-Ladder pathway.
+                  </p>
+                </div>
+              ) : isAvailable ? (
                 <div className="space-y-3">
                   <button
                     type="button"
@@ -241,8 +388,8 @@ export default function RegulationLadders({
               ) : (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
                   <p className="text-sm leading-relaxed text-amber-950">
-                    This ladder is part of the planned pathway but is not yet
-                    accepting reflections.
+                    This ladder is part of your pathway but is still in
+                    development.
                   </p>
                 </div>
               )}

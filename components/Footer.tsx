@@ -10,12 +10,12 @@ const programLinks = [
     label: 'Free Guide',
   },
   {
-    href: '/playbooks',
-    label: '10 Action Plans',
+    href: '/portal',
+    label: 'Member Hub',
   },
   {
     href: '/nqs-mapping',
-    label: 'NQS Evidence',
+    label: 'NQS & QIP Reflection',
   },
   {
     href: '/somatic-checkin',

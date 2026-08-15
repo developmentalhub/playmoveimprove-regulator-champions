@@ -13,7 +13,7 @@ const primaryNavLinks: NavigationLink[] = [
   { href: '/', label: 'Home' },
   { href: '/feed', label: 'CALM Feed' },
   { href: '/free-guide', label: 'Free Guide' },
-  { href: '/playbooks', label: '10 Action Plans' },
+  { href: '/portal', label: 'Member Hub' },
   { href: '/nqs-mapping', label: 'NQS Evidence' },
 ];
 
@@ -23,7 +23,7 @@ const secondaryNavLinks: NavigationLink[] = [
     label: 'Director Review',
   },
   {
-    href: '/',
+    href: '/portal',
     label: 'Member Hub',
   },
   {

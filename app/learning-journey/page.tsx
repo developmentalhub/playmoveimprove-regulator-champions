@@ -16,7 +16,7 @@ const PDF_CARDS = [
   {
     id: 'calm-posters',
     title: 'CALM Framework Room Posters Vault',
-    desc: 'Printable room posters covering the CALM Framework, Check the Room, Assess the Why, Lead with Connection, Monitor and Note, alongside a safety-first check before every step.',
+    desc: 'Printable room posters covering the CALM Framework: Check the Room, Assess the Why, Lead with Connection, Monitor and Note, with a safety-first reminder throughout.',
     badge: '/images/badges/badge_risk_outdoor.png',
     pdfUrl: '/pdf/Calm-Posters.pdf',
     timeToComplete: 'Room Poster Vault',
@@ -24,7 +24,7 @@ const PDF_CARDS = [
   {
     id: 'manager-cards',
     title: 'Manager & Leadership Strategy Cards',
-    desc: 'Leadership tools for shift handovers, staffroom pacing, and director QIP evidence.',
+    desc: 'Leadership prompts for handovers, team reflection, shared practice and documenting professional learning priorities.',
     badge: '/images/badges/badge_risk_roughplay.png',
     pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
     timeToComplete: 'Leadership Pack',
@@ -32,7 +32,7 @@ const PDF_CARDS = [
   {
     id: 'parent-cards',
     title: 'Parent & Family Handover Cards',
-    desc: 'Separation anxiety and arrival handover cards to share directly with families at drop-off doors.',
+    desc: 'Arrival and handover prompts to support consistent, respectful communication with families during drop-off.',
     badge: '/images/badges/badge_risk_water.png',
     pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
     timeToComplete: 'Family Pack',
@@ -44,34 +44,34 @@ const FLIP_CARDS = [
   {
     id: 'card-1',
     frontTitle: '1. Regulated Educator First',
-    frontSubtitle: 'Adult Nervous System Pacing',
+    frontSubtitle: 'Adult Pace and Regulation',
     frontImage: '/images/ladders/ladder1_rung01.png',
     badgeImage: '/images/badges/badge_checkin.png',
     backTitle: 'Action Strategy:',
     backAction:
-      'Lower your physical height parallel to children before speaking during room overstimulation. Loan your calm body before giving verbal commands.',
+      'Lower your physical height when appropriate, slow your pace and reduce unnecessary language before adding more instructions during a demanding moment.',
     pdfLink: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
   },
   {
     id: 'card-2',
     frontTitle: '2. Connected Drop-Offs',
-    frontSubtitle: 'Separation & Arrival Anxiety',
+    frontSubtitle: 'Arrival and Separation Support',
     frontImage: '/images/ladders/ladder2_rung01.png',
     badgeImage: '/images/badges/badge_risk_roughplay.png',
     backTitle: 'Action Strategy:',
     backAction:
-      'Establish a nonverbal welcome anchor at the doorway. Greet the child at eye level without pulling them away from their parent.',
+      'Use a predictable welcome cue at the doorway. Greet the child gently and allow the family handover to happen without rushing separation.',
     pdfLink: '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
   },
   {
     id: 'card-3',
     frontTitle: '3. Participation Beyond Stillness',
-    frontSubtitle: 'Mat Time & Group Pacing',
+    frontSubtitle: 'Group Time Participation',
     frontImage: '/images/ladders/ladder3_rung01.png',
     badgeImage: '/images/badges/badge_risk_water.png',
     backTitle: 'Action Strategy:',
     backAction:
-      'Wiggling on the carpet is often postural waking, not defiance. Provide heavy work lap pads or standing options during stories.',
+      'Wiggling during group time does not automatically mean a child is not listening. Consider standing, a different sitting position or another appropriate participation option when helpful.',
     pdfLink: '/pdf/Calm-Posters.pdf',
   },
 ];
@@ -120,9 +120,10 @@ export default function LearningJourneyPage() {
             </h1>
 
             <p className="text-xs text-teal-100 max-w-2xl leading-relaxed">
-              Follow this step-by-step pathway during your 15-minute planning
-              break. Move from visual observation to printable room routines in
-              4 simple steps.
+              Use this four-step pathway during a short planning break or team
+              discussion. Move from observing the environment to choosing a
+              practical response, printing shared prompts and checking your own
+              state before returning to the room.
             </p>
           </div>
 
@@ -130,10 +131,10 @@ export default function LearningJourneyPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-teal-800/80">
             <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
               <strong className="block text-amber-300 font-bold mb-0.5">
-                1. Diagnostic
+                1. Observe
               </strong>
               <p className="text-[11px] text-teal-100">
-                Toggle Styled vs. Substance
+                Compare room setup and demand
               </p>
             </div>
 
@@ -157,13 +158,27 @@ export default function LearningJourneyPage() {
 
             <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
               <strong className="block text-amber-300 font-bold mb-0.5">
-                4. Somatic Reset
+                4. Somatic Check-In
               </strong>
               <p className="text-[11px] text-teal-100">
-                Check staffroom vagus nerve
+                Notice your body state
               </p>
             </div>
           </div>
+        </section>
+
+        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6">
+          <span className="block text-xs font-bold uppercase tracking-wider text-amber-900">
+            Use Observation, Not Assumptions
+          </span>
+
+          <p className="mt-2 text-sm leading-relaxed text-amber-950">
+            These examples are designed to help educators notice patterns in
+            environment, routines, movement and adult responses. They are not a
+            diagnostic tool and should not be used to decide that a child&apos;s
+            behaviour has one specific sensory, emotional or developmental
+            cause.
+          </p>
         </section>
 
         {/* STEP 1: INTERACTIVE STYLED VS SUBSTANCE TOGGLE */}
@@ -171,11 +186,11 @@ export default function LearningJourneyPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-                Step 1: Visual Diagnostic
+                Step 1: Visual Observation
               </span>
 
               <h2 className="text-xl font-bold text-slate-900">
-                Styled Room vs. Developmental Substance
+                What the Room Looks Like vs. What the Room Demands
               </h2>
             </div>
 
@@ -224,17 +239,20 @@ export default function LearningJourneyPage() {
             <div className="p-4 rounded-2xl bg-[#FDFBF7] border border-slate-200 text-xs text-slate-700 leading-relaxed font-medium">
               {toggleState === 'styled' ? (
                 <p>
-                  <strong>Surface View:</strong> A room set up for visual
-                  neatness can accidentally restrict heavy proprioceptive
-                  movement, causing sudden energy spikes, block throwing, and
-                  doorway bottlenecks.
+                  <strong>Surface View:</strong> A room can look calm and well
+                  organised while still creating movement bottlenecks, long
+                  waiting periods or limited opportunities for active play. Look
+                  beyond appearance and notice how children actually move through
+                  the space.
                 </p>
               ) : (
                 <p>
-                  <strong>Developmental View:</strong> Children throwing or
-                  crashing are seeking joint resistance. Adding heavy work
-                  zones, carrying tasks, and visual boundaries channels that
-                  motor drive safely.
+                  <strong>Developmental View:</strong> Throwing, crashing or
+                  constant movement can have many possible causes. Rather than
+                  assuming one sensory explanation, look at the environment,
+                  timing, crowding, movement opportunities and what happened
+                  before and after. Purposeful carrying, climbing or pushing
+                  activities may be useful options for some children.
                 </p>
               )}
             </div>
@@ -381,6 +399,78 @@ export default function LearningJourneyPage() {
           </div>
         </section>
 
+        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6 md:p-8">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Related Learning
+          </span>
+
+          <h2 className="mt-1 text-2xl font-bold text-teal-950">
+            Connect this journey with your wider regulation learning
+          </h2>
+
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link
+              href="/free-guide"
+              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Free Regulation Guide →
+            </Link>
+
+            <Link
+              href="/co-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Co-Regulation Guide →
+            </Link>
+
+            <Link
+              href="/emotional-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Emotional Regulation Guide →
+            </Link>
+
+            <Link
+              href="/educator-capacity-building"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Educator Capacity Building →
+            </Link>
+          </div>
+        </section>
+
+        <section className="rounded-3xl bg-teal-950 p-7 text-center text-white md:p-9">
+          <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
+            Regulator Champions
+          </span>
+
+          <h2 className="mt-2 text-2xl font-extrabold">
+            Ready to continue beyond the free resources?
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-teal-100">
+            Start with the 3-Ladder Preview for $1,790 including GST and six
+            months of access, or choose the full 8-Ladder pathway for $4,790
+            including GST and 12 months of access.
+          </p>
+
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 transition hover:bg-amber-300"
+            >
+              3-Ladder Preview — $1,790 →
+            </Link>
+
+            <Link
+              href="/proposal?plan=full"
+              className="rounded-xl border border-teal-700 bg-teal-900 px-5 py-3 text-xs font-bold text-white transition hover:bg-teal-800"
+            >
+              Full 8-Ladder Pathway — $4,790 →
+            </Link>
+          </div>
+        </section>
+
         {/* STEP 4: CTA TO SOMATIC CHECKIN */}
         <section className="rounded-3xl bg-amber-400 p-8 text-slate-950 text-center space-y-4 shadow-md">
           <h2 className="text-xl font-extrabold md:text-2xl">
@@ -388,16 +478,16 @@ export default function LearningJourneyPage() {
           </h2>
 
           <p className="text-xs font-medium max-w-lg mx-auto leading-relaxed">
-            Perform a 60-second vagus nerve check-in before stepping onto the
-            floor. Identify jaw tightness, shallow breathing, and staffroom
-            sensory anchors.
+            Take a brief body-awareness check before returning to the room.
+            Notice jaw tension, breathing, shoulder position and whether a
+            simple sensory or movement anchor may help you slow your pace.
           </p>
 
           <Link
             href="/somatic-checkin"
             className="inline-block rounded-xl bg-slate-950 px-6 py-3.5 text-xs font-bold text-white shadow hover:bg-slate-800 transition"
           >
-            Launch Interactive Somatic Reset Tool →
+            Launch the Somatic Check-In →
           </Link>
         </section>
       </main>

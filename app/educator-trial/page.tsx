@@ -180,10 +180,11 @@ export default function EducatorTrialPage() {
             <div className="rounded-2xl border border-teal-700 bg-teal-950/40 p-4">
               <p className="text-sm leading-relaxed text-teal-50">
                 Ladder 1 is currently available as a free
-                educator trial. Ladders 2 through 8 will be
-                released progressively across the 12-month
-                program so teams have time to practise each
-                stage without becoming overwhelmed.
+                educator trial. Services that want to continue
+                can begin with the 3-Ladder Preview or choose
+                the full 8-Ladder pathway. Later ladders are
+                released progressively so teams have time to
+                practise each stage without becoming overwhelmed.
               </p>
             </div>
           </div>
@@ -203,6 +204,33 @@ export default function EducatorTrialPage() {
             the quick feedback buttons to tell us whether
             that item felt relevant. The full feedback form
             remains available at the bottom of your screen.
+          </p>
+        </section>
+
+        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-5">
+          <span className="block text-xs font-bold uppercase tracking-wider text-amber-900">
+            Feedback and Privacy
+          </span>
+
+          <p className="mt-2 text-sm leading-relaxed text-amber-950">
+            Quick feedback such as “Helpful” or “Not Relevant to My Room” can
+            be submitted without giving your name or email. If you choose to
+            complete the full feedback form, only provide information about
+            your own professional experience and general room practice.
+          </p>
+
+          <p className="mt-2 text-sm leading-relaxed text-amber-950">
+            Do not include children&apos;s names, family names, dates of birth,
+            diagnoses, medical information or other identifying details. Your
+            feedback is used to improve Regulator Champions content and is
+            handled in accordance with the{' '}
+            <Link
+              href="/privacy"
+              className="font-bold underline underline-offset-2"
+            >
+              Privacy Policy
+            </Link>
+            .
           </p>
         </section>
 
@@ -426,6 +454,84 @@ export default function EducatorTrialPage() {
           );
         })}
 
+        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Keep Exploring
+          </span>
+
+          <h2 className="mt-1 text-xl font-bold text-teal-950">
+            Free tools and educator guides
+          </h2>
+
+          <p className="mt-2 text-sm leading-relaxed text-teal-900">
+            If you want to explore the ideas behind Ladder 1 in more depth,
+            these free resources are available before you decide whether the
+            wider Regulator Champions pathway is right for your service.
+          </p>
+
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link
+              href="/free-guide"
+              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Free Regulation Guide →
+            </Link>
+
+            <Link
+              href="/somatic-checkin"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Somatic Check-In →
+            </Link>
+
+            <Link
+              href="/emotional-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Emotional Regulation Guide →
+            </Link>
+
+            <Link
+              href="/co-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Co-Regulation Guide →
+            </Link>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-6">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Continue With Regulator Champions
+          </span>
+
+          <h2 className="mt-1 text-xl font-bold text-slate-950">
+            Choose the pathway that fits your service
+          </h2>
+
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            Start with the 3-Ladder Preview for $1,790 including GST and six
+            months of access, or choose the full 8-Ladder pathway for $4,790
+            including GST and 12 months of access.
+          </p>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="rounded-xl bg-amber-400 px-5 py-3 text-center text-xs font-bold text-slate-950 transition hover:bg-amber-300"
+            >
+              Preview Proposal — $1,790 →
+            </Link>
+
+            <Link
+              href="/proposal?plan=full"
+              className="rounded-xl bg-teal-800 px-5 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Full Proposal — $4,790 →
+            </Link>
+          </div>
+        </section>
+
         <section className="rounded-3xl bg-teal-900 p-7 text-center text-white">
           <h2 className="text-2xl font-bold">
             Help Shape the Next Release
@@ -455,7 +561,7 @@ export default function EducatorTrialPage() {
             </p>
 
             <p className="text-[11px] text-slate-500">
-              Your feedback shapes future releases.
+              Quick feedback can be anonymous.
             </p>
           </div>
 

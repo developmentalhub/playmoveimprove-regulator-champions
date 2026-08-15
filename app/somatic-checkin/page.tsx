@@ -26,10 +26,10 @@ const COURSE_CARDS = [
   },
   {
     step: 'Step 3 of 5',
-    title: 'Activate Your Vagus Nerve in the Staffroom',
-    subtitle: 'Sensory anchors for rapid soothing',
+    title: 'Choose a Simple Sensory Anchor in the Staffroom',
+    subtitle: 'Simple sensory anchors',
     content:
-      'Your vagus nerve responds instantly to sensory signals. Inhaling lavender, sipping warm chamomile tea, or stepping toward natural window light signals safety to your nervous system.',
+      'Simple sensory experiences can sometimes help an educator pause and shift pace. A familiar scent, a warm drink, natural light or a brief quiet moment may provide a useful anchor during a demanding day.',
     actionPrompt:
       'Sip warm tea or take 30 seconds to look out at natural sunlight.',
     bgClass: 'bg-teal-900 text-white',
@@ -103,14 +103,115 @@ export default function SomaticCheckinPage() {
           </span>
 
           <h1 className="text-3xl font-extrabold leading-tight text-slate-900 md:text-4xl">
-            CALM Framework Interactive Learning &amp; Somatic Check In
+            Somatic Check-In for Early Childhood Educators
           </h1>
 
           <p className="text-xs leading-relaxed text-slate-600 md:text-sm">
-            Designed for 15 minute planning breaks. Complete your micro card
-            deck or perform an interactive vagus nerve reset before stepping
-            back onto the room floor.
+            A free educator self-regulation tool for noticing body tension,
+            choosing simple sensory anchors and preparing to return to the room
+            with more awareness and steadiness.
           </p>
+
+          <p className="text-xs leading-relaxed text-slate-500">
+            Use this during a planning break, before a difficult transition or
+            after a demanding period in the room. The goal is not to force calm,
+            but to notice what your body is carrying before you step back into
+            co-regulation with children.
+          </p>
+        </section>
+
+        <section className="grid grid-cols-1 gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-4">
+            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+              Educator Nervous System Awareness
+            </span>
+
+            <h2 className="text-2xl font-extrabold text-slate-900">
+              Why a somatic check-in can help before you return to the room
+            </h2>
+
+            <p className="text-sm leading-relaxed text-slate-700">
+              Early childhood educators spend much of the day responding to
+              noise, movement, emotional escalation, competing demands and
+              constant social contact. It is easy to keep moving without noticing
+              how much tension your own body is carrying.
+            </p>
+
+            <p className="text-sm leading-relaxed text-slate-700">
+              A somatic check-in is simply a brief pause to notice physical
+              signals such as jaw tension, shallow breathing, tight shoulders or
+              a heavy feeling in the stomach. Noticing these signals can help an
+              educator make a more deliberate choice about what support they need
+              before re-entering a demanding environment.
+            </p>
+
+            <p className="text-sm leading-relaxed text-slate-700">
+              This matters for co-regulation because children are often reading
+              our pace, voice, posture, facial expression and predictability long
+              before they can explain what they need.
+            </p>
+          </div>
+
+          <aside className="rounded-3xl border border-amber-300 bg-amber-50 p-6">
+            <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-800">
+              Keep It Simple
+            </span>
+
+            <p className="mt-3 text-lg font-extrabold leading-snug text-slate-900">
+              You do not need to feel perfectly calm before supporting a child.
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-slate-700">
+              The useful starting point is noticing your own state so you can
+              slow your pace, reduce unnecessary language and choose a more
+              deliberate response.
+            </p>
+          </aside>
+        </section>
+
+        <section className="space-y-5">
+          <div>
+            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+              Common Body Cues of Stress
+            </span>
+
+            <h2 className="mt-1 text-2xl font-extrabold text-slate-900">
+              What educators may notice in their body during a demanding day
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {[
+              [
+                'Jaw and facial tension',
+                'Clenching the jaw, pressing the tongue, tightening the face or holding the breath.',
+              ],
+              [
+                'Shallow breathing',
+                'Breathing high into the chest or noticing that breathing has become faster and less comfortable.',
+              ],
+              [
+                'Shoulder and neck tension',
+                'Holding the shoulders up, bracing through the neck or feeling stiff across the upper back.',
+              ],
+              [
+                'Stomach discomfort',
+                'A heavy, tight or unsettled feeling in the stomach during periods of stress or overload.',
+              ],
+            ].map(([title, description]) => (
+              <div
+                key={title}
+                className="rounded-2xl border border-slate-200 bg-white p-5"
+              >
+                <strong className="block text-sm font-bold text-slate-900">
+                  {title}
+                </strong>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                  {description}
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="space-y-4">
@@ -209,12 +310,13 @@ export default function SomaticCheckinPage() {
             </span>
 
             <h2 className="text-2xl font-bold text-slate-900">
-              Staffroom Vagus Nerve &amp; Body Check In
+              Staffroom Body &amp; Sensory Check-In
             </h2>
 
             <p className="text-xs leading-relaxed text-slate-600">
-              Complete this 60 second somatic assessment during your break to
-              identify body tension and choose staffroom sensory anchors.
+              Complete this short self-reflection during your break to notice
+              body tension and choose simple sensory anchors that may help you
+              return to the room with greater awareness.
             </p>
           </div>
 
@@ -353,17 +455,17 @@ export default function SomaticCheckinPage() {
                 onClick={() => setToolSubmitted(true)}
                 className="w-full rounded-2xl bg-amber-400 py-4 text-xs font-bold text-slate-950 shadow-md transition hover:bg-amber-300"
               >
-                Lock In My Somatic Reset Plan &rarr;
+                Save My Somatic Check-In Plan &rarr;
               </button>
             </div>
           ) : (
             <div className="space-y-4 rounded-2xl border border-teal-200 bg-teal-50 p-6 text-center">
               <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-                Somatic Plan Active
+                Somatic Check-In Complete
               </span>
 
               <h3 className="text-lg font-bold text-teal-950">
-                Your Body Is Reset and Ready
+                Your Check-In Plan Is Ready
               </h3>
 
               <div className="mx-auto max-w-md space-y-2 rounded-xl border border-teal-200 bg-white p-4 text-left text-xs text-teal-900">
@@ -392,10 +494,150 @@ export default function SomaticCheckinPage() {
                 onClick={() => setToolSubmitted(false)}
                 className="inline-block rounded-xl bg-teal-800 px-5 py-2.5 text-xs font-bold text-white shadow transition hover:bg-teal-900"
               >
-                Update My Reset Plan
+                Update My Check-In Plan
               </button>
             </div>
           )}
+        </section>
+
+        <section className="rounded-3xl border border-teal-300 bg-teal-50 p-6 md:p-8">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Co-Regulation Starts With Awareness
+          </span>
+
+          <h2 className="mt-1 text-2xl font-extrabold text-teal-950">
+            Why educator regulation matters in early childhood
+          </h2>
+
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-teal-900">
+            Children do not need adults who are calm every second of the day.
+            They benefit from adults who can notice when their own stress is
+            rising, repair when a moment goes poorly and return with a steadier,
+            more predictable response.
+          </p>
+
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-teal-900">
+            This is one reason co-regulation is a whole-team practice rather than
+            a collection of child calming activities.
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/emotional-regulation-early-childhood"
+              className="rounded-xl bg-teal-800 px-5 py-3 text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Emotional Regulation Guide →
+            </Link>
+
+            <Link
+              href="/educator-capacity-building"
+              className="rounded-xl border border-teal-300 bg-white px-5 py-3 text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Educator Capacity Building →
+            </Link>
+          </div>
+        </section>
+
+        <section className="space-y-5">
+          <div>
+            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+              Common Questions
+            </span>
+
+            <h2 className="mt-1 text-2xl font-extrabold text-slate-900">
+              Somatic check-in FAQs for educators
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              [
+                'What is a somatic check-in?',
+                'A somatic check-in is a brief pause to notice physical sensations such as muscle tension, breathing, stomach discomfort or posture. It is a self-awareness tool rather than a clinical assessment.',
+              ],
+              [
+                'Why would an early childhood educator use a body check-in?',
+                'Educators work in busy, socially demanding environments. A short body check-in can help an educator notice rising stress before returning to a room, transition or emotionally demanding interaction.',
+              ],
+              [
+                'Is this a mental health or medical assessment?',
+                'No. This tool is designed for general professional reflection and wellbeing awareness. It does not diagnose a health condition or replace medical, psychological or allied health care.',
+              ],
+              [
+                'Does an educator need to be calm before co-regulating with a child?',
+                'No. Co-regulation does not require perfect calm. Awareness of your own state can simply make it easier to slow your voice, reduce demands and respond more intentionally.',
+              ],
+              [
+                'Can services use this tool for staff performance management?',
+                'It is designed as a reflective professional learning tool, not as an employee performance assessment. Educators should be able to use self-reflection without feeling that normal stress responses are being judged.',
+              ],
+            ].map(([question, answer]) => (
+              <details
+                key={question}
+                className="group rounded-2xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="cursor-pointer list-none text-sm font-bold text-slate-900">
+                  {question}
+                </summary>
+                <p className="mt-3 text-xs leading-relaxed text-slate-600">
+                  {answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-[#F7F3EC] p-6 md:p-8">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            About the Author
+          </span>
+
+          <h2 className="mt-1 text-xl font-extrabold text-slate-900">
+            Robyn Papworth
+          </h2>
+
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700">
+            Robyn is an Accredited Exercise Physiologist and Developmental
+            Educator and the founder of Play Move Improve. Her work with early
+            childhood teams focuses on movement, sensory processing, emotional
+            regulation, executive function and practical co-regulation in real
+            learning environments.
+          </p>
+        </section>
+
+        <section className="rounded-3xl bg-teal-950 p-7 text-white md:p-10">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                Regulator Champions
+              </span>
+
+              <h2 className="mt-1 text-2xl font-extrabold">
+                Build educator self-awareness into whole-team co-regulation practice
+              </h2>
+
+              <p className="mt-2 max-w-2xl text-xs leading-relaxed text-teal-100">
+                This free somatic check-in is one practical part of the broader
+                Regulator Champions pathway for early childhood teams.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/proposal?plan=preview"
+                className="rounded-xl bg-amber-400 px-5 py-3 text-center text-xs font-bold text-slate-950 transition hover:bg-amber-300"
+              >
+                Start With 3 Ladders →
+              </Link>
+
+              <Link
+                href="/early-childhood-professional-development"
+                className="rounded-xl border border-teal-700 bg-teal-900 px-5 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-800"
+              >
+                Early Childhood PD Guide →
+              </Link>
+            </div>
+          </div>
         </section>
 
         <section className="space-y-6 rounded-3xl bg-teal-950 p-8 text-white md:p-10">

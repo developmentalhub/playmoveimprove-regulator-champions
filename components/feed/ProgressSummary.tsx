@@ -1,41 +1,43 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { regulationLadders } from '@/lib/regulationLadders';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
-    : null;
 
 type ProgressSummaryProps = {
   userEmail: string;
 };
 
+type MemberPlan = 'preview' | 'full';
+
 type LadderRungLog = {
-  id?: string;
-  user_email: string;
   ladder_id: string;
   ladder_title?: string;
   rung_number: number;
   rung_title?: string;
-  reflection_text?: string;
-  evidence_text?: string;
   review_status?: string;
-  created_at?: string;
   updated_at?: string;
 };
 
+type ProgressResponse = {
+  success?: boolean;
+  error?: string;
+  plan?: MemberPlan | null;
+  logs?: LadderRungLog[];
+};
+
 type LoadStatus = 'idle' | 'loading' | 'success' | 'error';
+
+const PREVIEW_LADDER_IDS = new Set([
+  'regulated-educator',
+  'connected-drop-offs',
+  'participation-beyond-sitting',
+]);
 
 export default function ProgressSummary({
   userEmail,
 }: ProgressSummaryProps) {
   const [logs, setLogs] = useState<LadderRungLog[]>([]);
+  const [memberPlan, setMemberPlan] = useState<MemberPlan | null>(null);
   const [loadStatus, setLoadStatus] = useState<LoadStatus>('idle');
   const [loadMessage, setLoadMessage] = useState('');
 
@@ -46,55 +48,94 @@ export default function ProgressSummary({
 
     if (!cleanedEmail) {
       setLogs([]);
+      setMemberPlan(null);
       setLoadStatus('idle');
-      return;
-    }
-
-    if (!supabase) {
-      setLogs([]);
-      setLoadStatus('error');
-      setLoadMessage(
-        'Progress storage is not connected. Check the Supabase environment variables.',
-      );
       return;
     }
 
     setLoadStatus('loading');
 
-    const { data, error } = await supabase
-      .from('ladder_rung_logs')
-      .select(
-        'id, user_email, ladder_id, ladder_title, rung_number, rung_title, reflection_text, evidence_text, review_status, created_at, updated_at',
-      )
-      .eq('user_email', cleanedEmail)
-      .order('ladder_id', { ascending: true })
-      .order('rung_number', { ascending: true });
+    try {
+      const response = await fetch('/api/progress-summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userEmail: cleanedEmail,
+        }),
+        cache: 'no-store',
+      });
 
-    if (error) {
+      let responseData: ProgressResponse = {};
+
+      try {
+        responseData = (await response.json()) as ProgressResponse;
+      } catch {
+        responseData = {};
+      }
+
+      if (!response.ok || responseData.success !== true) {
+        throw new Error(
+          responseData.error ??
+            'Your progress could not be loaded. Please try again.',
+        );
+      }
+
+      setLogs(responseData.logs ?? []);
+      setMemberPlan(
+        responseData.plan === 'preview' || responseData.plan === 'full'
+          ? responseData.plan
+          : null,
+      );
+      setLoadStatus('success');
+    } catch (error) {
       console.error('Progress fetch failed:', error);
 
       setLogs([]);
+      setMemberPlan(null);
       setLoadStatus('error');
       setLoadMessage(
-        'Your progress could not be loaded. Please try again or contact Robyn if the problem continues.',
+        error instanceof Error
+          ? error.message
+          : 'Your progress could not be loaded. Please try again.',
       );
-      return;
     }
-
-    setLogs(data ?? []);
-    setLoadStatus('success');
   }, [cleanedEmail]);
 
   useEffect(() => {
-    fetchProgress();
+    void fetchProgress();
   }, [fetchProgress]);
+
+  const entitledLadders = useMemo(() => {
+    if (memberPlan === 'full') {
+      return regulationLadders;
+    }
+
+    if (memberPlan === 'preview') {
+      return regulationLadders.filter((ladder) =>
+        PREVIEW_LADDER_IDS.has(ladder.id),
+      );
+    }
+
+    return [];
+  }, [memberPlan]);
+
+  const availableEntitledLadders = useMemo(
+    () =>
+      entitledLadders.filter(
+        (ladder) => ladder.availability === 'available',
+      ),
+    [entitledLadders],
+  );
 
   const totalAvailableRungs = useMemo(
     () =>
-      regulationLadders
-        .filter((ladder) => ladder.availability === 'available')
-        .reduce((total, ladder) => total + ladder.rungs.length, 0),
-    [],
+      availableEntitledLadders.reduce(
+        (total, ladder) => total + ladder.rungs.length,
+        0,
+      ),
+    [availableEntitledLadders],
   );
 
   const uniqueSavedRungs = useMemo(() => {
@@ -117,7 +158,7 @@ export default function ProgressSummary({
 
   const ladderProgress = useMemo(
     () =>
-      regulationLadders.map((ladder) => {
+      entitledLadders.map((ladder) => {
         const ladderLogs = logs.filter(
           (log) => log.ladder_id === ladder.id,
         );
@@ -133,7 +174,9 @@ export default function ProgressSummary({
           totalRungs > 0
             ? Math.min(
                 100,
-                Math.round((completedRungs / totalRungs) * 100),
+                Math.round(
+                  (completedRungs / totalRungs) * 100,
+                ),
               )
             : 0;
 
@@ -143,10 +186,11 @@ export default function ProgressSummary({
           totalRungs,
           percentage,
           isComplete:
-            totalRungs > 0 && completedRungs === totalRungs,
+            totalRungs > 0 &&
+            completedRungs === totalRungs,
         };
       }),
-    [logs],
+    [entitledLadders, logs],
   );
 
   if (!cleanedEmail) {
@@ -158,7 +202,7 @@ export default function ProgressSummary({
 
         <p className="mt-2 text-sm leading-relaxed text-amber-900">
           Enter and save your email near the top of the Practice Hub. Your
-          ladder records will then be loaded here.
+          ladder progress will then be loaded here.
         </p>
       </section>
     );
@@ -169,7 +213,7 @@ export default function ProgressSummary({
       <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-start sm:justify-between">
         <div>
           <span className="inline-block rounded-full bg-teal-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-teal-800">
-            Private Learning Record
+            Learning Progress
           </span>
 
           <h2 className="mt-3 text-2xl font-bold text-slate-900">
@@ -179,11 +223,19 @@ export default function ProgressSummary({
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
             Progress shown for <strong>{cleanedEmail}</strong>.
           </p>
+
+          {memberPlan && (
+            <p className="mt-1 text-xs font-semibold text-slate-500">
+              {memberPlan === 'preview'
+                ? '3-Ladder Preview access'
+                : 'Full 8-Ladder pathway access'}
+            </p>
+          )}
         </div>
 
         <button
           type="button"
-          onClick={fetchProgress}
+          onClick={() => void fetchProgress()}
           disabled={loadStatus === 'loading'}
           className="self-start rounded-xl border border-teal-200 bg-teal-50 px-4 py-2.5 text-sm font-bold text-teal-800 transition hover:bg-teal-100 disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
         >
@@ -211,7 +263,7 @@ export default function ProgressSummary({
         </div>
       )}
 
-      {loadStatus !== 'loading' && (
+      {loadStatus === 'success' && memberPlan && (
         <>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -224,7 +276,8 @@ export default function ProgressSummary({
               </p>
 
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Out of {totalAvailableRungs} currently available rungs.
+                Out of {totalAvailableRungs} currently available rungs in your
+                pathway.
               </p>
             </div>
 
@@ -240,7 +293,9 @@ export default function ProgressSummary({
               <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200">
                 <div
                   className="h-full rounded-full bg-teal-700 transition-all"
-                  style={{ width: `${overallPercentage}%` }}
+                  style={{
+                    width: `${overallPercentage}%`,
+                  }}
                 />
               </div>
             </div>
@@ -319,7 +374,9 @@ export default function ProgressSummary({
                         <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-200">
                           <div
                             className="h-full rounded-full bg-teal-700 transition-all"
-                            style={{ width: `${percentage}%` }}
+                            style={{
+                              width: `${percentage}%`,
+                            }}
                           />
                         </div>
 
@@ -370,15 +427,15 @@ export default function ProgressSummary({
             )}
           </div>
 
-          {logs.length === 0 && loadStatus === 'success' && (
+          {logs.length === 0 && (
             <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
               <h3 className="text-lg font-bold text-slate-900">
                 No ladder reflections saved yet
               </h3>
 
               <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
-                Open the Regulation Ladders tab, choose an available ladder and
-                save your first practice reflection.
+                Open Regulation Ladders, choose an available ladder and save
+                your first practice reflection.
               </p>
             </div>
           )}

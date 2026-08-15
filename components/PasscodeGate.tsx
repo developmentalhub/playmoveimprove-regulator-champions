@@ -9,28 +9,89 @@ interface PasscodeGateProps {
   subtitle?: string;
 }
 
+type AccessStatusResponse = {
+  success?: boolean;
+  hasAccess?: boolean;
+};
+
+type ValidateAccessResponse = {
+  success?: boolean;
+  error?: string;
+};
+
 export default function PasscodeGate({
   children,
   title = 'Member Hub Access Code Required',
   subtitle = 'Enter your centre access code to unlock your member resources.',
 }: PasscodeGateProps) {
-  const [isUnlocked, setIsUnlocked] = useState<boolean | null>(null);
-  const [passcode, setPasscode] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isChecking, setIsChecking] = useState(false);
+  const [isUnlocked, setIsUnlocked] =
+    useState<boolean | null>(null);
+
+  const [passcode, setPasscode] =
+    useState('');
+
+  const [errorMessage, setErrorMessage] =
+    useState('');
+
+  const [isChecking, setIsChecking] =
+    useState(false);
 
   useEffect(() => {
-    const savedAccess = localStorage.getItem('pmi_access_unlocked');
-    setIsUnlocked(savedAccess === 'true');
+    let isMounted = true;
+
+    const checkExistingAccess = async () => {
+      try {
+        const response = await fetch(
+          '/api/access-status',
+          {
+            method: 'GET',
+            cache: 'no-store',
+          },
+        );
+
+        const result =
+          (await response.json()) as AccessStatusResponse;
+
+        if (!isMounted) {
+          return;
+        }
+
+        setIsUnlocked(
+          response.ok &&
+            result.success === true &&
+            result.hasAccess === true,
+        );
+      } catch (error) {
+        console.error(
+          'Member access status check failed:',
+          error,
+        );
+
+        if (isMounted) {
+          setIsUnlocked(false);
+        }
+      }
+    };
+
+    void checkExistingAccess();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const handleUnlock = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleUnlock = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
 
     const cleanCode = passcode.trim();
 
     if (!cleanCode) {
-      setErrorMessage('Please enter your centre access code.');
+      setErrorMessage(
+        'Please enter your centre access code.',
+      );
+
       return;
     }
 
@@ -38,32 +99,69 @@ export default function PasscodeGate({
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/validate-access', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        '/api/validate-access',
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+          body: JSON.stringify({
+            accessCode: cleanCode,
+          }),
         },
-        body: JSON.stringify({
-          code: cleanCode,
-        }),
-      });
+      );
 
-      const result = await response.json();
+      const result =
+        (await response.json()) as ValidateAccessResponse;
 
-      if (!response.ok || !result.valid) {
+      if (
+        !response.ok ||
+        result.success !== true
+      ) {
         setErrorMessage(
-          result.message ||
-            'That access code was not recognised. Please check your code or contact your Centre Director.'
+          result.error ||
+            'That access code was not recognised. Please check your code or contact your Centre Director.',
         );
+
         return;
       }
 
-      localStorage.setItem('pmi_access_unlocked', 'true');
+      const statusResponse = await fetch(
+        '/api/access-status',
+        {
+          method: 'GET',
+          cache: 'no-store',
+        },
+      );
+
+      const statusResult =
+        (await statusResponse.json()) as AccessStatusResponse;
+
+      if (
+        !statusResponse.ok ||
+        statusResult.success !== true ||
+        statusResult.hasAccess !== true
+      ) {
+        setErrorMessage(
+          'Your code was accepted, but the secure member session could not be confirmed. Please try again.',
+        );
+
+        return;
+      }
+
       setIsUnlocked(true);
       setPasscode('');
-    } catch {
+    } catch (error) {
+      console.error(
+        'Member access unlock failed:',
+        error,
+      );
+
       setErrorMessage(
-        'We could not check your access code. Please try again.'
+        'We could not check your access code. Please try again.',
       );
     } finally {
       setIsChecking(false);
@@ -73,7 +171,10 @@ export default function PasscodeGate({
   if (isUnlocked === null) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-[#FDFBF7]">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-800 border-t-transparent" />
+        <div
+          className="h-8 w-8 animate-spin rounded-full border-4 border-teal-800 border-t-transparent"
+          aria-label="Checking member access"
+        />
       </div>
     );
   }
@@ -116,7 +217,10 @@ export default function PasscodeGate({
           </p>
         </div>
 
-        <form onSubmit={handleUnlock} className="space-y-4 text-left">
+        <form
+          onSubmit={handleUnlock}
+          className="space-y-4 text-left"
+        >
           <div>
             <label
               htmlFor="centre-access-code"
@@ -130,10 +234,15 @@ export default function PasscodeGate({
               name="centre-access-code"
               type="password"
               required
+              maxLength={100}
               autoComplete="off"
               placeholder="Enter your access code"
               value={passcode}
-              onChange={(event) => setPasscode(event.target.value)}
+              onChange={(event) =>
+                setPasscode(
+                  event.target.value,
+                )
+              }
               className="w-full rounded-xl border border-slate-300 p-3.5 text-xs text-slate-900 outline-none focus:ring-2 focus:ring-teal-700"
             />
           </div>
@@ -141,7 +250,7 @@ export default function PasscodeGate({
           {errorMessage && (
             <p
               role="alert"
-              className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold text-rose-600"
+              className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold leading-relaxed text-rose-700"
             >
               {errorMessage}
             </p>
@@ -152,7 +261,9 @@ export default function PasscodeGate({
             disabled={isChecking}
             className="w-full rounded-2xl bg-teal-800 py-3.5 text-xs font-bold text-white transition hover:bg-teal-900 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isChecking ? 'Checking access…' : 'Unlock Member Content →'}
+            {isChecking
+              ? 'Checking access…'
+              : 'Unlock Member Content →'}
           </button>
         </form>
 
@@ -162,10 +273,10 @@ export default function PasscodeGate({
           </p>
 
           <Link
-            href="/proposal"
+            href="/proposal?plan=preview"
             className="inline-block text-xs font-bold text-teal-800 hover:underline"
           >
-            Request whole-centre membership →
+            View Regulator Champions options →
           </Link>
         </div>
       </div>

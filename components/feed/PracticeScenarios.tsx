@@ -36,7 +36,7 @@ export default function PracticeScenarios() {
               key={scenario.id}
               className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+              <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
                 <Image
                   src={scenario.image}
                   alt=""

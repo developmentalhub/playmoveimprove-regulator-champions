@@ -37,7 +37,7 @@ export default function TermsPage() {
           </h2>
 
           <p className="mt-1 text-xs text-slate-500">
-            Current as at July 2026
+            Current as at August 2026
           </p>
         </div>
 
@@ -70,28 +70,86 @@ export default function TermsPage() {
 
         <section className="space-y-3">
           <h3 className="text-base font-bold text-slate-900">
-            2. Membership Term and Activation
+            2. Program Options, Fees, Term and Activation
           </h3>
 
           <p>
-            Regulator Champions is supplied as a 12-month annual site licence
-            for one designated early childhood service location.
+            Regulator Champions is available as either a{' '}
+            <strong>3-Ladder Preview</strong> or the{' '}
+            <strong>Full 8-Ladder Site Membership</strong> for one designated
+            early childhood service location.
+          </p>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+              <strong className="block text-amber-950">
+                3-Ladder Preview — $1,790 including GST
+              </strong>
+
+              <p className="mt-2 text-sm">
+                Includes six months of site access and progressive access to
+                Ladders 1 to 3, together with the platform inclusions described
+                in the applicable proposal or quote.
+              </p>
+
+              <p className="mt-2 text-sm">
+                The Preview does not automatically include Ladders 4 to 8.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
+              <strong className="block text-teal-950">
+                Full 8-Ladder Site Membership — $4,790 including GST
+              </strong>
+
+              <p className="mt-2 text-sm">
+                Includes 12 months of site access and the complete eight-ladder
+                pathway, with ladder content released progressively throughout
+                the membership term.
+              </p>
+
+              <p className="mt-2 text-sm">
+                The full upfront option is the lower total price for completing
+                all eight ladders.
+              </p>
+            </div>
+          </div>
+
+          <p>
+            A service that purchases the 3-Ladder Preview may later choose to
+            continue into Ladders 4 to 8. The standard continuation price is{' '}
+            <strong>$4,000 including GST</strong>. Preview services are currently
+            offered a <strong>20% continuation discount</strong>, reducing the
+            continuation price to <strong>$3,200 including GST</strong>.
           </p>
 
           <p>
-            Unless otherwise stated in a written quote, the annual price is{' '}
-            <strong>$4,790 including GST</strong>.
+            If both stages are purchased, the combined staged cost is{' '}
+            <strong>$4,990 including GST</strong>. The Full 8-Ladder Site
+            Membership purchased upfront is therefore $200 less than completing
+            the pathway in two stages.
           </p>
 
           <p>
-            The membership term begins when access details are issued following
+            The continuation discount is available only to the service that
+            purchased the Preview and cannot be transferred to another service
+            location. Unless a written quote states otherwise, the continuation
+            offer must be accepted while the service's Preview access remains
+            active or within 30 days after the Preview term ends.
+          </p>
+
+          <p>
+            The applicable term begins when access details are issued following
             payment, or when another written purchase-order arrangement has
             been accepted by Play Move Improve.
           </p>
 
           <p>
-            Access remains active for 12 months from the recorded activation
-            date unless it is suspended or terminated under these terms.
+            Preview access remains active for six months. Full membership access
+            remains active for 12 months. If a Preview service purchases the
+            continuation stage, its access will be extended so the service can
+            complete the full pathway in accordance with the continuation quote
+            or written confirmation.
           </p>
         </section>
 
@@ -194,6 +252,14 @@ export default function TermsPage() {
           </ul>
 
           <p>
+            Preview services receive the content and supports allocated to
+            Ladders 1 to 3 during their six-month term. Full-membership services,
+            and Preview services that later purchase continuation, receive the
+            complete eight-ladder pathway in accordance with the applicable
+            release schedule.
+          </p>
+
+          <p>
             The timing, format and sequence of live sessions may change in
             response to member needs, facilitator availability and program
             development.
@@ -240,8 +306,16 @@ export default function TermsPage() {
           </h3>
 
           <p>
-            Membership does not automatically renew unless the service has
-            expressly agreed to automatic renewal in writing.
+            Neither the Preview nor the Full 8-Ladder Site Membership
+            automatically renews unless the service has expressly agreed to
+            automatic renewal in writing.
+          </p>
+
+          <p>
+            Purchasing the 3-Ladder Preview does not create an obligation to
+            purchase the continuation stage. Continuation into Ladders 4 to 8
+            requires a separate purchase, accepted quote or written
+            purchase-order arrangement.
           </p>
 
           <p>
@@ -262,10 +336,16 @@ export default function TermsPage() {
           </h3>
 
           <p>
-            Because the program provides immediate access to digital
-            intellectual property and centre-wide resources, a change of mind
-            does not automatically entitle the service to a refund after access
-            has been issued.
+            Because both program options provide access to digital intellectual
+            property, professional learning content and centre-wide resources,
+            a change of mind does not automatically entitle the service to a
+            refund after access has been issued.
+          </p>
+
+          <p>
+            A Preview service that decides not to continue into Ladders 4 to 8
+            is not entitled to a refund of the Preview fee merely because it
+            chooses not to purchase the continuation stage.
           </p>
 
           <p>
@@ -361,23 +441,40 @@ export default function TermsPage() {
 
         <section className="space-y-3">
           <h3 className="text-base font-bold text-slate-900">
-            13. No Guarantee of Funding Approval
+            13. SRF, Kindy Uplift and Other Funding
           </h3>
 
           <p>
-            Program content may align with selected Kindy Uplift, School
-            Readiness Funding or professional development priorities.
+            Victorian services may engage Play Move Improve coaching through
+            School Readiness Funding where the service selects coaching that
+            addresses its identified priorities, educator capability needs and
+            applicable SRF planning requirements.
           </p>
 
           <p>
-            Play Move Improve does not guarantee funding approval, purchasing
-            approval or acquittal acceptance.
+            Play Move Improve's online coaching services are included in the
+            Kindy Uplift catalogue for Queensland services. A service may
+            consider those coaching services where they align with its identified
+            Kindy Uplift priorities, planning and implementation needs.
           </p>
 
           <p>
-            The service remains responsible for confirming eligibility,
-            documentation and acquittal requirements with the relevant funding
-            authority.
+            References on this website, in proposals or in program materials to
+            School Readiness Funding or Kindy Uplift describe potential funding
+            pathways only. They do not mean that Play Move Improve is endorsed
+            by the Victorian or Queensland Department of Education.
+          </p>
+
+          <p>
+            The purchasing service remains responsible for its funding plan,
+            internal approval, supplier due diligence, purchase-order process,
+            record keeping, reporting and acquittal obligations.
+          </p>
+
+          <p>
+            Play Move Improve does not guarantee that a particular service will
+            receive funding, have sufficient funding remaining, obtain internal
+            purchasing approval or have expenditure accepted during acquittal.
           </p>
         </section>
 

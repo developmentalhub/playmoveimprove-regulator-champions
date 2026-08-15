@@ -8,38 +8,61 @@ type QuickRating =
   | 'not_sure'
   | 'not_relevant';
 
+type ContentType =
+  | 'ladder_rung'
+  | 'practice_scenario'
+  | 'overall_trial';
+
 type FeedbackRequestBody = {
-  feedbackType?: FeedbackType;
-  pagePath?: string;
+  feedbackType?: unknown;
+  pagePath?: unknown;
 
-  contentType?:
-    | 'ladder_rung'
-    | 'practice_scenario'
-    | 'overall_trial';
+  contentType?: unknown;
+  contentId?: unknown;
+  contentTitle?: unknown;
+  quickRating?: unknown;
 
-  contentId?: string;
-  contentTitle?: string;
-  quickRating?: QuickRating;
+  name?: unknown;
+  email?: unknown;
+  role?: unknown;
+  serviceName?: unknown;
+  ageGroup?: unknown;
 
-  name?: string;
-  email?: string;
-  role?: string;
-  serviceName?: string;
-  ageGroup?: string;
+  contentTried?: unknown;
+  usefulFeedback?: unknown;
+  unclearFeedback?: unknown;
+  improvementFeedback?: unknown;
 
-  contentTried?: string;
-  usefulFeedback?: string;
-  unclearFeedback?: string;
-  improvementFeedback?: string;
-
-  wouldUseWithTeam?: boolean | null;
-  contactPermission?: boolean;
+  wouldUseWithTeam?: unknown;
+  contactPermission?: unknown;
 };
 
-const cleanText = (
+const MAX_REQUEST_BYTES = 50_000;
+
+const emailPattern =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const allowedFeedbackTypes: FeedbackType[] = [
+  'quick',
+  'overall',
+];
+
+const allowedQuickRatings: QuickRating[] = [
+  'helpful',
+  'not_sure',
+  'not_relevant',
+];
+
+const allowedContentTypes: ContentType[] = [
+  'ladder_rung',
+  'practice_scenario',
+  'overall_trial',
+];
+
+function cleanText(
   value: unknown,
   maximumLength: number,
-): string | null => {
+): string | null {
   if (typeof value !== 'string') {
     return null;
   }
@@ -51,13 +74,78 @@ const cleanText = (
   }
 
   return cleaned.slice(0, maximumLength);
-};
+}
 
-const isValidEmail = (value: string): boolean =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+function cleanEmail(
+  value: unknown,
+): string | null {
+  const email = cleanText(value, 254);
 
-export async function POST(request: NextRequest) {
+  if (!email) {
+    return null;
+  }
+
+  return email.toLowerCase();
+}
+
+function isValidEmail(
+  value: string,
+): boolean {
+  return emailPattern.test(value);
+}
+
+function isValidPagePath(
+  value: string,
+): boolean {
+  return (
+    value.startsWith('/') &&
+    !value.startsWith('//') &&
+    !value.includes('://')
+  );
+}
+
+function containsLikelyIdentifyingCaseInfo(
+  value: string,
+): boolean {
+  const lower = value.toLowerCase();
+
+  const riskyPhrases = [
+    'date of birth',
+    'dob',
+    'home address',
+    'medicare number',
+    'medical record',
+    'ndis number',
+    'diagnosis report',
+  ];
+
+  return riskyPhrases.some((phrase) =>
+    lower.includes(phrase),
+  );
+}
+
+export async function POST(
+  request: NextRequest,
+) {
   try {
+    const contentLength =
+      request.headers.get('content-length');
+
+    if (
+      contentLength &&
+      Number(contentLength) >
+        MAX_REQUEST_BYTES
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'The feedback submission is too large. Please shorten your response and try again.',
+        },
+        { status: 413 },
+      );
+    }
+
     const supabaseUrl =
       process.env.NEXT_PUBLIC_SUPABASE_URL;
 
@@ -71,6 +159,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json(
         {
+          success: false,
           error:
             'The feedback form is not connected yet. Please contact Play Move Improve.',
         },
@@ -81,25 +170,125 @@ export async function POST(request: NextRequest) {
     const body =
       (await request.json()) as FeedbackRequestBody;
 
-    const feedbackType = body.feedbackType;
+    const feedbackType =
+      cleanText(
+        body.feedbackType,
+        20,
+      ) as FeedbackType | null;
 
     if (
-      feedbackType !== 'quick' &&
-      feedbackType !== 'overall'
+      !feedbackType ||
+      !allowedFeedbackTypes.includes(
+        feedbackType,
+      )
     ) {
       return NextResponse.json(
         {
-          error: 'Invalid feedback type.',
+          success: false,
+          error:
+            'Invalid feedback type.',
         },
         { status: 400 },
       );
     }
 
-    const email = cleanText(body.email, 200);
+    const rawPagePath = cleanText(
+      body.pagePath,
+      250,
+    );
 
-    if (email && !isValidEmail(email)) {
+    const pagePath =
+      rawPagePath &&
+      isValidPagePath(rawPagePath)
+        ? rawPagePath
+        : '/educator-trial';
+
+    const rawContentType = cleanText(
+      body.contentType,
+      100,
+    );
+
+    const contentType =
+      rawContentType &&
+      allowedContentTypes.includes(
+        rawContentType as ContentType,
+      )
+        ? (rawContentType as ContentType)
+        : feedbackType === 'overall'
+          ? 'overall_trial'
+          : null;
+
+    const contentId = cleanText(
+      body.contentId,
+      150,
+    );
+
+    const contentTitle = cleanText(
+      body.contentTitle,
+      300,
+    );
+
+    const email = cleanEmail(
+      body.email,
+    );
+
+    const name = cleanText(
+      body.name,
+      150,
+    );
+
+    const role = cleanText(
+      body.role,
+      150,
+    );
+
+    const serviceName = cleanText(
+      body.serviceName,
+      250,
+    );
+
+    const ageGroup = cleanText(
+      body.ageGroup,
+      150,
+    );
+
+    const contentTried = cleanText(
+      body.contentTried,
+      1000,
+    );
+
+    const usefulFeedback = cleanText(
+      body.usefulFeedback,
+      3000,
+    );
+
+    const unclearFeedback = cleanText(
+      body.unclearFeedback,
+      3000,
+    );
+
+    const improvementFeedback =
+      cleanText(
+        body.improvementFeedback,
+        3000,
+      );
+
+    const contactPermission =
+      body.contactPermission === true;
+
+    const wouldUseWithTeam =
+      typeof body.wouldUseWithTeam ===
+      'boolean'
+        ? body.wouldUseWithTeam
+        : null;
+
+    if (
+      email &&
+      !isValidEmail(email)
+    ) {
       return NextResponse.json(
         {
+          success: false,
           error:
             'Please enter a valid email address.',
         },
@@ -107,19 +296,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (
+      contactPermission &&
+      !email
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'Please add your email address if you would like Play Move Improve to contact you.',
+        },
+        { status: 400 },
+      );
+    }
+
     if (feedbackType === 'quick') {
-      const allowedRatings: QuickRating[] = [
-        'helpful',
-        'not_sure',
-        'not_relevant',
-      ];
+      const quickRating =
+        cleanText(
+          body.quickRating,
+          50,
+        ) as QuickRating | null;
 
       if (
-        !body.quickRating ||
-        !allowedRatings.includes(body.quickRating)
+        !quickRating ||
+        !allowedQuickRatings.includes(
+          quickRating,
+        )
       ) {
         return NextResponse.json(
           {
+            success: false,
             error:
               'Choose a valid quick feedback option.',
           },
@@ -127,9 +333,10 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      if (!cleanText(body.contentId, 150)) {
+      if (!contentId) {
         return NextResponse.json(
           {
+            success: false,
             error:
               'The content item could not be identified.',
           },
@@ -139,17 +346,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (feedbackType === 'overall') {
-      const name = cleanText(body.name, 150);
-
-      const usefulFeedback = cleanText(
-        body.usefulFeedback,
-        3000,
-      );
-
       if (!name) {
         return NextResponse.json(
           {
-            error: 'Please add your name.',
+            success: false,
+            error:
+              'Please add your name.',
           },
           { status: 400 },
         );
@@ -158,6 +360,7 @@ export async function POST(request: NextRequest) {
       if (!usefulFeedback) {
         return NextResponse.json(
           {
+            success: false,
             error:
               'Please tell us what was useful about the trial.',
           },
@@ -165,6 +368,39 @@ export async function POST(request: NextRequest) {
         );
       }
     }
+
+    const freeTextFields = [
+      contentTried,
+      usefulFeedback,
+      unclearFeedback,
+      improvementFeedback,
+    ].filter(
+      (value): value is string =>
+        Boolean(value),
+    );
+
+    if (
+      freeTextFields.some(
+        containsLikelyIdentifyingCaseInfo,
+      )
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'Please remove identifying child, family, medical or case-record information before submitting feedback.',
+        },
+        { status: 400 },
+      );
+    }
+
+    const quickRating =
+      feedbackType === 'quick'
+        ? (cleanText(
+            body.quickRating,
+            50,
+          ) as QuickRating)
+        : null;
 
     const supabase = createClient(
       supabaseUrl,
@@ -182,75 +418,45 @@ export async function POST(request: NextRequest) {
       .insert({
         feedback_type: feedbackType,
 
-        page_path:
-          cleanText(body.pagePath, 250) ||
-          '/educator-trial',
+        page_path: pagePath,
 
-        content_type:
-          cleanText(body.contentType, 100) ||
-          (feedbackType === 'overall'
-            ? 'overall_trial'
-            : null),
+        content_type: contentType,
 
-        content_id: cleanText(
-          body.contentId,
-          150,
-        ),
+        content_id: contentId,
 
-        content_title: cleanText(
-          body.contentTitle,
-          300,
-        ),
+        content_title: contentTitle,
 
-        quick_rating:
-          feedbackType === 'quick'
-            ? body.quickRating
-            : null,
+        quick_rating: quickRating,
 
-        name: cleanText(body.name, 150),
+        name:
+          feedbackType === 'overall'
+            ? name
+            : name || null,
 
         email,
 
-        role: cleanText(body.role, 150),
+        role,
 
-        service_name: cleanText(
-          body.serviceName,
-          250,
-        ),
+        service_name: serviceName,
 
-        age_group: cleanText(
-          body.ageGroup,
-          150,
-        ),
+        age_group: ageGroup,
 
-        content_tried: cleanText(
-          body.contentTried,
-          1000,
-        ),
+        content_tried: contentTried,
 
-        useful_feedback: cleanText(
-          body.usefulFeedback,
-          3000,
-        ),
+        useful_feedback:
+          usefulFeedback,
 
-        unclear_feedback: cleanText(
-          body.unclearFeedback,
-          3000,
-        ),
+        unclear_feedback:
+          unclearFeedback,
 
-        improvement_feedback: cleanText(
-          body.improvementFeedback,
-          3000,
-        ),
+        improvement_feedback:
+          improvementFeedback,
 
         would_use_with_team:
-          typeof body.wouldUseWithTeam ===
-          'boolean'
-            ? body.wouldUseWithTeam
-            : null,
+          wouldUseWithTeam,
 
         contact_permission:
-          body.contactPermission === true,
+          contactPermission,
 
         user_agent:
           request.headers
@@ -261,11 +467,15 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error(
         'Educator trial feedback insert failed:',
-        error,
+        {
+          code: error.code,
+          message: error.message,
+        },
       );
 
       return NextResponse.json(
         {
+          success: false,
           error:
             'Your feedback could not be submitted. Please try again.',
         },
@@ -273,14 +483,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
-      success: true,
+    return NextResponse.json(
+      {
+        success: true,
 
-      message:
-        feedbackType === 'quick'
-          ? 'Your response has been recorded.'
-          : 'Thank you. Your feedback will help shape the next Regulation Ladder release.',
-    });
+        message:
+          feedbackType === 'quick'
+            ? 'Your response has been recorded.'
+            : 'Thank you. Your feedback will help shape the next Regulation Ladder release.',
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(
       'Unexpected educator trial feedback error:',
@@ -289,6 +502,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
+        success: false,
         error:
           'Something went wrong while submitting your feedback.',
       },

@@ -147,14 +147,78 @@ export default function FreeGuidePage() {
             Regulation Ladder 1
           </span>
 
-          <h1 className="text-2xl font-extrabold text-slate-900">
-            Regulated Educator, Regulated Room
+          <h1 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
+            Free Emotional Regulation Guide for Early Childhood Educators
           </h1>
 
           <p className="text-sm leading-relaxed text-slate-600">
-            Notice how your own stress, sensory needs and preparation
-            influence the room.
+            Regulated Educator, Regulated Room is a free 10-rung professional
+            learning guide designed to help educators notice how their own
+            stress, sensory needs, preparation and adult responses can influence
+            co-regulation in the room.
           </p>
+        </section>
+
+        <section className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div>
+            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+              Free Early Childhood Regulation Resource
+            </span>
+
+            <h2 className="mt-1 text-xl font-extrabold text-slate-900">
+              Why educator regulation matters before we ask children to regulate
+            </h2>
+          </div>
+
+          <p className="text-sm leading-relaxed text-slate-700">
+            Young children often rely on adults to help them manage big
+            emotions, transitions, sensory overload, frustration and change.
+            That support is easier when educators can also notice what is
+            happening in their own body, pace, voice and decision making.
+          </p>
+
+          <p className="text-sm leading-relaxed text-slate-700">
+            This free guide begins with the educator rather than the child. Each
+            rung gives you one small practice to try in a real early childhood
+            setting, followed by a reflection question to help you notice what
+            changed.
+          </p>
+
+          <p className="text-sm leading-relaxed text-slate-700">
+            It is designed for early childhood educators, room leaders,
+            educational leaders and directors who want practical professional
+            learning around emotional regulation, co-regulation and whole-team
+            consistency.
+          </p>
+        </section>
+
+        <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {[
+            [
+              '10 practical rungs',
+              'Work through one small educator practice at a time rather than trying to change everything at once.',
+            ],
+            [
+              'Real-room application',
+              'Use the prompts around arrivals, pack-up, staff handover, difficult interactions and everyday pressure points.',
+            ],
+            [
+              'Reflective learning',
+              'Each rung includes a question that helps you notice what happened and what you may adjust next time.',
+            ],
+          ].map(([title, description]) => (
+            <div
+              key={title}
+              className="rounded-2xl border border-slate-200 bg-[#F7F3EC] p-5"
+            >
+              <strong className="block text-sm font-bold text-slate-900">
+                {title}
+              </strong>
+              <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                {description}
+              </p>
+            </div>
+          ))}
         </section>
 
         <div className="space-y-2">
@@ -340,23 +404,147 @@ export default function FreeGuidePage() {
           </div>
         </section>
 
-        <section className="space-y-3 rounded-3xl bg-teal-900 p-6 text-center text-white">
-          <h3 className="text-base font-bold">
-            Want the Full Eight-Ladder Regulation Pathway?
-          </h3>
+        <section className="rounded-3xl border border-teal-300 bg-teal-50 p-6">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Related Learning
+          </span>
 
-          <p className="mx-auto max-w-xs text-xs leading-relaxed text-teal-100">
-            Ladder 1 is available now. Ladders 2 through 8 and their
-            supporting resources are released progressively across the
-            12-month Whole-Centre Membership.
+          <h2 className="mt-1 text-xl font-extrabold text-teal-950">
+            Go deeper into emotional regulation and co-regulation
+          </h2>
+
+          <p className="mt-3 text-sm leading-relaxed text-teal-900">
+            Ladder 1 focuses on the educator starting point. These related
+            guides explain more about emotional regulation, co-regulation and
+            why professional learning works best when teams have time to apply
+            and reflect.
           </p>
 
-          <Link
-            href="/proposal"
-            className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-          >
-            View Official Centre Proposal Pack ($4,790) →
-          </Link>
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link
+              href="/emotional-regulation-early-childhood"
+              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Emotional Regulation Guide →
+            </Link>
+
+            <Link
+              href="/educator-capacity-building"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Educator Capacity Building →
+            </Link>
+
+            <Link
+              href="/somatic-checkin"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Free Somatic Check-In →
+            </Link>
+
+            <Link
+              href="/early-childhood-professional-development"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Early Childhood PD Guide →
+            </Link>
+          </div>
+        </section>
+
+        <section className="space-y-5">
+          <div>
+            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+              Common Questions
+            </span>
+
+            <h2 className="mt-1 text-xl font-extrabold text-slate-900">
+              Free emotional regulation guide FAQs
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              [
+                'Who is this free guide for?',
+                'The guide is designed for early childhood educators, room leaders, educational leaders and directors who want practical reflection around emotional regulation, co-regulation and educator self-awareness.',
+              ],
+              [
+                'Is this a child behaviour program?',
+                'No. Ladder 1 begins with educator awareness and professional practice. It does not diagnose children or provide an individual behaviour treatment plan.',
+              ],
+              [
+                'How long does the guide take?',
+                'You can move through all 10 rungs in one sitting or use one rung at a time across several days. The value comes from trying the practice in a real setting and reflecting on what happened.',
+              ],
+              [
+                'What is co-regulation?',
+                'Co-regulation is the support an adult provides through relationship, environment, language, pace, predictability and responsive guidance while a child is still developing their own regulation skills.',
+              ],
+              [
+                'Can a whole team use this guide?',
+                'Yes. Services can use the guide as a shared professional learning conversation, provided educators still have space to reflect honestly rather than treating the prompts as a performance assessment.',
+              ],
+            ].map(([question, answer]) => (
+              <details
+                key={question}
+                className="group rounded-2xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="cursor-pointer list-none text-sm font-bold text-slate-900">
+                  {question}
+                </summary>
+                <p className="mt-3 text-xs leading-relaxed text-slate-600">
+                  {answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-[#F7F3EC] p-6">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            About the Author
+          </span>
+
+          <h2 className="mt-1 text-xl font-extrabold text-slate-900">
+            Robyn Papworth
+          </h2>
+
+          <p className="mt-3 text-sm leading-relaxed text-slate-700">
+            Robyn is an Accredited Exercise Physiologist and Developmental
+            Educator and the founder of Play Move Improve. Her work with early
+            childhood teams focuses on movement, sensory processing, emotional
+            regulation, executive function and practical co-regulation within
+            everyday learning environments.
+          </p>
+        </section>
+
+        <section className="space-y-3 rounded-3xl bg-teal-900 p-6 text-center text-white">
+          <h3 className="text-base font-bold">
+            Want to Continue Beyond the Free Guide?
+          </h3>
+
+          <p className="mx-auto max-w-sm text-xs leading-relaxed text-teal-100">
+            Regulator Champions extends this learning into a progressive
+            whole-service pathway. Start with the 3-Ladder Preview for $1,790
+            including GST, or choose the full eight-ladder pathway for $4,790
+            including GST.
+          </p>
+
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="inline-block rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
+            >
+              Start With 3 Ladders ($1,790) →
+            </Link>
+
+            <Link
+              href="/proposal?plan=full"
+              className="inline-block rounded-xl border border-teal-700 bg-teal-800 px-5 py-3 text-xs font-bold text-white transition hover:bg-teal-700"
+            >
+              Full 8-Ladder Proposal ($4,790) →
+            </Link>
+          </div>
         </section>
       </main>
     </div>

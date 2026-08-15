@@ -2,21 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { createClient } from '@supabase/supabase-js';
 import type {
   RegulationLadder,
   RegulationLadderRung,
 } from '@/lib/regulationLadders';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
-    : null;
-
 type SaveStatus = 'idle' | 'saving' | 'success' | 'error';
+
+type SaveResponse = {
+  success?: boolean;
+  error?: string;
+};
 
 type LadderRungProps = {
   ladder: RegulationLadder;
@@ -89,55 +85,62 @@ export default function LadderRung({
       return;
     }
 
-    if (!supabase) {
-      setSaveStatus('error');
-      setSaveMessage(
-        'Ladder storage is not connected. Check the Supabase environment variables.',
-      );
-      return;
-    }
-
     setSaveStatus('saving');
 
-    const { error } = await supabase.from('ladder_rung_logs').upsert(
-      {
-        user_email: cleanedEmail,
-        ladder_id: ladder.id,
-        ladder_title: ladder.title,
-        rung_number: rung.number,
-        rung_title: rung.title,
-        reflection_text: cleanedReflection,
-        evidence_text: cleanedEvidence,
-        review_status: 'saved',
-        updated_at: new Date().toISOString(),
-      },
-      {
-        onConflict: 'user_email,ladder_id,rung_number',
-      },
-    );
+    try {
+      const response = await fetch('/api/ladder-rung', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userEmail: cleanedEmail,
+          ladderId: ladder.id,
+          ladderTitle: ladder.title,
+          rungNumber: rung.number,
+          rungTitle: rung.title,
+          reflectionText: cleanedReflection,
+          evidenceText: cleanedEvidence,
+        }),
+      });
 
-    if (error) {
+      let responseData: SaveResponse = {};
+
+      try {
+        responseData = (await response.json()) as SaveResponse;
+      } catch {
+        responseData = {};
+      }
+
+      if (!response.ok || responseData.success !== true) {
+        throw new Error(
+          responseData.error ??
+            'Your ladder reflection could not be saved. Please try again.',
+        );
+      }
+
+      setSaveStatus('success');
+      setSaveMessage(
+        isLastRung
+          ? 'Your final rung has been saved. This ladder is now ready to appear in your progress summary.'
+          : 'Your reflection has been saved. You can continue to the next rung.',
+      );
+    } catch (error) {
       console.error('Ladder rung save failed:', error);
 
       setSaveStatus('error');
       setSaveMessage(
-        'Your ladder reflection could not be saved. Please try again or contact Robyn if the problem continues.',
+        error instanceof Error
+          ? error.message
+          : 'Your ladder reflection could not be saved. Please try again.',
       );
-      return;
     }
-
-    setSaveStatus('success');
-    setSaveMessage(
-      isLastRung
-        ? 'Your final rung has been saved. This ladder is now ready to appear in your progress summary.'
-        : 'Your reflection has been saved. You can continue to the next rung.',
-    );
   };
 
   return (
     <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="relative min-h-[340px] bg-slate-100 lg:min-h-[680px]">
+        <div className="relative min-h-85 bg-slate-100 lg:min-h-170">
           <Image
             src={rung.image}
             alt=""
@@ -220,6 +223,7 @@ export default function LadderRung({
                 id={`reflection-${ladder.id}-${rung.number}`}
                 rows={5}
                 required
+                maxLength={5000}
                 value={reflectionText}
                 onChange={(event) => {
                   setReflectionText(event.target.value);
@@ -250,6 +254,7 @@ export default function LadderRung({
                 id={`evidence-${ladder.id}-${rung.number}`}
                 rows={4}
                 required
+                maxLength={5000}
                 value={evidenceText}
                 onChange={(event) => {
                   setEvidenceText(event.target.value);

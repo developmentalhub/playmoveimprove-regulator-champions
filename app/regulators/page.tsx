@@ -270,7 +270,7 @@ export default function DirectorReviewPage() {
 
             <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
               <Link
-                href="/regulators"
+                href="/portal"
                 className="rounded-xl bg-teal-700 px-6 py-3 text-sm font-bold text-white shadow transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
               >
                 Open the Training Hub

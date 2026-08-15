@@ -2,17 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { createClient } from '@supabase/supabase-js';
 import { practiceScenarios } from '../../lib/practiceScenarios';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
-    : null;
 
 type SubmissionStatus =
   | 'idle'
@@ -69,28 +59,44 @@ export default function FreeRegulationToolsPage() {
       return;
     }
 
-    if (!supabase) {
-      setSubmissionStatus('error');
-      setSubmissionMessage(
-        'The topic form is not connected yet. Check the Supabase environment variables.',
-      );
-      return;
-    }
-
     setSubmissionStatus('submitting');
 
-    const { error } = await supabase
-      .from('community_questions')
-      .insert({
-        author_name: cleanedName,
-        role: authorRole || null,
-        service_name: serviceName.trim() || null,
-        category: roomCategory || null,
-        question: cleanedQuestion,
-        publication_status: 'pending',
+    try {
+      const response = await fetch('/api/community-topic', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          authorName: cleanedName,
+          authorRole,
+          serviceName,
+          roomCategory,
+          questionText: cleanedQuestion,
+          privacyConfirmed: true,
+        }),
       });
 
-    if (error) {
+      const result = (await response.json()) as {
+        success?: boolean;
+        error?: string;
+      };
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error ||
+            'Your topic could not be submitted.',
+        );
+      }
+
+      setSubmissionStatus('success');
+      setSubmissionMessage(
+        'Thank you. Your suggestion has been added to the private topic queue for consideration.',
+      );
+
+      setQuestionText('');
+      setPrivacyConfirmed(false);
+    } catch (error) {
       console.error(
         'Topic suggestion submission failed:',
         error,
@@ -98,18 +104,11 @@ export default function FreeRegulationToolsPage() {
 
       setSubmissionStatus('error');
       setSubmissionMessage(
-        'Your topic could not be submitted. Please try again or contact Robyn if the problem continues.',
+        error instanceof Error
+          ? error.message
+          : 'Your topic could not be submitted. Please try again.',
       );
-      return;
     }
-
-    setSubmissionStatus('success');
-    setSubmissionMessage(
-      'Thank you. Your suggestion has been added to the private topic queue for consideration.',
-    );
-
-    setQuestionText('');
-    setPrivacyConfirmed(false);
   };
 
   const resetForm = () => {
@@ -128,9 +127,9 @@ export default function FreeRegulationToolsPage() {
               Play Move Improve
             </span>
 
-            <h1 className="text-xl font-bold md:text-2xl">
+            <span className="text-xl font-bold md:text-2xl">
               Free Regulation Tools
-            </h1>
+            </span>
           </div>
 
           <Link
@@ -149,7 +148,11 @@ export default function FreeRegulationToolsPage() {
             Start With a Practical Check
           </span>
 
-          <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">
+          <h1 className="text-2xl font-bold text-slate-900 md:text-4xl">
+            Free Regulation Tools for Early Childhood Educators
+          </h1>
+
+          <h2 className="text-lg font-bold text-teal-900 md:text-xl">
             Notice What May Be Adding Pressure to the Room
           </h2>
 
@@ -203,8 +206,9 @@ export default function FreeRegulationToolsPage() {
 
                 <p className="text-sm leading-relaxed text-slate-600">
                   A professional observation tool used by Play Move
-                  Improve consultants during service visits. Not
-                  intended for general educator use.
+                  Improve during service-based environmental review.
+                  It is not intended to diagnose children or replace
+                  individual assessment.
                 </p>
               </div>
 
@@ -229,10 +233,11 @@ export default function FreeRegulationToolsPage() {
                 </h3>
 
                 <p className="text-sm leading-relaxed text-slate-600">
-                  A classroom screening snapshot for flagging
-                  developmental concerns by child initials. Intended
-                  for educators comfortable with structured
-                  observation, not a casual reflection tool.
+                  A structured observation tool for noticing patterns
+                  across movement, participation and classroom routines.
+                  Avoid entering names, initials or other identifying
+                  child information unless the tool has a clearly
+                  documented secure purpose and privacy process.
                 </p>
               </div>
 
@@ -245,6 +250,20 @@ export default function FreeRegulationToolsPage() {
                 Open the Practice Check
               </a>
             </article>
+          </div>
+
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+            <strong className="block text-sm font-bold text-amber-950">
+              Protect child and family privacy when using observation tools
+            </strong>
+
+            <p className="mt-2 text-sm leading-relaxed text-amber-950">
+              Keep free online reflection tools focused on room patterns,
+              routines, environments and educator practice. Do not enter
+              children&apos;s names, initials, dates of birth, diagnoses,
+              medical information or other identifying details unless a
+              specific secure process has been established for that purpose.
+            </p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center">
@@ -368,6 +387,46 @@ export default function FreeRegulationToolsPage() {
           </div>
         </section>
 
+        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6 md:p-8">
+          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
+            Related Free Learning
+          </span>
+
+          <h2 className="mt-1 text-2xl font-bold text-teal-950">
+            Continue exploring regulation and co-regulation
+          </h2>
+
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link
+              href="/free-guide"
+              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
+            >
+              Free Regulation Guide →
+            </Link>
+
+            <Link
+              href="/somatic-checkin"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Somatic Check-In →
+            </Link>
+
+            <Link
+              href="/co-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Co-Regulation Guide →
+            </Link>
+
+            <Link
+              href="/emotional-regulation-early-childhood"
+              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
+            >
+              Emotional Regulation Guide →
+            </Link>
+          </div>
+        </section>
+
         {/* SOCIAL */}
         <section className="rounded-3xl bg-teal-900 p-8 text-white md:p-12">
           <div className="mx-auto max-w-2xl space-y-4 text-center">
@@ -393,6 +452,38 @@ export default function FreeRegulationToolsPage() {
             >
               Visit @playmoveimprove on Instagram
             </a>
+          </div>
+        </section>
+
+        <section className="rounded-3xl bg-slate-900 p-7 text-center text-white md:p-9">
+          <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
+            Regulator Champions
+          </span>
+
+          <h2 className="mt-2 text-2xl font-bold">
+            Want to take these ideas into whole-team practice?
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-slate-300">
+            Start with the 3-Ladder Preview for $1,790 including GST and six
+            months of access, or choose the full 8-Ladder pathway for $4,790
+            including GST and 12 months of access.
+          </p>
+
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 transition hover:bg-amber-300"
+            >
+              3-Ladder Preview — $1,790 →
+            </Link>
+
+            <Link
+              href="/proposal?plan=full"
+              className="rounded-xl border border-slate-600 bg-slate-800 px-5 py-3 text-xs font-bold text-white transition hover:bg-slate-700"
+            >
+              Full 8-Ladder Pathway — $4,790 →
+            </Link>
           </div>
         </section>
 
@@ -472,6 +563,7 @@ export default function FreeRegulationToolsPage() {
                       type="text"
                       autoComplete="name"
                       required
+                      maxLength={150}
                       value={authorName}
                       onChange={(event) =>
                         setAuthorName(event.target.value)
@@ -531,6 +623,7 @@ export default function FreeRegulationToolsPage() {
                       id="serviceName"
                       name="serviceName"
                       type="text"
+                      maxLength={200}
                       value={serviceName}
                       onChange={(event) =>
                         setServiceName(event.target.value)
@@ -593,6 +686,8 @@ export default function FreeRegulationToolsPage() {
                     name="questionText"
                     rows={5}
                     required
+                    minLength={20}
+                    maxLength={2000}
                     value={questionText}
                     onChange={(event) =>
                       setQuestionText(event.target.value)
@@ -625,9 +720,17 @@ export default function FreeRegulationToolsPage() {
 
                 <p className="text-xs leading-relaxed text-slate-500">
                   Submissions are reviewed privately and are not
-                  automatically published. Play Move Improve may
-                  rewrite or combine general themes before using them
-                  in public educational content.
+                  automatically published. Play Move Improve may rewrite
+                  or combine general themes before using them in public
+                  educational content. Information submitted here is
+                  handled in accordance with the{' '}
+                  <Link
+                    href="/privacy"
+                    className="font-bold text-teal-800 underline underline-offset-2"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
                 </p>
 
                 <button

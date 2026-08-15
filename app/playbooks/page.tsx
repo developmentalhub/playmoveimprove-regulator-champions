@@ -2,22 +2,23 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import MemberSignOutButton from '../../components/MemberSignOutButton';
 
 // Ladder 1 Action Plans mapped directly to your public files.
 const LADDER_ONE_ACTION_PLANS = [
   {
     id: 'staffroom-reset',
-    roomName: '01. Staffroom Arrival & Vagus Reset',
-    badgeTag: 'CALM Step C: Calm Yourself First',
+    roomName: '01. Staffroom Arrival & Body Check-In',
+    badgeTag: 'CALM Step C: Check Yourself First',
     image: '/images/feed/01_babies_room.png',
     trigger:
       'Entering the centre carrying personal commute stress, rushing, or absorbing morning staffroom noise.',
     styledVsSubstance:
-      'Stepping onto the floor with elevated heart rate means adult stress state spreads through the room before handovers start.',
+      'Arriving rushed or tense can influence your pace, tone and decision making before handovers begin. Notice your own state before stepping onto the floor.',
     actionSteps: [
-      'Unclench your jaw and take three 4-second exhales before opening the room door.',
-      'Sip warm tea or stand near natural window light for 60 seconds.',
-      'Protect your morning energy by choosing quiet connection over room venting.',
+      'Notice your jaw, shoulders and breathing before opening the room door, then slow your pace if you need to.',
+      'Choose a simple settling anchor such as water, a warm drink, fresh air or a brief quiet moment if available.',
+      'Choose supportive, practical conversation over escalating staffroom venting before entering the room.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
@@ -28,13 +29,13 @@ const LADDER_ONE_ACTION_PLANS = [
     badgeTag: 'CALM Step A: Acknowledge & Anchor',
     image: '/images/feed/01_babies_room.png',
     trigger:
-      'Infant crying spikes at 8:15 AM as multiple families arrive simultaneously for morning drop-off.',
+      'Multiple family arrivals can increase noise, movement and competing demands during morning drop-off.',
     styledVsSubstance:
-      'Rushing between cots with high-pitched reassurances escalates infant distress and room acoustics.',
+      'Fast movement, repeated reassurance and rising room noise may add extra stimulation when several infants are already unsettled.',
     actionSteps: [
-      'Anchor lower body to the floor near the entry zone rather than standing and pacing.',
-      'Lower vocal pitch and slow down physical hand movements.',
-      'Loan your steady nervous system to one infant at a time before moving between cots.',
+      'Position yourself steadily near the entry zone rather than moving quickly between several children.',
+      'Use a slower voice and more deliberate movements where this is appropriate.',
+      'Focus on one infant at a time where possible, using a steady and predictable response before moving on.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
@@ -47,11 +48,11 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'Toddlers clinging to parent legs at the room doorway, refusing to enter the play space.',
     styledVsSubstance:
-      'Calling out "Come in and play!" from across the room sounds like threat noise to a flooded toddler nervous system.',
+      'Calling across the room may add more noise and demand when a toddler is already distressed or hesitant at the doorway.',
     actionSteps: [
-      'Lower your physical height parallel to the child at the doorway threshold.',
+      'Lower your physical height when appropriate so you can greet the child without looming over them.',
       'Greet the child at eye level without forcibly pulling them away from their parent.',
-      'Offer a heavy carrying object, such as a wooden block tub, to anchor their hands.',
+      'Offer a simple arrival job, such as carrying a light basket or placing an item away, if that suits the child and routine.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
@@ -64,11 +65,11 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'High morning noise volume and running between activity tables between 8:30 AM and 9:00 AM.',
     styledVsSubstance:
-      'High morning arousal is a request for adult co-regulation, not calculated rule-breaking.',
+      'High-energy behaviour in the morning can have many causes. Consider co-regulation, environment, movement opportunities and the demands of the routine before assuming deliberate rule-breaking.',
     actionSteps: [
       'Position yourself as a stationary physical anchor in the central room pathway.',
       'Use quiet, flat-hand spatial cues rather than shouting across the room.',
-      'Guide active children into heavy work joint-resistance play before group time.',
+      'Offer purposeful movement such as carrying, pushing or climbing before group time where appropriate, then notice whether participation changes.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
@@ -81,9 +82,9 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'Locker room crowding, bag dumping, and social friction during morning arrival.',
     styledVsSubstance:
-      'Unstructured arrival bottlenecks cause personal space anxiety before morning routines begin.',
+      'Crowded arrival areas can make the routine harder to navigate, especially when several children and families are moving through the same space.',
     actionSteps: [
-      'Stagger arrival entry at bag hooks into small 3-child groups.',
+      'Where practical, reduce crowding at bag hooks by staggering access or creating clearer waiting points.',
       'Place visual step cues for bag hanging and water bottle placement.',
       'Maintain steady adult vocal rhythm while welcoming arriving families.',
     ],
@@ -98,11 +99,11 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'Overwhelmed children freezing or hiding behind parents at the classroom threshold.',
     styledVsSubstance:
-      'Shifting from home environment to group expectations requires clear somatic safety cues.',
+      'Shifting from home into group expectations can be demanding. Predictable cues and a clear next step may make the transition easier.',
     actionSteps: [
       'Position a dedicated educator right at the doorway threshold.',
       'Provide a predictable nonverbal arrival job, such as placing a name card on the board.',
-      'Keep spoken instructions to 4 words or fewer during arrival.',
+      'Keep arrival instructions short and clear, and allow processing time before adding more language.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
@@ -113,13 +114,13 @@ const LADDER_ONE_ACTION_PLANS = [
     badgeTag: 'CALM Family Connection',
     image: '/images/feed/08_transitions.png',
     trigger:
-      'Anxious family members hovering at the door, projecting worry onto the child during departure.',
+      'Some family handovers involve visible worry, uncertainty or difficulty separating at the door.',
     styledVsSubstance:
-      'Adult anxiety transfers instantly to the child. Parents need calm, steady adult containment.',
+      'Children can be sensitive to the emotional tone of a handover, but responses vary. A steady, respectful educator can help make the transition more predictable.',
     actionSteps: [
       'Acknowledge parent worry with steady, unhurried eye contact.',
       'State a clear, confident departure ritual: "We have our morning anchor job ready now."',
-      'Provide a predictable communication slip at pick-up to build family trust.',
+      'Use a predictable communication approach at pick-up when this helps families feel informed and connected.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
@@ -132,11 +133,11 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'Morning shift changes accompanied by frustrated staffroom venting about room challenges.',
     styledVsSubstance:
-      'Absorbing room complaints during shift handovers elevates adult stress before entering the floor.',
+      'Frustrated handovers can shape the tone educators carry back into the room. Keep discussion practical and focused on what the next educator needs to know.',
     actionSteps: [
       'Set a professional boundary: focus on child regulation needs, not character labels.',
       'Share one steady regulation anchor that worked well during the early shift.',
-      'Enter the room with a clean slate and aligned team expectations.',
+      'Enter the room with shared priorities and enough flexibility to respond to what is actually happening.',
     ],
     printablePoster:
       '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
@@ -149,11 +150,11 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'High arousal, running, and door crowding when moving from morning yard play into rooms.',
     styledVsSubstance:
-      'Sudden spatial restriction triggers fight-or-flight running when transitions lack visual pacing.',
+      'Moving from a large outdoor space into a narrow doorway can create crowding and extra demand for some children.',
     actionSteps: [
-      'Give a 2-minute visual count indicator before ending yard play.',
+      'Give a brief visual or verbal warning before outdoor play ends, using the same cue consistently.',
       'Position educators at outdoor doorway thresholds to pace entry speed.',
-      'Provide a heavy carrying job, such as moving cones or balls, during room entry.',
+      'Offer a purposeful carrying or helping job during room entry where appropriate.',
     ],
     printablePoster: '/pdf/Calm-Posters.pdf',
   },
@@ -165,10 +166,10 @@ const LADDER_ONE_ACTION_PLANS = [
     trigger:
       'Fidgeting, carpet rolling, and interjection during initial morning group time.',
     styledVsSubstance:
-      'Demanding total body stillness at 9:00 AM causes sensory shutdown or motor protest.',
+      'Expecting complete stillness may make group participation harder for some children, especially after an active arrival period.',
     actionSteps: [
-      'Integrate active somatic movement into morning greeting songs.',
-      'Allow heavy lap cushions or standing work options for sensory-seeking children.',
+      'Include simple movement in morning greeting songs where it supports participation.',
+      'Consider appropriate seating, standing or movement options for children who participate better with some physical flexibility.',
       'Acknowledge that active listening does not always look like sitting still.',
     ],
     printablePoster:
@@ -189,17 +190,21 @@ export default function PlaybooksPage() {
     <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
       {/* HEADER */}
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
           <Link
-            href="/"
+            href="/member-hub"
             className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
           >
-            &larr; Back to Home
+            &larr; Back to Member Hub
           </Link>
 
-          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-950">
-            Ladder 1 Fully Available
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="hidden rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-950 sm:inline-block">
+              Ladder 1 Available
+            </span>
+
+            <MemberSignOutButton />
+          </div>
         </div>
       </header>
 
@@ -234,20 +239,34 @@ export default function PlaybooksPage() {
 
             <p className="text-xs leading-relaxed text-amber-900">
               <strong>Month 2 Focus:</strong> The EASE Model &amp;
-              Escalation Practices (Environment, Attachment, Sensory
-              Seeking, and De-escalating Room Meltdowns).
+              Escalation Practices, including environment, relational support,
+              sensory and movement needs, and adult responses during difficult
+              moments.
             </p>
 
             <p className="text-xs leading-relaxed text-amber-900">
-              EASE builds on the CALM Framework, offering a more
-              detailed tool specifically for escalation and meltdown
-              moments.
+              EASE builds on the CALM Framework by helping educators
+              consider several possible influences before responding during
+              escalation or other high-demand moments.
             </p>
           </div>
 
           <span className="shrink-0 rounded-xl border border-amber-300 bg-amber-200/80 px-3 py-1.5 text-[11px] font-bold text-amber-950">
             Unlocks in Month 2
           </span>
+        </section>
+
+        <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <strong className="block text-xs font-bold uppercase tracking-wider text-amber-950">
+            Use These Plans as Reflection Prompts
+          </strong>
+
+          <p className="mt-2 text-xs leading-relaxed text-amber-950">
+            These action plans suggest practical things to notice and trial.
+            They do not identify the cause of an individual child&apos;s
+            behaviour. Use your knowledge of the child, family, environment and
+            current context when deciding what support is appropriate.
+          </p>
         </section>
 
         {/* ROOM SELECTOR BUTTON BAR */}
@@ -313,7 +332,7 @@ export default function PlaybooksPage() {
             <div className="space-y-3">
               <div className="space-y-1 rounded-2xl border border-rose-200 bg-rose-50 p-4">
                 <strong className="block text-[11px] font-bold uppercase tracking-wider text-rose-950">
-                  Morning Room Trigger:
+                  What Is Happening:
                 </strong>
 
                 <p className="text-xs font-medium leading-relaxed text-rose-900">
@@ -323,7 +342,7 @@ export default function PlaybooksPage() {
 
               <div className="space-y-1 rounded-2xl border border-slate-200 bg-[#FDFBF7] p-4">
                 <strong className="block text-[11px] font-bold uppercase tracking-wider text-teal-900">
-                  CALM Framework Insight:
+                  What to Notice:
                 </strong>
 
                 <p className="text-xs leading-relaxed text-slate-700">
@@ -335,7 +354,7 @@ export default function PlaybooksPage() {
             {/* ACTION STEPS */}
             <div className="space-y-3">
               <strong className="block text-xs font-bold uppercase tracking-wider text-slate-900">
-                3-Step Morning Action Plan:
+                3-Step Practice Plan:
               </strong>
 
               <div className="space-y-2">
@@ -377,32 +396,40 @@ export default function PlaybooksPage() {
         {/* RELEASE CONTEXT */}
         <section className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
           <p className="text-xs leading-relaxed text-teal-900">
-            Ladder 1 is available in full now. Ladders 2 through 8 will
-            unlock progressively across the 12-month membership, giving
-            teams time to practise each stage before new content is
-            introduced.
+            Ladder 1 is available in full now. Additional ladders are
+            introduced progressively so teams have time to practise and reflect
+            before new content is added. Services can begin with the 3-Ladder
+            Preview or choose the full 8-Ladder pathway.
           </p>
         </section>
 
         {/* CTA TO PROPOSAL PACK */}
         <section className="space-y-4 rounded-3xl bg-teal-900 p-8 text-center text-white">
           <h3 className="text-lg font-bold md:text-xl">
-            Ready to Begin Ladder 1 Across Your Entire Service?
+            Continue the Regulator Champions Pathway
           </h3>
 
-          <p className="mx-auto max-w-md text-xs leading-relaxed text-teal-100">
-            The $4,790 Whole-Centre Membership provides 12 months of
-            structured learning, Ladder 1 access from commencement, and
-            progressive releases as your team moves through the
-            remaining Regulation Ladders.
+          <p className="mx-auto max-w-lg text-xs leading-relaxed text-teal-100">
+            Start with the 3-Ladder Preview for $1,790 including GST and six
+            months of access, or choose the full 8-Ladder pathway for $4,790
+            including GST and 12 months of access.
           </p>
 
-          <Link
-            href="/proposal"
-            className="inline-block rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-          >
-            Get $4,790 Centre Quote &amp; Proposal &rarr;
-          </Link>
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
+            >
+              3-Ladder Preview — $1,790 &rarr;
+            </Link>
+
+            <Link
+              href="/proposal?plan=full"
+              className="rounded-xl border border-teal-700 bg-teal-800 px-6 py-3 text-xs font-bold text-white transition hover:bg-teal-700"
+            >
+              Full 8-Ladder Pathway — $4,790 &rarr;
+            </Link>
+          </div>
         </section>
       </main>
     </div>

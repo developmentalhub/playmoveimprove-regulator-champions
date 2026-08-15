@@ -16,6 +16,7 @@ type DirectorEnquiryForm = {
   phone: string;
   roomCount: string;
   primaryPressurePoint: string;
+  programOption: 'preview' | 'full';
   notes: string;
 };
 
@@ -27,6 +28,7 @@ const initialFormData: DirectorEnquiryForm = {
   roomCount: '3-4 Rooms',
   primaryPressurePoint:
     'Drop-off separation distress and morning room volume',
+  programOption: 'preview',
   notes: '',
 };
 
@@ -73,7 +75,16 @@ export default function DirectorReviewPage() {
           roomCount: formData.roomCount,
           primaryPressurePoint:
             formData.primaryPressurePoint,
-          notes: formData.notes,
+          notes: [
+            `Preferred program option: ${
+              formData.programOption === 'preview'
+                ? '3-Ladder Preview ($1,790 incl. GST)'
+                : 'Full 8-Ladder Site Membership ($4,790 incl. GST)'
+            }`,
+            formData.notes,
+          ]
+            .filter(Boolean)
+            .join('\n\n'),
         }),
       });
 
@@ -133,9 +144,10 @@ export default function DirectorReviewPage() {
           </h1>
 
           <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600">
-            Tell us a little about your service and the room
-            pressure you are currently experiencing. This is a
-            short enquiry, not the full onboarding review.
+            Tell us a little about your service, the pressure points your
+            team is currently experiencing and whether you are considering the
+            3-Ladder Preview or the full 8-Ladder pathway. This is a short
+            enquiry, not the full onboarding review.
           </p>
 
           <p className="text-xs font-semibold text-teal-800">
@@ -165,10 +177,10 @@ export default function DirectorReviewPage() {
 
             <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
               <Link
-                href="/proposal"
+                href={`/proposal?plan=${formData.programOption}`}
                 className="rounded-xl bg-teal-800 px-5 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-teal-900"
               >
-                View Program Proposal &rarr;
+                View My Selected Proposal &rarr;
               </Link>
 
               <Link
@@ -209,6 +221,7 @@ export default function DirectorReviewPage() {
                   required
                   autoComplete="name"
                   placeholder="e.g. Sarah Jenkins"
+                  maxLength={150}
                   value={formData.directorName}
                   onChange={(event) =>
                     updateField(
@@ -235,6 +248,7 @@ export default function DirectorReviewPage() {
                   required
                   autoComplete="email"
                   placeholder="director@centre.com.au"
+                  maxLength={254}
                   value={formData.email}
                   onChange={(event) =>
                     updateField('email', event.target.value)
@@ -259,6 +273,7 @@ export default function DirectorReviewPage() {
                   type="text"
                   required
                   placeholder="e.g. Sunshine Early Learning"
+                  maxLength={200}
                   value={formData.serviceName}
                   onChange={(event) =>
                     updateField(
@@ -284,6 +299,7 @@ export default function DirectorReviewPage() {
                   type="tel"
                   autoComplete="tel"
                   placeholder="Optional"
+                  maxLength={50}
                   value={formData.phone}
                   onChange={(event) =>
                     updateField('phone', event.target.value)
@@ -373,6 +389,42 @@ export default function DirectorReviewPage() {
 
             <div>
               <label
+                htmlFor="programOption"
+                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
+              >
+                Which starting option are you considering?
+              </label>
+
+              <select
+                id="programOption"
+                name="programOption"
+                value={formData.programOption}
+                onChange={(event) =>
+                  updateField(
+                    'programOption',
+                    event.target.value,
+                  )
+                }
+                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
+              >
+                <option value="preview">
+                  3-Ladder Preview — $1,790 incl. GST
+                </option>
+
+                <option value="full">
+                  Full 8-Ladder Site Membership — $4,790 incl. GST
+                </option>
+              </select>
+
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                The Preview provides six months of access. The full pathway
+                provides 12 months of access and is the lower total price for
+                completing all eight ladders.
+              </p>
+            </div>
+
+            <div>
+              <label
                 htmlFor="notes"
                 className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
               >
@@ -383,13 +435,39 @@ export default function DirectorReviewPage() {
                 id="notes"
                 name="notes"
                 rows={3}
-                placeholder="Optional. Add a short note about your service, current priorities or upcoming Assessment and Rating visit."
+                maxLength={2000}
+                placeholder="Optional. Add a short note about your service, current priorities or upcoming Assessment and Rating visit. Please do not include identifying child or family information."
                 value={formData.notes}
                 onChange={(event) =>
                   updateField('notes', event.target.value)
                 }
                 className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
               />
+            </div>
+
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-relaxed text-amber-950">
+              <strong className="block font-bold">
+                Please keep this enquiry service-level only.
+              </strong>
+
+              <p className="mt-1">
+                Do not include children&apos;s names, family names, dates of
+                birth, diagnoses, medical information or other identifying
+                details. Describe general room patterns, routines and educator
+                priorities only.
+              </p>
+
+              <p className="mt-2">
+                Information submitted through this form is handled in
+                accordance with the{' '}
+                <Link
+                  href="/privacy"
+                  className="font-bold underline underline-offset-2"
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </p>
             </div>
 
             <button
@@ -403,9 +481,9 @@ export default function DirectorReviewPage() {
             </button>
 
             <p className="text-center text-xs leading-relaxed text-slate-500">
-              The detailed Centre Starting-Point Review is
-              completed later by services that join the
-              12-month pathway.
+              The detailed Centre Starting-Point Review is completed later
+              by services that join either the 3-Ladder Preview or the full
+              8-Ladder pathway.
             </p>
           </form>
         )}

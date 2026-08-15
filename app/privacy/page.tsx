@@ -38,7 +38,7 @@ export default function PrivacyPage() {
           </h2>
 
           <p className="mt-1 text-xs text-slate-500">
-            Current as at July 2026
+            Current as at August 2026
           </p>
         </div>
 
@@ -74,6 +74,12 @@ export default function PrivacyPage() {
             We aim to manage personal information carefully, transparently and
             consistently with privacy obligations that apply to our operations.
           </p>
+
+          <p>
+            Where personal information is collected through a form or platform
+            feature, we aim to make the purpose of that collection clear at or
+            around the time the information is requested.
+          </p>
         </section>
 
         <section className="space-y-3">
@@ -90,9 +96,11 @@ export default function PrivacyPage() {
             </li>
 
             <li>
-              <strong>Service information:</strong> centre name, approved
-              provider details, service location, purchasing information and
-              possible funding source.
+              <strong>Service and purchasing information:</strong> centre
+              name, approved provider details, service location, selected
+              Regulator Champions option, purchasing information, proposal
+              details and nominated funding pathway such as School Readiness
+              Funding, Kindy Uplift or an annual professional learning budget.
             </li>
 
             <li>
@@ -116,6 +124,13 @@ export default function PrivacyPage() {
             <li>
               <strong>Enquiry and support information:</strong> questions,
               proposal requests, correspondence and topic suggestions.
+            </li>
+
+            <li>
+              <strong>Proposal selection information:</strong> whether a service
+              requests the 3-Ladder Preview or Full 8-Ladder Site Membership,
+              the quoted price, access period and funding pathway selected in the
+              proposal form.
             </li>
 
             <li>
@@ -166,7 +181,10 @@ export default function PrivacyPage() {
           <p>We may use collected information to:</p>
 
           <ul className="list-disc space-y-2 pl-6">
-            <li>respond to enquiries and prepare centre proposals</li>
+            <li>
+              respond to enquiries and prepare the correct Preview or Full
+              Membership centre proposal
+            </li>
             <li>create and administer service access</li>
             <li>deliver Regulation Ladder learning and resources</li>
             <li>record participation and learning progress</li>
@@ -174,7 +192,10 @@ export default function PrivacyPage() {
             <li>identify common professional learning themes</li>
             <li>review final Regulator Champion applications</li>
             <li>improve program content and website functionality</li>
-            <li>send operational messages relating to membership</li>
+            <li>
+              send operational messages relating to proposals, Preview access,
+              continuation options and full membership
+            </li>
             <li>maintain platform security and investigate misuse</li>
             <li>meet legal, taxation and record-keeping obligations</li>
           </ul>
@@ -276,6 +297,14 @@ export default function PrivacyPage() {
           </p>
 
           <p>
+            When a service submits a proposal request, information entered into
+            the form may be processed through the website hosting environment
+            and sent to Play Move Improve using an email delivery provider. The
+            selected program option and funding pathway may be included in that
+            notification so the correct proposal can be prepared.
+          </p>
+
+          <p>
             Providers receive only the information reasonably required to
             perform their contracted function and handle information subject to
             their own terms, privacy policies and technical infrastructure.
@@ -350,9 +379,10 @@ export default function PrivacyPage() {
 
           <p>
             Educator learning records may ordinarily be retained during the
-            centre’s active membership and for a reasonable period afterwards
-            to support completion records, recognition review, renewal or
-            returning membership.
+            centre’s active Preview or Full Membership period and for a
+            reasonable period afterwards to support completion records,
+            continuation decisions, recognition review, renewal or returning
+            membership.
           </p>
 
           <p>
@@ -410,8 +440,9 @@ export default function PrivacyPage() {
 
           <p>
             We may send operational emails concerning enquiries, proposals,
-            membership access, webinar information, service updates, security
-            matters and learning participation.
+            Preview or membership access, continuation information, webinar
+            information, service updates, security matters and learning
+            participation.
           </p>
 
           <p>
@@ -450,9 +481,12 @@ export default function PrivacyPage() {
           </p>
 
           <p>
-            Where notification is required under applicable law, affected
-            individuals and the relevant regulator will be notified in
-            accordance with those requirements.
+            Where notification is required under applicable privacy law,
+            affected individuals and the relevant regulator will be notified in
+            accordance with those requirements. Where formal notification is
+            not legally required, Play Move Improve may still contact affected
+            people where doing so is reasonably necessary to reduce risk or
+            explain protective steps.
           </p>
         </section>
 
