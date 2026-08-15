@@ -29,7 +29,7 @@ const SNAPSHOTS = [
     text: 'The child may be participating, but their body does not look the way we expect.',
   },
   {
-    image: '/images/feed/04_4yo_room.png',
+    image: '/images/aesthetic/card1_substance.png',
     eyebrow: 'Transitions',
     title: 'The room gets louder as everyone gets tired.',
     text: 'More instructions are not always the answer when the whole environment is under pressure.',
@@ -128,6 +128,7 @@ export default function HomePageClient() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#FDFBF7] text-slate-900">
+      {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-teal-950 text-white">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-10 sm:px-6 md:py-16 lg:grid-cols-12 lg:py-20">
           <div className="space-y-6 lg:col-span-6">
@@ -143,7 +144,7 @@ export default function HomePageClient() {
               <p className="max-w-xl text-base leading-relaxed text-teal-100 sm:text-lg">
                 Regulator Champions gives early childhood teams practical ways
                 to respond with more consistency, less guessing and less
-                pressure.
+                pressure across single or multiple centres.
               </p>
             </div>
 
@@ -168,7 +169,7 @@ export default function HomePageClient() {
                 6 months access
               </span>
               <span className="rounded-full bg-teal-900 px-3 py-2">
-                Whole service
+                Whole centre licence
               </span>
               <span className="rounded-full bg-teal-900 px-3 py-2">
                 Built for busy educators
@@ -202,6 +203,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* SNAPSHOTS SECTION */}
       <section className="bg-white py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mb-7 max-w-2xl">
@@ -251,13 +253,14 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* SUBSTANCE OVER STYLED */}
       <section className="bg-[#F7F3EC] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="grid grid-cols-2 gap-3">
               <figure className="overflow-hidden rounded-3xl bg-white shadow-sm">
                 <img
-                  src="/images/aesthetic/card1_styled.png"
+                  src="/images/aesthetic/card2_styled.png"
                   alt="Beautifully styled early learning sensory activity"
                   className="aspect-square w-full object-cover"
                 />
@@ -268,7 +271,7 @@ export default function HomePageClient() {
 
               <figure className="overflow-hidden rounded-3xl bg-white shadow-sm">
                 <img
-                  src="/images/aesthetic/card1_substance.png"
+                  src="/images/aesthetic/card2_substance.png"
                   alt="Children actively participating in a practical play experience"
                   className="aspect-square w-full object-cover"
                 />
@@ -304,6 +307,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* PREVIEW LADDERS */}
       <section className="py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mb-8 max-w-3xl">
@@ -384,6 +388,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* WHAT YOU GET */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -423,6 +428,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* FUNDING ALIGNMENT */}
       <section className="bg-teal-950 py-14 text-white sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
@@ -491,59 +497,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      <section className="py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-5 md:grid-cols-2">
-            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
-              <img
-                src="/images/ladders/ladder1_rung01.png"
-                alt="Educator pausing before beginning the day"
-                className="aspect-video w-full object-cover"
-              />
-
-              <div className="p-6">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
-                  Made for educators under pressure
-                </span>
-
-                <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
-                  You do not have to fix everything at once.
-                </h2>
-
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                  The ladders deliberately slow the learning down. Try one
-                  change. Notice what happens. Talk about it. Then build from
-                  there.
-                </p>
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
-              <img
-                src="/images/ladders/ladder3_rung04.png"
-                alt="Early childhood educators working together with a child"
-                className="aspect-video w-full object-cover"
-              />
-
-              <div className="p-6">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
-                  Whole-team consistency
-                </span>
-
-                <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
-                  One shared language is easier than ten different approaches.
-                </h2>
-
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                  Build common responses that educators can carry across room
-                  changes, breaks, handovers and busy transitions.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* ABOUT ROBYN */}
       <section className="bg-[#F7F3EC] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
@@ -570,6 +524,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* PRICING OPTIONS */}
       <section className="py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mb-8 text-center">
@@ -598,7 +553,7 @@ export default function HomePageClient() {
 
               <div className="mt-5 space-y-2 text-sm text-slate-700">
                 <p>✓ Ladders 1 to 3</p>
-                <p>✓ Whole-service access</p>
+                <p>✓ Whole-centre access</p>
                 <p>✓ Continue only if it suits your team</p>
               </div>
 
@@ -625,7 +580,7 @@ export default function HomePageClient() {
 
               <div className="mt-5 space-y-2 text-sm text-teal-100">
                 <p>✓ Full 8 Ladder pathway</p>
-                <p>✓ Whole-service access</p>
+                <p>✓ Whole-centre access</p>
                 <p>
                   ✓ ${UPFRONT_SAVING.toLocaleString()} less than completing both
                   staged payments
@@ -649,6 +604,35 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* MULTI-SERVICE / AREA MANAGER CALLOUT */}
+      <section className="bg-[#F7F3EC] py-10">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="rounded-3xl border border-teal-800 bg-teal-950 p-8 text-white shadow-md">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <span className="inline-block rounded-full bg-amber-400 px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-950">
+                  Approved Providers &amp; Area Managers
+                </span>
+                <h3 className="text-xl font-extrabold text-white">
+                  Enrolling Multiple Centres or Regional Clusters?
+                </h3>
+                <p className="text-xs text-teal-100/90 leading-relaxed max-w-2xl">
+                  We provide custom multi-site proposals, consolidated group tax invoicing, and cluster-wide funding acquittal support for organisations managing 2 to 50+ early childhood services.
+                </p>
+              </div>
+
+              <a
+                href="mailto:robyn@playmoveimprove.com.au?subject=Multi-Service%20Regulator%20Champions%20Quote%20Request"
+                className="shrink-0 rounded-2xl bg-amber-400 px-6 py-3.5 text-xs font-extrabold text-slate-950 transition hover:bg-amber-300"
+              >
+                Request Multi-Centre Quote →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FORMAL PROPOSAL / QUOTE REQUEST FORM */}
       <section className="bg-teal-950 py-14 text-white sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -661,7 +645,7 @@ export default function HomePageClient() {
             </h2>
 
             <p className="mt-3 text-sm leading-relaxed text-teal-100">
-              Choose your program option and send through your service details.
+              Choose your program option and send through your centre details.
             </p>
           </div>
 
@@ -769,8 +753,8 @@ export default function HomePageClient() {
                 <input
                   type="text"
                   required
-                  aria-label="Service name"
-                  placeholder="Service name"
+                  aria-label="Service or centre name"
+                  placeholder="Centre / service name"
                   value={quoteForm.serviceName}
                   onChange={(event) =>
                     setQuoteForm({

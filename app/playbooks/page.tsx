@@ -192,7 +192,7 @@ export default function PlaybooksPage() {
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
           <Link
-            href="/member-hub"
+            href="/portal"
             className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
           >
             &larr; Back to Member Hub

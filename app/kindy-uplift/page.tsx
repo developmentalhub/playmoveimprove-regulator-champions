@@ -459,7 +459,7 @@ export default function KindyUpliftPage() {
             service goals and implementation plan.
           </p>
 
-          <pre className="mt-5 max-h-[560px] overflow-y-auto whitespace-pre-wrap rounded-2xl border border-teal-200 bg-white p-5 font-sans text-xs leading-relaxed text-slate-700">
+          <pre className="mt-5 max-h-140 overflow-y-auto whitespace-pre-wrap rounded-2xl border border-teal-200 bg-white p-5 font-sans text-xs leading-relaxed text-slate-700">
             {kindyUpliftPlanWording}
           </pre>
         </section>

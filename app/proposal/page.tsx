@@ -195,7 +195,7 @@ export default function ProposalPage() {
               </span>
 
               <strong className="font-bold text-slate-900">
-                Whole Service (All Staff)
+                Single Site or Multi-Site Network
               </strong>
             </div>
           </div>
@@ -204,15 +204,15 @@ export default function ProposalPage() {
         {/* EXECUTIVE SUMMARY */}
         <section className="space-y-3">
           <h2 className="text-xs font-bold uppercase tracking-wider text-teal-800">
-            Executive Summary for Approved Provider &amp; Leadership
+            Executive Summary for Approved Providers, Area Managers &amp; Service Leadership
           </h2>
 
           <p className="text-xs font-medium leading-relaxed text-slate-700">
             Regulator Champions is a whole-service professional learning and
-            coaching pathway for early childhood education teams. It is designed
+            coaching pathway for early childhood education teams and multi-service organisations. It is designed
             to strengthen educator capability in co-regulation, sensory and
             developmental practice, room routines, reflective practice and
-            consistent team responses.
+            consistent team responses across single or multiple locations.
           </p>
 
           <p className="text-xs font-medium leading-relaxed text-slate-700">
@@ -231,7 +231,7 @@ export default function ProposalPage() {
               Choose the Funding Pathway That Fits Your Service
             </h2>
             <p className="mt-1 text-xs leading-relaxed text-slate-600">
-              Both options provide whole-service access. The preview creates a
+              Both options below provide whole-service access for individual centres. The preview creates a
               lower-cost entry point for services using remaining 2026 funding,
               while the full pathway remains the best-value option for services
               ready to commit upfront.
@@ -306,6 +306,32 @@ export default function ProposalPage() {
                 </p>
               </div>
             </button>
+          </div>
+        </section>
+
+        {/* MULTI-SERVICE / AREA MANAGER CALLOUT */}
+        <section className="rounded-3xl border border-teal-800 bg-teal-950 p-6 text-white md:p-8 print:border-slate-400 print:bg-white print:text-slate-900">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="space-y-2 md:max-w-2xl">
+              <span className="inline-block rounded-full bg-amber-400 px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-950">
+                Approved Providers &amp; Area Managers
+              </span>
+              <h2 className="text-lg font-extrabold text-white print:text-slate-900 md:text-xl">
+                Enrolling Multiple Services or Regional Clusters?
+              </h2>
+              <p className="text-xs leading-relaxed text-teal-100 print:text-slate-700">
+                If you are reviewing Regulator Champions across multiple centres or an entire service network, we provide custom multi-site proposals, consolidated group tax invoicing, and multi-centre SRF or Kindy Uplift acquittal documentation.
+              </p>
+            </div>
+
+            <div className="shrink-0">
+              <a
+                href="mailto:robyn@playmoveimprove.com.au?subject=Multi-Service%20Regulator%20Champions%20Quote%20Request&body=Hi%20Robyn,%0A%0AI%20am%20evaluating%20Regulator%20Champions%20for%20multiple%20services.%0A%0AOrganisation/Entity%20Name:%20%0ANumber%20of%20Services:%20%0ALocations/States:%20%0APpreferred%20Funding%20Source%20(SRF/Kindy%20Uplift/Other):%20"
+                className="inline-flex items-center justify-center rounded-xl bg-amber-400 px-5 py-3 text-xs font-extrabold text-slate-950 transition hover:bg-amber-300 print:hidden"
+              >
+                Request Multi-Team Quote →
+              </a>
+            </div>
           </div>
         </section>
 

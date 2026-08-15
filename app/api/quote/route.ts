@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
 const FULL_PRICE = 4790;
 const PREVIEW_PRICE = 1790;
 
 type ProgramOption = 'preview' | 'full';
+
+// Initialize Supabase client
+const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vfflpjpvbazvzxbuxwme.supabase.co';
+const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient(SB_URL, SB_KEY);
 
 function escapeHtml(value: string) {
   return value
@@ -59,8 +65,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Normalise selected program option.
-    // Older forms that do not send programOption default to full.
+    // Normalise selected program option
     const selectedProgram: ProgramOption =
       programOption === 'preview' ? 'preview' : 'full';
 
@@ -101,6 +106,26 @@ export async function POST(req: NextRequest) {
       '--- NEW CENTRE QUOTE REQUEST RECEIVED ---',
       cleanData,
     );
+
+    // Save quote backup to Supabase
+    try {
+      await supabase.from('quote_requests').insert([
+        {
+          contact_name: cleanData.fullName,
+          email: cleanData.email,
+          phone: cleanData.phone,
+          centre_name: cleanData.serviceName,
+          provider_legal_name: cleanData.providerLegalName,
+          funding_source: cleanData.fundingSource,
+          message: cleanData.message,
+          plan: cleanData.programOption,
+          amount: cleanData.price,
+          created_at: cleanData.submittedAt,
+        },
+      ]);
+    } catch (dbErr) {
+      console.error('Supabase backup error (non-blocking):', dbErr);
+    }
 
     // Escape user-provided values before inserting them into HTML email
     const safeData = {

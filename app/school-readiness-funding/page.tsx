@@ -404,7 +404,7 @@ export default function SchoolReadinessFundingPage() {
             considering their local context.
           </p>
 
-          <pre className="mt-5 max-h-[520px] overflow-y-auto whitespace-pre-wrap rounded-2xl border border-teal-200 bg-white p-5 font-sans text-xs leading-relaxed text-slate-700">
+          <pre className="mt-5 max-h-130 overflow-y-auto whitespace-pre-wrap rounded-2xl border border-teal-200 bg-white p-5 font-sans text-xs leading-relaxed text-slate-700">
             {srfPlanWording}
           </pre>
         </section>
