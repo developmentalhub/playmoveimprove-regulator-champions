@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
+import React, { useState } from 'react';
 
-// ---- PRICING — edit these to change the offer everywhere on the page -----
 const FULL_PRICE = 4790;
 const PREVIEW_PRICE = 1790;
 const PREVIEW_LADDER_COUNT = 3;
@@ -11,1049 +10,816 @@ const PREVIEW_ACCESS_MONTHS = 6;
 const CONTINUE_STANDARD_PRICE = 4000;
 const CONTINUE_DISCOUNT_PCT = 20;
 const CONTINUE_PRICE = Math.round(
-  CONTINUE_STANDARD_PRICE * (1 - CONTINUE_DISCOUNT_PCT / 100)
+  CONTINUE_STANDARD_PRICE * (1 - CONTINUE_DISCOUNT_PCT / 100),
 );
-const REMAINING_LADDER_COUNT = 8 - PREVIEW_LADDER_COUNT;
 const TOTAL_IF_COMPLETED = PREVIEW_PRICE + CONTINUE_PRICE;
 const UPFRONT_SAVING = TOTAL_IF_COMPLETED - FULL_PRICE;
-// ---------------------------------------------------------------------------
 
-const SRF_WORDING = `Program: Regulator Champions (Play Move Improve)
-Proposed funding pathway: School Readiness Funding — coaching
-Primary SRF priority area: Wellbeing (social, emotional and executive function)
-Additional alignment where relevant: Access, Inclusion and Participation
+const SNAPSHOTS = [
+  {
+    image: '/images/feed/05_prep_transition.png',
+    eyebrow: 'Drop-off',
+    title: 'One child freezes at the door.',
+    text: 'Everyone is trying to help. Nobody is quite sure what to do next.',
+  },
+  {
+    image: '/images/feed/10_mat_time.png',
+    eyebrow: 'Group time',
+    title: '“Can you sit still?” gets said again.',
+    text: 'The child may be participating, but their body does not look the way we expect.',
+  },
+  {
+    image: '/images/feed/04_4yo_room.png',
+    eyebrow: 'Transitions',
+    title: 'The room gets louder as everyone gets tired.',
+    text: 'More instructions are not always the answer when the whole environment is under pressure.',
+  },
+];
 
-[Service name] proposes to engage Play Move Improve for Regulator Champions coaching as part of our School Readiness Funding plan. The service has selected Robyn Papworth as the coach to support our identified educator capability priorities in regulation and co-regulation practice.
+const PREVIEW_LADDERS = [
+  {
+    number: '01',
+    image: '/images/ladders/ladder1_rung04.png',
+    title: 'Start with the educator',
+    text: 'Notice your pace, body, voice and the pressure you carry into the room.',
+    tag: 'Regulated Educator',
+  },
+  {
+    number: '02',
+    image: '/images/feed/05_prep_transition.png',
+    title: 'Make drop-off feel smaller',
+    text: 'Build calmer, more predictable responses around separation and arrival.',
+    tag: 'Connected Drop-Offs',
+  },
+  {
+    number: '03',
+    image: '/images/feed/10_mat_time.png',
+    title: 'Rethink what participation looks like',
+    text: 'Support children to join in without making stillness the only measure of engagement.',
+    tag: 'Participation Beyond Sitting',
+  },
+];
 
-The coaching will support our team to strengthen shared responses to children's social, emotional and executive-function needs across everyday kindergarten routines, with a focus on [insert local priority — for example, transitions, room overstimulation, educator confidence, co-regulation consistency or participation].
+const WHAT_YOU_GET = [
+  {
+    image: '/images/aesthetic/card1_substance.png',
+    title: 'Practical room ideas',
+    text: 'Things educators can actually try during real routines.',
+  },
+  {
+    image: '/images/ladders/ladder1_rung06.png',
+    title: 'Short reflection prompts',
+    text: 'Notice what happened, what changed and what to try next.',
+  },
+  {
+    image: '/images/feed/09_outdoor_play.png',
+    title: 'Real practice scenarios',
+    text: 'Talk through the moments that usually create pressure for the team.',
+  },
+  {
+    image: '/images/ladders/ladder3_rung10.png',
+    title: 'A shared language',
+    text: 'Help educators respond more consistently across rooms and shifts.',
+  },
+];
 
-This coaching engagement will be documented within our service's SRF planning and linked to our identified goals, educator capability needs and the needs of children currently enrolled at our service.`;
-
-const KINDY_UPLIFT_WORDING = `Program: Regulator Champions (Play Move Improve)
-Proposed funding pathway: Kindy Uplift
-Primary priority areas: Social and emotional learning and Executive function
-Additional alignment where relevant: Physicality and Equity and Access for all
-
-[Service name] proposes to use Kindy Uplift funding to engage Play Move Improve's online coaching through Regulator Champions. Play Move Improve's online coaching services are included in the Kindy Uplift catalogue.
-
-The coaching will build teacher and educator capability in regulation and co-regulation practice, supporting children's social and emotional learning and executive-function skills including impulse control, persistence, adaptability and problem solving.
-
-Where identified in our Kindy Uplift planning, the program may also support Physicality through sensory and movement-informed practice and Equity and Access for all through more consistent responses to children who experience barriers to meaningful participation.
-
-This expenditure will be linked to our service's identified Kindy Uplift priority areas, data-informed planning and documented implementation goals.`;
-
-export default function HomePage() {
+export default function HomePageClient() {
   const [quoteForm, setQuoteForm] = useState({
     fullName: '',
     email: '',
     serviceName: '',
     fundingSource: 'Victorian School Readiness Funding (SRF)',
-    programOption: 'full' as 'full' | 'preview',
+    programOption: 'preview' as 'full' | 'preview',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quoteSubmitted, setQuoteSubmitted] = useState(false);
-  const [copiedSrf, setCopiedSrf] = useState(false);
-  const [copiedKindy, setCopiedKindy] = useState(false);
 
-  const handleQuoteSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const selectedPrice =
+    quoteForm.programOption === 'preview' ? PREVIEW_PRICE : FULL_PRICE;
+
+  const handleQuoteSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
     setIsSubmitting(true);
 
     try {
       const response = await fetch('/api/quote', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(quoteForm),
       });
 
-      if (response.ok) {
-        setQuoteSubmitted(true);
-      } else {
-        setQuoteSubmitted(true);
+      if (!response.ok) {
+        console.error('Quote request failed:', await response.text());
       }
-    } catch (err) {
-      console.error('Quote submit error:', err);
+
+      setQuoteSubmitted(true);
+    } catch (error) {
+      console.error('Quote submit error:', error);
       setQuoteSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const copyWording = async (
-    text: string,
-    setCopied: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      // Clipboard API can fail silently in some contexts; text is still selectable.
-    }
-  };
-
-  const selectedPrice =
-    quoteForm.programOption === 'preview' ? PREVIEW_PRICE : FULL_PRICE;
-  const selectedLabel =
-    quoteForm.programOption === 'preview'
-      ? `${PREVIEW_LADDER_COUNT}-Ladder Preview`
-      : 'Full 8-Ladder Site Membership';
-
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-teal-950 px-6 pb-16 pt-12 text-white md:pb-24 md:pt-20">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-12">
-          {/* HERO LEFT TEXT */}
-          <div className="space-y-6 lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-teal-700/80 bg-teal-900/80 px-3.5 py-1 text-xs font-bold text-amber-300">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-amber-400"></span>
-              Whole-Centre Regulation Capability Platform
+    <div className="min-h-screen overflow-x-hidden bg-[#FDFBF7] text-slate-900">
+      <section className="relative overflow-hidden bg-teal-950 text-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-10 sm:px-6 md:py-16 lg:grid-cols-12 lg:py-20">
+          <div className="space-y-6 lg:col-span-6">
+            <div className="inline-flex items-center rounded-full border border-amber-300/40 bg-amber-300/10 px-3 py-1.5 text-[11px] font-bold text-amber-300">
+              3 Ladder Preview · $1,790 incl. GST
             </div>
 
-            <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white md:text-5xl">
-              Turn Room Overstimulation Into Co-Regulated Calm
-            </h1>
+            <div className="space-y-4">
+              <h1 className="max-w-3xl text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
+                When the whole room feels like too much.
+              </h1>
 
-            <p className="max-w-2xl text-xs leading-relaxed text-teal-100 md:text-sm">
-              A 12-month annual site membership designed for busy early
-              childhood educators. Access scenario action plans,
-              physical room posters, interactive somatic check-ins, and
-              NQS and QIP reflection tools in short, practical learning sessions.
-            </p>
-
-            {/* FUNDING ELIGIBILITY BADGE */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="rounded-full border border-amber-400/60 bg-amber-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-300">
-                Victorian SRF Coaching Pathway
-              </span>
-              <span className="rounded-full border border-amber-400/60 bg-amber-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-300">
-                Online Coaching Included in Kindy Uplift Catalogue
-              </span>
+              <p className="max-w-xl text-base leading-relaxed text-teal-100 sm:text-lg">
+                Regulator Champions gives early childhood teams practical ways
+                to respond with more consistency, less guessing and less
+                pressure.
+              </p>
             </div>
 
-            {/* HERO CTA BUTTONS */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/proposal?plan=preview"
-                className="rounded-xl bg-amber-400 px-6 py-3.5 text-xs font-bold text-slate-950 shadow-md transition hover:bg-amber-300"
+                className="rounded-2xl bg-amber-400 px-6 py-4 text-center text-sm font-extrabold text-slate-950 shadow-lg transition hover:bg-amber-300"
               >
-                Use 2026 Funding — Start From ${PREVIEW_PRICE.toLocaleString()} &rarr;
+                Start with 3 Ladders for $1,790
               </Link>
 
               <Link
-                href="/playbooks"
-                className="rounded-xl border border-teal-700 bg-teal-900/60 px-6 py-3.5 text-xs font-bold text-white transition hover:bg-teal-800"
+                href="/educator-trial"
+                className="rounded-2xl border border-teal-700 bg-teal-900/70 px-6 py-4 text-center text-sm font-bold text-white transition hover:bg-teal-800"
               >
-                Explore Ladder 1 Action Plans &rarr;
+                Try Ladder 1 Free
               </Link>
             </div>
 
-            {/* QUICK STATS STRIP */}
-            <div className="grid grid-cols-3 gap-4 border-t border-teal-800/80 pt-6 text-xs">
-              <div>
-                <strong className="block text-lg font-extrabold text-amber-300">
-                  8 Ladders
-                </strong>
-
-                <span className="text-[11px] text-teal-200">
-                  Staged Curriculum
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-lg font-extrabold text-amber-300">
-                  12 Months
-                </strong>
-
-                <span className="text-[11px] text-teal-200">
-                  Progressive Pathway
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-lg font-extrabold text-amber-300">
-                  NQS QA1–7
-                </strong>
-
-                <span className="text-[11px] text-teal-200">
-                  A&amp;R Audit Evidence
-                </span>
-              </div>
+            <div className="flex flex-wrap gap-2 pt-1 text-[11px] font-semibold text-teal-200">
+              <span className="rounded-full bg-teal-900 px-3 py-2">
+                6 months access
+              </span>
+              <span className="rounded-full bg-teal-900 px-3 py-2">
+                Whole service
+              </span>
+              <span className="rounded-full bg-teal-900 px-3 py-2">
+                Built for busy educators
+              </span>
             </div>
           </div>
 
-          {/* HERO RIGHT FEATURED WATERCOLOUR ARTWORK */}
-          <div className="relative lg:col-span-5">
-            <div className="overflow-hidden rounded-3xl border border-teal-800 bg-teal-900 p-2 shadow-2xl">
-              <img
-                src="/images/feed/01_babies_room.png"
-                alt="Co-regulated Early Childhood Environment"
-                className="max-h-96 h-auto w-full rounded-2xl object-cover"
-              />
+          <div className="relative lg:col-span-6">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="overflow-hidden rounded-4xl border border-white/10 bg-white/5 p-1 shadow-2xl">
+                <img
+                  src="/images/feed/05_prep_transition.png"
+                  alt="Educator supporting a child during a busy transition"
+                  className="aspect-4/5 h-full w-full rounded-[1.75rem] object-cover"
+                />
+              </div>
+
+              <div className="mt-8 overflow-hidden rounded-4xl border border-white/10 bg-white/5 p-1 shadow-2xl">
+                <img
+                  src="/images/feed/10_mat_time.png"
+                  alt="Educator and children participating in group time"
+                  className="aspect-4/5 h-full w-full rounded-[1.75rem] object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="absolute -bottom-5 left-1/2 w-[88%] -translate-x-1/2 rounded-2xl border border-amber-300/30 bg-amber-300 px-4 py-3 text-center text-xs font-extrabold text-slate-950 shadow-xl">
+              Not another long webinar. Something your team can use in the room.
             </div>
           </div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl space-y-16 px-6 py-12">
-
-        {/* RESTORED: DYSREGULATION SECTION */}
-        <section className="space-y-6">
-          <h2 className="text-2xl font-extrabold text-slate-900">
-            Dysregulation Does Not Stay With the Child
-          </h2>
-
-          <p className="text-sm leading-relaxed text-slate-700">
-            When a child is overwhelmed, stress can spread through the
-            whole room. Without a shared understanding, educators may
-            respond from different expectations, experiences and levels
-            of stress. One educator absorbs the emotional pressure,
-            another pushes for compliance, and the team can quickly
-            become reactive.
-          </p>
-
-          <p className="text-sm leading-relaxed text-slate-700">
-            This does not mean your educators do not care. It often
-            means they are tired, under-supported and trying to respond
-            without a shared understanding of child development and
-            regulation.
-          </p>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Understand Without Carrying It All
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Help educators understand what a child or family may
-                need without carrying every difficult moment
-                emotionally.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Reflective Mindsets
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Help educators examine their assumptions during
-                challenging routines rather than relying only on
-                instinct when pressure is high.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Confident Room Leadership
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Help room leaders guide routines with greater
-                consistency, calm and shared expectations.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Greater Consistency Across Shifts
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Reduce mismatched responses during shift changes,
-                handovers and breaks by giving the whole service a
-                shared regulation language.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* QUICK ACCESS TOOL PIPELINE (unchanged) */}
-        <section className="space-y-4">
-          <div className="space-y-1 text-center">
-            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-              15-Minute Planning Break Tools
+      <section className="bg-white py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mb-7 max-w-2xl">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-700">
+              Does this look familiar?
             </span>
 
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Interactive Tools Ready for Your Team
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              The moments that drain good educators.
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Link
-              href="/learning-journey"
-              className="flex flex-col justify-between space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs transition hover:border-teal-600"
-            >
-              <div className="space-y-2">
-                <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[10px] font-bold text-teal-900">
-                  Step 1
-                </span>
-
-                <strong className="block text-sm font-bold text-slate-900">
-                  Guided Learning Journey
-                </strong>
-
-                <p className="text-xs leading-relaxed text-slate-600">
-                  Toggle between Styled vs. Substance views and tap
-                  15-word strategy cards.
-                </p>
-              </div>
-
-              <span className="text-xs font-bold text-teal-800">
-                Start Journey &rarr;
-              </span>
-            </Link>
-
-            <Link
-              href="/playbooks"
-              className="flex flex-col justify-between space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs transition hover:border-teal-600"
-            >
-              <div className="space-y-2">
-                <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[10px] font-bold text-teal-900">
-                  Step 2
-                </span>
-
-                <strong className="block text-sm font-bold text-slate-900">
-                  Ladder 1 Action Plans
-                </strong>
-
-                <p className="text-xs leading-relaxed text-slate-600">
-                  Morning drop-off, staffroom reset, and arrival
-                  routine action plans available now.
-                </p>
-              </div>
-
-              <span className="text-xs font-bold text-teal-800">
-                View Ladder 1 &rarr;
-              </span>
-            </Link>
-
-            <Link
-              href="/somatic-checkin"
-              className="flex flex-col justify-between space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs transition hover:border-teal-600"
-            >
-              <div className="space-y-2">
-                <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[10px] font-bold text-teal-900">
-                  Step 3
-                </span>
-
-                <strong className="block text-sm font-bold text-slate-900">
-                  Somatic Body Check-In
-                </strong>
-
-                <p className="text-xs leading-relaxed text-slate-600">
-                  Interactive 60-second staffroom check-in to log body
-                  tension and sensory anchors.
-                </p>
-              </div>
-
-              <span className="text-xs font-bold text-teal-800">
-                Launch Somatic Tool &rarr;
-              </span>
-            </Link>
-
-            <Link
-              href="/nqs-mapping"
-              className="flex flex-col justify-between space-y-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs transition hover:border-teal-600"
-            >
-              <div className="space-y-2">
-                <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[10px] font-bold text-teal-900">
-                  Step 4
-                </span>
-
-                <strong className="block text-sm font-bold text-slate-900">
-                  NQS Evidence &amp; QIP Wording
-                </strong>
-
-                <p className="text-xs leading-relaxed text-slate-600">
-                  Copy pre-formatted self-assessment text directly
-                  into your service QIP.
-                </p>
-              </div>
-
-              <span className="text-xs font-bold text-teal-800">
-                Copy QIP Evidence &rarr;
-              </span>
-            </Link>
-          </div>
-        </section>
-
-        {/* RESTORED: HOW THE PATHWAY WORKS */}
-        <section className="space-y-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              How the Regulator Champions Pathway Works
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-700">
-              A structured 12-month pathway that turns regulation
-              learning into practical changes across everyday centre
-              routines.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                n: 1,
-                t: 'Centre Starting-Point Review',
-                d: 'The director shares broad room patterns, leadership pressures and team goals so the pathway can respond to the service\u2019s actual priorities.',
-              },
-              {
-                n: 2,
-                t: 'Educator Confidence Check',
-                d: 'Educators privately reflect on their current confidence, sensory awareness, stress responses and regulation practice. Individual answers are not shared with directors.',
-              },
-              {
-                n: 3,
-                t: 'Ladder-Specific Learning',
-                d: 'Educators access focused teaching, practical examples and self-paced recordings connected to common daily routines.',
-              },
-              {
-                n: 4,
-                t: 'Apply It in the Room',
-                d: 'Participating educators complete practical Regulation in Action Projects and trial meaningful changes in real centre routines.',
-              },
-              {
-                n: 5,
-                t: 'Structured Review and Feedback',
-                d: 'Automated check-ins guide routine submissions. Work requiring further reflection or expert judgement is referred to Robyn for personal review.',
-              },
-              {
-                n: 6,
-                t: 'Recognised Achievement',
-                d: 'Completed ladders contribute towards individual Regulator Champion recognition and visible whole-centre progress.',
-              },
-            ].map((step) => (
-              <div
-                key={step.n}
-                className="rounded-2xl border border-slate-200 bg-white p-5"
+          <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
+            {SNAPSHOTS.map((item) => (
+              <article
+                key={item.title}
+                className="min-w-[82vw] snap-center overflow-hidden rounded-3xl border border-slate-200 bg-[#FDFBF7] shadow-sm sm:min-w-0"
               >
-                <span className="mb-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-teal-800 text-xs font-bold text-white">
-                  {step.n}
-                </span>
-                <strong className="block text-sm font-bold text-slate-900">
-                  {step.t}
-                </strong>
-                <p className="mt-1 text-xs leading-relaxed text-slate-600">
-                  {step.d}
-                </p>
-              </div>
+                <img
+                  src={item.image}
+                  alt=""
+                  className="aspect-4/3 w-full object-cover"
+                />
+
+                <div className="space-y-2 p-5">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
+                    {item.eyebrow}
+                  </span>
+
+                  <h3 className="text-xl font-extrabold leading-tight text-slate-950">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    {item.text}
+                  </p>
+                </div>
+              </article>
             ))}
           </div>
-        </section>
 
-        {/* 12-MONTH CONTINUUM PATHWAY PREVIEW (unchanged) */}
-        <section className="space-y-6 rounded-3xl border border-teal-200 bg-teal-50 p-8">
-          <div className="flex flex-col items-start justify-between gap-4 border-b border-teal-200 pb-4 sm:flex-row sm:items-center">
-            <div>
-              <span className="block text-xs font-bold uppercase tracking-wider text-teal-900">
-                Eight Regulation Ladders
+          <p className="mx-auto mt-7 max-w-3xl text-center text-lg font-bold leading-relaxed text-slate-800">
+            Your educators do not need more information thrown at them. They
+            need a shared way to think through what is happening when the room
+            gets hard.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-[#F7F3EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div className="grid grid-cols-2 gap-3">
+              <figure className="overflow-hidden rounded-3xl bg-white shadow-sm">
+                <img
+                  src="/images/aesthetic/card1_styled.png"
+                  alt="Beautifully styled early learning sensory activity"
+                  className="aspect-square w-full object-cover"
+                />
+                <figcaption className="p-3 text-center text-xs font-bold text-slate-600">
+                  Looks beautiful
+                </figcaption>
+              </figure>
+
+              <figure className="overflow-hidden rounded-3xl bg-white shadow-sm">
+                <img
+                  src="/images/aesthetic/card1_substance.png"
+                  alt="Children actively participating in a practical play experience"
+                  className="aspect-square w-full object-cover"
+                />
+                <figcaption className="p-3 text-center text-xs font-bold text-teal-800">
+                  Works for real children
+                </figcaption>
+              </figure>
+            </div>
+
+            <div className="space-y-4">
+              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-700">
+                Substance over styled
               </span>
 
-              <h2 className="text-xl font-extrabold text-teal-950">
-                12-Month Sequential Curriculum Overview
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+                A calm-looking room is not always a regulated room.
               </h2>
-            </div>
 
-            <Link
-              href="/playbooks"
-              className="rounded-xl bg-teal-800 px-4 py-2 text-xs font-bold text-white transition hover:bg-teal-900"
-            >
-              Open Ladder 1 &rarr;
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="space-y-2 rounded-2xl border border-teal-300 bg-white p-5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                Ladder 1 Available Now
-              </span>
-
-              <strong className="block text-sm font-bold text-slate-900">
-                Morning Routines &amp; CALM Foundations
-              </strong>
-
-              <p className="text-xs leading-relaxed text-slate-600">
-                Staffroom preparation, morning arrivals, drop-off
-                separation, adult pacing, and calm room foundations.
+              <p className="text-base leading-relaxed text-slate-700">
+                Regulator Champions helps educators look beyond whether an
+                activity is tidy, quiet or Pinterest-perfect and notice what is
+                actually helping children participate, connect and cope.
               </p>
-            </div>
 
-            <div className="space-y-2 rounded-2xl border border-teal-200 bg-white p-5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                Ladders 2 to 4 Releasing Progressively
-              </span>
-
-              <strong className="block text-sm font-bold text-slate-900">
-                Escalation, Participation &amp; Schema Decoding
-              </strong>
-
-              <p className="text-xs leading-relaxed text-slate-600">
-                EASE escalation practices, mat-time participation,
-                heavy-work play zones, and safe responses to repeated
-                movement patterns.
-              </p>
-            </div>
-
-            <div className="space-y-2 rounded-2xl border border-teal-200 bg-white p-5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                Ladders 5 to 8 Releasing Progressively
-              </span>
-
-              <strong className="block text-sm font-bold text-slate-900">
-                Transitions, Fatigue &amp; Embedded Practice
-              </strong>
-
-              <p className="text-xs leading-relaxed text-slate-600">
-                Pack-up pressure, afternoon fatigue, family
-                communication, team consistency, and service-wide
-                implementation.
-              </p>
+              <Link
+                href="/feed"
+                className="inline-flex rounded-xl bg-teal-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-teal-900"
+              >
+                See the free scenario library
+              </Link>
             </div>
           </div>
+        </div>
+      </section>
 
-          <p className="text-xs leading-relaxed text-teal-900">
-            New ladder content is released progressively across the
-            12-month membership as your team completes each stage. This
-            deliberate pacing prevents educators and families from
-            being overwhelmed with too much information at once.
-          </p>
-
-          <p className="text-xs leading-relaxed text-teal-900">
-            Each ladder is supported by two practical frameworks: CALM
-            for everyday regulation and EASE for escalation-specific
-            moments.
-          </p>
-        </section>
-
-        {/* NEW: 3-LADDER PREVIEW OFFER */}
-        <section className="space-y-6 rounded-3xl border border-amber-300 bg-white p-8" id="preview-offer">
-          <div>
-            <span className="block text-xs font-bold uppercase tracking-wider text-amber-600">
-              New This Funding Cycle
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mb-8 max-w-3xl">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-amber-700">
+              Start smaller
             </span>
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Start With a {PREVIEW_LADDER_COUNT}-Ladder Preview
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              Three ladders. Three pressure points your team already knows.
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-700">
-              Not ready to commit your full flexible SRF or Kindy Uplift
-              spend in one hit? Begin with Ladders 1&ndash;{PREVIEW_LADDER_COUNT}{' '}
-              and the full platform &mdash; somatic check-in tool, NQS
-              evidence mapping and the CALM Feed &mdash; for{' '}
-              {PREVIEW_ACCESS_MONTHS} months. If your team wants to
-              continue, unlock the remaining {REMAINING_LADDER_COUNT}{' '}
-              ladders and a full 12-month site membership at{' '}
-              {CONTINUE_DISCOUNT_PCT}% off.
+          </div>
+
+          <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-5 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
+            {PREVIEW_LADDERS.map((ladder) => (
+              <article
+                key={ladder.number}
+                className="min-w-[84vw] snap-center overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm sm:min-w-0"
+              >
+                <div className="relative">
+                  <img
+                    src={ladder.image}
+                    alt=""
+                    className="aspect-4/4.5 w-full object-cover"
+                  />
+
+                  <span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-teal-950 text-sm font-extrabold text-white shadow">
+                    {ladder.number}
+                  </span>
+                </div>
+
+                <div className="space-y-3 p-5">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
+                    {ladder.tag}
+                  </span>
+
+                  <h3 className="text-2xl font-extrabold leading-tight text-slate-950">
+                    {ladder.title}
+                  </h3>
+
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    {ladder.text}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-4xl bg-teal-950 p-6 text-white shadow-xl sm:p-8">
+            <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-amber-300">
+                  3 Ladder Preview
+                </span>
+
+                <div className="mt-2 flex flex-wrap items-end gap-3">
+                  <strong className="text-5xl font-extrabold">
+                    ${PREVIEW_PRICE.toLocaleString()}
+                  </strong>
+                  <span className="pb-1 text-sm text-teal-200">
+                    incl. GST · {PREVIEW_ACCESS_MONTHS} months
+                  </span>
+                </div>
+
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-teal-100">
+                  Give your whole team a practical starting point without
+                  committing to the full pathway first.
+                </p>
+              </div>
+
+              <Link
+                href="/proposal?plan=preview"
+                className="rounded-2xl bg-amber-400 px-6 py-4 text-center text-sm font-extrabold text-slate-950 transition hover:bg-amber-300"
+              >
+                View the 3 Ladder proposal
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mx-auto mb-8 max-w-2xl text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-700">
+              What educators actually use
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              Less “watch this later”. More “try this today”.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {WHAT_YOU_GET.map((item) => (
+              <article
+                key={item.title}
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-[#FDFBF7]"
+              >
+                <img
+                  src={item.image}
+                  alt=""
+                  className="aspect-square w-full object-cover"
+                />
+
+                <div className="p-4">
+                  <h3 className="font-extrabold text-slate-950">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    {item.text}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-teal-950 py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="space-y-4">
+              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-amber-300">
+                Funding
+              </span>
+
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Still have 2026 funding available?
+              </h2>
+
+              <p className="max-w-xl text-base leading-relaxed text-teal-100">
+                The smaller Preview gives services a practical way to begin
+                using available professional learning funding without starting
+                with the full $4,790 pathway.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link
+                href="/school-readiness-funding"
+                className="rounded-3xl border border-teal-700 bg-teal-900 p-6 transition hover:bg-teal-800"
+              >
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
+                  Victoria
+                </span>
+
+                <h3 className="mt-2 text-xl font-extrabold">
+                  School Readiness Funding
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-teal-100">
+                  See how Regulator Champions can fit an identified educator
+                  capability priority through the SRF coaching pathway.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-bold text-white">
+                  How to use SRF →
+                </span>
+              </Link>
+
+              <Link
+                href="/kindy-uplift"
+                className="rounded-3xl border border-teal-700 bg-teal-900 p-6 transition hover:bg-teal-800"
+              >
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
+                  Queensland
+                </span>
+
+                <h3 className="mt-2 text-xl font-extrabold">
+                  Kindy Uplift
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-teal-100">
+                  Explore alignment with social and emotional learning,
+                  executive function and educator capability building.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-bold text-white">
+                  How to use Kindy Uplift →
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
+              <img
+                src="/images/ladders/ladder1_rung01.png"
+                alt="Educator pausing before beginning the day"
+                className="aspect-video w-full object-cover"
+              />
+
+              <div className="p-6">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
+                  Made for educators under pressure
+                </span>
+
+                <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
+                  You do not have to fix everything at once.
+                </h2>
+
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                  The ladders deliberately slow the learning down. Try one
+                  change. Notice what happens. Talk about it. Then build from
+                  there.
+                </p>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
+              <img
+                src="/images/ladders/ladder3_rung04.png"
+                alt="Early childhood educators working together with a child"
+                className="aspect-video w-full object-cover"
+              />
+
+              <div className="p-6">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700">
+                  Whole-team consistency
+                </span>
+
+                <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
+                  One shared language is easier than ten different approaches.
+                </h2>
+
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                  Build common responses that educators can carry across room
+                  changes, breaks, handovers and busy transitions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#F7F3EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-700">
+              Created by Robyn Papworth
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              Built from the moments educators actually struggle with.
+            </h2>
+
+            <p className="mt-4 text-base leading-relaxed text-slate-700">
+              Robyn is an Accredited Exercise Physiologist and Developmental
+              Educator. Regulator Champions was created to turn regulation,
+              movement, sensory and developmental knowledge into practical
+              decisions educators can use during real routines.
+            </p>
+
+            <p className="mt-3 text-xs text-slate-500">
+              Regulator Champion recognition is personally reviewed by Robyn
+              and is not a nationally recognised qualification.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                Step 1 &mdash; Preview
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mb-8 text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-700">
+              Choose your starting point
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              Start small, or save by going straight to the full pathway.
+            </h2>
+          </div>
+
+          <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
+            <div className="rounded-4xl border-2 border-amber-300 bg-white p-7 shadow-sm">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-amber-700">
+                3 Ladder Preview
               </span>
-              <p className="mt-1 text-3xl font-extrabold text-slate-900">
+
+              <p className="mt-2 text-5xl font-extrabold text-slate-950">
                 ${PREVIEW_PRICE.toLocaleString()}
-                <span className="ml-1 text-xs font-medium text-slate-500">
-                  Incl. GST
-                </span>
-              </p>
-              <p className="mb-4 text-xs text-slate-500">
-                Ladders 1&ndash;{PREVIEW_LADDER_COUNT} &middot;{' '}
-                {PREVIEW_ACCESS_MONTHS}-month access
-              </p>
-              <ul className="space-y-1.5 text-xs text-slate-600">
-                <li>&bull; Full platform access (somatic tool, NQS mapping, CALM Feed)</li>
-                <li>&bull; Ladders 1, 2 and 3 released progressively</li>
-                <li>&bull; Access begins on invoice payment</li>
-              </ul>
-            </div>
-
-            <div className="rounded-2xl bg-teal-950 p-6 text-white">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
-                Step 2 &mdash; Continue When Your Team Is Ready
-              </span>
-              <p className="mt-1 text-3xl font-extrabold">
-                ${CONTINUE_PRICE.toLocaleString()}
-                <span className="ml-1 text-xs font-medium text-teal-200">
-                  Incl. GST
-                </span>
-              </p>
-              <p className="mb-4 text-xs text-teal-200">
-                Ladders {PREVIEW_LADDER_COUNT + 1}&ndash;8 &middot;{' '}
-                {CONTINUE_DISCOUNT_PCT}% off &middot; extends to full
-                12-month access
-              </p>
-              <ul className="space-y-1.5 text-xs text-teal-100">
-                <li>&bull; Unlocks the remaining {REMAINING_LADDER_COUNT} ladders</li>
-                <li>
-                  &bull; Standard continuation price $
-                  {CONTINUE_STANDARD_PRICE.toLocaleString()}, {CONTINUE_DISCOUNT_PCT}% off applied
-                </li>
-                <li>&bull; No obligation &mdash; only pay if your team continues</li>
-              </ul>
-            </div>
-          </div>
-
-          <p className="text-center text-xs text-slate-500">
-            Complete the full pathway across both stages for{' '}
-            <strong className="text-slate-800">
-              ${TOTAL_IF_COMPLETED.toLocaleString()}
-            </strong>{' '}
-            total &mdash;{' '}
-            <strong className="text-teal-800">
-              ${UPFRONT_SAVING.toLocaleString()} more
-            </strong>{' '}
-            than the standard ${FULL_PRICE.toLocaleString()} full-program
-            price.
-          </p>
-        </section>
-
-        {/* NEW: SRF + KINDY UPLIFT FUNDING SECTION */}
-        <section className="space-y-6" id="funding">
-          <div className="max-w-2xl">
-            <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-              Funding Your Team This Year
-            </span>
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Use 2026 SRF or Kindy Uplift Funding for Regulator Champions
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {/* SRF CARD */}
-            <div className="rounded-3xl border border-slate-200 bg-white p-6">
-              <span className="mb-2 inline-block rounded-full bg-teal-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-teal-800">
-                Victoria
-              </span>
-              <h3 className="text-lg font-extrabold text-slate-900">
-                School Readiness Funding (SRF)
-              </h3>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Victorian services can engage Play Move Improve through the
-                School Readiness Funding coaching pathway where the service
-                selects a coach to address its identified priorities and
-                educator capability needs. Regulator Champions is designed
-                to strengthen whole-team regulation and co-regulation
-                practice, with strongest alignment to{' '}
-                <strong>Wellbeing (social, emotional and executive function)</strong>.
-                Services should connect the coaching engagement to their own
-                SRF goals, planning and documentation requirements.
               </p>
 
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                  Ready-to-copy SRF plan wording
-                </p>
-                <pre className="max-h-56 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-white p-3 font-sans text-[11px] leading-relaxed text-slate-700">
-                  {SRF_WORDING}
-                </pre>
-                <button
-                  onClick={() => copyWording(SRF_WORDING, setCopiedSrf)}
-                  className="mt-3 rounded-full bg-teal-800 px-4 py-2 text-[11px] font-bold text-white transition hover:bg-teal-900"
-                >
-                  {copiedSrf ? 'Copied ✓' : 'Copy SRF wording'}
-                </button>
+              <p className="mt-1 text-sm text-slate-500">
+                incl. GST · {PREVIEW_ACCESS_MONTHS} months
+              </p>
+
+              <div className="mt-5 space-y-2 text-sm text-slate-700">
+                <p>✓ Ladders 1 to 3</p>
+                <p>✓ Whole-service access</p>
+                <p>✓ Continue only if it suits your team</p>
               </div>
-              <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
-                The service remains responsible for documenting the coaching
-                engagement within its SRF planning and linking the selected
-                coach to identified educator capability priorities and
-                children's needs.
-              </p>
+
+              <Link
+                href="/proposal?plan=preview"
+                className="mt-6 block rounded-2xl bg-amber-400 px-5 py-3.5 text-center text-sm font-extrabold text-slate-950 transition hover:bg-amber-300"
+              >
+                Start with the Preview
+              </Link>
             </div>
 
-            {/* KINDY UPLIFT CARD */}
-            <div className="rounded-3xl border border-slate-200 bg-white p-6">
-              <span className="mb-2 inline-block rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-700">
-                Queensland
+            <div className="rounded-4xl bg-teal-950 p-7 text-white shadow-lg">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-teal-300">
+                Full 8 Ladder Pathway
               </span>
-              <h3 className="text-lg font-extrabold text-slate-900">
-                Kindy Uplift
-              </h3>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Play Move Improve&rsquo;s online coaching services are
-                included in the Kindy Uplift catalogue. Regulator Champions
-                can support participating services that identify a need for
-                educator capability building in regulation and
-                co-regulation. The strongest alignment is with{' '}
-                <strong>Social and emotional learning</strong> and{' '}
-                <strong>Executive function</strong>, with additional
-                alignment where relevant to Physicality and Equity and
-                Access for all.
+
+              <p className="mt-2 text-5xl font-extrabold">
+                ${FULL_PRICE.toLocaleString()}
               </p>
 
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                  Ready-to-copy Kindy Uplift plan wording
+              <p className="mt-1 text-sm text-teal-200">
+                incl. GST · 12 months
+              </p>
+
+              <div className="mt-5 space-y-2 text-sm text-teal-100">
+                <p>✓ Full 8 Ladder pathway</p>
+                <p>✓ Whole-service access</p>
+                <p>
+                  ✓ ${UPFRONT_SAVING.toLocaleString()} less than completing both
+                  staged payments
                 </p>
-                <pre className="max-h-56 overflow-y-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-white p-3 font-sans text-[11px] leading-relaxed text-slate-700">
-                  {KINDY_UPLIFT_WORDING}
-                </pre>
-                <button
-                  onClick={() => copyWording(KINDY_UPLIFT_WORDING, setCopiedKindy)}
-                  className="mt-3 rounded-full bg-amber-500 px-4 py-2 text-[11px] font-bold text-slate-950 transition hover:bg-amber-400"
-                >
-                  {copiedKindy ? 'Copied ✓' : 'Copy Kindy Uplift wording'}
-                </button>
               </div>
-              <p className="mt-3 text-[11px] leading-relaxed text-slate-400">
-                Play Move Improve&rsquo;s catalogue inclusion can support
-                service planning and supplier selection. Funding decisions,
-                implementation planning and due diligence remain the
-                responsibility of the participating service.
-              </p>
+
+              <Link
+                href="/proposal?plan=full"
+                className="mt-6 block rounded-2xl bg-white px-5 py-3.5 text-center text-sm font-extrabold text-teal-950 transition hover:bg-teal-50"
+              >
+                View the Full pathway
+              </Link>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-teal-50 p-5 text-center">
-            <p className="text-xs leading-relaxed text-teal-900">
-              If the full ${FULL_PRICE.toLocaleString()} doesn&rsquo;t fit
-              your flexible spend this year, start with the{' '}
-              <strong>{PREVIEW_LADDER_COUNT}-Ladder Preview</strong> ($
-              {PREVIEW_PRICE.toLocaleString()}, {PREVIEW_ACCESS_MONTHS}{' '}
-              months) instead — see above.
-            </p>
-          </div>
-        </section>
-
-        {/* RESTORED: LEARNING THAT MUST SHOW UP IN PRACTICE */}
-        <section className="space-y-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-extrabold text-slate-900">
-              Learning That Must Show Up in Practice
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-700">
-              Educators do not achieve a ladder simply by watching a
-              recording or repeating the right words. They are asked
-              to understand the issue, change something practical,
-              reflect on the result and show how the learning
-              influenced their actions.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Understand It
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Explain what may be happening for the child and why
-                the routine is difficult.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Apply It
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Change something practical in the environment, routine,
-                language or educator response.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Reflect on It
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Describe what was tried, what was noticed and what
-                should change next time.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <strong className="block text-sm font-bold text-slate-900">
-                Show the Change
-              </strong>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Provide structured evidence from real practice rather
-                than only a correct answer.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* RESTORED: PRIVATE REFLECTION / LEADER PRESSURE / RECOGNITION / FOUNDER */}
-        <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-8">
-          <h2 className="text-xl font-extrabold text-slate-900">
-            Private Reflection, Shared Participation, Visible
-            Achievement
-          </h2>
-          <p className="text-sm leading-relaxed text-slate-700">
-            Educator confidence responses remain private between the
-            educator and Robyn. The centre can still share the ladder
-            it is working on, involve teams and families in practical
-            projects, and celebrate positive improvements together.
+          <p className="mt-4 text-center text-xs text-slate-500">
+            Preview plus continuation totals ${TOTAL_IF_COMPLETED.toLocaleString()}
+            {' '}including GST. The full upfront pathway is $
+            {FULL_PRICE.toLocaleString()} including GST.
           </p>
-          <p className="text-sm leading-relaxed text-slate-700">
-            Families contribute insight and celebrate progress. They
-            are not asked to assess educators, and an educator does not
-            fail because a family chooses not to respond.
-          </p>
-        </section>
+        </div>
+      </section>
 
-        <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-8">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Meaningful Recognition
-          </span>
-          <h2 className="text-xl font-extrabold text-slate-900">
-            Lighten the Regulation Pressures You Carry as a Leader
-          </h2>
-          <p className="text-sm leading-relaxed text-slate-700">
-            The Centre Starting-Point Review and Educator Confidence
-            Check help identify common pressures and learning needs
-            across the team. Instead of repeatedly explaining the same
-            strategies or mediating room friction, leaders gain a
-            structured pathway that builds shared understanding over
-            time.
-          </p>
-        </section>
-
-        <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-8">
-          <h2 className="text-xl font-extrabold text-slate-900">
-            Regulator Champion Recognition Is Personally Reviewed
-          </h2>
-          <p className="text-sm leading-relaxed text-slate-700">
-            Individual ladder achievements build towards the full
-            eight-topic pathway. Before Regulator Champion recognition
-            is awarded, Robyn personally reviews the educator&rsquo;s
-            body of work, practical projects and evidence of reflective
-            practice.
-          </p>
-          <p className="text-xs italic leading-relaxed text-slate-500">
-            Recognition is issued by Play Move Improve and is not a
-            nationally recognised qualification.
-          </p>
-
-          <div className="mt-4 flex items-start gap-4 border-t border-slate-100 pt-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-800 text-sm font-bold text-white">
-              RP
-            </div>
-            <div>
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                Program Founder and Mentor
-              </span>
-              <strong className="block text-sm font-bold text-slate-900">
-                Created by Robyn Papworth
-              </strong>
-              <p className="mt-1 text-xs leading-relaxed text-slate-600">
-                Paediatric Exercise Physiologist and Master-qualified
-                Developmental Educator. Robyn has trained and supported
-                early childhood educators across Australia, helping
-                teams translate complex regulation, sensory, movement
-                and developmental concepts into practical strategies
-                for real rooms and real routines.
-              </p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                Regulator Champions was created after Robyn repeatedly
-                saw caring educators facing the same regulation
-                pressures without a shared pathway for turning advice
-                into consistent centre practice.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* INSTANT QUOTE GENERATOR FOR DIRECTORS */}
-        <section className="space-y-6 rounded-3xl bg-teal-950 p-8 text-white shadow-xl md:p-10">
-          <div className="max-w-2xl space-y-2">
-            <span className="block text-xs font-bold uppercase tracking-wider text-amber-300">
-              {selectedLabel} (${selectedPrice.toLocaleString()} Incl. GST)
+      <section className="bg-teal-950 py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="mx-auto mb-8 max-w-2xl text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-amber-300">
+              Want a formal proposal?
             </span>
 
-            <h2 className="text-2xl font-extrabold md:text-3xl">
-              Request an Official Centre Proposal &amp; Invoice
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Give your Approved Provider something clear to review.
             </h2>
 
-            <p className="text-xs leading-relaxed text-teal-100">
-              Submit your centre details below to receive an official
-              proposal document your Approved Provider can review alongside
-              your Victorian SRF or Queensland Kindy Uplift planning and
-              funding requirements.
+            <p className="mt-3 text-sm leading-relaxed text-teal-100">
+              Choose your program option and send through your service details.
             </p>
           </div>
 
           {quoteSubmitted ? (
-            <div className="space-y-3 rounded-2xl border border-teal-700 bg-teal-900 p-6 text-center">
-              <strong className="block text-sm font-bold text-amber-300">
-                Proposal Request Received
-              </strong>
+            <div className="mx-auto max-w-2xl rounded-3xl border border-teal-700 bg-teal-900 p-7 text-center">
+              <h3 className="text-xl font-extrabold text-amber-300">
+                Proposal request received
+              </h3>
 
-              <p className="mx-auto max-w-md text-xs text-teal-100">
-                Thank you! Your details have been logged. You can view
-                and print your formal proposal pack right now below.
+              <p className="mt-2 text-sm text-teal-100">
+                You can also open the printable proposal pack now.
               </p>
 
               <Link
                 href={`/proposal?plan=${quoteForm.programOption}`}
-                className="inline-block rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 transition hover:bg-amber-300"
+                className="mt-5 inline-block rounded-2xl bg-amber-400 px-6 py-3.5 text-sm font-extrabold text-slate-950"
               >
-                Open Printable Proposal Pack (${selectedPrice.toLocaleString()}) &rarr;
+                Open proposal pack
               </Link>
             </div>
           ) : (
             <form
               onSubmit={handleQuoteSubmit}
-              className="max-w-2xl space-y-4"
+              className="mx-auto max-w-3xl space-y-4 rounded-4xl border border-teal-800 bg-teal-900/60 p-6 sm:p-8"
             >
-              {/* PROGRAM OPTION SELECTOR */}
-              <div>
-                <label className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                  Program Option
-                </label>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setQuoteForm({ ...quoteForm, programOption: 'preview' })
-                    }
-                    className={`rounded-xl border p-4 text-left transition ${
-                      quoteForm.programOption === 'preview'
-                        ? 'border-amber-400 bg-teal-900'
-                        : 'border-teal-800 bg-teal-900/40 hover:bg-teal-900/70'
-                    }`}
-                  >
-                    <span className="block text-xs font-bold text-white">
-                      {PREVIEW_LADDER_COUNT}-Ladder Preview
-                    </span>
-                    <span className="block text-[11px] text-teal-300">
-                      ${PREVIEW_PRICE.toLocaleString()} &middot;{' '}
-                      {PREVIEW_ACCESS_MONTHS} months
-                    </span>
-                  </button>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      programOption: 'preview',
+                    })
+                  }
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    quoteForm.programOption === 'preview'
+                      ? 'border-amber-300 bg-teal-800'
+                      : 'border-teal-700 bg-teal-950/40'
+                  }`}
+                >
+                  <span className="block text-sm font-extrabold">
+                    3 Ladder Preview
+                  </span>
+                  <span className="text-xs text-teal-200">
+                    ${PREVIEW_PRICE.toLocaleString()} incl. GST
+                  </span>
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setQuoteForm({ ...quoteForm, programOption: 'full' })
-                    }
-                    className={`rounded-xl border p-4 text-left transition ${
-                      quoteForm.programOption === 'full'
-                        ? 'border-amber-400 bg-teal-900'
-                        : 'border-teal-800 bg-teal-900/40 hover:bg-teal-900/70'
-                    }`}
-                  >
-                    <span className="block text-xs font-bold text-white">
-                      Full 8-Ladder Site Membership
-                    </span>
-                    <span className="block text-[11px] text-teal-300">
-                      ${FULL_PRICE.toLocaleString()} &middot; 12 months
-                    </span>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      programOption: 'full',
+                    })
+                  }
+                  className={`rounded-2xl border p-4 text-left transition ${
+                    quoteForm.programOption === 'full'
+                      ? 'border-amber-300 bg-teal-800'
+                      : 'border-teal-700 bg-teal-950/40'
+                  }`}
+                >
+                  <span className="block text-sm font-extrabold">
+                    Full 8 Ladder Pathway
+                  </span>
+                  <span className="text-xs text-teal-200">
+                    ${FULL_PRICE.toLocaleString()} incl. GST
+                  </span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                    Director / Contact Name *
-                  </label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  type="text"
+                  required
+                  aria-label="Director or contact name"
+                  placeholder="Director / contact name"
+                  value={quoteForm.fullName}
+                  onChange={(event) =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      fullName: event.target.value,
+                    })
+                  }
+                  className="rounded-xl border border-teal-700 bg-teal-950/70 p-3.5 text-sm text-white placeholder:text-teal-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                />
 
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Sarah Jenkins"
-                    value={quoteForm.fullName}
-                    onChange={(e) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        fullName: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl border border-teal-800 bg-teal-900/90 p-3 text-xs text-white placeholder-teal-400 outline-none focus:ring-2 focus:ring-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                    Work Email Address *
-                  </label>
-
-                  <input
-                    type="email"
-                    required
-                    placeholder="director@centre.com.au"
-                    value={quoteForm.email}
-                    onChange={(e) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        email: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl border border-teal-800 bg-teal-900/90 p-3 text-xs text-white placeholder-teal-400 outline-none focus:ring-2 focus:ring-amber-400"
-                  />
-                </div>
+                <input
+                  type="email"
+                  required
+                  aria-label="Work email address"
+                  placeholder="Work email address"
+                  value={quoteForm.email}
+                  onChange={(event) =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      email: event.target.value,
+                    })
+                  }
+                  className="rounded-xl border border-teal-700 bg-teal-950/70 p-3.5 text-sm text-white placeholder:text-teal-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                    Centre / Service Name *
-                  </label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  type="text"
+                  required
+                  aria-label="Service name"
+                  placeholder="Service name"
+                  value={quoteForm.serviceName}
+                  onChange={(event) =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      serviceName: event.target.value,
+                    })
+                  }
+                  className="rounded-xl border border-teal-700 bg-teal-950/70 p-3.5 text-sm text-white placeholder:text-teal-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                />
 
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Sunshine Early Learning"
-                    value={quoteForm.serviceName}
-                    onChange={(e) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        serviceName: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl border border-teal-800 bg-teal-900/90 p-3 text-xs text-white placeholder-teal-400 outline-none focus:ring-2 focus:ring-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                    Funding Pathway
-                  </label>
-
-                  <select
-                    value={quoteForm.fundingSource}
-                    onChange={(e) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        fundingSource: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-xl border border-teal-800 bg-teal-900/90 p-3 text-xs text-white outline-none focus:ring-2 focus:ring-amber-400"
-                  >
-                    <option value="Victorian School Readiness Funding (SRF)">
-                      Victorian School Readiness Funding (SRF)
-                    </option>
-
-                    <option value="Queensland Kindy Uplift">
-                      Queensland Kindy Uplift
-                    </option>
-
-                    <option value="Annual Operational PD Budget">
-                      Annual Operational PD Budget
-                    </option>
-
-                    <option value="Inclusion Support Funding">
-                      Inclusion Support Allocation
-                    </option>
-                  </select>
-                </div>
+                <select
+                  value={quoteForm.fundingSource}
+                  onChange={(event) =>
+                    setQuoteForm({
+                      ...quoteForm,
+                      fundingSource: event.target.value,
+                    })
+                  }
+                  aria-label="Funding pathway"
+                  className="rounded-xl border border-teal-700 bg-teal-950/70 p-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-300"
+                >
+                  <option value="Victorian School Readiness Funding (SRF)">
+                    Victorian School Readiness Funding (SRF)
+                  </option>
+                  <option value="Queensland Kindy Uplift">
+                    Queensland Kindy Uplift
+                  </option>
+                  <option value="Annual Operational PD Budget">
+                    Annual Operational PD Budget
+                  </option>
+                  <option value="Inclusion Support Funding">
+                    Inclusion Support Allocation
+                  </option>
+                </select>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-2xl bg-amber-400 py-4 text-xs font-bold text-slate-950 shadow-md transition hover:bg-amber-300 disabled:opacity-60"
+                className="w-full rounded-2xl bg-amber-400 py-4 text-sm font-extrabold text-slate-950 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting
-                  ? 'Generating Proposal Request...'
-                  : `Request Formal $${selectedPrice.toLocaleString()} ${
-                      quoteForm.programOption === 'preview' ? 'Preview' : 'Site'
-                    } Proposal Pack →`}
+                  ? 'Sending request…'
+                  : `Request $${selectedPrice.toLocaleString()} proposal`}
               </button>
             </form>
           )}
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 }
