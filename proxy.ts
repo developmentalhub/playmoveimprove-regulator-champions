@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import {
   getMemberSession,
   MEMBER_ACCESS_COOKIE,
@@ -16,7 +17,9 @@ const PROTECTED_PREFIXES = [
 
 function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+    (prefix) =>
+      pathname === prefix ||
+      pathname.startsWith(`${prefix}/`),
   );
 }
 
@@ -27,30 +30,40 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get(MEMBER_ACCESS_COOKIE)?.value;
-  const regulatorSession = request.cookies.get('regulator_session')?.value;
+  const token =
+    request.cookies.get(MEMBER_ACCESS_COOKIE)?.value;
 
-  const hasMemberSession = await getMemberSession(token);
-  const hasAccess = Boolean(hasMemberSession || regulatorSession);
+  const regulatorSession =
+    request.cookies.get('regulator_session')?.value;
+
+  const hasMemberSession =
+    await getMemberSession(token);
+
+  const hasAccess = Boolean(
+    hasMemberSession || regulatorSession,
+  );
 
   if (hasAccess) {
     return NextResponse.next();
   }
 
   const loginUrl = new URL('/login', request.url);
+
   loginUrl.searchParams.set(
     'returnTo',
-    `${pathname}${request.nextUrl.search}`
+    `${pathname}${request.nextUrl.search}`,
   );
 
-  const response = NextResponse.redirect(loginUrl);
+  const response =
+    NextResponse.redirect(loginUrl);
 
   if (token && !hasMemberSession) {
     response.cookies.set({
       name: MEMBER_ACCESS_COOKIE,
       value: '',
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure:
+        process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
       maxAge: 0,

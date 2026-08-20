@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
+import SafeTouchHomepageSection from '@/components/SafeTouchHomepageSection';
 
 const FULL_PRICE = 4790;
 const PREVIEW_PRICE = 1790;
@@ -160,8 +161,8 @@ export default function HomePageClient() {
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#1C3B34] text-white">
-        <div className="absolute left-[-100px] top-[-80px] h-72 w-72 rounded-full bg-[#657B6C]/20 blur-3xl" />
-        <div className="absolute bottom-[-140px] right-[-80px] h-96 w-96 rounded-full bg-[#C29F60]/10 blur-3xl" />
+        <div className="absolute -left-25 -top-20 h-72 w-72 rounded-full bg-[#657B6C]/20 blur-3xl" />
+        <div className="absolute -bottom-35 -right-20 h-96 w-96 rounded-full bg-[#C29F60]/10 blur-3xl" />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 md:py-16 lg:grid-cols-12 lg:items-center lg:py-20">
           <div className="lg:col-span-6">
@@ -218,12 +219,12 @@ export default function HomePageClient() {
           {/* HERO GUIDE CARD */}
           <div className="lg:col-span-6">
             <div className="relative mx-auto max-w-xl">
-              <div className="rounded-[2rem] border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-sm">
+              <div className="rounded-4xl border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-sm">
                 <div className="overflow-hidden rounded-[1.6rem] bg-[#FAF5EC]">
                   <img
                     src="/images/feed/safe-touch-early-childhood.png"
                     alt="Can I Still Comfort a Distressed Child free early childhood guide"
-                    className="aspect-[4/3] w-full object-cover"
+                    className="aspect-4/3 w-full object-cover"
                   />
 
                   <div className="p-5 sm:p-6">
@@ -326,7 +327,7 @@ export default function HomePageClient() {
                 <img
                   src={item.image}
                   alt=""
-                  className="aspect-[4/3] w-full object-cover"
+                  className="aspect-4/3 w-full object-cover"
                 />
 
                 <div className="p-5">
@@ -356,59 +357,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* SAFE TOUCH BRIDGE */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-5">
-              <img
-                src="/images/feed/comforting-touch-checklist.png"
-                alt="Before I Offer Comforting Touch early childhood educator checklist"
-                className="w-full rounded-[2rem] border border-[#E6E2DC] bg-white object-cover shadow-sm"
-              />
-            </div>
-
-            <div className="lg:col-span-7">
-              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-                Start with one difficult question
-              </span>
-
-              <h2 className="mt-2 max-w-2xl text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-                “Can I still comfort a distressed child?”
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#53645D]">
-                Many educators are trying to balance child safety,
-                safeguarding expectations, professional boundaries and the very
-                human need to comfort a distressed child.
-              </p>
-
-              <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#53645D]">
-                That question is a useful example of why professional learning
-                needs to go beyond rules. Educators need help noticing context,
-                consent, cues, individual needs and what the child is
-                communicating in the moment.
-              </p>
-
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/free-guide"
-                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#284E45]"
-                >
-                  Download the free guide
-                </Link>
-
-                <Link
-                  href="/blog/before-i-offer-comforting-touch-checklist"
-                  className="flex min-h-12 items-center justify-center rounded-xl border border-[#C29F60] bg-white px-5 py-3 text-sm font-bold text-[#1C3B34] transition hover:bg-[#FAF8F5]"
-                >
-                  View the staffroom checklist
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+<SafeTouchHomepageSection />
 
       {/* SUBSTANCE */}
       <section className="bg-white py-14 sm:py-20">
@@ -590,13 +539,13 @@ export default function HomePageClient() {
             {PREVIEW_LADDERS.map((ladder) => (
               <article
                 key={ladder.number}
-                className="min-w-[84vw] snap-center overflow-hidden rounded-[2rem] border border-[#E6E2DC] bg-[#FAF8F5] shadow-sm sm:min-w-0"
+                className="min-w-[84vw] snap-center overflow-hidden rounded-4xl border border-[#E6E2DC] bg-[#FAF8F5] shadow-sm sm:min-w-0"
               >
                 <div className="relative">
                   <img
                     src={ladder.image}
                     alt=""
-                    className="aspect-[4/4.5] w-full object-cover"
+                    className="aspect-4/4.5 w-full object-cover"
                   />
 
                   <span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-[#1C3B34] text-sm font-extrabold text-white shadow">
@@ -621,7 +570,7 @@ export default function HomePageClient() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-[2rem] bg-[#1C3B34] p-6 text-white shadow-xl sm:p-8">
+          <div className="mt-8 rounded-4xl bg-[#1C3B34] p-6 text-white shadow-xl sm:p-8">
             <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4C98E]">
@@ -774,7 +723,7 @@ export default function HomePageClient() {
           </div>
 
           <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
-            <article className="rounded-[2rem] border-2 border-[#C29F60] bg-white p-7 shadow-sm">
+            <article className="rounded-4xl border-2 border-[#C29F60] bg-white p-7 shadow-sm">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
                 3 Ladder Preview
               </span>
@@ -802,7 +751,7 @@ export default function HomePageClient() {
               </Link>
             </article>
 
-            <article className="rounded-[2rem] bg-[#1C3B34] p-7 text-white shadow-lg">
+            <article className="rounded-4xl bg-[#1C3B34] p-7 text-white shadow-lg">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4C98E]">
                 Full 8 Ladder Pathway
               </span>
@@ -845,7 +794,7 @@ export default function HomePageClient() {
       {/* MULTI-SERVICE */}
       <section className="bg-white py-12">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="rounded-[2rem] border border-[#657B6C] bg-[#1C3B34] p-7 text-white shadow-md sm:p-8">
+          <div className="rounded-4xl border border-[#657B6C] bg-[#1C3B34] p-7 text-white shadow-md sm:p-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
                 <span className="inline-block rounded-full bg-[#C29F60] px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-[#1C3B34]">
@@ -912,7 +861,7 @@ export default function HomePageClient() {
           ) : (
             <form
               onSubmit={handleQuoteSubmit}
-              className="mx-auto max-w-3xl space-y-4 rounded-[2rem] border border-white/10 bg-white/5 p-6 sm:p-8"
+              className="mx-auto max-w-3xl space-y-4 rounded-4xl border border-white/10 bg-white/5 p-6 sm:p-8"
             >
               <div className="grid gap-3 sm:grid-cols-2">
                 <button
