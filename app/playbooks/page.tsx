@@ -2,435 +2,187 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import MemberSignOutButton from '../../components/MemberSignOutButton';
-
-// Ladder 1 Action Plans mapped directly to your public files.
-const LADDER_ONE_ACTION_PLANS = [
-  {
-    id: 'staffroom-reset',
-    roomName: '01. Staffroom Arrival & Body Check-In',
-    badgeTag: 'CALM Step C: Check Yourself First',
-    image: '/images/feed/01_babies_room.png',
-    trigger:
-      'Entering the centre carrying personal commute stress, rushing, or absorbing morning staffroom noise.',
-    styledVsSubstance:
-      'Arriving rushed or tense can influence your pace, tone and decision making before handovers begin. Notice your own state before stepping onto the floor.',
-    actionSteps: [
-      'Notice your jaw, shoulders and breathing before opening the room door, then slow your pace if you need to.',
-      'Choose a simple settling anchor such as water, a warm drink, fresh air or a brief quiet moment if available.',
-      'Choose supportive, practical conversation over escalating staffroom venting before entering the room.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
-  },
-  {
-    id: 'nursery-dropoff',
-    roomName: '02. Nursery Morning Separation',
-    badgeTag: 'CALM Step A: Acknowledge & Anchor',
-    image: '/images/feed/01_babies_room.png',
-    trigger:
-      'Multiple family arrivals can increase noise, movement and competing demands during morning drop-off.',
-    styledVsSubstance:
-      'Fast movement, repeated reassurance and rising room noise may add extra stimulation when several infants are already unsettled.',
-    actionSteps: [
-      'Position yourself steadily near the entry zone rather than moving quickly between several children.',
-      'Use a slower voice and more deliberate movements where this is appropriate.',
-      'Focus on one infant at a time where possible, using a steady and predictable response before moving on.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: 'toddler-doorway',
-    roomName: '03. Toddler Doorway Clinging',
-    badgeTag: 'CALM Step L: Lower Height & Proximity',
-    image: '/images/feed/02_toddler_room.png',
-    trigger:
-      'Toddlers clinging to parent legs at the room doorway, refusing to enter the play space.',
-    styledVsSubstance:
-      'Calling across the room may add more noise and demand when a toddler is already distressed or hesitant at the doorway.',
-    actionSteps: [
-      'Lower your physical height when appropriate so you can greet the child without looming over them.',
-      'Greet the child at eye level without forcibly pulling them away from their parent.',
-      'Offer a simple arrival job, such as carrying a light basket or placing an item away, if that suits the child and routine.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: '3yo-morning-overstimulation',
-    roomName: '04. 3yo Morning Room Volume Spikes',
-    badgeTag: 'CALM Step M: Mobile Steady Anchor',
-    image: '/images/feed/03_3yo_room.png',
-    trigger:
-      'High morning noise volume and running between activity tables between 8:30 AM and 9:00 AM.',
-    styledVsSubstance:
-      'High-energy behaviour in the morning can have many causes. Consider co-regulation, environment, movement opportunities and the demands of the routine before assuming deliberate rule-breaking.',
-    actionSteps: [
-      'Position yourself as a stationary physical anchor in the central room pathway.',
-      'Use quiet, flat-hand spatial cues rather than shouting across the room.',
-      'Offer purposeful movement such as carrying, pushing or climbing before group time where appropriate, then notice whether participation changes.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: '4yo-morning-transitions',
-    roomName: '05. 4yo / Kinder Morning Bag Hook Arrival',
-    badgeTag: 'CALM Model Routine',
-    image: '/images/feed/04_4yo_room.png',
-    trigger:
-      'Locker room crowding, bag dumping, and social friction during morning arrival.',
-    styledVsSubstance:
-      'Crowded arrival areas can make the routine harder to navigate, especially when several children and families are moving through the same space.',
-    actionSteps: [
-      'Where practical, reduce crowding at bag hooks by staggering access or creating clearer waiting points.',
-      'Place visual step cues for bag hanging and water bottle placement.',
-      'Maintain steady adult vocal rhythm while welcoming arriving families.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: 'prep-morning-routine',
-    roomName: '06. Prep / School Morning Entry',
-    badgeTag: 'CALM Model Routine',
-    image: '/images/feed/05_prep_transition.png',
-    trigger:
-      'Overwhelmed children freezing or hiding behind parents at the classroom threshold.',
-    styledVsSubstance:
-      'Shifting from home into group expectations can be demanding. Predictable cues and a clear next step may make the transition easier.',
-    actionSteps: [
-      'Position a dedicated educator right at the doorway threshold.',
-      'Provide a predictable nonverbal arrival job, such as placing a name card on the board.',
-      'Keep arrival instructions short and clear, and allow processing time before adding more language.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: 'anxious-family-handover',
-    roomName: '07. Parent Morning Handover Calm',
-    badgeTag: 'CALM Family Connection',
-    image: '/images/feed/08_transitions.png',
-    trigger:
-      'Some family handovers involve visible worry, uncertainty or difficulty separating at the door.',
-    styledVsSubstance:
-      'Children can be sensitive to the emotional tone of a handover, but responses vary. A steady, respectful educator can help make the transition more predictable.',
-    actionSteps: [
-      'Acknowledge parent worry with steady, unhurried eye contact.',
-      'State a clear, confident departure ritual: "We have our morning anchor job ready now."',
-      'Use a predictable communication approach at pick-up when this helps families feel informed and connected.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
-  },
-  {
-    id: 'staffroom-venting-boundary',
-    roomName: '08. Morning Staff Shift Handovers',
-    badgeTag: 'CALM Team Culture',
-    image: '/images/feed/06_early_primary.png',
-    trigger:
-      'Morning shift changes accompanied by frustrated staffroom venting about room challenges.',
-    styledVsSubstance:
-      'Frustrated handovers can shape the tone educators carry back into the room. Keep discussion practical and focused on what the next educator needs to know.',
-    actionSteps: [
-      'Set a professional boundary: focus on child regulation needs, not character labels.',
-      'Share one steady regulation anchor that worked well during the early shift.',
-      'Enter the room with shared priorities and enough flexibility to respond to what is actually happening.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
-  },
-  {
-    id: 'outdoor-morning-entry',
-    roomName: '09. Outdoor to Morning Room Transition',
-    badgeTag: 'CALM Transition Routine',
-    image: '/images/feed/09_outdoor_play.png',
-    trigger:
-      'High arousal, running, and door crowding when moving from morning yard play into rooms.',
-    styledVsSubstance:
-      'Moving from a large outdoor space into a narrow doorway can create crowding and extra demand for some children.',
-    actionSteps: [
-      'Give a brief visual or verbal warning before outdoor play ends, using the same cue consistently.',
-      'Position educators at outdoor doorway thresholds to pace entry speed.',
-      'Offer a purposeful carrying or helping job during room entry where appropriate.',
-    ],
-    printablePoster: '/pdf/Calm-Posters.pdf',
-  },
-  {
-    id: 'morning-circle-welcome',
-    roomName: '10. Morning Welcome Circle & Mat Time',
-    badgeTag: 'CALM Mat Routine',
-    image: '/images/feed/10_mat_time.png',
-    trigger:
-      'Fidgeting, carpet rolling, and interjection during initial morning group time.',
-    styledVsSubstance:
-      'Expecting complete stillness may make group participation harder for some children, especially after an active arrival period.',
-    actionSteps: [
-      'Include simple movement in morning greeting songs where it supports participation.',
-      'Consider appropriate seating, standing or movement options for children who participate better with some physical flexibility.',
-      'Acknowledge that active listening does not always look like sitting still.',
-    ],
-    printablePoster:
-      '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-];
 
 export default function PlaybooksPage() {
-  const [selectedId, setSelectedId] =
-    useState<string>('nursery-dropoff');
+  const [activeCategory, setActiveCategory] = useState<'arrivals' | 'transitions' | 'handovers' | 'prep'>('arrivals');
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const currentPlan =
-    LADDER_ONE_ACTION_PLANS.find(
-      (plan) => plan.id === selectedId,
-    ) || LADDER_ONE_ACTION_PLANS[1];
+  const playbooks = {
+    arrivals: [
+      {
+        title: 'Morning Doorway Anchor',
+        timing: '7:00 AM - 9:00 AM',
+        action: 'Lower eye height parallel to doorway. Greet child by name before requesting sign-in details from families.',
+        qip: 'QA 6.1.1 — Supportive Handovers',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf'
+      },
+      {
+        title: 'Non-Digital Handover Pause',
+        timing: 'Arrival Routine',
+        action: 'Pause tablet or digital message logging for 60 seconds when a family steps into the room entry threshold.',
+        qip: 'QA 5.1.1 — Relational Presence',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf'
+      }
+    ],
+    transitions: [
+      {
+        title: 'Acoustic Load Reduction',
+        timing: 'Pre-Group Time',
+        action: 'Eliminate background music and turn off ceiling row lights 5 minutes prior to gathering children.',
+        qip: 'QA 3.1.2 — Environmental Setup',
+        pdfUrl: '/pdf/Calm-Posters.pdf'
+      },
+      {
+        title: 'Proprioceptive Heavy Work Carry',
+        timing: 'High-Demand Transitions',
+        action: 'Offer heavy laundry baskets, water jugs, or floor cushions for carrying before expecting seated attention.',
+        qip: 'QA 1.3.2 — Critical Reflection',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf'
+      }
+    ],
+    handovers: [
+      {
+        title: 'Non-Verbal Co-Educator Tag Signal',
+        timing: 'Room Peak Stress',
+        action: 'Use agreed wrist-tap or double-nod signal to switch room positions when personal capacity tank hits 30%.',
+        qip: 'QA 4.1.1 — Staff Co-Regulation',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf'
+      },
+      {
+        title: 'Zero-Demand Separation Space',
+        timing: 'Distressed Separation',
+        action: 'Guide child to a quiet, low-sensory nook with cool water or soft texture without lengthy verbal explanations.',
+        qip: 'QA 2.1.1 — Emotional Safety',
+        pdfUrl: '/pdf/Calm-Posters.pdf'
+      }
+    ],
+    prep: [
+      {
+        title: '60-Second Staffroom Somatic Pause',
+        timing: 'Prior to Room Entry',
+        action: 'Unclench jaw, drop shoulders from ears, and take two slow nasal breaths before stepping onto the room floor.',
+        qip: 'QA 5.1.1 — Adult Self-Regulation',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf'
+      },
+      {
+        title: 'Room Entry Spatial Audit',
+        timing: 'Shift Start',
+        action: 'Check doorway movement bottleneck. Shift bag trolleys and clutter away from main traffic pathways.',
+        qip: 'QA 3.1.2 — Spatial Unburdening',
+        pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf'
+      }
+    ]
+  };
+
+  const handleCopyText = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20">
+      
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <Link
-            href="/portal"
-            className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
+            href="/platform/educator"
+            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
           >
-            &larr; Back to Member Hub
+            ← Back to Floor Deck
           </Link>
-
-          <div className="flex items-center gap-2">
-            <span className="hidden rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-950 sm:inline-block">
-              Ladder 1 Available
-            </span>
-
-            <MemberSignOutButton />
-          </div>
+          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
+            Routine Playbooks
+          </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl space-y-8 px-6 py-8">
-        {/* PAGE TITLE */}
-        <section className="mx-auto max-w-2xl space-y-2 text-center">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Current Regulation Ladder
+      <main className="max-w-5xl mx-auto px-4 py-6 space-y-8">
+        
+        {/* Banner */}
+        <section className="bg-[#1C3B34] text-white p-6 md:p-8 rounded-3xl border-2 border-[#1C3B34] shadow-sm space-y-3">
+          <span className="text-xs font-black uppercase tracking-wider text-[#C29F60] block">
+            Practical Floor Prompts
           </span>
-
-          <h1 className="text-2xl font-extrabold text-slate-900 md:text-4xl">
-            Ladder 1: Morning Routines &amp; The CALM Framework
+          <h1 className="text-2xl md:text-4xl font-serif font-bold text-white leading-tight">
+            Morning Routine Action Playbooks
           </h1>
-
-          <p className="text-xs leading-relaxed text-slate-600 md:text-sm">
-            Ladder 1 is the current, fully available starting point,
-            with practical action plans for morning arrivals, staffroom
-            preparation, drop-off distress, and calm room foundations.
+          <p className="text-sm md:text-base text-white/90 font-light leading-relaxed max-w-2xl">
+            15-word room strategies for arrivals, transitions, and educator preparation. Designed for immediate floor implementation.
           </p>
         </section>
 
-        {/* MONTH 2 UNLOCK NOTICE BANNER */}
-        <section className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-amber-300 bg-amber-50 p-4 shadow-xs sm:flex-row sm:items-center sm:p-5">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500"></span>
+        {/* Playbook Category Switcher */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-bold text-sm">
+          {[
+            { id: 'arrivals', label: '🚪 Arrivals' },
+            { id: 'transitions', label: '🔄 Transitions' },
+            { id: 'handovers', label: '🤝 Handovers' },
+            { id: 'prep', label: '🧘 Educator Prep' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveCategory(tab.id as keyof typeof playbooks)}
+              className={`py-3.5 px-4 rounded-2xl border-2 transition-all min-h-12 flex items-center justify-center ${
+                activeCategory === tab.id
+                  ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                  : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-              <strong className="text-xs font-bold uppercase tracking-wider text-amber-950">
-                Ladder 2 Releasing Next
-              </strong>
-            </div>
+        {/* Playbook Action Cards */}
+        <div className="space-y-4">
+          {playbooks[activeCategory].map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-white p-6 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-4 hover:border-[#657B6C] transition-all"
+            >
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-[#FAF8F5] pb-3">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#C29F60] block">
+                    {item.timing}
+                  </span>
+                  <h2 className="text-xl font-serif font-bold text-[#1C3B34]">
+                    {item.title}
+                  </h2>
+                </div>
 
-            <p className="text-xs leading-relaxed text-amber-900">
-              <strong>Month 2 Focus:</strong> The EASE Model &amp;
-              Escalation Practices, including environment, relational support,
-              sensory and movement needs, and adult responses during difficult
-              moments.
-            </p>
-
-            <p className="text-xs leading-relaxed text-amber-900">
-              EASE builds on the CALM Framework by helping educators
-              consider several possible influences before responding during
-              escalation or other high-demand moments.
-            </p>
-          </div>
-
-          <span className="shrink-0 rounded-xl border border-amber-300 bg-amber-200/80 px-3 py-1.5 text-[11px] font-bold text-amber-950">
-            Unlocks in Month 2
-          </span>
-        </section>
-
-        <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-          <strong className="block text-xs font-bold uppercase tracking-wider text-amber-950">
-            Use These Plans as Reflection Prompts
-          </strong>
-
-          <p className="mt-2 text-xs leading-relaxed text-amber-950">
-            These action plans suggest practical things to notice and trial.
-            They do not identify the cause of an individual child&apos;s
-            behaviour. Use your knowledge of the child, family, environment and
-            current context when deciding what support is appropriate.
-          </p>
-        </section>
-
-        {/* ROOM SELECTOR BUTTON BAR */}
-        <section className="overflow-x-auto pb-2">
-          <div className="flex min-w-max gap-2">
-            {LADDER_ONE_ACTION_PLANS.map((plan) => {
-              const isSelected = plan.id === selectedId;
-
-              return (
-                <button
-                  key={plan.id}
-                  type="button"
-                  onClick={() => setSelectedId(plan.id)}
-                  className={`shrink-0 rounded-2xl border px-4 py-2.5 text-xs font-bold transition ${
-                    isSelected
-                      ? 'border-teal-800 bg-teal-800 text-white shadow-xs'
-                      : 'border-slate-200 bg-white text-slate-700 hover:border-teal-600'
-                  }`}
-                >
-                  {plan.roomName}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ACTIVE ACTION PLAN DISPLAY CARD */}
-        <section className="grid grid-cols-1 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md lg:grid-cols-12">
-          {/* LEFT COLUMN */}
-          <div className="relative flex min-h-72 items-center justify-center bg-teal-950 lg:col-span-5 lg:min-h-full">
-            <img
-              src={currentPlan.image}
-              alt={currentPlan.roomName}
-              className="h-full w-full object-cover"
-            />
-
-            <div className="absolute inset-0 flex items-end bg-linear-to-t from-teal-950/90 via-transparent to-transparent p-6 lg:hidden">
-              <span className="rounded-full bg-amber-400 px-3 py-1 text-[10px] font-bold text-slate-950">
-                {currentPlan.badgeTag}
-              </span>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN */}
-          <div className="space-y-6 p-6 md:p-8 lg:col-span-7">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <span className="block text-[10px] font-bold uppercase tracking-widest text-teal-800">
-                  {currentPlan.badgeTag}
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FAF5EC] border border-[#C29F60]/40 text-[#1C3B34]">
+                  {item.qip}
                 </span>
-
-                <h2 className="mt-0.5 text-xl font-extrabold text-slate-900">
-                  {currentPlan.roomName}
-                </h2>
               </div>
 
-              <span className="hidden rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-bold text-emerald-900 lg:inline-block">
-                Ladder 1 Available Now
-              </span>
-            </div>
+              <p className="text-sm md:text-base font-medium leading-relaxed bg-[#FAF8F5] p-4 rounded-2xl border border-[#E6E2DC] text-[#2B3833]">
+                {item.action}
+              </p>
 
-            {/* TRIGGER & INSIGHT */}
-            <div className="space-y-3">
-              <div className="space-y-1 rounded-2xl border border-rose-200 bg-rose-50 p-4">
-                <strong className="block text-[11px] font-bold uppercase tracking-wider text-rose-950">
-                  What Is Happening:
-                </strong>
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={() => handleCopyText(item.action, idx)}
+                  className="flex-1 py-3 px-4 bg-[#657B6C] text-white font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 flex items-center justify-center shadow-sm"
+                >
+                  {copiedIndex === idx ? '✓ Copied Action Strategy' : '📋 Copy Prompt Text'}
+                </button>
 
-                <p className="text-xs font-medium leading-relaxed text-rose-900">
-                  {currentPlan.trigger}
-                </p>
-              </div>
-
-              <div className="space-y-1 rounded-2xl border border-slate-200 bg-[#FDFBF7] p-4">
-                <strong className="block text-[11px] font-bold uppercase tracking-wider text-teal-900">
-                  What to Notice:
-                </strong>
-
-                <p className="text-xs leading-relaxed text-slate-700">
-                  {currentPlan.styledVsSubstance}
-                </p>
+                <a
+                  href={item.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-6 bg-[#C29F60] text-[#1C3B34] font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 flex items-center justify-center shadow-sm"
+                >
+                  🖨️ Print PDF Card
+                </a>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* ACTION STEPS */}
-            <div className="space-y-3">
-              <strong className="block text-xs font-bold uppercase tracking-wider text-slate-900">
-                3-Step Practice Plan:
-              </strong>
-
-              <div className="space-y-2">
-                {currentPlan.actionSteps.map((step, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-3 rounded-xl border border-teal-200/80 bg-teal-50 p-3"
-                  >
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-800 text-[10px] font-bold text-white">
-                      {index + 1}
-                    </span>
-
-                    <p className="text-xs font-medium leading-relaxed text-teal-950">
-                      {step}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* DOWNLOAD PDF ACTION */}
-            <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-2 sm:flex-row">
-              <span className="text-[11px] font-medium text-slate-500">
-                Ladder 1 printable routine cards available now
-              </span>
-
-              <a
-                href={currentPlan.printablePoster}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full rounded-xl bg-amber-400 px-5 py-2.5 text-center text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300 sm:w-auto"
-              >
-                Download Ladder 1 Resource &rarr;
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* RELEASE CONTEXT */}
-        <section className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
-          <p className="text-xs leading-relaxed text-teal-900">
-            Ladder 1 is available in full now. Additional ladders are
-            introduced progressively so teams have time to practise and reflect
-            before new content is added. Services can begin with the 3-Ladder
-            Preview or choose the full 8-Ladder pathway.
-          </p>
-        </section>
-
-        {/* CTA TO PROPOSAL PACK */}
-        <section className="space-y-4 rounded-3xl bg-teal-900 p-8 text-center text-white">
-          <h3 className="text-lg font-bold md:text-xl">
-            Continue the Regulator Champions Pathway
-          </h3>
-
-          <p className="mx-auto max-w-lg text-xs leading-relaxed text-teal-100">
-            Start with the 3-Ladder Preview for $1,790 including GST and six
-            months of access, or choose the full 8-Ladder pathway for $4,790
-            including GST and 12 months of access.
-          </p>
-
-          <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="rounded-xl bg-amber-400 px-6 py-3 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-            >
-              3-Ladder Preview — $1,790 &rarr;
-            </Link>
-
-            <Link
-              href="/proposal?plan=full"
-              className="rounded-xl border border-teal-700 bg-teal-800 px-6 py-3 text-xs font-bold text-white transition hover:bg-teal-700"
-            >
-              Full 8-Ladder Pathway — $4,790 &rarr;
-            </Link>
-          </div>
-        </section>
       </main>
     </div>
   );

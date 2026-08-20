@@ -1,4 +1,13 @@
-export type LadderAvailability = 'available' | 'in-development';
+export type LadderAvailability =
+  | 'available'
+  | 'launching-soon'
+  | 'in-development';
+
+export type LadderPrintables = {
+  educator: string | null;
+  manager: string | null;
+  family: string | null;
+};
 
 export type RegulationLadderRung = {
   number: number;
@@ -19,638 +28,465 @@ export type RegulationLadder = {
   description: string;
   availability: LadderAvailability;
   printablePdf: string | null;
+  printables: LadderPrintables;
   rungs: RegulationLadderRung[];
 };
 
 export const regulationLadders: RegulationLadder[] = [
   {
-    id: 'regulated-educator',
+    id: 'morning-routine',
     number: 1,
-    title: 'Regulated Educator, Regulated Room',
-    shortTitle: 'Regulated Educator',
+    title: 'Morning Routine',
+    shortTitle: 'Morning Routine',
     subtitle:
-      'Notice how your own stress, sensory needs and preparation influence the room.',
+      'Notice your own state, prepare for the room and begin the day with more awareness.',
     description:
-      'This ladder helps educators notice their own body state, prepare for predictable pressure points and make small changes before responding to children.',
+      'Ten short practice steps for educators to notice their own energy, prepare for arrival and respond more thoughtfully at the beginning of the day.',
     availability: 'available',
-    printablePdf:
-  '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
+
+    printablePdf: '/pdf/educators-ladder-1.pdf',
+
+    printables: {
+      educator: '/pdf/educators-ladder-1.pdf',
+      manager: '/pdf/managers-ladder-1.pdf',
+      family: '/pdf/families-ladder-1.pdf',
+    },
+
     rungs: [
       {
         number: 1,
-        title: 'Notice Your Starting Point',
-        focus:
-          'Begin by noticing your current energy, tension and emotional load.',
+        title: 'Wake',
+        focus: 'Notice what your body reaches for first.',
         practicePrompt:
-          'Before entering the room, pause for a few seconds. Notice your shoulders, jaw, breathing and the speed of your thoughts without trying to judge or immediately change them.',
+          'Before you check your phone, notice what you naturally reach for first. Is it your phone, sunlight, tea, quiet or something else?',
         reflectionQuestion:
-          'What did you notice about your body and energy before beginning?',
+          'What did you actually reach for this morning?',
         evidencePrompt:
-          'Describe one sign that helped you recognise your starting state.',
+          'Record the first thing you reached for and what you noticed.',
         image: '/images/ladders/ladder1_rung01.png',
       },
+
       {
         number: 2,
-        title: 'Choose What You Need',
-        focus:
-          'Use a small action that supports the state you need for the next part of the day.',
+        title: 'Nature',
+        focus: 'Notice the world around you before the workday begins.',
         practicePrompt:
-          'Choose one realistic support before entering the room. This may be quiet, fresh air, water, slower breathing, movement or a brief conversation with a colleague.',
-        reflectionQuestion:
-          'What support did you choose, and why did it suit your needs?',
+          'Step outside for a moment. Notice clouds, birds, air, light or another small detail around you.',
+        reflectionQuestion: 'What did you notice?',
         evidencePrompt:
-          'Describe the action and whether it changed anything you noticed.',
+          'Record one thing you noticed outside.',
         image: '/images/ladders/ladder1_rung02.png',
       },
+
       {
         number: 3,
-        title: 'Prepare for a Pressure Point',
-        focus:
-          'Identify one routine that is likely to place extra demand on you.',
+        title: 'The Drive',
+        focus: 'Match your morning input to what you actually need.',
         practicePrompt:
-          'Choose one predictable pressure point such as arrivals, lunch, pack-up or staff handover. Decide in advance what will help you respond with less urgency.',
+          'Notice your natural energy level. Choose music, a podcast or silence based on what you need today rather than habit.',
         reflectionQuestion:
-          'Which routine did you prepare for, and what was your plan?',
+          'What did you choose, and how did it feel?',
         evidencePrompt:
-          'Record the pressure point and one preparation you made.',
+          'Record what you chose for the drive and whether it suited your morning.',
         image: '/images/ladders/ladder1_rung03.png',
       },
+
       {
         number: 4,
-        title: 'Enter the Room Deliberately',
-        focus:
-          'Notice the difference between rushing into the room and entering with awareness.',
+        title: 'The Staffroom',
+        focus: 'Notice the energy you are walking into.',
         practicePrompt:
-          'As you enter, slow down enough to observe the room before giving instructions or taking over a situation.',
+          'Notice the energy in the staffroom. Before automatically matching the pace around you, check what you need for your own morning.',
         reflectionQuestion:
-          'What did you notice when you paused before responding?',
+          'What did you choose to do today?',
         evidencePrompt:
-          'Describe one detail you may have missed if you entered more quickly.',
+          'Record one choice you made before entering the room.',
         image: '/images/ladders/ladder1_rung04.png',
       },
+
       {
         number: 5,
-        title: 'Match Before You Guide',
-        focus:
-          'Respond to the child’s current state before expecting them to move immediately into yours.',
+        title: 'Meeting the First Child',
+        focus: 'Adjust your energy to meet the child in front of you.',
         practicePrompt:
-          'Notice whether the child is energetic, hesitant, distressed or withdrawn. Adjust your volume, pace, body position and amount of language before guiding the next step.',
+          'Notice the first child you meet. Consider whether your voice, pace, energy or body position needs to shift before guiding them.',
         reflectionQuestion:
-          'What did you change about your own approach?',
+          'Which child did you meet first, and what did you shift?',
         evidencePrompt:
-          'Describe how you adjusted your pace, position, voice or language.',
+          'Record one change you made to your own pace, energy, voice or posture.',
         image: '/images/ladders/ladder1_rung05.png',
       },
+
       {
         number: 6,
-        title: 'Reduce Unnecessary Language',
-        focus:
-          'Notice when your own stress causes you to add more words.',
+        title: 'Plan Your Pockets',
+        focus: 'Prepare a few simple resources before you need them.',
         practicePrompt:
-          'During one difficult moment, reduce your response to one clear sentence or instruction. Allow processing time before speaking again.',
+          'Check what you have available. Consider something to fidget with, something for breathing play, or something simple to hide and find.',
         reflectionQuestion:
-          'What happened when you used fewer words?',
+          'What did you pack today?',
         evidencePrompt:
-          'Record the wording you used and what you noticed afterwards.',
+          'Record what you prepared and what you hoped it might support.',
         image: '/images/ladders/ladder1_rung06.png',
       },
+
       {
         number: 7,
-        title: 'Check Your Body Position',
-        focus:
-          'Consider how adult height, distance and movement may affect the interaction.',
+        title: 'Dysregulated Child',
+        focus: 'Check, assess, lead and monitor before rushing to fix.',
         practicePrompt:
-          'Choose a position that allows you to remain available without crowding or looming over the child. Maintain supervision and safety throughout.',
+          'When a child is struggling, pause. Notice their body, notice your own body and choose a steady response before adding more demands.',
         reflectionQuestion:
-          'How did your body position influence the interaction?',
+          'What did you notice in their body and in your own?',
         evidencePrompt:
-          'Describe where you positioned yourself and why.',
+          'Record one observable cue from the child and one thing you noticed in yourself.',
         image: '/images/ladders/ladder1_rung07.png',
       },
+
       {
         number: 8,
-        title: 'Notice When You Are Carrying Too Much',
-        focus:
-          'Identify when empathy has shifted into emotional overload.',
+        title: 'Parent at the Door',
+        focus: 'Notice the adult as well as the child.',
         practicePrompt:
-          'During a demanding interaction, notice whether you are trying to solve everything at once or carrying the feelings of the child, family and team.',
+          'When a parent arrives carrying stress or worry, use a genuine point of connection before moving straight into the handover.',
         reflectionQuestion:
-          'What pressure were you carrying that did not need to be solved immediately?',
+          'What did you ask, and what did you notice together?',
         evidencePrompt:
-          'Name one responsibility you could share, delay or approach differently.',
+          'Record one brief connection you used during a handover.',
         image: '/images/ladders/ladder1_rung08.png',
       },
+
       {
         number: 9,
-        title: 'Use a Brief Reset',
-        focus:
-          'Practise returning to the room after a difficult moment without needing a perfect break.',
+        title: "Child's Entry Ritual",
+        focus: 'Give the child something purposeful to move into.',
         practicePrompt:
-          'Use a brief realistic reset such as water, fresh air, stretching your hands, relaxing your shoulders or asking a colleague for one minute of support.',
+          'Offer a simple familiar entry action such as pushing a trolley, carrying a basket or moving through a small movement pathway.',
         reflectionQuestion:
-          'Which reset was available to you, and what changed afterwards?',
+          'What job or entry action did they choose today?',
         evidencePrompt:
-          'Describe the reset and one effect you noticed.',
+          'Record the entry action and what happened next.',
         image: '/images/ladders/ladder1_rung09.png',
       },
+
       {
         number: 10,
-        title: 'Reflect Without Blame',
-        focus:
-          'Review the day as information rather than proof that you succeeded or failed.',
+        title: 'Room Scan',
+        focus: 'Look across the whole room before responding to the loudest behaviour.',
         practicePrompt:
-          'Choose one difficult moment and identify what increased the pressure, what helped and what you would change next time.',
+          'Pause and scan the room. Notice children who are highly active, watchful, withdrawn, quiet or needing more connection.',
         reflectionQuestion:
-          'What will you repeat or adjust during the next similar situation?',
+          'Who appeared to need you first?',
         evidencePrompt:
-          'Record one practical change you will carry into the next shift.',
+          'Record one room-level pattern you noticed.',
         image: '/images/ladders/ladder1_rung10.png',
       },
     ],
   },
+
   {
-    id: 'connected-drop-offs',
+    id: 'escalation-support',
     number: 2,
-    title: 'Connected Drop-Offs',
-    shortTitle: 'Connected Drop-Offs',
+    title: 'Escalation Support',
+    shortTitle: 'Escalation Support',
     subtitle:
-      'Support children and families through arrival without rushing separation.',
+      'Respond to escalating moments with safety, observation, connection and reflection.',
     description:
-      'This ladder helps educators reduce pressure at the doorway, notice different stress responses and create predictable entry experiences.',
+      'Ten short steps that help educators slow the moment down, protect safety, notice possible drivers and decide what to try next.',
     availability: 'available',
-    printablePdf: null,
+
+    printablePdf: '/pdf/educators-ladder-2.pdf',
+
+    printables: {
+      educator: '/pdf/educators-ladder-2.pdf',
+      manager: '/pdf/managers-ladder-2.pdf',
+      family: '/pdf/families-ladder-2.pdf',
+    },
+
     rungs: [
       {
         number: 1,
-        title: 'Prepare the Entrance',
-        focus:
-          'Look at the arrival space before families begin entering.',
+        title: 'Immediate Safety',
+        focus: 'Protect first.',
         practicePrompt:
-          'Notice noise, crowding, visual clutter and the number of instructions families receive at the entrance. Change one element that may reduce pressure.',
+          'Clear the immediate area when needed and bring another educator closer if children are frightened, hurt or the situation needs extra support.',
         reflectionQuestion:
-          'What did you change or remove from the arrival space?',
+          'Did you need another educator today, and what happened?',
         evidencePrompt:
-          'Describe one environmental adjustment and why you chose it.',
-        image: '/images/ladders/ladder3_rung01.png',
-      },
-      {
-        number: 2,
-        title: 'Notice Before Directing',
-        focus:
-          'Observe the child and family before immediately giving instructions.',
-        practicePrompt:
-          'Notice body position, eye contact, movement, breathing and how tightly the child is holding the adult or their belongings.',
-        reflectionQuestion:
-          'What signals did you notice before speaking?',
-        evidencePrompt:
-          'Record two observable details without interpreting them as good or bad.',
-        image: '/images/ladders/ladder3_rung02.png',
-      },
-      {
-        number: 3,
-        title: 'Connect With the Family',
-        focus:
-          'Help the adult feel acknowledged without turning arrival into a long interview.',
-        practicePrompt:
-          'Use one genuine, calm point of connection with the family. Avoid immediately correcting, reassuring excessively or rushing the goodbye.',
-        reflectionQuestion:
-          'How did you acknowledge the family’s experience?',
-        evidencePrompt:
-          'Record the brief connection you used and how it was received.',
-        image: '/images/ladders/ladder3_rung03.png',
-      },
-      {
-        number: 4,
-        title: 'Offer One Entry Action',
-        focus:
-          'Reduce the number of choices and steps required at the doorway.',
-        practicePrompt:
-          'Offer one familiar action such as placing a bag down, carrying an item, watering a plant or walking to a preferred area.',
-        reflectionQuestion:
-          'Which entry action did you offer?',
-        evidencePrompt:
-          'Describe whether the action made entering easier, harder or unchanged.',
-        image: '/images/ladders/ladder3_rung04.png',
-      },
-      {
-        number: 5,
-        title: 'Create a Predictable Goodbye',
-        focus:
-          'Support a clear and respectful separation rather than repeated uncertain goodbyes.',
-        practicePrompt:
-          'Work with the family to use a brief, familiar goodbye action or phrase that can be repeated across arrivals.',
-        reflectionQuestion:
-          'What made the goodbye more predictable?',
-        evidencePrompt:
-          'Describe the agreed goodbye cue or routine.',
-        image: '/images/ladders/ladder3_rung05.png',
-      },
-      {
-        number: 6,
-        title: 'Allow Processing Time',
-        focus:
-          'Notice when repeated offers have become additional pressure.',
-        practicePrompt:
-          'After making one clear offer, pause. Stay available and maintain supervision without rapidly presenting several new toys, questions or choices.',
-        reflectionQuestion:
-          'What happened when you allowed more time?',
-        evidencePrompt:
-          'Describe how long you waited and what the child did next.',
-        image: '/images/ladders/ladder3_rung06.png',
-      },
-      {
-        number: 7,
-        title: 'Use Nearby Participation',
-        focus:
-          'Support the child to be near play before expecting active involvement.',
-        practicePrompt:
-          'Create an opportunity for the child to watch, stand nearby or participate alongside another child without being required to join fully.',
-        reflectionQuestion:
-          'What form of nearby participation was available?',
-        evidencePrompt:
-          'Describe the child’s level of participation without labelling it as success or failure.',
-        image: '/images/ladders/ladder3_rung07.png',
-      },
-      {
-        number: 8,
-        title: 'Stay Steady During Clinginess',
-        focus:
-          'Notice the feelings that extended support creates for the educator.',
-        practicePrompt:
-          'When a child remains close to you, notice impatience, worry or pressure to make them separate quickly. Choose a response that maintains warmth and appropriate boundaries.',
-        reflectionQuestion:
-          'What did you notice in yourself during the extended support?',
-        evidencePrompt:
-          'Record one thought or feeling and how you managed it professionally.',
-        image: '/images/ladders/ladder3_rung08.png',
-      },
-      {
-        number: 9,
-        title: 'Share Information Carefully',
-        focus:
-          'Communicate with families without exaggerating either difficulty or success.',
-        practicePrompt:
-          'At collection, share one factual observation about the child’s arrival and one meaningful moment from later in the day.',
-        reflectionQuestion:
-          'What information did you choose to share?',
-        evidencePrompt:
-          'Record the general wording without including identifying family information.',
-        image: '/images/ladders/ladder3_rung09.png',
-      },
-      {
-        number: 10,
-        title: 'Review the Arrival Pattern',
-        focus:
-          'Look for patterns across several days rather than judging one difficult morning.',
-        practicePrompt:
-          'Review when arrival appears easier or harder. Consider timing, staffing, environment, family routines and available entry activities.',
-        reflectionQuestion:
-          'What pattern or possible influence did you notice?',
-        evidencePrompt:
-          'Record one change the team will trial during future arrivals.',
-        image: '/images/ladders/ladder3_rung10.png',
-      },
-    ],
-  },
-  {
-    id: 'participation-beyond-sitting',
-    number: 3,
-    title: 'Participation Beyond Sitting Still',
-    shortTitle: 'Group Participation',
-    subtitle:
-      'Create group experiences that recognise different ways children listen and participate.',
-    description:
-      'This ladder helps educators review mat-time expectations, reduce unnecessary waiting and build movement into group learning.',
-    availability: 'available',
-    printablePdf: null,
-    rungs: [
-      {
-        number: 1,
-        title: 'Clarify the Purpose',
-        focus:
-          'Identify why the group is gathering before deciding how children must sit.',
-        practicePrompt:
-          'Name the main purpose of the group experience. Decide which expectations are necessary for that purpose and which are simply familiar habits.',
-        reflectionQuestion:
-          'What was the actual purpose of the group experience?',
-        evidencePrompt:
-          'List one expectation you kept and one you reconsidered.',
-        image: '/images/ladders/ladder4_rung01.png',
-      },
-      {
-        number: 2,
-        title: 'Review the Length',
-        focus:
-          'Compare the planned length with children’s current capacity and interest.',
-        practicePrompt:
-          'Record how long the experience lasts and when participation begins to change. Consider ending earlier rather than waiting for widespread disengagement.',
-        reflectionQuestion:
-          'When did children’s participation begin to shift?',
-        evidencePrompt:
-          'Record the approximate duration and one signal you observed.',
-        image: '/images/ladders/ladder4_rung02.png',
-      },
-      {
-        number: 3,
-        title: 'Change the Way Children Arrive',
-        focus:
-          'Reduce waiting and crowding before the group experience begins.',
-        practicePrompt:
-          'Trial a clear movement pathway, song, individual invitation or small-group arrival rather than asking everyone to wait on the mat.',
-        reflectionQuestion:
-          'How did children enter the group experience?',
-        evidencePrompt:
-          'Describe the arrival method and its effect on waiting.',
-        image: '/images/ladders/ladder4_rung03.png',
-      },
-      {
-        number: 4,
-        title: 'Build Movement Into the Content',
-        focus:
-          'Use movement as part of learning rather than only as a break from learning.',
-        practicePrompt:
-          'Add gestures, acting, carrying, pointing, changing levels or moving to different parts of the space within the experience.',
-        reflectionQuestion:
-          'Which movement supported the learning purpose?',
-        evidencePrompt:
-          'Describe one movement and how children responded.',
-        image: '/images/ladders/ladder4_rung04.png',
-      },
-      {
-        number: 5,
-        title: 'Offer Different Positions',
-        focus:
-          'Allow appropriate variation in how children position their bodies.',
-        practicePrompt:
-          'Offer realistic options such as sitting on a cushion, kneeling, standing at the back or participating from a nearby position.',
-        reflectionQuestion:
-          'Which position helped a child participate more successfully?',
-        evidencePrompt:
-          'Describe the option and what changed in participation.',
-        image: '/images/ladders/ladder4_rung05.png',
-      },
-      {
-        number: 6,
-        title: 'Reduce Waiting for Turns',
-        focus:
-          'Notice how long children are expected to remain passive.',
-        practicePrompt:
-          'Change one part of the experience so more children can respond, hold materials, move or participate at the same time.',
-        reflectionQuestion:
-          'How did you reduce passive waiting?',
-        evidencePrompt:
-          'Describe the change and whether engagement increased.',
-        image: '/images/ladders/ladder4_rung06.png',
-      },
-      {
-        number: 7,
-        title: 'Use a Mid-Point Check',
-        focus:
-          'Respond to the group’s changing state rather than completing the plan at any cost.',
-        practicePrompt:
-          'Pause partway through and notice posture, movement, noise, attention and your own frustration. Decide whether to continue, change or finish.',
-        reflectionQuestion:
-          'What did the mid-point check tell you?',
-        evidencePrompt:
-          'Record the decision you made and why.',
-        image: '/images/ladders/ladder4_rung07.png',
-      },
-      {
-        number: 8,
-        title: 'Support Participation Without Shame',
-        focus:
-          'Respond privately and practically when a child is struggling.',
-        practicePrompt:
-          'Replace public correction with proximity, a quiet cue, a helper role, a change of position or an appropriate alternative.',
-        reflectionQuestion:
-          'What did you do instead of publicly correcting the child?',
-        evidencePrompt:
-          'Describe the support and what happened next.',
-        image: '/images/ladders/ladder4_rung08.png',
-      },
-      {
-        number: 9,
-        title: 'Plan the Exit',
-        focus:
-          'Avoid creating a new bottleneck when the group experience finishes.',
-        practicePrompt:
-          'Release children gradually, use a movement cue or organise the next step so children are not all rushing towards the same space.',
-        reflectionQuestion:
-          'How did children move out of the experience?',
-        evidencePrompt:
-          'Describe one change that reduced crowding or waiting.',
-        image: '/images/ladders/ladder4_rung09.png',
-      },
-      {
-        number: 10,
-        title: 'Evaluate Participation Differently',
-        focus:
-          'Look beyond stillness when deciding whether the experience worked.',
-        practicePrompt:
-          'Review who listened, contributed, watched, moved, returned or used the learning later. Consider several forms of participation.',
-        reflectionQuestion:
-          'What evidence of participation did you notice beyond sitting still?',
-        evidencePrompt:
-          'Record two different ways children participated.',
-        image: '/images/ladders/ladder4_rung10.png',
-      },
-    ],
-  },
-  {
-    id: 'see-the-schema',
-    number: 4,
-    title: 'See the Schema, Not the Bad Behaviour',
-    shortTitle: 'Play Schemas',
-    subtitle:
-      'Understand the possible developmental drive beneath repetitive or disruptive-looking play.',
-    description:
-      'This ladder helps educators observe repeated play patterns, maintain safety and provide appropriate alternatives rather than relying only on correction.',
-    availability: 'available',
-    printablePdf:
-      '/pdf/Escalation-Ladder-Printable-Cards.pdf',
-    rungs: [
-      {
-        number: 1,
-        title: 'Describe What You See',
-        focus:
-          'Begin with observable actions rather than labels.',
-        practicePrompt:
-          'Record exactly what the child is doing, including objects, direction, repetition, force, location and who is nearby.',
-        reflectionQuestion:
-          'What did the child do that you could directly observe?',
-        evidencePrompt:
-          'Write one factual observation without using words such as naughty, aggressive or attention-seeking.',
+          'Record the immediate safety action used without identifying children.',
         image: '/images/ladders/ladder2_rung01.png',
       },
+
       {
         number: 2,
-        title: 'Check Immediate Safety',
-        focus:
-          'Protect children and property before analysing the behaviour.',
+        title: 'Recognise the Driver',
+        focus: 'Look beneath the visible behaviour.',
         practicePrompt:
-          'Move unsafe objects, create space, support affected children and bring another educator closer when required.',
+          'Consider what may be contributing. Is the child seeking movement, connection, safety, sensory input or repeating a play pattern?',
         reflectionQuestion:
-          'What immediate safety action was necessary?',
+          'What possibilities did you consider?',
         evidencePrompt:
-          'Record how you protected safety without adding shame.',
+          'Record one or two possible drivers rather than assuming one cause.',
         image: '/images/ladders/ladder2_rung02.png',
       },
+
       {
         number: 3,
-        title: 'Look for Repetition',
-        focus:
-          'Notice whether the same type of action appears across different activities.',
+        title: 'Narrate It',
+        focus: 'Describe before correcting.',
         practicePrompt:
-          'Observe whether the child repeatedly throws, transports, encloses, rotates, lines up, connects, disconnects, climbs or crashes.',
+          'Use a short factual phrase such as “I can see that...” and describe what is happening before adding correction or explanation.',
         reflectionQuestion:
-          'Which repeated pattern did you notice?',
+          'What did you say to the child?',
         evidencePrompt:
-          'Record two examples of the same pattern in different moments.',
+          'Record the short neutral phrase you used.',
         image: '/images/ladders/ladder2_rung03.png',
       },
+
       {
         number: 4,
-        title: 'Consider More Than One Explanation',
-        focus:
-          'Avoid deciding too quickly why the behaviour is happening.',
+        title: 'Redirect the Outlet',
+        focus: 'Offer a safer way to continue the underlying action.',
         practicePrompt:
-          'Consider whether the action may relate to play exploration, communication, sensory input, frustration, imitation, fatigue or difficulty with the environment.',
+          'Offer a simple alternative such as beanbags into a basket, pushing something sturdy or another purposeful physical activity. Keep language brief.',
         reflectionQuestion:
-          'Which possible explanations did you consider?',
+          'Which redirect did you offer?',
         evidencePrompt:
-          'List at least two possibilities rather than choosing one certainty.',
+          'Record the alternative and whether the child engaged with it.',
         image: '/images/ladders/ladder2_rung04.png',
       },
+
       {
         number: 5,
-        title: 'Maintain the Boundary',
-        focus:
-          'Understanding the behaviour does not mean allowing unsafe actions.',
+        title: 'Read the Body',
+        focus: 'Watch what happens after the change.',
         practicePrompt:
-          'State the boundary clearly and briefly. Identify what cannot continue and what the child can do instead.',
+          'Notice whether the child appears to be settling, staying at the same intensity or becoming more escalated.',
         reflectionQuestion:
-          'How did you communicate the safety boundary?',
+          'What did their body tell you?',
         evidencePrompt:
-          'Record the brief wording you used.',
+          'Record one observable body cue.',
         image: '/images/ladders/ladder2_rung05.png',
       },
+
       {
         number: 6,
-        title: 'Offer a Related Alternative',
-        focus:
-          'Provide a safer activity connected to the apparent play drive.',
+        title: 'Branch by Arousal',
+        focus: 'Choose the next step from what you observe.',
         practicePrompt:
-          'Offer a safe throwing target, carrying task, rolling activity, building zone, crashing space or another alternative that relates to what the child is trying to do.',
+          'If intensity remains high, keep the next step active and simple. If the child is settling, move gradually towards a lower-demand activity.',
         reflectionQuestion:
-          'Which alternative did you offer, and how was it related?',
+          'Which path did you take, and what happened next?',
         evidencePrompt:
-          'Describe the original action and the safer alternative.',
+          'Record the next activity and what changed afterwards.',
         image: '/images/ladders/ladder2_rung06.png',
       },
+
       {
         number: 7,
-        title: 'Adjust the Environment',
-        focus:
-          'Consider whether the environment supports the type of play children are seeking.',
+        title: 'Loop the Check-In',
+        focus: 'Check the child and yourself again.',
         practicePrompt:
-          'Change access, space, materials, boundaries or supervision so the play can occur more safely and successfully.',
+          'Pause and notice both the child’s body and your own. Check whether either of you has shifted before deciding what comes next.',
         reflectionQuestion:
-          'What environmental change did you trial?',
+          'Had anything changed for either of you?',
         evidencePrompt:
-          'Describe the adjustment and what happened afterwards.',
+          'Record one change you noticed.',
         image: '/images/ladders/ladder2_rung07.png',
       },
+
       {
         number: 8,
-        title: 'Use Neutral Language With the Team',
-        focus:
-          'Prevent frustration from spreading through staff conversations.',
+        title: 'Senses Check',
+        focus: 'Notice the environment together.',
         practicePrompt:
-          'Describe the pattern, boundary and alternative to colleagues without blaming the child or another educator.',
+          'Notice sound, light, movement, temperature, space or other sensory features around you. Help the child notice what feels comfortable when appropriate.',
         reflectionQuestion:
-          'How did you explain the situation to the team?',
+          'What did you notice together?',
         evidencePrompt:
-          'Record one neutral phrase that kept the discussion focused on support.',
+          'Record one environmental or sensory feature you noticed.',
         image: '/images/ladders/ladder2_rung08.png',
       },
+
       {
         number: 9,
-        title: 'Share Helpful Information With Families',
-        focus:
-          'Communicate without diagnosing, alarming or minimising.',
+        title: 'Commentate the Body',
+        focus: 'Help children build body awareness without judgement.',
         practicePrompt:
-          'Share a factual observation, the safety support used and an appropriate activity the child engaged with.',
+          'When appropriate, gently describe something observable such as fast breathing, tight hands or restless feet without labelling the child.',
         reflectionQuestion:
-          'What general information would be useful for the family?',
+          'What did you notice or say?',
         evidencePrompt:
-          'Write a brief example that avoids labels and identifying details.',
+          'Record one neutral body observation.',
         image: '/images/ladders/ladder2_rung09.png',
       },
+
       {
         number: 10,
-        title: 'Review What Changed',
-        focus:
-          'Evaluate whether the alternative and environmental support reduced unsafe behaviour.',
+        title: 'Reunite and Debrief',
+        focus: 'Return to the team without blame.',
         practicePrompt:
-          'Compare what happened before and after the change. Decide what the team will repeat, adjust or stop.',
+          'When the moment has passed, reconnect with the other educator. Share what you each noticed and agree on one thing to try next time.',
         reflectionQuestion:
-          'What did the trial teach you about the child’s play?',
+          'What did you both notice and agree to try next?',
         evidencePrompt:
-          'Record one practical team decision for future play opportunities.',
+          'Record one practical team decision.',
         image: '/images/ladders/ladder2_rung10.png',
       },
     ],
   },
+
+  {
+    id: 'play-schemas',
+    number: 3,
+    title: 'See the Schema, Not the Behaviour',
+    shortTitle: 'Play Schemas',
+    subtitle:
+      'Understand the possible developmental drive beneath repetitive and disruptive-looking play.',
+    description:
+      'Learn to notice repeated play patterns, maintain safety and offer alternatives that support the underlying play need.',
+    availability: 'launching-soon',
+
+    printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
+    rungs: [],
+  },
+
+  {
+    id: 'attachment-connection',
+    number: 4,
+    title: 'Attachment and Connection',
+    shortTitle: 'Attachment & Connection',
+    subtitle:
+      'Use everyday relationships, proximity and predictable responses to strengthen connection.',
+    description:
+      'Explore practical attachment-informed strategies for arrivals, separation, reassurance and reconnecting after difficult moments.',
+    availability: 'in-development',
+
+    printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
+    rungs: [],
+  },
+
+  {
+    id: 'eight-senses',
+    number: 5,
+    title: 'Sensory Play Through the 8 Senses',
+    shortTitle: 'The 8 Senses',
+    subtitle:
+      'Notice how sensory needs influence participation, movement, attention and behaviour.',
+    description:
+      'Explore practical play experiences through touch, sound, sight, taste, smell, vestibular, proprioceptive and interoceptive input.',
+    availability: 'in-development',
+
+    printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
+    rungs: [],
+  },
+
+  {
+    id: 'vagus-stress',
+    number: 6,
+    title: 'Reducing Stress Through Everyday Body Supports',
+    shortTitle: 'Stress & Vagus Nerve',
+    subtitle:
+      'Explore simple body-based practices that may help children and educators slow down and reconnect.',
+    description:
+      'Use breathing, rhythm, movement, sensory input and connection as practical ways to support recovery from stress.',
+    availability: 'in-development',
+
+    printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
+    rungs: [],
+  },
+
   {
     id: 'moving-between-moments',
-    number: 5,
+    number: 7,
     title: 'Moving Between Moments',
     shortTitle: 'Transitions',
     subtitle:
       'Reduce pressure when children need to stop, shift attention or begin something new.',
     description:
-      'This ladder will support educators to review transition demands, reduce unnecessary waiting and create clearer pathways between activities.',
+      'Support smoother transitions by reducing waiting, simplifying instructions and creating clearer pathways between activities.',
     availability: 'in-development',
+
     printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
     rungs: [],
   },
+
   {
     id: 'rough-play-safe-boundaries',
-    number: 6,
+    number: 8,
     title: 'Rough Play With Safe Boundaries',
     shortTitle: 'Rough Play',
     subtitle:
-      'Support physical play while maintaining consent, supervision and clear boundaries.',
+      'Support energetic physical play while maintaining consent, supervision and clear boundaries.',
     description:
-      'This ladder will help educators distinguish energetic play from unsafe escalation and remain actively involved in supporting consent and safety.',
+      'Help educators distinguish energetic play from unsafe escalation and support children to practise physical boundaries.',
     availability: 'in-development',
+
     printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
     rungs: [],
   },
-  {
-    id: 'pack-up-without-power-struggle',
-    number: 7,
-    title: 'Pack-Up Without the Power Struggle',
-    shortTitle: 'Pack-Up',
-    subtitle:
-      'Build participation without repeated demands, threats or escalating frustration.',
-    description:
-      'This ladder will examine the combined demands of stopping play, shifting attention, organising materials and following multi-step instructions.',
-    availability: 'in-development',
-    printablePdf: null,
-    rungs: [],
-  },
+
   {
     id: 'pause-process-participate',
-    number: 8,
+    number: 9,
     title: 'Pause, Process and Participate',
-    shortTitle: 'Instructions and Impulse Control',
+    shortTitle: 'Instructions & Impulse Control',
     subtitle:
       'Support children who hear an instruction but cannot yet consistently organise and follow through.',
     description:
-      'This ladder will help educators reduce instruction overload and support processing, impulse control, working memory and participation.',
+      'Reduce instruction overload and support processing, working memory, impulse control and participation.',
     availability: 'in-development',
+
     printablePdf: null,
+
+    printables: {
+      educator: null,
+      manager: null,
+      family: null,
+    },
+
     rungs: [],
   },
 ];

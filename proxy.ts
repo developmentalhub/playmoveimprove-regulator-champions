@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import {
   getMemberSession,
   MEMBER_ACCESS_COOKIE,
@@ -12,62 +11,46 @@ const PROTECTED_PREFIXES = [
   '/nqs-mapping',
   '/educator-confidence',
   '/learning-journey',
+  '/platform',
 ];
 
-function isProtectedPath(
-  pathname: string,
-): boolean {
+function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PREFIXES.some(
-    (prefix) =>
-      pathname === prefix ||
-      pathname.startsWith(`${prefix}/`),
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
   );
 }
 
-export function proxy(
-  request: NextRequest,
-) {
-  const pathname =
-    request.nextUrl.pathname;
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
   if (!isProtectedPath(pathname)) {
     return NextResponse.next();
   }
 
-  const token =
-    request.cookies.get(
-      MEMBER_ACCESS_COOKIE,
-    )?.value;
+  const token = request.cookies.get(MEMBER_ACCESS_COOKIE)?.value;
+  const regulatorSession = request.cookies.get('regulator_session')?.value;
 
-  const session =
-    getMemberSession(token);
+  const hasMemberSession = await getMemberSession(token);
+  const hasAccess = Boolean(hasMemberSession || regulatorSession);
 
-  if (session) {
+  if (hasAccess) {
     return NextResponse.next();
   }
 
-  const accessUrl =
-    new URL(
-      '/member-access',
-      request.url,
-    );
-
-  accessUrl.searchParams.set(
+  const loginUrl = new URL('/login', request.url);
+  loginUrl.searchParams.set(
     'returnTo',
-    `${pathname}${request.nextUrl.search}`,
+    `${pathname}${request.nextUrl.search}`
   );
 
-  const response =
-    NextResponse.redirect(accessUrl);
+  const response = NextResponse.redirect(loginUrl);
 
-  if (token) {
+  if (token && !hasMemberSession) {
     response.cookies.set({
       name: MEMBER_ACCESS_COOKIE,
       value: '',
       httpOnly: true,
-      secure:
-        process.env.NODE_ENV ===
-        'production',
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
       maxAge: 0,
@@ -85,5 +68,6 @@ export const config = {
     '/nqs-mapping/:path*',
     '/educator-confidence/:path*',
     '/learning-journey/:path*',
+    '/platform/:path*',
   ],
 };

@@ -1,73 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-import {
-  getMemberSession,
-  MEMBER_ACCESS_COOKIE,
-} from '@/lib/memberAccess';
-
-export async function GET(
-  request: NextRequest,
-) {
+export async function GET() {
   try {
-    const token =
-      request.cookies.get(
-        MEMBER_ACCESS_COOKIE,
-      )?.value;
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get('regulator_session');
 
-    const session =
-      getMemberSession(token);
-
-    const hasAccess =
-      session !== null;
-
-    const response =
-      NextResponse.json(
-        {
-          success: true,
-          hasAccess,
-          plan: session?.plan ?? null,
-        },
-        {
-          status: 200,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-
-    if (!hasAccess && token) {
-      response.cookies.set({
-        name: MEMBER_ACCESS_COOKIE,
-        value: '',
-        httpOnly: true,
-        secure:
-          process.env.NODE_ENV ===
-          'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 0,
-      });
+    if (!sessionCookie || !sessionCookie.value) {
+      return NextResponse.json({ success: true, hasAccess: false });
     }
 
-    return response;
-  } catch (error) {
-    console.error(
-      'Member access status check failed:',
-      error,
-    );
+    const sessionData = JSON.parse(sessionCookie.value);
 
-    return NextResponse.json(
-      {
-        success: false,
-        hasAccess: false,
-        plan: null,
-      },
-      {
-        status: 500,
-        headers: {
-          'Cache-Control': 'no-store',
-        },
-      },
-    );
+    return NextResponse.json({
+      success: true,
+      hasAccess: true,
+      role: sessionData.role,
+      centreName: sessionData.centreName
+    });
+  } catch (error) {
+    return NextResponse.json({ success: false, hasAccess: false }, { status: 500 });
   }
 }

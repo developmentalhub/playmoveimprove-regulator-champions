@@ -11,6 +11,13 @@ type LadderRungRequest = {
   ladderTitle?: unknown;
   rungNumber?: unknown;
   rungTitle?: unknown;
+
+  // New quick-reflection format
+  tankLevel?: unknown;
+  primaryStressor?: unknown;
+  notes?: unknown;
+
+  // Older reflection format kept for compatibility
   reflectionText?: unknown;
   evidenceText?: unknown;
 };
@@ -18,6 +25,11 @@ type LadderRungRequest = {
 const MAX_REQUEST_BYTES = 20_000;
 
 const PREVIEW_LADDER_IDS = new Set([
+  'morning-routine',
+  'escalation-support',
+  'play-schemas',
+
+  // Keep these temporarily so older saved links/data do not break
   'regulated-educator',
   'connected-drop-offs',
   'participation-beyond-sitting',
@@ -66,17 +78,18 @@ function cleanRungNumber(
   return number;
 }
 
-function containsIdentifyingInformation(
+function containsSensitiveInformation(
   value: string,
 ): boolean {
   const riskyPatterns = [
     /\bdate of birth\b/i,
     /\bdob\b/i,
-    /\bndis\b/i,
-    /\bmedical record\b/i,
     /\bmedicare\b/i,
+    /\bmedical record\b/i,
     /\bdiagnosis\b/i,
     /\bincident report\b/i,
+    /\bndis number\b/i,
+    /\bmedicare number\b/i,
   ];
 
   return riskyPatterns.some((pattern) =>
@@ -88,13 +101,16 @@ export async function POST(
   request: NextRequest,
 ) {
   try {
+    /*
+     * MEMBER ACCESS
+     */
     const token =
       request.cookies.get(
         MEMBER_ACCESS_COOKIE,
       )?.value;
 
     const session =
-      getMemberSession(token);
+      await getMemberSession(token);
 
     if (!session) {
       return NextResponse.json(
@@ -112,10 +128,11 @@ export async function POST(
       );
     }
 
+    /*
+     * REQUEST SIZE
+     */
     const contentLength =
-      request.headers.get(
-        'content-length',
-      );
+      request.headers.get('content-length');
 
     if (
       contentLength &&
@@ -137,6 +154,9 @@ export async function POST(
       );
     }
 
+    /*
+     * READ REQUEST
+     */
     const body =
       (await request.json()) as LadderRungRequest;
 
@@ -155,18 +175,39 @@ export async function POST(
     const rungTitle =
       cleanString(body.rungTitle, 200);
 
-    const reflectionText =
+    /*
+     * NEW QUICK REFLECTION FIELDS
+     */
+    const tankLevel =
+      cleanString(body.tankLevel, 200);
+
+    const primaryStressor =
+      cleanString(
+        body.primaryStressor,
+        200,
+      );
+
+    const notes =
+      cleanString(body.notes, 1000);
+
+    /*
+     * LEGACY LONG-FORM FIELDS
+     */
+    const legacyReflection =
       cleanString(
         body.reflectionText,
-        5_000,
+        5000,
       );
 
-    const evidenceText =
+    const legacyEvidence =
       cleanString(
         body.evidenceText,
-        5_000,
+        5000,
       );
 
+    /*
+     * VALIDATE CORE INFORMATION
+     */
     if (!userEmail) {
       return NextResponse.json(
         {
@@ -204,6 +245,9 @@ export async function POST(
       );
     }
 
+    /*
+     * PREVIEW ACCESS
+     */
     if (
       session.plan === 'preview' &&
       !PREVIEW_LADDER_IDS.has(ladderId)
@@ -212,7 +256,7 @@ export async function POST(
         {
           success: false,
           error:
-            'This ladder is not included in your 3-Ladder Preview access.',
+            'This ladder is not included in your preview access.',
         },
         {
           status: 403,
@@ -223,14 +267,64 @@ export async function POST(
       );
     }
 
-    if (
-      reflectionText.length < 40
-    ) {
+    /*
+     * BUILD REFLECTION
+     *
+     * New interface uses tap choices.
+     * Old interface used two text boxes.
+     *
+     * Both are supported so existing pages
+     * and previously saved data continue working.
+     */
+    const isQuickReflection =
+      Boolean(tankLevel || primaryStressor || notes);
+
+    let reflectionText = '';
+    let evidenceText = '';
+
+    if (isQuickReflection) {
+      const reflectionParts = [
+        tankLevel
+          ? `Educator capacity: ${tankLevel}.`
+          : '',
+        primaryStressor
+          ? `Room factor: ${primaryStressor}.`
+          : '',
+        notes ? notes : '',
+      ].filter(Boolean);
+
+      reflectionText =
+        reflectionParts.join(' ');
+
+      const evidenceParts = [
+        `Practice rung: ${rungTitle}.`,
+        primaryStressor
+          ? `Factor noticed: ${primaryStressor}.`
+          : '',
+      ].filter(Boolean);
+
+      evidenceText =
+        evidenceParts.join(' ');
+    } else {
+      reflectionText =
+        legacyReflection;
+
+      evidenceText =
+        legacyEvidence;
+    }
+
+    /*
+     * REQUIRE SOMETHING MEANINGFUL
+     *
+     * We no longer require educators to type
+     * 40 or 30 characters.
+     */
+    if (!reflectionText) {
       return NextResponse.json(
         {
           success: false,
           error:
-            'Add a little more detail about what you noticed, changed or learned.',
+            'Choose the option that feels closest before saving.',
         },
         {
           status: 400,
@@ -241,29 +335,14 @@ export async function POST(
       );
     }
 
-    if (
-      evidenceText.length < 30
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            'Add a brief practice example before saving.',
-        },
-        {
-          status: 400,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-    }
-
+    /*
+     * PRIVACY CHECK
+     */
     const combinedReflection =
       `${reflectionText} ${evidenceText}`;
 
     if (
-      containsIdentifyingInformation(
+      containsSensitiveInformation(
         combinedReflection,
       )
     ) {
@@ -271,7 +350,7 @@ export async function POST(
         {
           success: false,
           error:
-            'Please remove identifying or sensitive child or family information before saving.',
+            'Please remove sensitive child or family information before saving.',
         },
         {
           status: 400,
@@ -282,11 +361,16 @@ export async function POST(
       );
     }
 
+    /*
+     * SUPABASE CONFIGURATION
+     */
     const supabaseUrl =
-      process.env.NEXT_PUBLIC_SUPABASE_URL;
+      process.env
+        .NEXT_PUBLIC_SUPABASE_URL;
 
     const serviceRoleKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY;
+      process.env
+        .SUPABASE_SERVICE_ROLE_KEY;
 
     if (
       !supabaseUrl ||
@@ -311,6 +395,12 @@ export async function POST(
       );
     }
 
+    /*
+     * SAVE / UPDATE REFLECTION
+     *
+     * Existing database columns are retained.
+     * No Supabase schema change is required.
+     */
     const response = await fetch(
       `${supabaseUrl}/rest/v1/ladder_rung_logs?on_conflict=user_email,ladder_id,rung_number`,
       {
@@ -331,15 +421,23 @@ export async function POST(
 
         body: JSON.stringify({
           user_email: userEmail,
+
           ladder_id: ladderId,
+
           ladder_title: ladderTitle,
+
           rung_number: rungNumber,
+
           rung_title: rungTitle,
+
           reflection_text:
             reflectionText,
+
           evidence_text:
             evidenceText,
+
           review_status: 'saved',
+
           updated_at:
             new Date().toISOString(),
         }),
@@ -348,6 +446,9 @@ export async function POST(
       },
     );
 
+    /*
+     * SUPABASE ERROR
+     */
     if (!response.ok) {
       const errorText =
         await response.text();
@@ -372,6 +473,9 @@ export async function POST(
       );
     }
 
+    /*
+     * SUCCESS
+     */
     return NextResponse.json(
       {
         success: true,

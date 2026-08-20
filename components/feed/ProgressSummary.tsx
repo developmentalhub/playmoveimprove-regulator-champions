@@ -1,458 +1,459 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { regulationLadders } from '@/lib/regulationLadders';
+import React, { useEffect, useMemo, useState } from 'react';
 
-type ProgressSummaryProps = {
+interface ProgressSummaryProps {
   userEmail: string;
+}
+
+type ProgressLog = {
+  ladder_id: string;
+  ladder_title: string;
+  rung_number: number;
+  rung_title: string;
+  reflection_text: string;
+  evidence_text: string;
+  review_status: string;
+  updated_at: string;
 };
 
-type MemberPlan = 'preview' | 'full';
-
-type LadderRungLog = {
-  ladder_id: string;
-  ladder_title?: string;
-  rung_number: number;
-  rung_title?: string;
-  review_status?: string;
-  updated_at?: string;
+type SummaryData = {
+  totalReflections: number;
+  completedRungs: number;
+  laddersUsed: number;
+  latestReflection: string | null;
 };
 
 type ProgressResponse = {
   success?: boolean;
+  plan?: string;
+  logs?: ProgressLog[];
+  summary?: SummaryData;
   error?: string;
-  plan?: MemberPlan | null;
-  logs?: LadderRungLog[];
 };
 
-type LoadStatus = 'idle' | 'loading' | 'success' | 'error';
+type FilterKey = 'all' | 'morning-routine' | 'escalation-support';
 
-const PREVIEW_LADDER_IDS = new Set([
-  'regulated-educator',
-  'connected-drop-offs',
-  'participation-beyond-sitting',
-]);
+function formatDate(value: string | null | undefined) {
+  if (!value) {
+    return 'Not yet';
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return 'Not yet';
+  }
+
+  return new Intl.DateTimeFormat('en-AU', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+}
+
+function cleanReflectionText(value: string) {
+  return value
+    .replace(/^Educator capacity:\s*/i, '')
+    .replace(/\s*Room factor:\s*/i, ' Room factor: ')
+    .trim();
+}
 
 export default function ProgressSummary({
   userEmail,
 }: ProgressSummaryProps) {
-  const [logs, setLogs] = useState<LadderRungLog[]>([]);
-  const [memberPlan, setMemberPlan] = useState<MemberPlan | null>(null);
-  const [loadStatus, setLoadStatus] = useState<LoadStatus>('idle');
-  const [loadMessage, setLoadMessage] = useState('');
+  const [logs, setLogs] = useState<ProgressLog[]>([]);
+  const [summary, setSummary] = useState<SummaryData>({
+    totalReflections: 0,
+    completedRungs: 0,
+    laddersUsed: 0,
+    latestReflection: null,
+  });
+
+  const [plan, setPlan] = useState('');
+  const [filter, setFilter] = useState<FilterKey>('all');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const cleanedEmail = userEmail.trim().toLowerCase();
 
-  const fetchProgress = useCallback(async () => {
-    setLoadMessage('');
-
+  useEffect(() => {
     if (!cleanedEmail) {
       setLogs([]);
-      setMemberPlan(null);
-      setLoadStatus('idle');
+      setSummary({
+        totalReflections: 0,
+        completedRungs: 0,
+        laddersUsed: 0,
+        latestReflection: null,
+      });
+      setError('');
       return;
     }
 
-    setLoadStatus('loading');
+    let cancelled = false;
 
-    try {
-      const response = await fetch('/api/progress-summary', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userEmail: cleanedEmail,
-        }),
-        cache: 'no-store',
-      });
-
-      let responseData: ProgressResponse = {};
+    const loadProgress = async () => {
+      setLoading(true);
+      setError('');
 
       try {
-        responseData = (await response.json()) as ProgressResponse;
-      } catch {
-        responseData = {};
-      }
+        const response = await fetch('/api/progress-summary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userEmail: cleanedEmail,
+          }),
+        });
 
-      if (!response.ok || responseData.success !== true) {
-        throw new Error(
-          responseData.error ??
-            'Your progress could not be loaded. Please try again.',
+        const result = (await response.json()) as ProgressResponse;
+
+        if (!response.ok || result.success !== true) {
+          throw new Error(
+            result.error ?? 'Your practice evidence could not be loaded.',
+          );
+        }
+
+        if (cancelled) return;
+
+        setLogs(Array.isArray(result.logs) ? result.logs : []);
+
+        setSummary(
+          result.summary ?? {
+            totalReflections: 0,
+            completedRungs: 0,
+            laddersUsed: 0,
+            latestReflection: null,
+          },
         );
+
+        setPlan(result.plan ?? '');
+      } catch (loadError) {
+        if (cancelled) return;
+
+        console.error('Progress summary load failed:', loadError);
+
+        setError(
+          loadError instanceof Error
+            ? loadError.message
+            : 'Your practice evidence could not be loaded.',
+        );
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
+    };
 
-      setLogs(responseData.logs ?? []);
-      setMemberPlan(
-        responseData.plan === 'preview' || responseData.plan === 'full'
-          ? responseData.plan
-          : null,
-      );
-      setLoadStatus('success');
-    } catch (error) {
-      console.error('Progress fetch failed:', error);
+    void loadProgress();
 
-      setLogs([]);
-      setMemberPlan(null);
-      setLoadStatus('error');
-      setLoadMessage(
-        error instanceof Error
-          ? error.message
-          : 'Your progress could not be loaded. Please try again.',
-      );
-    }
+    return () => {
+      cancelled = true;
+    };
   }, [cleanedEmail]);
 
-  useEffect(() => {
-    void fetchProgress();
-  }, [fetchProgress]);
-
-  const entitledLadders = useMemo(() => {
-    if (memberPlan === 'full') {
-      return regulationLadders;
+  const filteredLogs = useMemo(() => {
+    if (filter === 'all') {
+      return logs;
     }
 
-    if (memberPlan === 'preview') {
-      return regulationLadders.filter((ladder) =>
-        PREVIEW_LADDER_IDS.has(ladder.id),
-      );
-    }
+    return logs.filter((log) => log.ladder_id === filter);
+  }, [filter, logs]);
 
-    return [];
-  }, [memberPlan]);
-
-  const availableEntitledLadders = useMemo(
+  const morningCount = useMemo(
     () =>
-      entitledLadders.filter(
-        (ladder) => ladder.availability === 'available',
-      ),
-    [entitledLadders],
+      logs.filter((log) => log.ladder_id === 'morning-routine').length,
+    [logs],
   );
 
-  const totalAvailableRungs = useMemo(
+  const escalationCount = useMemo(
     () =>
-      availableEntitledLadders.reduce(
-        (total, ladder) => total + ladder.rungs.length,
-        0,
-      ),
-    [availableEntitledLadders],
+      logs.filter((log) => log.ladder_id === 'escalation-support').length,
+    [logs],
   );
 
-  const uniqueSavedRungs = useMemo(() => {
-    const uniqueKeys = new Set(
-      logs.map((log) => `${log.ladder_id}-${log.rung_number}`),
-    );
-
-    return uniqueKeys.size;
-  }, [logs]);
-
-  const overallPercentage =
-    totalAvailableRungs > 0
-      ? Math.min(
-          100,
-          Math.round(
-            (uniqueSavedRungs / totalAvailableRungs) * 100,
-          ),
-        )
-      : 0;
-
-  const ladderProgress = useMemo(
-    () =>
-      entitledLadders.map((ladder) => {
-        const ladderLogs = logs.filter(
-          (log) => log.ladder_id === ladder.id,
-        );
-
-        const uniqueRungNumbers = new Set(
-          ladderLogs.map((log) => log.rung_number),
-        );
-
-        const completedRungs = uniqueRungNumbers.size;
-        const totalRungs = ladder.rungs.length;
-
-        const percentage =
-          totalRungs > 0
-            ? Math.min(
-                100,
-                Math.round(
-                  (completedRungs / totalRungs) * 100,
-                ),
-              )
-            : 0;
-
-        return {
-          ladder,
-          completedRungs,
-          totalRungs,
-          percentage,
-          isComplete:
-            totalRungs > 0 &&
-            completedRungs === totalRungs,
-        };
-      }),
-    [entitledLadders, logs],
-  );
+  const handlePrint = () => {
+    window.print();
+  };
 
   if (!cleanedEmail) {
     return (
-      <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6">
-        <h2 className="text-lg font-bold text-amber-950">
-          Add your work email to view progress
+      <section className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6">
+        <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+          Practice Evidence
+        </span>
+
+        <h2 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
+          Add your work email first
         </h2>
 
-        <p className="mt-2 text-sm leading-relaxed text-amber-900">
-          Enter and save your email near the top of the Practice Hub. Your
-          ladder progress will then be loaded here.
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#6A7873]">
+          Your saved ladder reflections will appear here once your work email
+          has been entered in the Practice Hub.
         </p>
       </section>
     );
   }
 
   return (
-    <section className="space-y-8">
-      <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <span className="inline-block rounded-full bg-teal-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-teal-800">
-            Learning Progress
-          </span>
-
-          <h2 className="mt-3 text-2xl font-bold text-slate-900">
-            My Progress
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Progress shown for <strong>{cleanedEmail}</strong>.
-          </p>
-
-          {memberPlan && (
-            <p className="mt-1 text-xs font-semibold text-slate-500">
-              {memberPlan === 'preview'
-                ? '3-Ladder Preview access'
-                : 'Full 8-Ladder pathway access'}
-            </p>
-          )}
-        </div>
-
-        <button
-          type="button"
-          onClick={() => void fetchProgress()}
-          disabled={loadStatus === 'loading'}
-          className="self-start rounded-xl border border-teal-200 bg-teal-50 px-4 py-2.5 text-sm font-bold text-teal-800 transition hover:bg-teal-100 disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
-        >
-          {loadStatus === 'loading'
-            ? 'Refreshing...'
-            : 'Refresh Progress'}
-        </button>
-      </div>
-
-      {loadStatus === 'error' && (
-        <div
-          role="alert"
-          className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm leading-relaxed text-rose-900"
-        >
-          {loadMessage}
-        </div>
-      )}
-
-      {loadStatus === 'loading' && (
-        <div
-          role="status"
-          className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600"
-        >
-          Loading your ladder progress...
-        </div>
-      )}
-
-      {loadStatus === 'success' && memberPlan && (
-        <>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Saved Rungs
+    <div className="space-y-6">
+      {/* REPORT HEADER */}
+      <section className="overflow-hidden rounded-3xl bg-[#1C3B34] text-white print:rounded-none">
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D8C28D]">
+                Regulator Champions
               </span>
 
-              <p className="mt-2 text-4xl font-extrabold text-teal-900">
-                {uniqueSavedRungs}
-              </p>
+              <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
+                Practice Evidence Pack
+              </h2>
 
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Out of {totalAvailableRungs} currently available rungs in your
-                pathway.
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/80">
+                A dated record of the practice moments, observations and
+                reflections saved through the Regulation Ladders.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Current Progress
-              </span>
-
-              <p className="mt-2 text-4xl font-extrabold text-teal-900">
-                {overallPercentage}%
-              </p>
-
-              <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200">
-                <div
-                  className="h-full rounded-full bg-teal-700 transition-all"
-                  style={{
-                    width: `${overallPercentage}%`,
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Completed Ladders
-              </span>
-
-              <p className="mt-2 text-4xl font-extrabold text-teal-900">
-                {
-                  ladderProgress.filter(
-                    (item) => item.isComplete,
-                  ).length
-                }
-              </p>
-
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Saved completion does not automatically award Regulator
-                Champion recognition.
-              </p>
-            </div>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="flex min-h-12 shrink-0 items-center justify-center rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-xs font-bold text-white transition hover:bg-white/20 print:hidden"
+            >
+              Print / Save as PDF
+            </button>
           </div>
 
-          <div className="space-y-5">
-            {ladderProgress.map(
-              ({
-                ladder,
-                completedRungs,
-                totalRungs,
-                percentage,
-                isComplete,
-              }) => {
-                const isAvailable =
-                  ladder.availability === 'available';
+          {plan && (
+            <div className="mt-5 inline-flex rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/80">
+              {plan === 'preview' ? 'Preview Access' : 'Full Access'}
+            </div>
+          )}
+        </div>
+      </section>
 
-                return (
-                  <article
-                    key={ladder.id}
-                    className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
-                  >
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-teal-800">
-                          Ladder {ladder.number}
-                        </span>
+      {/* SUMMARY METRICS */}
+      <section className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-[#E6E2DC] bg-white p-5">
+          <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+            Reflections
+          </span>
 
-                        <h3 className="mt-1 text-lg font-bold text-slate-900">
-                          {ladder.title}
-                        </h3>
+          <div className="mt-2 text-3xl font-extrabold text-[#1C3B34]">
+            {summary.totalReflections}
+          </div>
 
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                          {ladder.subtitle}
-                        </p>
-                      </div>
+          <p className="mt-1 text-xs text-[#6A7873]">
+            Practice moments saved
+          </p>
+        </div>
 
-                      <span
-                        className={`self-start rounded-full px-3 py-1 text-xs font-bold ${
-                          !isAvailable
-                            ? 'bg-amber-100 text-amber-800'
-                            : isComplete
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-slate-100 text-slate-700'
-                        }`}
-                      >
-                        {!isAvailable
-                          ? 'In development'
-                          : isComplete
-                            ? 'All rungs saved'
-                            : `${completedRungs} of ${totalRungs} saved`}
+        <div className="rounded-2xl border border-[#E6E2DC] bg-white p-5">
+          <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+            Ladders Used
+          </span>
+
+          <div className="mt-2 text-3xl font-extrabold text-[#1C3B34]">
+            {summary.laddersUsed}
+          </div>
+
+          <p className="mt-1 text-xs text-[#6A7873]">
+            Different practice areas explored
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-[#E6E2DC] bg-white p-5">
+          <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+            Latest
+          </span>
+
+          <div className="mt-3 text-base font-extrabold text-[#1C3B34]">
+            {formatDate(summary.latestReflection)}
+          </div>
+
+          <p className="mt-1 text-xs text-[#6A7873]">
+            Most recent reflection
+          </p>
+        </div>
+      </section>
+
+      {/* FILTERS */}
+      <section className="print:hidden">
+        <div className="mb-3">
+          <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+            Filter evidence
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setFilter('all')}
+            className={`min-h-12 rounded-xl border px-4 py-2 text-xs font-bold transition ${
+              filter === 'all'
+                ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
+                : 'border-[#E6E2DC] bg-white text-[#2B3833]'
+            }`}
+          >
+            All ({logs.length})
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setFilter('morning-routine')}
+            className={`min-h-12 rounded-xl border px-4 py-2 text-xs font-bold transition ${
+              filter === 'morning-routine'
+                ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
+                : 'border-[#E6E2DC] bg-white text-[#2B3833]'
+            }`}
+          >
+            Morning Routine ({morningCount})
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setFilter('escalation-support')}
+            className={`min-h-12 rounded-xl border px-4 py-2 text-xs font-bold transition ${
+              filter === 'escalation-support'
+                ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
+                : 'border-[#E6E2DC] bg-white text-[#2B3833]'
+            }`}
+          >
+            Escalation Support ({escalationCount})
+          </button>
+        </div>
+      </section>
+
+      {/* LOADING */}
+      {loading && (
+        <section className="rounded-3xl border border-[#E6E2DC] bg-white p-8 text-center">
+          <p className="text-sm font-bold text-[#657B6C]">
+            Loading your practice evidence...
+          </p>
+        </section>
+      )}
+
+      {/* ERROR */}
+      {!loading && error && (
+        <section className="rounded-2xl border border-red-200 bg-red-50 p-5">
+          <p className="text-sm font-bold text-red-700">{error}</p>
+        </section>
+      )}
+
+      {/* EMPTY */}
+      {!loading && !error && logs.length === 0 && (
+        <section className="rounded-3xl border-2 border-dashed border-[#D8D2C8] bg-[#FAF8F5] p-8 text-center">
+          <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C29F60]">
+            Your evidence pack starts here
+          </span>
+
+          <h3 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
+            No reflections saved yet
+          </h3>
+
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[#6A7873]">
+            Choose a ladder, try one rung in practice and save a quick
+            reflection. It will automatically appear here.
+          </p>
+        </section>
+      )}
+
+      {/* SAVED EVIDENCE */}
+      {!loading && !error && filteredLogs.length > 0 && (
+        <section>
+          <div className="mb-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+              Saved practice evidence
+            </span>
+
+            <h3 className="mt-1 text-xl font-extrabold text-[#1C3B34]">
+              What has been noticed in practice
+            </h3>
+          </div>
+
+          <div className="space-y-4">
+            {filteredLogs.map((log, index) => (
+              <article
+                key={`${log.ladder_id}-${log.rung_number}-${log.updated_at}-${index}`}
+                className="break-inside-avoid rounded-3xl border border-[#E6E2DC] bg-white p-5 shadow-sm print:shadow-none"
+              >
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-[#F1F4F2] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#657B6C]">
+                        Ladder {log.rung_number}
+                      </span>
+
+                      <span className="text-[10px] font-bold text-[#8A9691]">
+                        {formatDate(log.updated_at)}
                       </span>
                     </div>
 
-                    {isAvailable && (
-                      <>
-                        <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-200">
-                          <div
-                            className="h-full rounded-full bg-teal-700 transition-all"
-                            style={{
-                              width: `${percentage}%`,
-                            }}
-                          />
-                        </div>
+                    <p className="mt-3 text-xs font-bold uppercase tracking-wider text-[#C29F60]">
+                      {log.ladder_title}
+                    </p>
 
-                        <div className="mt-4 grid grid-cols-10 gap-1.5">
-                          {ladder.rungs.map((rung) => {
-                            const rungSaved = logs.some(
-                              (log) =>
-                                log.ladder_id === ladder.id &&
-                                log.rung_number === rung.number,
-                            );
+                    <h4 className="mt-1 text-lg font-extrabold text-[#1C3B34]">
+                      Rung {log.rung_number}: {log.rung_title}
+                    </h4>
+                  </div>
 
-                            return (
-                              <div
-                                key={rung.number}
-                                title={`Rung ${rung.number}: ${
-                                  rungSaved ? 'Saved' : 'Not yet saved'
-                                }`}
-                                className={`flex h-8 items-center justify-center rounded-lg text-xs font-bold ${
-                                  rungSaved
-                                    ? 'bg-teal-700 text-white'
-                                    : 'bg-slate-100 text-slate-400'
-                                }`}
-                              >
-                                {rung.number}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </>
-                    )}
+                  <span className="shrink-0 rounded-full bg-[#FAF5EC] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#9A793D]">
+                    Saved practice
+                  </span>
+                </div>
 
-                    {isComplete && (
-                      <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-                        <h4 className="font-bold text-emerald-950">
-                          Ladder work recorded
-                        </h4>
+                {log.reflection_text && (
+                  <div className="mt-5 rounded-2xl bg-[#F1F4F2] p-4">
+                    <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
+                      Reflection
+                    </span>
 
-                        <p className="mt-1 text-sm leading-relaxed text-emerald-900">
-                          All ten rung reflections have been saved. This does
-                          not automatically mean the ladder has been formally
-                          reviewed or approved.
-                        </p>
-                      </div>
-                    )}
-                  </article>
-                );
-              },
-            )}
+                    <p className="mt-2 text-sm leading-relaxed text-[#2B3833]">
+                      {cleanReflectionText(log.reflection_text)}
+                    </p>
+                  </div>
+                )}
+
+                {log.evidence_text && (
+                  <div className="mt-3 border-l-4 border-[#C29F60] pl-4">
+                    <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#9A793D]">
+                      Practice context
+                    </span>
+
+                    <p className="mt-1 text-xs leading-relaxed text-[#6A7873]">
+                      {log.evidence_text}
+                    </p>
+                  </div>
+                )}
+              </article>
+            ))}
           </div>
-
-          {logs.length === 0 && (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900">
-                No ladder reflections saved yet
-              </h3>
-
-              <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
-                Open Regulation Ladders, choose an available ladder and save
-                your first practice reflection.
-              </p>
-            </div>
-          )}
-
-          <div className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
-            <h3 className="font-bold text-teal-950">
-              Recognition requires review
-            </h3>
-
-            <p className="mt-2 text-sm leading-relaxed text-teal-900">
-              Completing saved reflections is one part of the learning pathway.
-              Full Regulator Champion recognition requires the relevant pathway
-              requirements and personal final review by Robyn.
-            </p>
-          </div>
-        </>
+        </section>
       )}
-    </section>
+
+      {!loading &&
+        !error &&
+        logs.length > 0 &&
+        filteredLogs.length === 0 && (
+          <section className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6 text-center">
+            <p className="text-sm text-[#6A7873]">
+              No reflections have been saved for this ladder yet.
+            </p>
+          </section>
+        )}
+
+      {/* PRINT FOOTER */}
+      <section className="rounded-2xl border border-[#E6E2DC] bg-[#FAF8F5] p-4 print:mt-8">
+        <p className="text-[10px] leading-relaxed text-[#6A7873]">
+          This report organises reflections entered through Regulator Champions.
+          It is intended to support professional reflection and service
+          discussion. It does not determine an NQS rating or replace required
+          service documentation.
+        </p>
+      </section>
+    </div>
   );
 }

@@ -3,493 +3,266 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-// PDF Assets mapped 1:1 to your exact public/pdf/ folder
-const PDF_CARDS = [
-  {
-    id: 'educator-cards',
-    title: 'Educator Morning Routine Cards',
-    desc: 'Step-by-step room cards for educators during morning arrivals and transition routines.',
-    badge: '/images/badges/badge_checkin.png',
-    pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-    timeToComplete: 'Educator Pack',
-  },
-  {
-    id: 'calm-posters',
-    title: 'CALM Framework Room Posters Vault',
-    desc: 'Printable room posters covering the CALM Framework: Check the Room, Assess the Why, Lead with Connection, Monitor and Note, with a safety-first reminder throughout.',
-    badge: '/images/badges/badge_risk_outdoor.png',
-    pdfUrl: '/pdf/Calm-Posters.pdf',
-    timeToComplete: 'Room Poster Vault',
-  },
-  {
-    id: 'manager-cards',
-    title: 'Manager & Leadership Strategy Cards',
-    desc: 'Leadership prompts for handovers, team reflection, shared practice and documenting professional learning priorities.',
-    badge: '/images/badges/badge_risk_roughplay.png',
-    pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
-    timeToComplete: 'Leadership Pack',
-  },
-  {
-    id: 'parent-cards',
-    title: 'Parent & Family Handover Cards',
-    desc: 'Arrival and handover prompts to support consistent, respectful communication with families during drop-off.',
-    badge: '/images/badges/badge_risk_water.png',
-    pdfUrl: '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
-    timeToComplete: 'Family Pack',
-  },
-];
-
-// Flip Card Deck Data
-const FLIP_CARDS = [
-  {
-    id: 'card-1',
-    frontTitle: '1. Regulated Educator First',
-    frontSubtitle: 'Adult Pace and Regulation',
-    frontImage: '/images/ladders/ladder1_rung01.png',
-    badgeImage: '/images/badges/badge_checkin.png',
-    backTitle: 'Action Strategy:',
-    backAction:
-      'Lower your physical height when appropriate, slow your pace and reduce unnecessary language before adding more instructions during a demanding moment.',
-    pdfLink: '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf',
-  },
-  {
-    id: 'card-2',
-    frontTitle: '2. Connected Drop-Offs',
-    frontSubtitle: 'Arrival and Separation Support',
-    frontImage: '/images/ladders/ladder2_rung01.png',
-    badgeImage: '/images/badges/badge_risk_roughplay.png',
-    backTitle: 'Action Strategy:',
-    backAction:
-      'Use a predictable welcome cue at the doorway. Greet the child gently and allow the family handover to happen without rushing separation.',
-    pdfLink: '/pdf/Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
-  },
-  {
-    id: 'card-3',
-    frontTitle: '3. Participation Beyond Stillness',
-    frontSubtitle: 'Group Time Participation',
-    frontImage: '/images/ladders/ladder3_rung01.png',
-    badgeImage: '/images/badges/badge_risk_water.png',
-    backTitle: 'Action Strategy:',
-    backAction:
-      'Wiggling during group time does not automatically mean a child is not listening. Consider standing, a different sitting position or another appropriate participation option when helpful.',
-    pdfLink: '/pdf/Calm-Posters.pdf',
-  },
-];
-
 export default function LearningJourneyPage() {
-  // Toggle State for "Styled vs Substance"
-  const [toggleState, setToggleState] = useState<'styled' | 'substance'>(
-    'styled'
-  );
+  const [activeStage, setActiveStage] = useState<number>(1);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  // Flip State for Cards
-  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
+  const journeyStages = [
+    {
+      stage: 1,
+      title: 'Stage 1: Adult Nervous System First',
+      focus: 'Educator Self-Regulation',
+      qip: 'QA 5.1.1',
+      subtitle: 'Establishing Personal Calm Before Room Entry',
+      summary: 'Educators must regulate their own nervous system before attempting to support dysregulated children on the floor.',
+      comparison: {
+        behavior: 'What We See: Clenched jaw, shallow breathing, rushing physical movements, and immediate verbal commands.',
+        somaticShift: 'Somatic Shift: Unclench jaw, drop shoulders from ears, and take two slow nasal breaths in the staffroom.'
+      },
+      actions: [
+        {
+          title: '60-Second Staffroom Reset',
+          prompt: 'Unclench jaw, rest tongue against roof of mouth, and drop shoulders before stepping onto the floor.',
+          qip: 'QA 5.1.1 — Self-Regulation'
+        },
+        {
+          title: 'Non-Verbal Partner Tag',
+          prompt: 'Agree on a wrist-tap signal with co-educators to swap room positions when energy tanks drop.',
+          qip: 'QA 4.1.1 — Team Co-Regulation'
+        }
+      ]
+    },
+    {
+      stage: 2,
+      title: 'Stage 2: Environmental Unburdening',
+      focus: 'Sensory Load Reduction',
+      qip: 'QA 3.1.2',
+      subtitle: 'Removing Physical & Acoustic Room Triggers',
+      summary: 'Identify and remove physical bottlenecks, visual clutter, and acoustic noise before group transition periods.',
+      comparison: {
+        behavior: 'What We See: Doorway crowding, overlapping background audio, and high visual density in main pathways.',
+        somaticShift: 'Somatic Shift: Turn off background music, dim ceiling lights, and shift bag racks away from doorways.'
+      },
+      actions: [
+        {
+          title: 'Acoustic Load Cut-Off',
+          prompt: 'Turn off background audio clutter and dim room lighting 5 minutes before transition times.',
+          qip: 'QA 3.1.2 — Sensory Load'
+        },
+        {
+          title: 'Spatial Bottleneck Clearing',
+          prompt: 'Shift furniture and storage 2 metres away from doorway thresholds to unburden entry pathways.',
+          qip: 'QA 3.1.2 — Space Setup'
+        }
+      ]
+    },
+    {
+      stage: 3,
+      title: 'Stage 3: Low-Arousal Co-Presence',
+      focus: 'Co-Regulation Practice',
+      qip: 'QA 5.1.1',
+      subtitle: 'Grounding Heightened Child Arousal',
+      summary: 'Adopt low-arousal physical postures, drop vocal pitch, and slash verbal demands when a child enters defense mode.',
+      comparison: {
+        behavior: 'What We See: Standing directly over the child, rapid questioning, and demanding immediate eye contact.',
+        somaticShift: 'Somatic Shift: Drop to one knee at a 45-degree angle, lower eye height, and halt verbal questions.'
+      },
+      actions: [
+        {
+          title: 'Side-On Low-Arousal Stance',
+          prompt: 'Drop eye height parallel to child at a 45-degree angle. Avoid face-to-face looming posture.',
+          qip: 'QA 5.1.1 — Low-Arousal Posture'
+        },
+        {
+          title: 'Somatic Water Reset',
+          prompt: 'Offer a cool water sip or splash water on wrists without making spoken verbal demands.',
+          qip: 'QA 2.1.1 — Health & Safety'
+        }
+      ]
+    }
+  ];
 
-  const toggleFlip = (id: string) => {
-    setFlippedCards((prev) => ({ ...prev, [id]: !prev[id] }));
+  const activeData = journeyStages.find((s) => s.stage === activeStage) || journeyStages[0];
+
+  const handleCopyText = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-800 pb-20">
-      {/* HEADER */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
-        <div className="mx-auto flex max-w-4xl items-center justify-between">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20">
+      
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
+            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
           >
-            ← Back to Home
+            Back to Home
           </Link>
-
-          <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-[11px] font-bold text-amber-950">
-            Guided Learning Journey
+          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
+            Learning Journey
           </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-6 py-10 space-y-12">
-        {/* HERO ROADMAP BANNER */}
-        <section className="rounded-3xl bg-teal-950 text-white p-8 md:p-10 shadow-xl space-y-6">
-          <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-300 block">
-              Director &amp; Educator Roadmap
-            </span>
-
-            <h1 className="text-2xl font-extrabold md:text-4xl">
-              How to Use Regulator Champions in Your Centre
-            </h1>
-
-            <p className="text-xs text-teal-100 max-w-2xl leading-relaxed">
-              Use this four-step pathway during a short planning break or team
-              discussion. Move from observing the environment to choosing a
-              practical response, printing shared prompts and checking your own
-              state before returning to the room.
-            </p>
-          </div>
-
-          {/* 4-STEP PROGRESSION PIPELINE */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-teal-800/80">
-            <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
-              <strong className="block text-amber-300 font-bold mb-0.5">
-                1. Observe
-              </strong>
-              <p className="text-[11px] text-teal-100">
-                Compare room setup and demand
-              </p>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
-              <strong className="block text-amber-300 font-bold mb-0.5">
-                2. Tap-to-Flip
-              </strong>
-              <p className="text-[11px] text-teal-100">
-                Learn 15-word room actions
-              </p>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
-              <strong className="block text-amber-300 font-bold mb-0.5">
-                3. Print Cards
-              </strong>
-              <p className="text-[11px] text-teal-100">
-                Display A3 room posters
-              </p>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-teal-900/60 border border-teal-700/60 text-xs">
-              <strong className="block text-amber-300 font-bold mb-0.5">
-                4. Somatic Check-In
-              </strong>
-              <p className="text-[11px] text-teal-100">
-                Notice your body state
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6">
-          <span className="block text-xs font-bold uppercase tracking-wider text-amber-900">
-            Use Observation, Not Assumptions
+      <main className="max-w-5xl mx-auto px-4 py-6 space-y-8">
+        
+        {/* Banner */}
+        <section className="bg-[#1C3B34] text-white p-6 md:p-8 rounded-3xl border-2 border-[#1C3B34] shadow-sm space-y-3">
+          <span className="text-xs font-black uppercase tracking-wider text-[#C29F60] block">
+            Guided Practice Pathway
           </span>
-
-          <p className="mt-2 text-sm leading-relaxed text-amber-950">
-            These examples are designed to help educators notice patterns in
-            environment, routines, movement and adult responses. They are not a
-            diagnostic tool and should not be used to decide that a child&apos;s
-            behaviour has one specific sensory, emotional or developmental
-            cause.
+          <h1 className="text-2xl md:text-4xl font-serif font-bold text-white leading-tight">
+            Co-Regulation Learning Journey
+          </h1>
+          <p className="text-sm md:text-base text-white/90 font-light leading-relaxed max-w-2xl">
+            A 3-stage visual pathway moving from adult self-regulation to environmental setup and low-arousal co-presence.
           </p>
         </section>
 
-        {/* STEP 1: INTERACTIVE STYLED VS SUBSTANCE TOGGLE */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 md:p-8 space-y-6 shadow-xs">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-                Step 1: Visual Observation
+        {/* 3 Stage Touch Switcher */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-bold text-sm">
+          {journeyStages.map((item) => (
+            <button
+              key={item.stage}
+              type="button"
+              onClick={() => setActiveStage(item.stage)}
+              className={`p-4 rounded-2xl border-2 transition-all min-h-12 text-left flex flex-col justify-between space-y-2 ${
+                activeStage === item.stage
+                  ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                  : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
+              }`}
+            >
+              <div className="flex justify-between items-center w-full">
+                <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${
+                  activeStage === item.stage ? 'bg-[#C29F60] text-[#1C3B34]' : 'bg-[#FAF5EC] text-[#1C3B34]'
+                }`}>
+                  Stage {item.stage}
+                </span>
+                <span className={`text-[10px] font-bold ${activeStage === item.stage ? 'text-white/80' : 'text-[#657B6C]'}`}>
+                  {item.qip}
+                </span>
+              </div>
+              <span className="text-xs font-serif font-bold leading-snug block">
+                {item.focus}
               </span>
+            </button>
+          ))}
+        </div>
 
-              <h2 className="text-xl font-bold text-slate-900">
-                What the Room Looks Like vs. What the Room Demands
-              </h2>
-            </div>
-
-            {/* TOGGLE BUTTON SWITCH */}
-            <div className="flex items-center rounded-2xl bg-slate-100 p-1 border border-slate-200">
-              <button
-                type="button"
-                onClick={() => setToggleState('styled')}
-                className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
-                  toggleState === 'styled'
-                    ? 'bg-teal-800 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                What We See
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setToggleState('substance')}
-                className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
-                  toggleState === 'substance'
-                    ? 'bg-amber-400 text-slate-950 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                What Is Happening
-              </button>
-            </div>
+        {/* Stage Overview Banner */}
+        <section className="bg-[#FAF5EC] border-2 border-[#C29F60] p-6 md:p-8 rounded-3xl space-y-4">
+          <div className="flex justify-between items-center border-b border-[#C29F60]/30 pb-3">
+            <span className="text-xs font-black uppercase text-[#C29F60]">
+              Stage {activeData.stage}: {activeData.subtitle}
+            </span>
+            <span className="text-xs font-bold text-[#1C3B34] bg-white px-3 py-1 rounded-full border border-[#E6E2DC]">
+              {activeData.focus}
+            </span>
           </div>
 
-          {/* DYNAMIC IMAGE DISPLAY */}
-          <div className="space-y-4">
-            <div className="relative rounded-2xl bg-slate-100 overflow-hidden min-h-72 border border-slate-200 flex items-center justify-center">
-              <img
-                src={
-                  toggleState === 'styled'
-                    ? '/images/aesthetic/card1_styled.png'
-                    : '/images/aesthetic/card1_substance.png'
-                }
-                alt="Styled vs Substance Comparison"
-                className="w-full h-auto object-cover max-h-96 transition-opacity duration-300"
-              />
+          <h2 className="text-xl md:text-2xl font-serif font-bold text-[#1C3B34]">
+            {activeData.title}
+          </h2>
+
+          <p className="text-sm md:text-base font-medium leading-relaxed text-[#2B3833]">
+            {activeData.summary}
+          </p>
+        </section>
+
+        {/* Visual Shift Comparison Box */}
+        <section className="bg-white p-6 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-4">
+          <h3 className="text-xs font-black uppercase tracking-wider text-[#657B6C]">
+            Visual Practice Comparison
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl space-y-1">
+              <span className="text-xs font-bold text-rose-900 uppercase block">
+                High-Stress Demand
+              </span>
+              <p className="text-xs font-medium text-rose-800 leading-relaxed">
+                {activeData.comparison.behavior}
+              </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FDFBF7] border border-slate-200 text-xs text-slate-700 leading-relaxed font-medium">
-              {toggleState === 'styled' ? (
-                <p>
-                  <strong>Surface View:</strong> A room can look calm and well
-                  organised while still creating movement bottlenecks, long
-                  waiting periods or limited opportunities for active play. Look
-                  beyond appearance and notice how children actually move through
-                  the space.
-                </p>
-              ) : (
-                <p>
-                  <strong>Developmental View:</strong> Throwing, crashing or
-                  constant movement can have many possible causes. Rather than
-                  assuming one sensory explanation, look at the environment,
-                  timing, crowding, movement opportunities and what happened
-                  before and after. Purposeful carrying, climbing or pushing
-                  activities may be useful options for some children.
-                </p>
-              )}
+            <div className="p-4 bg-emerald-50 border-2 border-emerald-200 rounded-2xl space-y-1">
+              <span className="text-xs font-bold text-emerald-900 uppercase block">
+                Co-Regulation Shift
+              </span>
+              <p className="text-xs font-medium text-emerald-800 leading-relaxed">
+                {activeData.comparison.somaticShift}
+              </p>
             </div>
           </div>
         </section>
 
-        {/* STEP 2: TAP-TO-FLIP STRATEGY DECK */}
-        <section className="space-y-6">
-          <div className="space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-              Step 2: 15-Word Micro Cards
-            </span>
+        {/* Action Prompt Cards */}
+        <section className="space-y-4">
+          <h2 className="text-lg font-serif font-bold text-[#1C3B34]">
+            15-Word Floor Action Prompts
+          </h2>
 
-            <h2 className="text-xl font-bold text-slate-900">
-              Tap Any Card to Reveal the Room Strategy
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {FLIP_CARDS.map((card) => {
-              const isFlipped = Boolean(flippedCards[card.id]);
-
-              return (
-                <div
-                  key={card.id}
-                  onClick={() => toggleFlip(card.id)}
-                  className="cursor-pointer rounded-3xl border border-slate-200 bg-white p-6 shadow-xs hover:border-teal-600 transition min-h-80 flex flex-col justify-between space-y-4"
-                >
-                  {!isFlipped ? (
-                    <div className="space-y-4 flex flex-col justify-between h-full">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                            {card.frontSubtitle}
-                          </span>
-
-                          <img
-                            src={card.badgeImage}
-                            alt="Badge stamp"
-                            className="h-8 w-8 object-contain"
-                          />
-                        </div>
-
-                        <h3 className="text-base font-bold text-slate-900 leading-snug">
-                          {card.frontTitle}
-                        </h3>
-                      </div>
-
-                      <div className="rounded-2xl overflow-hidden bg-slate-100 h-40">
-                        <img
-                          src={card.frontImage}
-                          alt={card.frontTitle}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-
-                      <span className="block text-center text-xs font-bold text-teal-800 pt-2 border-t border-slate-100">
-                        Tap Card to Flip Strategy ↺
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 flex flex-col justify-between h-full bg-teal-900 text-white p-4 -m-6 rounded-3xl">
-                      <div className="space-y-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-amber-300">
-                          {card.backTitle}
-                        </span>
-
-                        <p className="text-xs leading-relaxed text-teal-100 font-medium">
-                          {card.backAction}
-                        </p>
-                      </div>
-
-                      <div className="space-y-2 pt-4 border-t border-teal-800">
-                        <a
-                          href={card.pdfLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(event) => event.stopPropagation()}
-                          className="block text-center rounded-xl bg-amber-400 py-2.5 text-xs font-bold text-slate-950 hover:bg-amber-300 transition"
-                        >
-                          Download PDF Routine Card →
-                        </a>
-
-                        <span className="block text-center text-[10px] text-teal-300">
-                          Tap to flip back
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* STEP 3: INDIVIDUAL PRINTABLE PDF CARDS */}
-        <section className="space-y-6">
-          <div className="space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800 block">
-              Step 3: Print &amp; Display Vault
-            </span>
-
-            <h2 className="text-xl font-bold text-slate-900">
-              Individual Room Posters Ready for Your Wall
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PDF_CARDS.map((pdf) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {activeData.actions.map((act, idx) => (
               <div
-                key={pdf.id}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs flex items-center gap-5 hover:border-teal-600 transition"
+                key={idx}
+                className="bg-white p-6 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-4 hover:border-[#657B6C] transition-all flex flex-col justify-between"
               >
-                <img
-                  src={pdf.badge}
-                  alt={pdf.title}
-                  className="h-16 w-16 shrink-0 object-contain"
-                />
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-base font-bold text-[#1C3B34]">
+                      {act.title}
+                    </h3>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF5EC] border border-[#C29F60]/40 text-[#1C3B34]">
+                      {act.qip}
+                    </span>
+                  </div>
 
-                <div className="space-y-2 flex-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                    {pdf.timeToComplete}
-                  </span>
-
-                  <h3 className="text-sm font-bold text-slate-900 leading-snug">
-                    {pdf.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {pdf.desc}
+                  <p className="text-sm font-medium leading-relaxed bg-[#FAF8F5] p-4 rounded-2xl border border-[#E6E2DC] text-[#2B3833]">
+                    {act.prompt}
                   </p>
-
-                  <a
-                    href={pdf.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block rounded-xl bg-teal-800 px-4 py-2 text-xs font-bold text-white hover:bg-teal-900 transition mt-1"
-                  >
-                    Open &amp; Print PDF Card →
-                  </a>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleCopyText(act.prompt, idx)}
+                  className="w-full py-3 px-4 bg-[#657B6C] text-white font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 flex items-center justify-center shadow-sm"
+                >
+                  {copiedIndex === idx ? 'Copied Floor Strategy' : 'Copy Prompt for Room Log'}
+                </button>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6 md:p-8">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Related Learning
-          </span>
-
-          <h2 className="mt-1 text-2xl font-bold text-teal-950">
-            Connect this journey with your wider regulation learning
-          </h2>
-
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link
-              href="/free-guide"
-              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
-            >
-              Free Regulation Guide →
-            </Link>
-
-            <Link
-              href="/co-regulation-early-childhood"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Co-Regulation Guide →
-            </Link>
-
-            <Link
-              href="/emotional-regulation-early-childhood"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Emotional Regulation Guide →
-            </Link>
-
-            <Link
-              href="/educator-capacity-building"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Educator Capacity Building →
-            </Link>
+        {/* Print Resources */}
+        <section className="bg-white p-6 md:p-8 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-4">
+          <div>
+            <span className="text-xs font-black uppercase text-[#C29F60] block mb-1">
+              Printable Resource
+            </span>
+            <h3 className="text-xl font-serif font-bold text-[#1C3B34]">
+              Download Educator Routine Cards
+            </h3>
+            <p className="text-xs text-[#6A7873] mt-1">
+              Print high-contrast strategy cards for morning arrivals, sensory resets, and room handovers.
+            </p>
           </div>
-        </section>
 
-        <section className="rounded-3xl bg-teal-950 p-7 text-center text-white md:p-9">
-          <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
-            Regulator Champions
-          </span>
-
-          <h2 className="mt-2 text-2xl font-extrabold">
-            Ready to continue beyond the free resources?
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-teal-100">
-            Start with the 3-Ladder Preview for $1,790 including GST and six
-            months of access, or choose the full 8-Ladder pathway for $4,790
-            including GST and 12 months of access.
-          </p>
-
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="rounded-xl bg-amber-400 px-5 py-3 text-xs font-bold text-slate-950 transition hover:bg-amber-300"
-            >
-              3-Ladder Preview — $1,790 →
-            </Link>
-
-            <Link
-              href="/proposal?plan=full"
-              className="rounded-xl border border-teal-700 bg-teal-900 px-5 py-3 text-xs font-bold text-white transition hover:bg-teal-800"
-            >
-              Full 8-Ladder Pathway — $4,790 →
-            </Link>
-          </div>
-        </section>
-
-        {/* STEP 4: CTA TO SOMATIC CHECKIN */}
-        <section className="rounded-3xl bg-amber-400 p-8 text-slate-950 text-center space-y-4 shadow-md">
-          <h2 className="text-xl font-extrabold md:text-2xl">
-            Step 4: Check Your Staffroom Somatic State
-          </h2>
-
-          <p className="text-xs font-medium max-w-lg mx-auto leading-relaxed">
-            Take a brief body-awareness check before returning to the room.
-            Notice jaw tension, breathing, shoulder position and whether a
-            simple sensory or movement anchor may help you slow your pace.
-          </p>
-
-          <Link
-            href="/somatic-checkin"
-            className="inline-block rounded-xl bg-slate-950 px-6 py-3.5 text-xs font-bold text-white shadow hover:bg-slate-800 transition"
+          <a
+            href="/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-4 bg-[#1C3B34] text-white text-center font-bold rounded-2xl hover:bg-opacity-90 transition-all text-sm shadow-sm min-h-12 flex items-center justify-center"
           >
-            Launch the Somatic Check-In →
-          </Link>
+            Open & Print Educator Strategy Cards (PDF)
+          </a>
         </section>
+
       </main>
     </div>
   );

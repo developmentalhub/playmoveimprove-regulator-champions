@@ -45,7 +45,6 @@ export default function QuoteRequestPage() {
         throw new Error(data.error || 'Failed to submit quote request.');
       }
 
-      // Redirect to proposal page with plan pre-selected
       if (data.redirectUrl) {
         window.location.href = data.redirectUrl;
       } else {
@@ -63,102 +62,104 @@ export default function QuoteRequestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
-      {/* HEADER BAR */}
-      <header className="border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20">
+      
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3">
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
+            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
           >
-            ← Back to Home
+            Back to Home
           </Link>
 
-          <span className="text-xs font-semibold text-slate-500">
-            Regulator Champions Quote Engine
+          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
+            Quote Generator
           </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-10">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xs md:p-10">
-          <div className="border-b border-slate-200 pb-6">
-            <span className="block text-xs font-bold uppercase tracking-widest text-teal-800">
+      <main className="max-w-3xl mx-auto px-4 py-6 space-y-6">
+        <div className="bg-white p-6 md:p-8 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-6">
+          <div className="border-b border-[#FAF8F5] pb-4 space-y-2">
+            <span className="text-xs font-black uppercase text-[#C29F60] block tracking-wider">
               Instant Service Quote Generator
             </span>
-            <h1 className="mt-1 text-2xl font-extrabold text-slate-900 md:text-3xl">
-              Request an Official Funding Quote &amp; Proposal
+            <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#1C3B34]">
+              Request an Official Funding Quote & Proposal
             </h1>
-            <p className="mt-2 text-xs leading-relaxed text-slate-600">
+            <p className="text-xs text-[#6A7873] leading-relaxed">
               Provide your centre details below to generate a formatted tax quote for Victorian SRF, Queensland Kindy Uplift, or internal purchase order approvals.
             </p>
           </div>
 
           {errorMsg && (
-            <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-xs font-bold text-red-800">
+            <div className="rounded-2xl border-2 border-rose-200 bg-rose-50 p-4 text-xs font-bold text-rose-900">
               {errorMsg}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-6 text-xs">
-            {/* PROGRAM SELECTION */}
+          <form onSubmit={handleSubmit} className="space-y-6 text-xs font-medium">
+            
+            {/* Program Selection */}
             <div className="space-y-2">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1C3B34]">
                 1. Select Program Option *
               </label>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => setProgramOption('preview')}
-                  className={`rounded-2xl border p-4 text-left transition ${
+                  className={`p-4 rounded-2xl border-2 text-left transition-all min-h-12 flex flex-col justify-between ${
                     programOption === 'preview'
-                      ? 'border-amber-400 bg-amber-50 ring-2 ring-amber-200'
-                      : 'border-slate-200 bg-white hover:border-slate-300'
+                      ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                      : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
                   }`}
                 >
-                  <span className="block text-[10px] font-bold uppercase text-amber-800">
+                  <span className={`text-[10px] font-black uppercase block ${programOption === 'preview' ? 'text-[#C29F60]' : 'text-[#657B6C]'}`}>
                     2026 Entry Level
                   </span>
-                  <strong className="block text-sm font-extrabold text-slate-900">
+                  <strong className="block text-sm font-serif font-bold">
                     3-Ladder Preview ($1,790)
                   </strong>
-                  <span className="text-[11px] text-slate-500">
-                    Incl. GST • 6 months site access
+                  <span className={`text-[11px] block ${programOption === 'preview' ? 'text-white/80' : 'text-[#6A7873]'}`}>
+                    Incl. GST | 6 months site access
                   </span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setProgramOption('full')}
-                  className={`rounded-2xl border p-4 text-left transition ${
+                  className={`p-4 rounded-2xl border-2 text-left transition-all min-h-12 flex flex-col justify-between ${
                     programOption === 'full'
-                      ? 'border-teal-700 bg-teal-50 ring-2 ring-teal-200'
-                      : 'border-slate-200 bg-white hover:border-slate-300'
+                      ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                      : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
                   }`}
                 >
-                  <span className="block text-[10px] font-bold uppercase text-teal-800">
+                  <span className={`text-[10px] font-black uppercase block ${programOption === 'full' ? 'text-[#C29F60]' : 'text-[#657B6C]'}`}>
                     Best Value
                   </span>
-                  <strong className="block text-sm font-extrabold text-slate-900">
+                  <strong className="block text-sm font-serif font-bold">
                     Full 8 Ladders ($4,790)
                   </strong>
-                  <span className="text-[11px] text-slate-500">
-                    Incl. GST • 12 months site licence
+                  <span className={`text-[11px] block ${programOption === 'full' ? 'text-white/80' : 'text-[#6A7873]'}`}>
+                    Incl. GST | 12 months site licence
                   </span>
                 </button>
               </div>
             </div>
 
-            {/* CONTACT DETAILS */}
+            {/* Contact Details */}
             <div className="space-y-4">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                2. Director &amp; Service Information
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1C3B34]">
+                2. Director & Service Information
               </label>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Full Name / Nominated Supervisor *
                   </label>
                   <input
@@ -167,12 +168,12 @@ export default function QuoteRequestPage() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Sarah Jenkins"
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Email Address *
                   </label>
                   <input
@@ -181,14 +182,14 @@ export default function QuoteRequestPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="director@service.com.au"
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Phone Number
                   </label>
                   <input
@@ -196,12 +197,12 @@ export default function QuoteRequestPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="0400 000 000"
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Centre / Service Name *
                   </label>
                   <input
@@ -210,14 +211,14 @@ export default function QuoteRequestPage() {
                     value={serviceName}
                     onChange={(e) => setServiceName(e.target.value)}
                     placeholder="e.g. Sunshine Early Learning Centre"
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Approved Provider / Legal Entity
                   </label>
                   <input
@@ -225,18 +226,18 @@ export default function QuoteRequestPage() {
                     value={providerLegalName}
                     onChange={(e) => setProviderLegalName(e.target.value)}
                     placeholder="e.g. Sunshine ELC Pty Ltd"
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block font-semibold text-slate-700">
+                  <label className="mb-1 block font-bold text-[#1C3B34]">
                     Funding Stream
                   </label>
                   <select
                     value={fundingSource}
                     onChange={(e) => setFundingSource(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5] min-h-12"
                   >
                     <option value="VIC School Readiness Funding (SRF)">
                       VIC School Readiness Funding (SRF)
@@ -256,7 +257,7 @@ export default function QuoteRequestPage() {
               </div>
 
               <div>
-                <label className="mb-1 block font-semibold text-slate-700">
+                <label className="mb-1 block font-bold text-[#1C3B34]">
                   Additional Notes or Multi-Site Details
                 </label>
                 <textarea
@@ -264,7 +265,7 @@ export default function QuoteRequestPage() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Include any specific PO requirements or indicate if you are seeking a multi-service quote..."
-                  className="w-full rounded-xl border border-slate-300 p-3 text-xs focus:border-teal-800 focus:outline-none"
+                  className="w-full rounded-xl border-2 border-[#E6E2DC] p-3 text-xs focus:border-[#657B6C] outline-none bg-[#FAF8F5]"
                 />
               </div>
             </div>
@@ -273,11 +274,11 @@ export default function QuoteRequestPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full cursor-pointer rounded-2xl bg-amber-400 py-4 text-xs font-extrabold text-slate-950 transition hover:bg-amber-300 disabled:opacity-50"
+                className="w-full py-4 px-6 bg-[#C29F60] text-[#1C3B34] font-bold rounded-2xl hover:bg-opacity-90 transition-all text-sm shadow-sm min-h-12 flex items-center justify-center disabled:opacity-50"
               >
                 {loading
                   ? 'Generating Your Official Proposal...'
-                  : 'Generate Official Proposal & Quote →'}
+                  : 'Generate Official Proposal & Quote'}
               </button>
             </div>
           </form>

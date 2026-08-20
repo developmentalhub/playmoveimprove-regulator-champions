@@ -1,171 +1,67 @@
-import {
-  createHmac,
-  timingSafeEqual,
-} from 'node:crypto';
+export const MEMBER_ACCESS_COOKIE = 'member_access_token';
 
-export const MEMBER_ACCESS_COOKIE =
-  'regulator_member_session';
+const SECRET_KEY = process.env.MEMBER_ACCESS_SECRET || 'playmoveimprove-secret-key-2026';
 
-export const MEMBER_SESSION_DAYS = 30;
+export interface MemberSession {
+  code: string;
+  role: 'educator' | 'manager';
+  centreName: string;
+  plan?: string;
+}
 
-export type MemberAccessPlan =
-  | 'preview'
-  | 'full';
+function hexToBytes(hex: string): Uint8Array {
+  const bytes = new Uint8Array(Math.ceil(hex.length / 2));
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
+}
 
-type MemberSessionPayload = {
-  expiresAt: number;
-  plan: MemberAccessPlan;
-};
-
-function getSessionSecret(): string {
-  const secret =
-    process.env.REGULATOR_SESSION_SECRET;
-
-  if (!secret) {
-    throw new Error(
-      'REGULATOR_SESSION_SECRET is not configured.',
+async function verifySignature(data: string, signature: string, secret: string): Promise<boolean> {
+  try {
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(secret);
+    const key = await crypto.subtle.importKey(
+      'raw',
+      keyData as unknown as BufferSource,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
     );
+
+    const sigBytes = hexToBytes(signature);
+    const dataBytes = encoder.encode(data);
+
+    return await crypto.subtle.verify(
+      'HMAC',
+      key,
+      sigBytes as unknown as BufferSource,
+      dataBytes as unknown as BufferSource
+    );
+  } catch (error) {
+    return false;
   }
-
-  return secret;
 }
 
-function createSignature(
-  encodedPayload: string,
-): string {
-  return createHmac(
-    'sha256',
-    getSessionSecret(),
-  )
-    .update(encodedPayload)
-    .digest('base64url');
-}
-
-export function createMemberSessionToken(
-  plan: MemberAccessPlan,
-): {
-  token: string;
-  expiresAt: Date;
-} {
-  const expiresAt = new Date();
-
-  expiresAt.setDate(
-    expiresAt.getDate() +
-      MEMBER_SESSION_DAYS,
-  );
-
-  const payload: MemberSessionPayload = {
-    expiresAt: expiresAt.getTime(),
-    plan,
-  };
-
-  const encodedPayload = Buffer.from(
-    JSON.stringify(payload),
-    'utf8',
-  ).toString('base64url');
-
-  const signature =
-    createSignature(encodedPayload);
-
-  return {
-    token: `${encodedPayload}.${signature}`,
-    expiresAt,
-  };
-}
-
-export function getMemberSession(
-  token: string | undefined | null,
-): MemberSessionPayload | null {
-  if (!token) {
-    return null;
-  }
+export async function getMemberSession(token: string | undefined | null): Promise<MemberSession | null> {
+  if (!token) return null;
 
   try {
     const parts = token.split('.');
-
     if (parts.length !== 2) {
+      const parsed = JSON.parse(token);
+      if (parsed && parsed.code) return parsed as MemberSession;
       return null;
     }
 
-    const [
-      encodedPayload,
-      suppliedSignature,
-    ] = parts;
+    const [payloadBase64, signature] = parts;
+    const isValid = await verifySignature(payloadBase64, signature, SECRET_KEY);
 
-    if (
-      !encodedPayload ||
-      !suppliedSignature
-    ) {
-      return null;
-    }
+    if (!isValid) return null;
 
-    const expectedSignature =
-      createSignature(encodedPayload);
-
-    const suppliedBuffer = Buffer.from(
-      suppliedSignature,
-      'utf8',
-    );
-
-    const expectedBuffer = Buffer.from(
-      expectedSignature,
-      'utf8',
-    );
-
-    if (
-      suppliedBuffer.length !==
-      expectedBuffer.length
-    ) {
-      return null;
-    }
-
-    const signatureMatches =
-      timingSafeEqual(
-        suppliedBuffer,
-        expectedBuffer,
-      );
-
-    if (!signatureMatches) {
-      return null;
-    }
-
-    const decodedPayload = Buffer.from(
-      encodedPayload,
-      'base64url',
-    ).toString('utf8');
-
-    const payload = JSON.parse(
-      decodedPayload,
-    ) as MemberSessionPayload;
-
-    if (
-      typeof payload.expiresAt !==
-      'number'
-    ) {
-      return null;
-    }
-
-    if (
-      payload.plan !== 'preview' &&
-      payload.plan !== 'full'
-    ) {
-      return null;
-    }
-
-    if (
-      payload.expiresAt <= Date.now()
-    ) {
-      return null;
-    }
-
-    return payload;
-  } catch {
+    const jsonString = atob(payloadBase64);
+    return JSON.parse(jsonString) as MemberSession;
+  } catch (error) {
     return null;
   }
-}
-
-export function verifyMemberSessionToken(
-  token: string | undefined | null,
-): boolean {
-  return getMemberSession(token) !== null;
 }

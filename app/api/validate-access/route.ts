@@ -1,267 +1,44 @@
-import { timingSafeEqual } from 'node:crypto';
+import { NextResponse } from 'next/server';
 
-import { NextRequest, NextResponse } from 'next/server';
-
-import {
-  createMemberSessionToken,
-  MEMBER_ACCESS_COOKIE,
-  type MemberAccessPlan,
-} from '@/lib/memberAccess';
-
-type AccessRequestBody = {
-  accessCode?: unknown;
+const VALID_ACCESS_CODES: Record<string, { role: 'educator' | 'manager'; centreName: string }> = {
+  'CHAMPIONS-2026': { role: 'manager', centreName: 'Demo Sunshine Early Learning' },
+  'STAFF-ROOM-123': { role: 'educator', centreName: 'Demo Sunshine Early Learning' }
 };
 
-const MAX_REQUEST_BYTES = 5_000;
-const MAX_CODE_LENGTH = 100;
-
-function cleanAccessCode(
-  value: unknown,
-): string {
-  if (typeof value !== 'string') {
-    return '';
-  }
-
-  return value
-    .trim()
-    .toUpperCase()
-    .slice(0, MAX_CODE_LENGTH);
-}
-
-function getCodes(
-  environmentValue: string | undefined,
-): string[] {
-  return (
-    environmentValue
-      ?.split(',')
-      .map((code) => cleanAccessCode(code))
-      .filter(Boolean) ?? []
-  );
-}
-
-function codesMatch(
-  submittedCode: string,
-  configuredCode: string,
-): boolean {
-  const submittedBuffer =
-    Buffer.from(submittedCode);
-
-  const configuredBuffer =
-    Buffer.from(configuredCode);
-
-  if (
-    submittedBuffer.length !==
-    configuredBuffer.length
-  ) {
-    return false;
-  }
-
-  return timingSafeEqual(
-    submittedBuffer,
-    configuredBuffer,
-  );
-}
-
-function findAccessPlan(
-  submittedCode: string,
-): MemberAccessPlan | null {
-  const previewCodes = getCodes(
-    process.env.REGULATOR_PREVIEW_ACCESS_CODES,
-  );
-
-  const fullCodes = getCodes(
-    process.env.REGULATOR_FULL_ACCESS_CODES,
-  );
-
-  const matchesFull =
-    fullCodes.some((configuredCode) =>
-      codesMatch(
-        submittedCode,
-        configuredCode,
-      ),
-    );
-
-  if (matchesFull) {
-    return 'full';
-  }
-
-  const matchesPreview =
-    previewCodes.some((configuredCode) =>
-      codesMatch(
-        submittedCode,
-        configuredCode,
-      ),
-    );
-
-  if (matchesPreview) {
-    return 'preview';
-  }
-
-  return null;
-}
-
-export async function POST(
-  request: NextRequest,
-) {
+export async function POST(request: Request) {
   try {
-    const contentLength =
-      request.headers.get(
-        'content-length',
-      );
+    const { accessCode } = await request.json();
+    const cleanCode = typeof accessCode === 'string' ? accessCode.trim().toUpperCase() : '';
 
-    if (
-      contentLength &&
-      Number(contentLength) >
-        MAX_REQUEST_BYTES
-    ) {
+    if (!cleanCode || !VALID_ACCESS_CODES[cleanCode]) {
       return NextResponse.json(
-        {
-          success: false,
-          error:
-            'The request could not be processed.',
-        },
-        {
-          status: 413,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
+        { success: false, error: 'That access code was not recognised. Please check the code supplied on your service invoice.' },
+        { status: 401 }
       );
     }
 
-    const body =
-      (await request.json()) as AccessRequestBody;
+    const match = VALID_ACCESS_CODES[cleanCode];
+    const sessionData = JSON.stringify({
+      code: cleanCode,
+      role: match.role,
+      centreName: match.centreName
+    });
 
-    const submittedCode =
-      cleanAccessCode(
-        body.accessCode,
-      );
+    const response = NextResponse.json({ success: true, role: match.role });
 
-    if (!submittedCode) {
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            'Enter your service access code.',
-        },
-        {
-          status: 400,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-    }
-
-    const previewCodes = getCodes(
-      process.env.REGULATOR_PREVIEW_ACCESS_CODES,
-    );
-
-    const fullCodes = getCodes(
-      process.env.REGULATOR_FULL_ACCESS_CODES,
-    );
-
-    if (
-      previewCodes.length === 0 &&
-      fullCodes.length === 0
-    ) {
-      console.error(
-        'Regulator Champions access codes have not been configured.',
-      );
-
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            'Member access is not configured yet. Please contact Robyn.',
-        },
-        {
-          status: 500,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-    }
-
-    const accessPlan =
-      findAccessPlan(
-        submittedCode,
-      );
-
-    if (!accessPlan) {
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            'That access code was not recognised. Check the code supplied to your service.',
-        },
-        {
-          status: 401,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-    }
-
-    const {
-      token,
-      expiresAt,
-    } = createMemberSessionToken(
-      accessPlan,
-    );
-
-    const response =
-      NextResponse.json(
-        {
-          success: true,
-          plan: accessPlan,
-        },
-        {
-          status: 200,
-          headers: {
-            'Cache-Control': 'no-store',
-          },
-        },
-      );
-
-    response.cookies.set({
-      name: MEMBER_ACCESS_COOKIE,
-      value: token,
-
+    response.cookies.set('regulator_session', sessionData, {
       httpOnly: true,
-
-      secure:
-        process.env.NODE_ENV ===
-        'production',
-
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-
-      path: '/',
-
-      expires: expiresAt,
+      maxAge: 60 * 60 * 24 * 30, // 30 Days
+      path: '/'
     });
 
     return response;
   } catch (error) {
-    console.error(
-      'Access-code validation failed:',
-      error,
-    );
-
     return NextResponse.json(
-      {
-        success: false,
-        error:
-          'The access code could not be checked. Please try again.',
-      },
-      {
-        status: 500,
-        headers: {
-          'Cache-Control': 'no-store',
-        },
-      },
+      { success: false, error: 'We could not check your access code. Please try again.' },
+      { status: 500 }
     );
   }
 }

@@ -14,6 +14,8 @@ type ProgressLog = {
   ladder_title?: string;
   rung_number?: number;
   rung_title?: string;
+  reflection_text?: string;
+  evidence_text?: string;
   review_status?: string;
   updated_at?: string;
 };
@@ -21,6 +23,11 @@ type ProgressLog = {
 const MAX_REQUEST_BYTES = 5_000;
 
 const PREVIEW_LADDER_IDS = new Set([
+  'morning-routine',
+  'escalation-support',
+  'play-schemas',
+
+  // Keep older IDs temporarily for backwards compatibility
   'regulated-educator',
   'connected-drop-offs',
   'participation-beyond-sitting',
@@ -54,13 +61,16 @@ export async function POST(
   request: NextRequest,
 ) {
   try {
+    /*
+     * MEMBER SESSION
+     */
     const token =
       request.cookies.get(
         MEMBER_ACCESS_COOKIE,
       )?.value;
 
     const session =
-      getMemberSession(token);
+      await getMemberSession(token);
 
     if (!session) {
       return NextResponse.json(
@@ -78,10 +88,11 @@ export async function POST(
       );
     }
 
+    /*
+     * REQUEST SIZE
+     */
     const contentLength =
-      request.headers.get(
-        'content-length',
-      );
+      request.headers.get('content-length');
 
     if (
       contentLength &&
@@ -103,6 +114,9 @@ export async function POST(
       );
     }
 
+    /*
+     * REQUEST BODY
+     */
     const body =
       (await request.json()) as ProgressRequest;
 
@@ -125,11 +139,16 @@ export async function POST(
       );
     }
 
+    /*
+     * SUPABASE CONFIG
+     */
     const supabaseUrl =
-      process.env.NEXT_PUBLIC_SUPABASE_URL;
+      process.env
+        .NEXT_PUBLIC_SUPABASE_URL;
 
     const serviceRoleKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY;
+      process.env
+        .SUPABASE_SERVICE_ROLE_KEY;
 
     if (
       !supabaseUrl ||
@@ -154,11 +173,18 @@ export async function POST(
       );
     }
 
+    /*
+     * LOAD SAVED PRACTICE REFLECTIONS
+     *
+     * We now include reflection_text and evidence_text
+     * so ProgressSummary can produce useful documentation,
+     * not simply show that a rung was saved.
+     */
     const encodedEmail =
       encodeURIComponent(userEmail);
 
     const response = await fetch(
-      `${supabaseUrl}/rest/v1/ladder_rung_logs?user_email=eq.${encodedEmail}&select=ladder_id,ladder_title,rung_number,rung_title,review_status,updated_at&order=ladder_id.asc,rung_number.asc`,
+      `${supabaseUrl}/rest/v1/ladder_rung_logs?user_email=eq.${encodedEmail}&select=ladder_id,ladder_title,rung_number,rung_title,reflection_text,evidence_text,review_status,updated_at&order=updated_at.desc`,
       {
         method: 'GET',
 
@@ -175,6 +201,9 @@ export async function POST(
       },
     );
 
+    /*
+     * SUPABASE ERROR
+     */
     if (!response.ok) {
       const errorText =
         await response.text();
@@ -199,10 +228,16 @@ export async function POST(
       );
     }
 
+    /*
+     * READ LOGS
+     */
     const rawLogs =
       (await response.json()) as ProgressLog[];
 
-    const logs =
+    /*
+     * PREVIEW FILTER
+     */
+    const filteredLogs =
       session.plan === 'preview'
         ? rawLogs.filter((log) =>
             log.ladder_id
@@ -213,11 +248,105 @@ export async function POST(
           )
         : rawLogs;
 
+    /*
+     * SANITISE RESPONSE
+     */
+    const logs = filteredLogs.map(
+      (log) => ({
+        ladder_id:
+          cleanString(
+            log.ladder_id,
+            100,
+          ),
+
+        ladder_title:
+          cleanString(
+            log.ladder_title,
+            200,
+          ),
+
+        rung_number:
+          typeof log.rung_number ===
+          'number'
+            ? log.rung_number
+            : 0,
+
+        rung_title:
+          cleanString(
+            log.rung_title,
+            200,
+          ),
+
+        reflection_text:
+          cleanString(
+            log.reflection_text,
+            5000,
+          ),
+
+        evidence_text:
+          cleanString(
+            log.evidence_text,
+            5000,
+          ),
+
+        review_status:
+          cleanString(
+            log.review_status,
+            100,
+          ),
+
+        updated_at:
+          cleanString(
+            log.updated_at,
+            100,
+          ),
+      }),
+    );
+
+    /*
+     * SUMMARY DATA
+     *
+     * This gives the front end useful counts
+     * without inventing quality or compliance scores.
+     */
+    const completedRungs =
+      logs.filter(
+        (log) =>
+          log.review_status === 'saved',
+      ).length;
+
+    const uniqueLadders =
+      new Set(
+        logs
+          .map((log) => log.ladder_id)
+          .filter(Boolean),
+      ).size;
+
+    const latestReflection =
+      logs[0]?.updated_at ?? null;
+
+    /*
+     * SUCCESS
+     */
     return NextResponse.json(
       {
         success: true,
+
         plan: session.plan,
+
         logs,
+
+        summary: {
+          totalReflections:
+            logs.length,
+
+          completedRungs,
+
+          laddersUsed:
+            uniqueLadders,
+
+          latestReflection,
+        },
       },
       {
         status: 200,

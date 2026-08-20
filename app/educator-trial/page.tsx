@@ -1,679 +1,198 @@
 'use client';
 
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
-import EducatorTrialFeedbackModal from '../../components/EducatorTrialFeedbackModal';
-import { practiceScenarios } from '../../lib/practiceScenarios';
-import { getRegulationLadderById } from '../../lib/regulationLadders';
-
-type QuickRating =
-  | 'helpful'
-  | 'not_sure'
-  | 'not_relevant';
-
-type QuickFeedbackState = Record<
-  string,
-  QuickRating | 'submitting' | 'error'
->;
-
-const ratingOptions: {
-  value: QuickRating;
-  label: string;
-}[] = [
-  {
-    value: 'helpful',
-    label: 'Helpful',
-  },
-  {
-    value: 'not_sure',
-    label: 'Not Sure Yet',
-  },
-  {
-    value: 'not_relevant',
-    label: 'Not Relevant to My Room',
-  },
-];
 
 export default function EducatorTrialPage() {
-  const ladder = getRegulationLadderById(
-    'regulated-educator',
-  );
+  const [activeDay, setActiveDay] = useState<number>(1);
+  const [accessCode, setAccessCode] = useState<string>('');
+  const [isActivated, setIsActivated] = useState<boolean>(false);
 
-  const [isFeedbackOpen, setIsFeedbackOpen] =
-    useState(false);
+  const trialDays = [
+    {
+      day: 1,
+      title: 'Day 1: Staffroom Somatic Pause',
+      focus: 'Adult Regulation',
+      qip: 'QA 5.1.1',
+      subtitle: 'Nervous System Preparation',
+      prompt: 'Unclench jaw, drop shoulders from ears, and take two slow nasal breaths before entering the room.'
+    },
+    {
+      day: 2,
+      title: 'Day 2: Doorway Welcome Anchor',
+      focus: 'Arrival Continuity',
+      qip: 'QA 6.1.1',
+      subtitle: 'Drop-Off Unburdening',
+      prompt: 'Lower physical height parallel to doorway and pause tablet logging when families step across the threshold.'
+    },
+    {
+      day: 3,
+      title: 'Day 3: Acoustic Dampening Switch',
+      focus: 'Environmental Setup',
+      qip: 'QA 3.1.2',
+      subtitle: 'Sensory Load Reduction',
+      prompt: 'Turn off background audio clutter and dim room ceiling lights 5 minutes before group gathering.'
+    },
+    {
+      day: 4,
+      title: 'Day 4: Proprioceptive Heavy Carry',
+      focus: 'Sensory Outlets',
+      qip: 'QA 1.3.2',
+      subtitle: 'Movement Anchors',
+      prompt: 'Provide weighted cushions or heavy water jugs to carry before expecting seated attention from children.'
+    },
+    {
+      day: 5,
+      title: 'Day 5: Low-Arousal Side Stance',
+      focus: 'De-Escalation',
+      qip: 'QA 5.1.1',
+      subtitle: 'High Arousal Support',
+      prompt: 'Drop to one knee at a 45-degree angle, lower eye height, and stop verbal questioning during room stress.'
+    }
+  ];
 
-  const [quickFeedback, setQuickFeedback] =
-    useState<QuickFeedbackState>({});
+  const activeData = trialDays.find((d) => d.day === activeDay) || trialDays[0];
 
-  const submitQuickFeedback = async ({
-    itemKey,
-    contentType,
-    contentId,
-    contentTitle,
-    quickRating,
-  }: {
-    itemKey: string;
-    contentType:
-      | 'ladder_rung'
-      | 'practice_scenario';
-    contentId: string;
-    contentTitle: string;
-    quickRating: QuickRating;
-  }) => {
-    setQuickFeedback((previous) => ({
-      ...previous,
-      [itemKey]: 'submitting',
-    }));
-
-    try {
-      const response = await fetch(
-        '/api/educator-trial-feedback',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            feedbackType: 'quick',
-            pagePath: '/educator-trial',
-            contentType,
-            contentId,
-            contentTitle,
-            quickRating,
-          }),
-        },
-      );
-
-      const result = (await response.json()) as {
-        success?: boolean;
-        error?: string;
-      };
-
-      if (!response.ok || !result.success) {
-        throw new Error(
-          result.error ||
-            'Feedback could not be saved.',
-        );
-      }
-
-      setQuickFeedback((previous) => ({
-        ...previous,
-        [itemKey]: quickRating,
-      }));
-    } catch (error) {
-      console.error(
-        'Quick feedback submission failed:',
-        error,
-      );
-
-      setQuickFeedback((previous) => ({
-        ...previous,
-        [itemKey]: 'error',
-      }));
+  const handleActivate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (accessCode.trim()) {
+      setIsActivated(true);
     }
   };
 
-  if (!ladder || ladder.rungs.length === 0) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
-        <div className="max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <h1 className="text-xl font-bold text-slate-950">
-            Ladder 1 is temporarily unavailable
-          </h1>
-
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            The free educator trial could not load the
-            Ladder 1 content.
-          </p>
-
-          <Link
-            href="/"
-            className="mt-5 inline-block rounded-xl bg-teal-800 px-5 py-3 text-sm font-bold text-white"
-          >
-            Return Home
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-slate-100 pb-28 text-slate-800">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
-        <div className="mx-auto flex max-w-2xl items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20">
+      
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="text-sm font-bold text-teal-800 transition hover:text-teal-950"
+            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
           >
-            Play Move Improve
+            Back to Home
           </Link>
-
-          <button
-            type="button"
-            onClick={() => setIsFeedbackOpen(true)}
-            className="rounded-full bg-teal-800 px-4 py-2 text-xs font-bold text-white transition hover:bg-teal-900"
-          >
-            Share Feedback
-          </button>
+          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
+            5-Day Trial Pass
+          </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl space-y-6 px-3 py-6 sm:px-5">
-        <section className="overflow-hidden rounded-3xl bg-teal-900 text-white shadow-sm">
-          <div className="space-y-4 p-6 sm:p-8">
-            <span className="inline-block rounded-full bg-teal-800 px-3 py-1 text-xs font-bold uppercase tracking-wider text-teal-100">
-              Free Educator Trial
-            </span>
-
-            <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
-              Explore Ladder 1 and Tell Us What Educators
-              Really Need
-            </h1>
-
-            <p className="text-sm leading-relaxed text-teal-100 sm:text-base">
-              Scroll through the complete Ladder 1 content,
-              try the practical scenarios and share feedback
-              about what feels useful, unclear or difficult
-              to apply in a real early childhood room.
-            </p>
-
-            <div className="rounded-2xl border border-teal-700 bg-teal-950/40 p-4">
-              <p className="text-sm leading-relaxed text-teal-50">
-                Ladder 1 is currently available as a free
-                educator trial. Services that want to continue
-                can begin with the 3-Ladder Preview or choose
-                the full 8-Ladder pathway. Later ladders are
-                released progressively so teams have time to
-                practise each stage without becoming overwhelmed.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-700">
-            How to Use This Trial
+      <main className="max-w-5xl mx-auto px-4 py-6 space-y-8">
+        
+        {/* Banner */}
+        <section className="bg-[#1C3B34] text-white p-6 md:p-8 rounded-3xl border-2 border-[#1C3B34] shadow-sm space-y-3">
+          <span className="text-xs font-black uppercase tracking-wider text-[#C29F60] block">
+            Free Service Trial
           </span>
-
-          <h2 className="mt-2 text-xl font-bold text-slate-950">
-            Read, Try and Respond
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Read each card, choose one idea to try and use
-            the quick feedback buttons to tell us whether
-            that item felt relevant. The full feedback form
-            remains available at the bottom of your screen.
+          <h1 className="text-2xl md:text-4xl font-serif font-bold text-white leading-tight">
+            5-Day Educator Floor Trial Pass
+          </h1>
+          <p className="text-sm md:text-base text-white/90 font-light leading-relaxed max-w-2xl">
+            Test 15-word co-regulation strategy cards directly in your room before committing to a service-wide subscription.
           </p>
         </section>
 
-        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-5">
-          <span className="block text-xs font-bold uppercase tracking-wider text-amber-900">
-            Feedback and Privacy
-          </span>
-
-          <p className="mt-2 text-sm leading-relaxed text-amber-950">
-            Quick feedback such as “Helpful” or “Not Relevant to My Room” can
-            be submitted without giving your name or email. If you choose to
-            complete the full feedback form, only provide information about
-            your own professional experience and general room practice.
-          </p>
-
-          <p className="mt-2 text-sm leading-relaxed text-amber-950">
-            Do not include children&apos;s names, family names, dates of birth,
-            diagnoses, medical information or other identifying details. Your
-            feedback is used to improve Regulator Champions content and is
-            handled in accordance with the{' '}
-            <Link
-              href="/privacy"
-              className="font-bold underline underline-offset-2"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
-        </section>
-
-        <div className="flex items-center gap-3 px-2">
-          <div className="h-px flex-1 bg-slate-300" />
-
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Ladder 1
-          </span>
-
-          <div className="h-px flex-1 bg-slate-300" />
-        </div>
-
-        {ladder.rungs.map((rung) => {
-          const itemKey = `ladder-rung-${rung.number}`;
-          const feedbackState =
-            quickFeedback[itemKey];
-
-          return (
-            <article
-              key={rung.number}
-              className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
-            >
-              <div className="relative bg-slate-200">
-                <img
-                  src={rung.image}
-                  alt={`Rung ${rung.number}: ${rung.title}`}
-                  className="max-h-130 w-full object-cover"
-                />
-
-                <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-teal-950 shadow">
-                  Rung {rung.number} of{' '}
-                  {ladder.rungs.length}
-                </span>
-              </div>
-
-              <div className="space-y-5 p-5 sm:p-6">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-teal-700">
-                    {ladder.title}
-                  </span>
-
-                  <h2 className="mt-1 text-2xl font-bold text-slate-950">
-                    {rung.title}
-                  </h2>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                    Focus
-                  </h3>
-
-                  <p className="mt-1 text-sm leading-relaxed text-slate-700">
-                    {rung.focus}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-amber-900">
-                    Try This
-                  </h3>
-
-                  <p className="mt-1 text-sm leading-relaxed text-amber-950">
-                    {rung.practicePrompt}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-teal-900">
-                    Reflect
-                  </h3>
-
-                  <p className="mt-1 text-sm font-medium leading-relaxed text-teal-950">
-                    {rung.reflectionQuestion}
-                  </p>
-                </div>
-
-                <QuickFeedbackButtons
-                  currentState={feedbackState}
-                  onSelect={(quickRating) =>
-                    submitQuickFeedback({
-                      itemKey,
-                      contentType: 'ladder_rung',
-                      contentId: `ladder-1-rung-${rung.number}`,
-                      contentTitle: rung.title,
-                      quickRating,
-                    })
-                  }
-                />
-              </div>
-            </article>
-          );
-        })}
-
-        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6 text-center">
-          <h2 className="text-xl font-bold text-teal-950">
-            Download the Educator Cards
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-teal-900">
-            Use the printable Ladder 1 cards during team
-            discussion, room reflection or individual
-            practice.
-          </p>
-
-          <a
-            href={
-              ladder.printablePdf ||
-              '/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf'
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block rounded-xl bg-teal-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-teal-900"
-          >
-            Open Printable Educator Cards
-          </a>
-        </section>
-
-        <div className="flex items-center gap-3 px-2 pt-3">
-          <div className="h-px flex-1 bg-slate-300" />
-
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Practice Scenarios
-          </span>
-
-          <div className="h-px flex-1 bg-slate-300" />
-        </div>
-
-        {practiceScenarios.map((scenario, index) => {
-          const itemKey = `scenario-${scenario.id}`;
-          const feedbackState =
-            quickFeedback[itemKey];
-
-          return (
-            <article
-              key={scenario.id}
-              className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
-            >
-              <div className="relative bg-slate-200">
-                <img
-                  src={scenario.image}
-                  alt={scenario.title}
-                  className="max-h-130 w-full object-cover"
-                />
-
-                <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-teal-900 px-3 py-1 text-xs font-bold text-white shadow">
-                    Scenario {index + 1}
-                  </span>
-
-                  <span className="rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-teal-950 shadow">
-                    {scenario.ageGroup}
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-5 p-5 sm:p-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-slate-950">
-                    {scenario.title}
-                  </h2>
-
-                  <p className="mt-2 text-sm font-medium leading-relaxed text-slate-600">
-                    {scenario.summary}
-                  </p>
-                </div>
-
-                <ContentBox
-                  title="The Situation"
-                  className="border-slate-200 bg-slate-50 text-slate-800"
-                >
-                  {scenario.situation}
-                </ContentBox>
-
-                <ContentBox
-                  title="Common Response"
-                  className="border-rose-200 bg-rose-50 text-rose-950"
-                >
-                  {scenario.commonResponse}
-                </ContentBox>
-
-                <ContentBox
-                  title="More Reflective Response"
-                  className="border-teal-200 bg-teal-50 text-teal-950"
-                >
-                  {scenario.reflectiveResponse}
-                </ContentBox>
-
-                <ContentBox
-                  title="Why It Matters"
-                  className="border-amber-200 bg-amber-50 text-amber-950"
-                >
-                  {scenario.whyItMatters}
-                </ContentBox>
-
-                <div className="rounded-2xl bg-teal-900 p-4 text-white">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-teal-200">
-                    Discuss With Your Team
-                  </h3>
-
-                  <p className="mt-1 text-sm font-semibold leading-relaxed">
-                    {scenario.reflectionPrompt}
-                  </p>
-                </div>
-
-                <QuickFeedbackButtons
-                  currentState={feedbackState}
-                  onSelect={(quickRating) =>
-                    submitQuickFeedback({
-                      itemKey,
-                      contentType:
-                        'practice_scenario',
-                      contentId: scenario.id,
-                      contentTitle: scenario.title,
-                      quickRating,
-                    })
-                  }
-                />
-              </div>
-            </article>
-          );
-        })}
-
-        <section className="rounded-3xl border border-teal-200 bg-teal-50 p-6">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Keep Exploring
-          </span>
-
-          <h2 className="mt-1 text-xl font-bold text-teal-950">
-            Free tools and educator guides
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-teal-900">
-            If you want to explore the ideas behind Ladder 1 in more depth,
-            these free resources are available before you decide whether the
-            wider Regulator Champions pathway is right for your service.
-          </p>
-
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link
-              href="/free-guide"
-              className="rounded-xl bg-teal-800 px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
-            >
-              Free Regulation Guide →
-            </Link>
-
-            <Link
-              href="/somatic-checkin"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Somatic Check-In →
-            </Link>
-
-            <Link
-              href="/emotional-regulation-early-childhood"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Emotional Regulation Guide →
-            </Link>
-
-            <Link
-              href="/co-regulation-early-childhood"
-              className="rounded-xl border border-teal-300 bg-white px-4 py-3 text-center text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-            >
-              Co-Regulation Guide →
-            </Link>
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-6">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Continue With Regulator Champions
-          </span>
-
-          <h2 className="mt-1 text-xl font-bold text-slate-950">
-            Choose the pathway that fits your service
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Start with the 3-Ladder Preview for $1,790 including GST and six
-            months of access, or choose the full 8-Ladder pathway for $4,790
-            including GST and 12 months of access.
-          </p>
-
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="rounded-xl bg-amber-400 px-5 py-3 text-center text-xs font-bold text-slate-950 transition hover:bg-amber-300"
-            >
-              Preview Proposal — $1,790 →
-            </Link>
-
-            <Link
-              href="/proposal?plan=full"
-              className="rounded-xl bg-teal-800 px-5 py-3 text-center text-xs font-bold text-white transition hover:bg-teal-900"
-            >
-              Full Proposal — $4,790 →
-            </Link>
-          </div>
-        </section>
-
-        <section className="rounded-3xl bg-teal-900 p-7 text-center text-white">
-          <h2 className="text-2xl font-bold">
-            Help Shape the Next Release
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-teal-100">
-            Tell us what worked in a real room, what needed
-            more explanation and what would help your team
-            use this content with confidence.
-          </p>
-
-          <button
-            type="button"
-            onClick={() => setIsFeedbackOpen(true)}
-            className="mt-5 rounded-xl bg-amber-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
-          >
-            Share Full Trial Feedback
-          </button>
-        </section>
-      </main>
-
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-3 py-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur">
-        <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-bold text-slate-950">
-              Ladder 1 Free Educator Trial
-            </p>
-
-            <p className="text-[11px] text-slate-500">
-              Quick feedback can be anonymous.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsFeedbackOpen(true)}
-            className="shrink-0 rounded-xl bg-teal-800 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-teal-900"
-          >
-            Share Feedback
-          </button>
-        </div>
-      </div>
-
-      <EducatorTrialFeedbackModal
-        isOpen={isFeedbackOpen}
-        onClose={() => setIsFeedbackOpen(false)}
-      />
-    </div>
-  );
-}
-
-function ContentBox({
-  title,
-  className,
-  children,
-}: {
-  title: string;
-  className: string;
-  children: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl border p-4 ${className}`}
-    >
-      <h3 className="text-xs font-bold uppercase tracking-wider">
-        {title}
-      </h3>
-
-      <p className="mt-1 text-sm leading-relaxed">
-        {children}
-      </p>
-    </div>
-  );
-}
-
-function QuickFeedbackButtons({
-  currentState,
-  onSelect,
-}: {
-  currentState:
-    | QuickRating
-    | 'submitting'
-    | 'error'
-    | undefined;
-
-  onSelect: (rating: QuickRating) => void;
-}) {
-  const hasSubmitted =
-    currentState === 'helpful' ||
-    currentState === 'not_sure' ||
-    currentState === 'not_relevant';
-
-  return (
-    <div className="border-t border-slate-100 pt-4">
-      <p className="text-xs font-bold uppercase tracking-wider text-slate-600">
-        Was This Useful?
-      </p>
-
-      <div className="mt-3 flex flex-wrap gap-2">
-        {ratingOptions.map((option) => {
-          const isSelected =
-            currentState === option.value;
-
-          return (
+        {/* 5 Day Touch Switcher */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-bold text-sm">
+          {trialDays.map((item) => (
             <button
-              key={option.value}
+              key={item.day}
               type="button"
-              disabled={
-                currentState === 'submitting' ||
-                hasSubmitted
-              }
-              onClick={() => onSelect(option.value)}
-              className={`rounded-full border px-3 py-2 text-xs font-bold transition disabled:cursor-not-allowed ${
-                isSelected
-                  ? 'border-teal-800 bg-teal-800 text-white'
-                  : 'border-slate-300 bg-white text-slate-700 hover:border-teal-700 hover:text-teal-800 disabled:opacity-60'
+              onClick={() => setActiveDay(item.day)}
+              className={`p-3.5 rounded-2xl border-2 transition-all min-h-12 text-center flex flex-col items-center justify-center ${
+                activeDay === item.day
+                  ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                  : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
               }`}
             >
-              {option.label}
+              <span className={`text-[10px] font-black uppercase tracking-wider block ${
+                activeDay === item.day ? 'text-[#C29F60]' : 'text-[#657B6C]'
+              }`}>
+                Day {item.day}
+              </span>
+              <span className="text-xs font-serif font-bold block truncate w-full">
+                {item.focus}
+              </span>
             </button>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-      {currentState === 'submitting' && (
-        <p className="mt-2 text-xs text-slate-500">
-          Saving your response...
-        </p>
-      )}
+        {/* Active Day Card */}
+        <section className="bg-[#FAF5EC] border-2 border-[#C29F60] p-6 md:p-8 rounded-3xl space-y-4">
+          <div className="flex justify-between items-center border-b border-[#C29F60]/30 pb-3">
+            <span className="text-xs font-black uppercase text-[#C29F60]">
+              Day {activeData.day} Focus: {activeData.subtitle}
+            </span>
+            <span className="text-xs font-bold text-[#1C3B34] bg-white px-3 py-1 rounded-full border border-[#E6E2DC]">
+              {activeData.qip}
+            </span>
+          </div>
 
-      {hasSubmitted && (
-        <p className="mt-2 text-xs font-semibold text-teal-800">
-          Thank you. Your response has been recorded.
-        </p>
-      )}
+          <h2 className="text-xl md:text-2xl font-serif font-bold text-[#1C3B34]">
+            {activeData.title}
+          </h2>
 
-      {currentState === 'error' && (
-        <p className="mt-2 text-xs font-semibold text-rose-700">
-          Your response could not be saved. Please try
-          again.
-        </p>
-      )}
+          <div className="bg-white p-4 rounded-2xl border border-[#E6E2DC] space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#657B6C] block">
+              15-Word Floor Action Prompt
+            </span>
+            <p className="text-sm font-medium leading-relaxed text-[#2B3833]">
+              {activeData.prompt}
+            </p>
+          </div>
+        </section>
+
+        {/* Activation Code Form */}
+        <section className="bg-white p-6 md:p-8 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-4">
+          <div>
+            <span className="text-xs font-black uppercase text-[#657B6C] tracking-wider block mb-1">
+              Trial Code Activation
+            </span>
+            <h3 className="text-xl font-serif font-bold text-[#1C3B34]">
+              Activate Full 5-Day Floor Deck
+            </h3>
+            <p className="text-xs text-[#6A7873] mt-1">
+              Enter your director trial code or work email to unlock printable PDFs and QIP reflection tools.
+            </p>
+          </div>
+
+          {!isActivated ? (
+            <form onSubmit={handleActivate} className="space-y-3">
+              <input
+                type="text"
+                required
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                placeholder="Enter trial code or work email"
+                className="w-full p-3.5 rounded-2xl border-2 border-[#E6E2DC] text-sm text-[#1C3B34] font-medium outline-none focus:border-[#657B6C] bg-[#FAF8F5]"
+              />
+              <button
+                type="submit"
+                className="w-full py-3.5 px-4 bg-[#C29F60] text-[#1C3B34] font-bold rounded-2xl hover:bg-opacity-90 transition-all text-sm shadow-sm min-h-12 flex items-center justify-center"
+              >
+                Activate 5-Day Floor Deck Pass
+              </button>
+            </form>
+          ) : (
+            <div className="p-4 bg-[#FAF5EC] border-2 border-[#C29F60] rounded-2xl text-center space-y-2">
+              <span className="text-xs font-black uppercase text-[#C29F60] block">
+                Pass Active
+              </span>
+              <p className="text-sm font-bold text-[#1C3B34]">
+                Your 5-Day Trial Pass is now active.
+              </p>
+              <Link
+                href="/platform/educator"
+                className="inline-flex py-3 px-6 bg-[#1C3B34] text-white font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 items-center justify-center shadow-sm"
+              >
+                Go to Educator Floor Deck
+              </Link>
+            </div>
+          )}
+        </section>
+
+      </main>
     </div>
   );
 }

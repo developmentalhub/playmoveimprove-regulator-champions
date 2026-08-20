@@ -1,299 +1,219 @@
 'use client';
 
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
-import MemberSignOutButton from '../../components/MemberSignOutButton';
 
-type NQSElement = {
-  qaNumber: string;
-  qaTitle: string;
-  element: string;
-  focus: string;
-  evidence: string;
-  qipWording: string;
-};
+export default function NqsMappingPage() {
+  const [selectedQa, setSelectedQa] = useState<'qa1' | 'qa3' | 'qa4' | 'qa5' | 'qa6'>('qa1');
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-const NQS_ELEMENTS: NQSElement[] = [
-  {
-    qaNumber: 'QA 1',
-    qaTitle: 'Educational Program & Practice',
-    element: 'Elements 1.1.1 & 1.2.1',
-    focus: 'Approved Learning Framework & Intentional Teaching',
-    evidence:
-      'Reflect on how regulation-aware routines, movement opportunities, environmental adjustments and intentional educator responses are incorporated into everyday planning and practice.',
-    qipWording:
-      'Our service is strengthening intentional teaching by reflecting on how routines, environments, movement opportunities and educator responses support children’s participation, wellbeing and learning.',
-  },
-  {
-    qaNumber: 'QA 4',
-    qaTitle: 'Staffing Arrangements',
-    element: 'Elements 4.1.1 & 4.2.2',
-    focus: 'Organisation of Educators & Professional Practice',
-    evidence:
-      'Build shared language and reflective practice across room teams, handovers, relief staffing and professional learning so educators can respond more consistently while still using professional judgement.',
-    qipWording:
-      'Educators participate in structured professional reflection and shared learning through the Regulator Champions pathway to strengthen team communication, professional practice and consistency across everyday routines.',
-  },
-  {
-    qaNumber: 'QA 5',
-    qaTitle: 'Relationships with Children',
-    element: 'Elements 5.1.1, 5.1.2 & 5.2.2',
-    focus: 'Positive Interactions, Dignity & Self-Regulation Support',
-    evidence:
-      'Reflect on adult tone, language, body position, environmental demand and predictable support during difficult moments, while maintaining each child’s dignity and safety.',
-    qipWording:
-      'Educators use the CALM Framework to reflect on room demand, possible influences on behaviour, relational connection and the effectiveness of adult responses while supporting children’s developing regulation skills.',
-  },
-  {
-    qaNumber: 'QA 6',
-    qaTitle: 'Collaborative Partnerships',
-    element: 'Elements 6.1.1 & 6.1.2',
-    focus: 'Family Engagement, Respect & Arrival Transitions',
-    evidence:
-      'Review how families are welcomed, how their knowledge and views are heard, and how arrival and separation routines can be made more predictable and respectful.',
-    qipWording:
-      'Our service is reviewing arrival and handover practices to strengthen respectful communication with families, recognise family knowledge and support more predictable transitions into the learning environment.',
-  },
-  {
-    qaNumber: 'QA 7',
-    qaTitle: 'Governance & Leadership',
-    element: 'Elements 7.1.2 & 7.2.1',
-    focus: 'Management Systems, Self-Assessment & Continuous Improvement',
-    evidence:
-      'Use service-level starting-point reviews, educator reflection and ongoing professional learning records to identify priorities, monitor implementation and inform continuous improvement discussions.',
-    qipWording:
-      'Service leadership uses structured reflection, educator feedback and professional learning evidence to identify regulation-related priorities, review implementation and inform the service’s ongoing self-assessment and quality improvement process.',
-  },
-];
+  const copyToClipboard = (text: string, key: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
 
-export default function NQSMappingPage() {
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-
-  function handlePrint() {
+  const handlePrint = () => {
     window.print();
-  }
+  };
 
-  function copyToClipboard(text: string, index: number) {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setCopiedIndex(index);
+  const nqsMappingData = {
+    qa1: {
+      qa: 'Quality Area 1',
+      title: 'Educational Program and Practice',
+      element: 'Element 1.3.2 — Critical Reflection',
+      description: 'Critical reflection on pedagogy is embedded in daily floor practice and room environmental setups.',
+      evidence: 'Educators log daily room sensory load and transition friction points during non-contact planning time. Analysis revealed morning doorway clutter as a dysregulation trigger; team shifted bag storage and introduced quiet sensory anchors prior to group routines.',
+      actionItems: [
+        'Document room load factors on floor reflection cards.',
+        'Review acoustic clutter during transition periods.',
+        'Track practice modifications in weekly room log.'
+      ]
+    },
+    qa3: {
+      qa: 'Quality Area 3',
+      title: 'Physical Environment',
+      element: 'Element 3.1.2 — Environmental Setup',
+      description: 'Physical environment design actively unburdens spatial bottlenecks and supports emotional safety.',
+      evidence: 'Room audits identified high movement density near toddler doorway entrances during morning drop-offs. Leadership unburdened entry pathways by establishing dedicated proprioceptive heavy work stations and relocating storage.',
+      actionItems: [
+        'Audit room entryways for physical movement bottlenecks.',
+        'Relocate high-density equipment away from door thresholds.',
+        'Establish quiet recovery nooks with low visual noise.'
+      ]
+    },
+    qa4: {
+      qa: 'Quality Area 4',
+      title: 'Staffing Arrangements',
+      element: 'Element 4.1.1 — Organization of Staff',
+      description: 'Staffing arrangements support educator self-regulation and non-verbal team coordination.',
+      evidence: 'Co-educators established non-verbal tag-team signals to swap room positions or request floater support when adult regulation capacity drops below 30%, maintaining room safety and adult calm.',
+      actionItems: [
+        'Agree on non-verbal team handover signals.',
+        'Schedule 15-minute roster overlaps during peak transitions.',
+        'Use staffroom somatic check-ins before room entry.'
+      ]
+    },
+    qa5: {
+      qa: 'Quality Area 5',
+      title: 'Relationships with Children',
+      element: 'Element 5.1.1 — Positive Relationships',
+      description: 'Educators adopt low-arousal physical postures and trauma-informed co-regulation responses.',
+      evidence: 'Team members lower physical height, drop vocal pitch, and minimize verbal demands when children enter Safe Brain defense mode. standardized Somatic Water Resets (Card 4) support down-regulation without shame.',
+      actionItems: [
+        'Adopt side-on, low-arousal physical postures.',
+        'Reduce directions to 3 words or fewer during stress.',
+        'Provide cool water or heavy work resets without demands.'
+      ]
+    },
+    qa6: {
+      qa: 'Quality Area 6',
+      title: 'Collaborative Partnerships',
+      element: 'Element 6.1.1 — Supportive Partnerships',
+      description: 'Respectful, consistent communication supports smooth arrival and drop-off transitions.',
+      evidence: 'Service leadership distributes targeted Parent Bridge Guides based on Ladder 1 principles, providing families with non-digital morning routine strategies to create drop-off continuity between home and centre.',
+      actionItems: [
+        'Share weekly parent newsletter blurb cards.',
+        'Align home and room drop-off transition cues.',
+        'Offer non-digital morning anchor guides to families.'
+      ]
+    }
+  };
 
-        window.setTimeout(() => {
-          setCopiedIndex(null);
-        }, 2500);
-      })
-      .catch(() => {
-        setCopiedIndex(null);
-      });
-  }
+  const activeData = nqsMappingData[selectedQa];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800 print:bg-white print:pb-0">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4 print:hidden">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20 print:bg-white print:pb-0">
+      
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3 print:hidden">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <Link
-            href="/portal"
-            className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
+            href="/platform/manager"
+            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
           >
-            &larr; Back to Member Hub
+            ← Back to Manager Dashboard
           </Link>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePrint}
-              className="rounded-xl bg-amber-400 px-4 py-2 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-            >
-              Print NQS Reflection Matrix
-            </button>
-
-            <MemberSignOutButton />
-          </div>
+          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
+            NQS Compliance Matrix
+          </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl space-y-8 px-6 py-8 print:space-y-6 print:px-0 print:py-0">
-        <section className="mx-auto max-w-3xl space-y-3 text-center print:max-w-none print:text-left">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            National Quality Standard Reflection Support
-          </span>
+      <main className="max-w-5xl mx-auto px-4 py-6 space-y-8 print:p-0">
+        
+        {/* Banner */}
+        <section className="bg-[#1C3B34] text-white p-6 md:p-8 rounded-3xl border-2 border-[#1C3B34] shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 print:bg-white print:text-black print:border-b-2 print:border-black print:rounded-none">
+          <div>
+            <span className="bg-[#C29F60] text-[#1C3B34] text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full inline-block print:hidden">
+              Assessment & Rating Tool
+            </span>
+            <h1 className="text-2xl md:text-4xl font-serif font-bold text-white mt-2 print:text-black">
+              NQS & QIP Reflection Matrix
+            </h1>
+            <p className="text-sm text-white/90 font-light mt-1 print:text-gray-600">
+              Map floor co-regulation practices directly to National Quality Standard elements.
+            </p>
+          </div>
 
-          <h1 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-            Regulator Champions NQS Mapping &amp; QIP Reflection Matrix
-          </h1>
-
-          <p className="text-xs leading-relaxed text-slate-600 md:text-sm">
-            Use this matrix to help connect Regulator Champions professional
-            learning with relevant National Quality Standard elements and your
-            service&apos;s own self-assessment, reflection and Quality
-            Improvement Plan discussions.
-          </p>
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="py-3 px-5 bg-[#C29F60] text-[#1C3B34] font-bold rounded-2xl text-xs hover:bg-opacity-90 transition-all shadow-sm min-h-12 flex items-center gap-2 print:hidden"
+          >
+            <span>🖨️</span> Print Matrix Report
+          </button>
         </section>
 
-        <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-          <strong className="block text-xs font-bold uppercase tracking-wider text-amber-950">
-            Important NQS Note
-          </strong>
-
-          <p className="mt-2 text-xs leading-relaxed text-amber-950">
-            This page is a professional reflection and planning aid. Participation
-            in Regulator Champions does not itself demonstrate that an NQS
-            element is met. Services should only include QIP statements and
-            evidence that accurately reflect their own current practice,
-            implementation, reflection and outcomes.
-          </p>
-        </section>
-
-        <section className="space-y-2 rounded-2xl border border-teal-200 bg-teal-50 p-5 print:hidden">
-          <strong className="block text-xs font-bold uppercase tracking-wider text-teal-950">
-            Suggested QIP Reflection Wording
-          </strong>
-
-          <p className="text-xs leading-relaxed text-teal-900">
-            Use the copy buttons below as a starting point. Adapt the wording so
-            it describes what your service has actually observed, implemented,
-            reviewed or identified as an improvement priority.
-          </p>
-        </section>
-
-        <section className="space-y-6">
-          {NQS_ELEMENTS.map((item, index) => (
-            <article
-              key={item.qaNumber}
-              className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs print:break-inside-avoid print:border-slate-300 print:p-4 print:shadow-none md:p-8"
+        {/* Quality Area Touch Buttons */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-bold text-xs print:hidden">
+          {[
+            { id: 'qa1', label: 'QA 1: Practice' },
+            { id: 'qa3', label: 'QA 3: Environment' },
+            { id: 'qa4', label: 'QA 4: Staffing' },
+            { id: 'qa5', label: 'QA 5: Relationships' },
+            { id: 'qa6', label: 'QA 6: Families' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedQa(tab.id as keyof typeof nqsMappingData)}
+              className={`py-3.5 px-3 rounded-2xl border-2 transition-all min-h-12 text-center ${
+                selectedQa === tab.id
+                  ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
+                  : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
+              }`}
             >
-              <div className="flex flex-col justify-between gap-2 border-b border-slate-100 pb-3 sm:flex-row sm:items-center">
-                <div className="flex items-center gap-3">
-                  <span className="rounded-xl bg-teal-800 px-3 py-1 text-xs font-bold text-white">
-                    {item.qaNumber}
-                  </span>
-
-                  <h2 className="text-base font-bold text-slate-900">
-                    {item.qaTitle}
-                  </h2>
-                </div>
-
-                <span className="text-xs font-semibold text-slate-500">
-                  {item.element}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 text-xs md:grid-cols-2">
-                <div className="space-y-1 rounded-2xl border border-slate-200 bg-[#FDFBF7] p-4">
-                  <strong className="block text-[10px] font-bold uppercase tracking-wider text-teal-900">
-                    Relevant Practice Focus
-                  </strong>
-
-                  <p className="font-bold text-slate-800">{item.focus}</p>
-
-                  <p className="mt-2 leading-relaxed text-slate-600">
-                    {item.evidence}
-                  </p>
-                </div>
-
-                <div className="flex flex-col justify-between space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <div>
-                    <strong className="block text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                      Suggested QIP Starting Point
-                    </strong>
-
-                    <p className="mt-1 italic leading-relaxed text-slate-700">
-                      &quot;{item.qipWording}&quot;
-                    </p>
-                  </div>
-
-                  <div className="pt-2 print:hidden">
-                    <button
-                      type="button"
-                      onClick={() => copyToClipboard(item.qipWording, index)}
-                      className="rounded-xl bg-teal-800 px-3.5 py-2 text-[11px] font-bold text-white transition hover:bg-teal-900"
-                    >
-                      {copiedIndex === index
-                        ? 'Text copied to clipboard'
-                        : 'Copy Suggested Text →'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
+              {tab.label}
+            </button>
           ))}
-        </section>
+        </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 print:hidden md:p-8">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Useful Evidence to Keep
-          </span>
+        {/* Active Quality Area Compliance Block */}
+        <div className="bg-white p-6 md:p-8 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-6 print:border-none print:shadow-none">
+          
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-[#FAF8F5] pb-4">
+            <div>
+              <span className="text-xs font-black uppercase text-[#C29F60] tracking-wider block">
+                {activeData.qa} • {activeData.element}
+              </span>
+              <h2 className="text-xl md:text-2xl font-serif font-bold text-[#1C3B34]">
+                {activeData.title}
+              </h2>
+            </div>
 
-          <h2 className="mt-1 text-xl font-bold text-slate-900">
-            Show the learning process, not just the resource
-          </h2>
-
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {[
-              'Educator reflection notes and identified priorities',
-              'Team meeting or professional learning discussion records',
-              'Examples of changes trialled in routines or environments',
-              'Family feedback where it is relevant to the improvement focus',
-              'Leadership review of what changed and what still needs work',
-              'Updated QIP notes that reflect your service’s actual progress',
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-xl border border-slate-200 bg-[#FDFBF7] p-4 text-xs leading-relaxed text-slate-700"
-              >
-                {item}
-              </div>
-            ))}
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34]">
+              Compliance Aligned
+            </span>
           </div>
-        </section>
 
-        <section className="space-y-4 rounded-3xl bg-teal-900 p-8 text-center text-white print:hidden">
-          <span className="block text-[10px] font-bold uppercase tracking-wider text-amber-300">
-            Program &amp; Procurement
-          </span>
-
-          <h2 className="text-xl font-bold">
-            Need a Formal Proposal or Purchase Order Quote?
-          </h2>
-
-          <p className="mx-auto max-w-lg text-xs leading-relaxed text-teal-100">
-            Regulator Champions is available as a 3-Ladder Preview for $1,790
-            including GST or the full 8-Ladder pathway for $4,790 including GST.
-            Your service can attach its own NQS and QIP planning documentation
-            to internal funding or procurement records where relevant.
-          </p>
-
-          <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="rounded-xl bg-amber-400 px-6 py-3.5 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-            >
-              3-Ladder Preview — $1,790 &rarr;
-            </Link>
-
-            <Link
-              href="/proposal?plan=full"
-              className="rounded-xl border border-teal-700 bg-teal-800/80 px-6 py-3.5 text-xs font-bold text-white transition hover:bg-teal-800"
-            >
-              Full 8-Ladder Pathway — $4,790 &rarr;
-            </Link>
+          <div className="space-y-2">
+            <h3 className="text-sm font-bold text-[#1C3B34] uppercase tracking-wider">
+              NQS Element Focus
+            </h3>
+            <p className="text-sm md:text-base font-medium leading-relaxed text-[#2B3833]">
+              {activeData.description}
+            </p>
           </div>
-        </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-xs leading-relaxed text-slate-600 print:border-slate-300">
-          <strong className="block text-slate-800">
-            NQS mapping disclaimer
-          </strong>
+          {/* Formatted QIP Evidence Slip */}
+          <div className="p-6 bg-[#FAF5EC] border-2 border-[#C29F60] rounded-2xl space-y-3">
+            <div className="flex justify-between items-center border-b border-[#C29F60]/30 pb-2">
+              <span className="text-xs font-black uppercase text-[#C29F60]">
+                QIP Evidence Text Block
+              </span>
+              <span className="text-xs font-bold text-[#1C3B34]">Ready for Copying</span>
+            </div>
 
-          <p className="mt-1">
-            This mapping is provided by Play Move Improve as a professional
-            learning support resource. It is not an ACECQA endorsement,
-            regulatory determination or guarantee of an Assessment and Rating
-            outcome. Services remain responsible for ensuring their QIP and
-            evidence accurately represent their own practice.
-          </p>
-        </section>
+            <p className="text-sm font-mono leading-relaxed text-[#2B3833] bg-white p-4 rounded-xl border border-[#E6E2DC]">
+              {activeData.evidence}
+            </p>
+
+            <button
+              type="button"
+              onClick={() => copyToClipboard(activeData.evidence, 'nqs')}
+              className="w-full py-3.5 px-4 bg-[#C29F60] text-[#1C3B34] font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all shadow-sm min-h-12 flex items-center justify-center print:hidden"
+            >
+              {copiedKey === 'nqs' ? '✓ Copied QIP Evidence Text' : '📋 Copy Text for QIP Self-Assessment'}
+            </button>
+          </div>
+
+          {/* Floor Action Checkpoints */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold text-[#1C3B34] uppercase tracking-wider">
+              Key Floor Practice Indicators
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {activeData.actionItems.map((item, idx) => (
+                <div key={idx} className="p-4 bg-[#FAF8F5] border-2 border-[#E6E2DC] rounded-2xl text-xs font-bold text-[#1C3B34] flex items-start gap-2">
+                  <span className="text-[#657B6C]">✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
       </main>
     </div>
   );
