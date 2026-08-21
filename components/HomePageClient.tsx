@@ -17,6 +17,8 @@ const CONTINUE_PRICE = Math.round(
 const TOTAL_IF_COMPLETED = PREVIEW_PRICE + CONTINUE_PRICE;
 const UPFRONT_SAVING = TOTAL_IF_COMPLETED - FULL_PRICE;
 
+const TIKTOK_VIDEO_ID = '7675513297692544276';
+
 const PRACTICE_MOMENTS = [
   {
     image: '/images/feed/05_prep_transition.png',
@@ -158,7 +160,6 @@ export default function HomePageClient() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FAF8F5] text-[#1C3B34]">
-
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#1C3B34] text-white">
         <div className="absolute -left-25 -top-20 h-72 w-72 rounded-full bg-[#657B6C]/20 blur-3xl" />
@@ -273,6 +274,7 @@ export default function HomePageClient() {
             <strong className="block text-sm font-extrabold text-[#1C3B34]">
               Notice first
             </strong>
+
             <span className="mt-1 block text-xs leading-relaxed text-[#6A7873]">
               What is the body, behaviour and environment telling us?
             </span>
@@ -282,6 +284,7 @@ export default function HomePageClient() {
             <strong className="block text-sm font-extrabold text-[#1C3B34]">
               Respond thoughtfully
             </strong>
+
             <span className="mt-1 block text-xs leading-relaxed text-[#6A7873]">
               Choose support instead of automatically adding more demands.
             </span>
@@ -291,9 +294,101 @@ export default function HomePageClient() {
             <strong className="block text-sm font-extrabold text-[#1C3B34]">
               Reflect together
             </strong>
+
             <span className="mt-1 block text-xs leading-relaxed text-[#6A7873]">
               Build a shared approach across educators, rooms and leaders.
             </span>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY ROBYN CREATED REGULATOR CHAMPIONS */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
+                Why I created Regulator Champions
+              </span>
+
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+                I don&apos;t want fear to replace connection.
+              </h2>
+
+              <p className="mt-5 text-base leading-relaxed text-[#53645D]">
+                I have been hearing more and more educators question how they
+                should respond when a child is distressed, overwhelmed or
+                actively seeking comfort.
+              </p>
+
+              <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+                Sometimes the uncertainty is about behaviour. Sometimes it is
+                about sensory needs. Sometimes it is about whether an educator
+                can still offer the kind of warm, responsive support that once
+                felt instinctive.
+              </p>
+
+              <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+                That concerns me, because good safeguarding and good
+                co-regulation should not be competing ideas. Children need
+                adults who can keep boundaries clear while still noticing
+                distress, responding thoughtfully and remaining emotionally
+                available.
+              </p>
+
+              <div className="mt-6 rounded-3xl border-l-4 border-[#C29F60] bg-white p-6 shadow-sm">
+                <p className="text-lg font-extrabold leading-relaxed text-[#1C3B34]">
+                  Regulator Champions is about giving educators the confidence
+                  to pause, notice and make thoughtful decisions instead of
+                  reacting from fear, pressure or uncertainty.
+                </p>
+              </div>
+
+              <p className="mt-5 text-sm leading-relaxed text-[#6A7873]">
+                It is not about giving educators permission to ignore
+                safeguarding expectations. It is about strengthening professional
+                judgement so warmth, safety, boundaries and connection can sit
+                alongside each other.
+              </p>
+            </div>
+
+            <div className="mx-auto w-full max-w-md">
+              <div className="overflow-hidden rounded-4xl border border-[#D8D0C4] bg-white p-3 shadow-xl">
+                <div className="overflow-hidden rounded-3xl bg-black">
+                  <iframe
+                    src={`https://www.tiktok.com/player/v1/${TIKTOK_VIDEO_ID}?autoplay=0&loop=0`}
+                    title="Robyn Papworth explains why she created Regulator Champions"
+                    allow="fullscreen"
+                    className="aspect-9/16 w-full border-0"
+                  />
+                </div>
+
+                <div className="p-5">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9A793D]">
+                    From Robyn
+                  </span>
+
+                  <h3 className="mt-2 text-xl font-extrabold leading-tight text-[#1C3B34]">
+                    Watch why this matters to me.
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
+                    This is the conversation sitting underneath Regulator
+                    Champions and the reason I believe educator confidence
+                    matters so much.
+                  </p>
+
+                  <a
+                    href="https://www.tiktok.com/@playmoveimprove/video/7675513297692544276"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex min-h-11 items-center rounded-xl border border-[#D8D0C4] px-4 py-2.5 text-sm font-bold text-[#1C3B34] transition hover:bg-[#FAF5EC]"
+                  >
+                    Watch on TikTok →
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -357,7 +452,7 @@ export default function HomePageClient() {
         </div>
       </section>
 
-<SafeTouchHomepageSection />
+      <SafeTouchHomepageSection />
 
       {/* SUBSTANCE */}
       <section className="bg-white py-14 sm:py-20">

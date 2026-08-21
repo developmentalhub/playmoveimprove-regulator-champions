@@ -107,7 +107,7 @@ export default function PracticeScenarios() {
                 className="object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C3B34]/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-[#1C3B34]/80 via-transparent to-transparent" />
 
               <button
                 type="button"

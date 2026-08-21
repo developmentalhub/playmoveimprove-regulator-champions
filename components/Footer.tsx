@@ -2,35 +2,46 @@
 
 const programLinks = [
   {
-    href: '/feed',
-    label: 'CALM Feed',
+    href: '/',
+    label: 'Regulator Champions',
   },
   {
     href: '/free-guide',
     label: 'Free Guide',
   },
   {
+    href: '/feed',
+    label: 'Practice Scenarios',
+  },
+  {
     href: '/portal',
     label: 'Member Hub',
+  },
+];
+
+const fundingLinks = [
+  {
+    href: '/school-readiness-funding',
+    label: 'School Readiness Funding',
+  },
+  {
+    href: '/kindy-uplift',
+    label: 'Kindy Uplift',
   },
   {
     href: '/nqs-mapping',
     label: 'NQS & QIP Reflection',
   },
-  {
-    href: '/somatic-checkin',
-    label: 'Somatic Tool',
-  },
 ];
 
 const enquiryLinks = [
   {
-    href: '/director-review',
-    label: 'Director Review',
-  },
-  {
     href: '/proposal',
     label: 'Proposal & Quote',
+  },
+  {
+    href: '/director-review',
+    label: 'Director Review',
   },
 ];
 
@@ -48,28 +59,38 @@ const legalLinks = [
 export default function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white text-slate-700">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-4">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="space-y-4 lg:col-span-2">
           <div>
             <span className="block text-xs font-bold uppercase tracking-widest text-teal-700">
               Play Move Improve
             </span>
 
-            <h2 className="mt-1 text-lg font-extrabold text-slate-900">
+            <h2 className="mt-1 text-xl font-extrabold text-slate-900">
               Regulator Champions
             </h2>
           </div>
 
-          <p className="max-w-sm text-sm leading-relaxed text-slate-600">
-            Practical whole-centre professional learning that helps early
-            childhood teams build consistent, developmentally informed
-            responses to regulation needs.
+          <p className="max-w-md text-sm leading-relaxed text-slate-600">
+            Whole-service professional learning helping early childhood
+            educators notice what children&apos;s bodies are communicating,
+            understand what may be happening beneath behaviour and respond with
+            greater confidence through thoughtful co-regulation.
           </p>
+
+          <a
+            href="https://www.playmoveimprove.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex text-sm font-bold text-teal-800 transition hover:text-teal-950"
+          >
+            Visit Play Move Improve →
+          </a>
         </div>
 
         <div>
           <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
-            Program Resources
+            Explore
           </h3>
 
           <div className="space-y-2.5">
@@ -87,7 +108,25 @@ export default function Footer() {
 
         <div>
           <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
-            Directors and Enquiries
+            Funding & Evidence
+          </h3>
+
+          <div className="space-y-2.5">
+            {fundingLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-slate-600 transition hover:text-teal-800"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
+            Enquiries
           </h3>
 
           <div className="space-y-2.5">
@@ -102,27 +141,18 @@ export default function Footer() {
             ))}
           </div>
 
-          <p className="mt-4 text-xs leading-relaxed text-slate-500">
-            Start with the short Director Review if you are exploring whether
-            Regulator Champions may suit your service.
-          </p>
-        </div>
-
-        <div>
-          <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-slate-900">
-            Legal
-          </h3>
-
-          <div className="space-y-2.5">
-            {legalLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-sm text-slate-600 transition hover:text-teal-800"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="mt-6 border-t border-slate-200 pt-5">
+            <div className="space-y-2">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-xs text-slate-500 transition hover:text-teal-800"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -133,7 +163,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Play Move Improve. All rights reserved.
           </p>
 
-          <p>Victoria, Australia</p>
+          <p>Regulator Champions · Victoria, Australia</p>
         </div>
       </div>
     </footer>

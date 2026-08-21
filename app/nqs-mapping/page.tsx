@@ -1,220 +1,399 @@
-'use client';
-
-import React, { useState } from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
+export const metadata: Metadata = {
+  title:
+    'NQS & QIP Reflection for Early Childhood Services | Regulator Champions',
+
+  description:
+    'Explore how Regulator Champions can support early childhood services to reflect on co-regulation, relationships, educator practice and continuous improvement across relevant National Quality Standard areas.',
+
+  alternates: {
+    canonical: '/nqs-mapping',
+  },
+
+  openGraph: {
+    title:
+      'NQS & QIP Reflection | Regulator Champions',
+    description:
+      'Practical reflection prompts connecting Regulator Champions professional learning with relevant National Quality Standard quality areas and everyday early childhood practice.',
+    url: '/nqs-mapping',
+    type: 'website',
+  },
+};
+
+const NQS_AREAS = [
+  {
+    qa: 'Quality Area 1',
+    title: 'Educational program and practice',
+    focus: 'Critical reflection and responsive practice',
+    element: 'Element 1.3.2 · Critical reflection',
+    question:
+      'What are we noticing about children’s participation, learning and development, and how is that changing what we do?',
+    connection:
+      'Regulator Champions encourages educators to pause before reacting, examine what may be happening underneath behaviour and reflect on whether routines, expectations or environmental demands are supporting participation.',
+    examples: [
+      'Reflect on what happened before a difficult moment rather than recording behaviour alone.',
+      'Notice patterns across transitions, group experiences and high-pressure parts of the day.',
+      'Document what educators changed and what happened afterwards.',
+    ],
+    qipPrompt:
+      'How is our team using observations and critical reflection to change everyday practice when children are finding participation difficult?',
+  },
+  {
+    qa: 'Quality Area 2',
+    title: 'Children’s health and safety',
+    focus: 'Wellbeing, comfort and responsive support',
+    element: 'Wellbeing and comfort',
+    question:
+      'How do our everyday responses support children to feel safe, settled and appropriately supported when they are overwhelmed or distressed?',
+    connection:
+      'Regulator Champions builds educator confidence around recognising body-based signs of stress, sensory overload, shutdown and escalation so support can be considered earlier.',
+    examples: [
+      'Notice early signs that a child may be becoming overwhelmed.',
+      'Review whether adult pace, voice, proximity or demands are increasing pressure.',
+      'Discuss how comfort, safeguarding and professional boundaries can sit alongside each other.',
+    ],
+    qipPrompt:
+      'How consistently do educators recognise and respond to children’s early signs of distress, overload or reduced capacity?',
+  },
+  {
+    qa: 'Quality Area 5',
+    title: 'Relationships with children',
+    focus: 'Responsive and meaningful interactions',
+    element: 'Element 5.1.1 · Positive educator to child interactions',
+    question:
+      'What does connection look like when a child is having difficulty coping?',
+    connection:
+      'A central focus of Regulator Champions is helping educators remain thoughtful and relational during difficult moments rather than relying only on correction, distraction or repeated instructions.',
+    examples: [
+      'Consider body position, tone of voice and the number of words being used.',
+      'Respond to distress without assuming every behaviour is deliberate non-compliance.',
+      'Reflect on whether children experience educators as available and predictable when things become difficult.',
+    ],
+    qipPrompt:
+      'How do our interactions maintain connection and dignity when children are dysregulated, distressed or struggling to participate?',
+  },
+  {
+    qa: 'Quality Area 6',
+    title: 'Collaborative partnerships with families and communities',
+    focus: 'Continuity between home and the service',
+    element: 'Partnerships with families',
+    question:
+      'How are families helping us understand what a child may be communicating?',
+    connection:
+      'Regulator Champions encourages teams to move beyond labels and gather useful information about routines, sensory preferences, separation, recovery and what families are noticing outside the service.',
+    examples: [
+      'Ask families what they notice before and after difficult transitions.',
+      'Share observations without presenting assumptions as facts.',
+      'Look for consistent cues and supports that can travel between home and the service.',
+    ],
+    qipPrompt:
+      'How are family observations informing the way we understand and support children during challenging routines or transitions?',
+  },
+  {
+    qa: 'Quality Area 7',
+    title: 'Governance and leadership',
+    focus: 'Professional learning and continuous improvement',
+    element: 'Leadership and professional development',
+    question:
+      'Can we see evidence that professional learning is changing what happens in the room?',
+    connection:
+      'Regulator Champions gives directors and educational leaders a shared language for team reflection, practice conversations and implementation rather than professional learning ending when a webinar finishes.',
+    examples: [
+      'Bring a real room scenario into team reflection meetings.',
+      'Record what the team noticed, what was changed and what will be reviewed.',
+      'Revisit practice over time instead of treating professional learning as a one-off event.',
+    ],
+    qipPrompt:
+      'How are leaders supporting educators to translate professional learning into observable changes in everyday practice?',
+  },
+];
+
 export default function NqsMappingPage() {
-  const [selectedQa, setSelectedQa] = useState<'qa1' | 'qa3' | 'qa4' | 'qa5' | 'qa6'>('qa1');
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string, key: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 2000);
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const nqsMappingData = {
-    qa1: {
-      qa: 'Quality Area 1',
-      title: 'Educational Program and Practice',
-      element: 'Element 1.3.2 — Critical Reflection',
-      description: 'Critical reflection on pedagogy is embedded in daily floor practice and room environmental setups.',
-      evidence: 'Educators log daily room sensory load and transition friction points during non-contact planning time. Analysis revealed morning doorway clutter as a dysregulation trigger; team shifted bag storage and introduced quiet sensory anchors prior to group routines.',
-      actionItems: [
-        'Document room load factors on floor reflection cards.',
-        'Review acoustic clutter during transition periods.',
-        'Track practice modifications in weekly room log.'
-      ]
-    },
-    qa3: {
-      qa: 'Quality Area 3',
-      title: 'Physical Environment',
-      element: 'Element 3.1.2 — Environmental Setup',
-      description: 'Physical environment design actively unburdens spatial bottlenecks and supports emotional safety.',
-      evidence: 'Room audits identified high movement density near toddler doorway entrances during morning drop-offs. Leadership unburdened entry pathways by establishing dedicated proprioceptive heavy work stations and relocating storage.',
-      actionItems: [
-        'Audit room entryways for physical movement bottlenecks.',
-        'Relocate high-density equipment away from door thresholds.',
-        'Establish quiet recovery nooks with low visual noise.'
-      ]
-    },
-    qa4: {
-      qa: 'Quality Area 4',
-      title: 'Staffing Arrangements',
-      element: 'Element 4.1.1 — Organization of Staff',
-      description: 'Staffing arrangements support educator self-regulation and non-verbal team coordination.',
-      evidence: 'Co-educators established non-verbal tag-team signals to swap room positions or request floater support when adult regulation capacity drops below 30%, maintaining room safety and adult calm.',
-      actionItems: [
-        'Agree on non-verbal team handover signals.',
-        'Schedule 15-minute roster overlaps during peak transitions.',
-        'Use staffroom somatic check-ins before room entry.'
-      ]
-    },
-    qa5: {
-      qa: 'Quality Area 5',
-      title: 'Relationships with Children',
-      element: 'Element 5.1.1 — Positive Relationships',
-      description: 'Educators adopt low-arousal physical postures and trauma-informed co-regulation responses.',
-      evidence: 'Team members lower physical height, drop vocal pitch, and minimize verbal demands when children enter Safe Brain defense mode. standardized Somatic Water Resets (Card 4) support down-regulation without shame.',
-      actionItems: [
-        'Adopt side-on, low-arousal physical postures.',
-        'Reduce directions to 3 words or fewer during stress.',
-        'Provide cool water or heavy work resets without demands.'
-      ]
-    },
-    qa6: {
-      qa: 'Quality Area 6',
-      title: 'Collaborative Partnerships',
-      element: 'Element 6.1.1 — Supportive Partnerships',
-      description: 'Respectful, consistent communication supports smooth arrival and drop-off transitions.',
-      evidence: 'Service leadership distributes targeted Parent Bridge Guides based on Ladder 1 principles, providing families with non-digital morning routine strategies to create drop-off continuity between home and centre.',
-      actionItems: [
-        'Share weekly parent newsletter blurb cards.',
-        'Align home and room drop-off transition cues.',
-        'Offer non-digital morning anchor guides to families.'
-      ]
-    }
-  };
-
-  const activeData = nqsMappingData[selectedQa];
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20 print:bg-white print:pb-0">
-      
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3 print:hidden">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
-          <Link
-            href="/platform/manager"
-            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
-          >
-            ← Back to Manager Dashboard
-          </Link>
-          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
-            NQS Compliance Matrix
-          </span>
-        </div>
-      </header>
-
-      <main className="max-w-5xl mx-auto px-4 py-6 space-y-8 print:p-0">
-        
-        {/* Banner */}
-        <section className="bg-[#1C3B34] text-white p-6 md:p-8 rounded-3xl border-2 border-[#1C3B34] shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 print:bg-white print:text-black print:border-b-2 print:border-black print:rounded-none">
-          <div>
-            <span className="bg-[#C29F60] text-[#1C3B34] text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full inline-block print:hidden">
-              Assessment & Rating Tool
+    <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
+      {/* HERO */}
+      <section className="bg-[#1C3B34] text-white">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
+          <div className="max-w-4xl">
+            <span className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#C29F60]/10 px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-[#E4C98E]">
+              NQS & QIP reflection
             </span>
-            <h1 className="text-2xl md:text-4xl font-serif font-bold text-white mt-2 print:text-black">
-              NQS & QIP Reflection Matrix
+
+            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              Show how professional learning is changing everyday practice.
             </h1>
-            <p className="text-sm text-white/90 font-light mt-1 print:text-gray-600">
-              Map floor co-regulation practices directly to National Quality Standard elements.
+
+            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
+              Regulator Champions is designed to help early childhood teams
+              move from completing professional learning to actually noticing,
+              discussing and changing what happens in the room.
+            </p>
+
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
+              This page can help directors and educational leaders identify
+              connections between that work, relevant National Quality Standard
+              areas and their own service reflection.
+            </p>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/proposal"
+                className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+              >
+                View Regulator Champions proposal
+              </Link>
+
+              <Link
+                href="/school-readiness-funding"
+                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              >
+                Explore funding support
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* IMPORTANT POSITIONING */}
+      <section className="border-b border-[#E6E2DC] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6">
+          <div className="rounded-3xl border border-[#C29F60]/40 bg-[#FAF5EC] p-6 sm:p-7">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
+              A reflection support, not a compliance guarantee
+            </span>
+
+            <p className="mt-3 max-w-4xl text-sm leading-relaxed text-[#53645D]">
+              Every service is responsible for its own National Quality
+              Framework obligations, documentation and Quality Improvement
+              Plan. These examples are designed to support professional
+              reflection and help teams identify where Regulator Champions
+              learning may connect with their own practice and improvement
+              priorities.
             </p>
           </div>
-
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="py-3 px-5 bg-[#C29F60] text-[#1C3B34] font-bold rounded-2xl text-xs hover:bg-opacity-90 transition-all shadow-sm min-h-12 flex items-center gap-2 print:hidden"
-          >
-            <span>🖨️</span> Print Matrix Report
-          </button>
-        </section>
-
-        {/* Quality Area Touch Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-bold text-xs print:hidden">
-          {[
-            { id: 'qa1', label: 'QA 1: Practice' },
-            { id: 'qa3', label: 'QA 3: Environment' },
-            { id: 'qa4', label: 'QA 4: Staffing' },
-            { id: 'qa5', label: 'QA 5: Relationships' },
-            { id: 'qa6', label: 'QA 6: Families' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setSelectedQa(tab.id as keyof typeof nqsMappingData)}
-              className={`py-3.5 px-3 rounded-2xl border-2 transition-all min-h-12 text-center ${
-                selectedQa === tab.id
-                  ? 'bg-[#1C3B34] text-white border-[#1C3B34] shadow-md'
-                  : 'bg-white text-[#1C3B34] border-[#E6E2DC] hover:border-[#657B6C]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
         </div>
+      </section>
 
-        {/* Active Quality Area Compliance Block */}
-        <div className="bg-white p-6 md:p-8 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-6 print:border-none print:shadow-none">
-          
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b-2 border-[#FAF8F5] pb-4">
+      {/* WHY THIS MATTERS */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <span className="text-xs font-black uppercase text-[#C29F60] tracking-wider block">
-                {activeData.qa} • {activeData.element}
+              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+                Beyond attendance certificates
               </span>
-              <h2 className="text-xl md:text-2xl font-serif font-bold text-[#1C3B34]">
-                {activeData.title}
+
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+                The evidence is in what your team starts doing differently.
               </h2>
             </div>
 
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34]">
-              Compliance Aligned
-            </span>
-          </div>
+            <div className="space-y-4 text-base leading-relaxed text-[#53645D]">
+              <p>
+                A professional learning certificate can show that an educator
+                attended something. It does not show what they noticed the next
+                morning when a child froze at drop-off, what the team changed
+                when group time repeatedly became difficult, or how educators
+                reflected on a child who seemed to be coping but was actually
+                overwhelmed.
+              </p>
 
-          <div className="space-y-2">
-            <h3 className="text-sm font-bold text-[#1C3B34] uppercase tracking-wider">
-              NQS Element Focus
-            </h3>
-            <p className="text-sm md:text-base font-medium leading-relaxed text-[#2B3833]">
-              {activeData.description}
-            </p>
-          </div>
-
-          {/* Formatted QIP Evidence Slip */}
-          <div className="p-6 bg-[#FAF5EC] border-2 border-[#C29F60] rounded-2xl space-y-3">
-            <div className="flex justify-between items-center border-b border-[#C29F60]/30 pb-2">
-              <span className="text-xs font-black uppercase text-[#C29F60]">
-                QIP Evidence Text Block
-              </span>
-              <span className="text-xs font-bold text-[#1C3B34]">Ready for Copying</span>
-            </div>
-
-            <p className="text-sm font-mono leading-relaxed text-[#2B3833] bg-white p-4 rounded-xl border border-[#E6E2DC]">
-              {activeData.evidence}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => copyToClipboard(activeData.evidence, 'nqs')}
-              className="w-full py-3.5 px-4 bg-[#C29F60] text-[#1C3B34] font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all shadow-sm min-h-12 flex items-center justify-center print:hidden"
-            >
-              {copiedKey === 'nqs' ? '✓ Copied QIP Evidence Text' : '📋 Copy Text for QIP Self-Assessment'}
-            </button>
-          </div>
-
-          {/* Floor Action Checkpoints */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-bold text-[#1C3B34] uppercase tracking-wider">
-              Key Floor Practice Indicators
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {activeData.actionItems.map((item, idx) => (
-                <div key={idx} className="p-4 bg-[#FAF8F5] border-2 border-[#E6E2DC] rounded-2xl text-xs font-bold text-[#1C3B34] flex items-start gap-2">
-                  <span className="text-[#657B6C]">✓</span>
-                  <span>{item}</span>
-                </div>
-              ))}
+              <p>
+                Those conversations are where Regulator Champions becomes
+                useful for continuous improvement. Teams can take a real
+                situation, consider what the child&apos;s body and environment
+                may have been communicating, choose a response and then come
+                back to whether it helped.
+              </p>
             </div>
           </div>
-
         </div>
+      </section>
 
-      </main>
-    </div>
+      {/* QUALITY AREAS */}
+      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+              Five useful places to reflect
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              Connect the learning to the practice already happening in your
+              service.
+            </h2>
+
+            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+              You do not need to force Regulator Champions into every Quality
+              Area. Start with the parts of your QIP and everyday practice where
+              regulation, relationships, participation and educator capability
+              are genuinely relevant.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {NQS_AREAS.map((area) => (
+              <article
+                key={area.qa}
+                className="overflow-hidden rounded-4xl border border-[#E6E2DC] bg-white shadow-sm"
+              >
+                <div className="grid lg:grid-cols-[0.34fr_0.66fr]">
+                  <div className="bg-[#1C3B34] p-6 text-white sm:p-8">
+                    <span className="inline-flex rounded-full bg-[#C29F60] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-[#1C3B34]">
+                      {area.qa}
+                    </span>
+
+                    <h3 className="mt-4 text-2xl font-extrabold leading-tight">
+                      {area.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm font-bold text-[#E4C98E]">
+                      {area.focus}
+                    </p>
+
+                    <p className="mt-2 text-xs leading-relaxed text-[#C8D6D0]">
+                      {area.element}
+                    </p>
+                  </div>
+
+                  <div className="p-6 sm:p-8">
+                    <p className="text-xl font-extrabold leading-snug text-[#1C3B34]">
+                      {area.question}
+                    </p>
+
+                    <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
+                      {area.connection}
+                    </p>
+
+                    <div className="mt-6 grid gap-3 md:grid-cols-3">
+                      {area.examples.map((example) => (
+                        <div
+                          key={example}
+                          className="rounded-2xl border border-[#E6E2DC] bg-[#FAF8F5] p-4"
+                        >
+                          <p className="text-xs font-semibold leading-relaxed text-[#53645D]">
+                            {example}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 rounded-2xl border-l-4 border-[#C29F60] bg-[#FAF5EC] p-5">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9A793D]">
+                        QIP reflection question
+                      </span>
+
+                      <p className="mt-2 text-sm font-bold leading-relaxed text-[#1C3B34]">
+                        {area.qipPrompt}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SIMPLE REFLECTION CYCLE */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="mx-auto mb-9 max-w-3xl text-center">
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+              Keep the evidence practical
+            </span>
+
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              Notice. Discuss. Try. Review.
+            </h2>
+
+            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+              Continuous improvement does not need another complicated form.
+              Start with a moment your educators actually experienced.
+            </p>
+          </div>
+
+          <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-4">
+            {[
+              {
+                number: '01',
+                title: 'Notice',
+                text: 'What did we observe in the child, educator and environment?',
+              },
+              {
+                number: '02',
+                title: 'Discuss',
+                text: 'What might have been contributing to what happened?',
+              },
+              {
+                number: '03',
+                title: 'Try',
+                text: 'What small practice change could we make next time?',
+              },
+              {
+                number: '04',
+                title: 'Review',
+                text: 'What changed, what did not, and what have we learned?',
+              },
+            ].map((step) => (
+              <div
+                key={step.number}
+                className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6"
+              >
+                <span className="text-sm font-extrabold text-[#C29F60]">
+                  {step.number}
+                </span>
+
+                <h3 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
+                  {step.title}
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
+                  {step.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-4xl px-5 text-center sm:px-6">
+          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#E4C98E]">
+            Regulator Champions
+          </span>
+
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Build professional learning your educators can actually bring back
+            into the room.
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#D8E1DC]">
+            Explore the Regulator Champions pathway, service-wide resources and
+            practical reflection tools designed to strengthen everyday
+            co-regulation practice.
+          </p>
+
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal"
+              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+            >
+              View the proposal
+            </Link>
+
+            <Link
+              href="/free-guide"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              Start with the free guide
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

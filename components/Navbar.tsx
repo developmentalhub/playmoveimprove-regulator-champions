@@ -9,26 +9,22 @@ type NavigationLink = {
   label: string;
 };
 
-const primaryNavLinks: NavigationLink[] = [
-  { href: '/', label: 'Home' },
-  { href: '/feed', label: 'CALM Feed' },
-  { href: '/free-guide', label: 'Free Guide' },
-  { href: '/portal', label: 'Member Hub' },
-  { href: '/nqs-mapping', label: 'NQS Evidence' },
-];
-
-const secondaryNavLinks: NavigationLink[] = [
+const navigationLinks: NavigationLink[] = [
   {
-    href: '/director-review',
-    label: 'Director Review',
+    href: '/',
+    label: 'Regulator Champions',
   },
   {
-    href: '/portal',
-    label: 'Member Hub',
+    href: '/free-guide',
+    label: 'Free Guide',
   },
   {
-    href: '/somatic-checkin',
-    label: 'Somatic Tool',
+    href: '/feed',
+    label: 'Practice Scenarios',
+  },
+  {
+    href: '/school-readiness-funding',
+    label: 'Funding',
   },
 ];
 
@@ -36,12 +32,12 @@ export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (link: NavigationLink) => {
-    if (link.label === 'Member Hub') {
-      return false;
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
     }
 
-    return pathname === link.href;
+    return pathname.startsWith(href);
   };
 
   const closeMobileMenu = () => {
@@ -56,7 +52,7 @@ export default function Navbar() {
           onClick={closeMobileMenu}
           className="group flex shrink-0 items-center gap-3"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white shadow-xs transition group-hover:bg-teal-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white shadow-sm transition group-hover:bg-teal-600">
             PMI
           </div>
 
@@ -65,43 +61,24 @@ export default function Navbar() {
               Play Move Improve
             </span>
 
-            <span className="text-xs font-extrabold tracking-tight text-white">
+            <span className="text-sm font-extrabold tracking-tight text-white">
               Regulator Champions
             </span>
           </div>
         </Link>
 
         <nav
-          className="hidden items-center gap-1 rounded-2xl border border-teal-800/80 bg-teal-900/40 p-1.5 xl:flex"
+          className="hidden items-center gap-1 lg:flex"
           aria-label="Main navigation"
         >
-          {primaryNavLinks.map((link) => (
+          {navigationLinks.map((link) => (
             <Link
-              key={link.label}
+              key={link.href}
               href={link.href}
-              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                isActive(link)
-                  ? 'bg-teal-700 text-white shadow-xs'
-                  : 'text-teal-200 hover:bg-teal-800/50 hover:text-white'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          <div
-            className="mx-1 h-4 w-px bg-teal-800/80"
-            aria-hidden="true"
-          />
-
-          {secondaryNavLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
-                isActive(link)
-                  ? 'bg-teal-800 text-white shadow-xs'
-                  : 'text-teal-300 hover:bg-teal-800/40 hover:text-white'
+              className={`rounded-xl px-3 py-2 text-xs font-bold transition ${
+                isActive(link.href)
+                  ? 'bg-teal-700 text-white'
+                  : 'text-teal-200 hover:bg-teal-900 hover:text-white'
               }`}
             >
               {link.label}
@@ -109,19 +86,26 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden shrink-0 sm:block">
+        <div className="hidden items-center gap-2 lg:flex">
+          <Link
+            href="/portal"
+            className="rounded-xl border border-teal-700 px-4 py-2 text-xs font-bold text-teal-100 transition hover:bg-teal-900 hover:text-white"
+          >
+            Member Hub
+          </Link>
+
           <Link
             href="/proposal"
-            className="rounded-xl border border-amber-300 bg-amber-400 px-4 py-2 text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
+            className="rounded-xl bg-amber-400 px-4 py-2 text-xs font-extrabold text-slate-950 shadow-sm transition hover:bg-amber-300"
           >
-            Proposal &amp; Quote
+            View Proposal
           </Link>
         </div>
 
         <button
           type="button"
           onClick={() => setMobileMenuOpen((current) => !current)}
-          className="rounded-xl p-2 text-teal-200 transition hover:bg-teal-800 hover:text-white xl:hidden"
+          className="rounded-xl p-2 text-teal-200 transition hover:bg-teal-800 hover:text-white lg:hidden"
           aria-label="Toggle navigation menu"
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
@@ -151,21 +135,17 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <nav
           id="mobile-navigation"
-          className="space-y-5 border-t border-teal-800/80 bg-teal-950 px-5 py-5 shadow-xl xl:hidden"
+          className="border-t border-teal-800/80 bg-teal-950 px-5 py-5 shadow-xl lg:hidden"
           aria-label="Mobile navigation"
         >
           <div className="space-y-1">
-            <span className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
-              Public Resources
-            </span>
-
-            {primaryNavLinks.map((link) => (
+            {navigationLinks.map((link) => (
               <Link
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 onClick={closeMobileMenu}
-                className={`block rounded-xl px-3 py-2.5 text-xs font-bold transition ${
-                  isActive(link)
+                className={`block rounded-xl px-3 py-3 text-sm font-bold transition ${
+                  isActive(link.href)
                     ? 'bg-teal-700 text-white'
                     : 'text-teal-200 hover:bg-teal-900 hover:text-white'
                 }`}
@@ -175,34 +155,23 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="space-y-1 border-t border-teal-900 pt-4">
-            <span className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-teal-400">
-              Enquiries and Access
-            </span>
+          <div className="mt-5 grid gap-3 border-t border-teal-900 pt-5">
+            <Link
+              href="/portal"
+              onClick={closeMobileMenu}
+              className="block rounded-xl border border-teal-700 px-4 py-3 text-center text-sm font-bold text-teal-100 transition hover:bg-teal-900 hover:text-white"
+            >
+              Member Hub
+            </Link>
 
-            {secondaryNavLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={closeMobileMenu}
-                className={`block rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
-                  isActive(link)
-                    ? 'bg-teal-800 text-white'
-                    : 'text-teal-300 hover:bg-teal-900 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link
+              href="/proposal"
+              onClick={closeMobileMenu}
+              className="block rounded-xl bg-amber-400 px-4 py-3 text-center text-sm font-extrabold text-slate-950 shadow-sm transition hover:bg-amber-300"
+            >
+              View Proposal
+            </Link>
           </div>
-
-          <Link
-            href="/proposal"
-            onClick={closeMobileMenu}
-            className="block w-full rounded-xl bg-amber-400 py-3 text-center text-xs font-bold text-slate-950 shadow-xs transition hover:bg-amber-300"
-          >
-            Proposal &amp; Quote
-          </Link>
         </nav>
       )}
     </header>

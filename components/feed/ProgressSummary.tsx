@@ -383,7 +383,7 @@ export default function ProgressSummary({
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-[#F1F4F2] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#657B6C]">
-                        Ladder {log.rung_number}
+                        Rung {log.rung_number}
                       </span>
 
                       <span className="text-[10px] font-bold text-[#8A9691]">

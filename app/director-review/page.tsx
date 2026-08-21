@@ -9,6 +9,11 @@ type SubmissionStatus =
   | 'success'
   | 'error';
 
+type ProgramOption =
+  | 'preview'
+  | 'full'
+  | 'unsure';
+
 type DirectorEnquiryForm = {
   directorName: string;
   email: string;
@@ -16,7 +21,7 @@ type DirectorEnquiryForm = {
   phone: string;
   roomCount: string;
   primaryPressurePoint: string;
-  programOption: 'preview' | 'full';
+  programOption: ProgramOption;
   notes: string;
 };
 
@@ -27,20 +32,81 @@ const initialFormData: DirectorEnquiryForm = {
   phone: '',
   roomCount: '3-4 Rooms',
   primaryPressurePoint:
-    'Drop-off separation distress and morning room volume',
-  programOption: 'preview',
+    'Drop-off, separation and difficult morning transitions',
+  programOption: 'unsure',
   notes: '',
 };
 
+const PRESSURE_POINTS = [
+  {
+    value:
+      'Drop-off, separation and difficult morning transitions',
+    label:
+      'Drop-off, separation and difficult morning transitions',
+  },
+  {
+    value:
+      'Children becoming overwhelmed during transitions',
+    label:
+      'Children becoming overwhelmed during transitions',
+  },
+  {
+    value:
+      'Group times and difficulty participating',
+    label:
+      'Group times and difficulty participating',
+  },
+  {
+    value:
+      'Sensory overload, noise and busy room environments',
+    label:
+      'Sensory overload, noise and busy room environments',
+  },
+  {
+    value:
+      'Escalation, shutdown or big emotional responses',
+    label:
+      'Escalation, shutdown or big emotional responses',
+  },
+  {
+    value:
+      'Educators unsure how to respond consistently',
+    label:
+      'Educators unsure how to respond consistently',
+  },
+  {
+    value:
+      'Comfort, connection and professional boundaries',
+    label:
+      'Comfort, connection and professional boundaries',
+  },
+  {
+    value:
+      'Several of these concerns',
+    label:
+      'Several of these concerns',
+  },
+  {
+    value: 'Other',
+    label: 'Something else',
+  },
+];
+
 export default function DirectorReviewPage() {
   const [formData, setFormData] =
-    useState<DirectorEnquiryForm>(initialFormData);
+    useState<DirectorEnquiryForm>(
+      initialFormData,
+    );
 
-  const [submissionStatus, setSubmissionStatus] =
-    useState<SubmissionStatus>('idle');
+  const [
+    submissionStatus,
+    setSubmissionStatus,
+  ] = useState<SubmissionStatus>('idle');
 
-  const [submissionMessage, setSubmissionMessage] =
-    useState('');
+  const [
+    submissionMessage,
+    setSubmissionMessage,
+  ] = useState('');
 
   const updateField = (
     field: keyof DirectorEnquiryForm,
@@ -52,6 +118,20 @@ export default function DirectorReviewPage() {
     }));
   };
 
+  const programOptionLabel = (
+    option: ProgramOption,
+  ) => {
+    if (option === 'preview') {
+      return '3 Ladder Preview ($1,790 incl. GST)';
+    }
+
+    if (option === 'full') {
+      return 'Full 8 Ladder Pathway ($4,790 incl. GST)';
+    }
+
+    return 'Not sure yet';
+  };
+
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>,
   ) => {
@@ -61,36 +141,56 @@ export default function DirectorReviewPage() {
     setSubmissionMessage('');
 
     try {
-      const response = await fetch('/api/director-review', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        '/api/director-review',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+
+          body: JSON.stringify({
+            formType:
+              'public_director_enquiry',
+
+            directorName:
+              formData.directorName,
+
+            directorEmail:
+              formData.email,
+
+            serviceName:
+              formData.serviceName,
+
+            phone:
+              formData.phone,
+
+            roomCount:
+              formData.roomCount,
+
+            primaryPressurePoint:
+              formData.primaryPressurePoint,
+
+            notes: [
+              `Regulator Champions pathway being considered: ${programOptionLabel(
+                formData.programOption,
+              )}`,
+              formData.notes,
+            ]
+              .filter(Boolean)
+              .join('\n\n'),
+          }),
         },
-        body: JSON.stringify({
-          formType: 'public_director_enquiry',
-          directorName: formData.directorName,
-          directorEmail: formData.email,
-          serviceName: formData.serviceName,
-          phone: formData.phone,
-          roomCount: formData.roomCount,
-          primaryPressurePoint:
-            formData.primaryPressurePoint,
-          notes: [
-            `Preferred program option: ${
-              formData.programOption === 'preview'
-                ? '3-Ladder Preview ($1,790 incl. GST)'
-                : 'Full 8-Ladder Site Membership ($4,790 incl. GST)'
-            }`,
-            formData.notes,
-          ]
-            .filter(Boolean)
-            .join('\n\n'),
-        }),
-      });
+      );
 
-      const result = await response.json();
+      const result =
+        await response.json();
 
-      if (!response.ok || !result.success) {
+      if (
+        !response.ok ||
+        !result.success
+      ) {
         throw new Error(
           result.error ||
             'Your enquiry could not be submitted.',
@@ -98,8 +198,9 @@ export default function DirectorReviewPage() {
       }
 
       setSubmissionStatus('success');
+
       setSubmissionMessage(
-        'Thank you. Your enquiry has been received and Play Move Improve can now prepare the most relevant next step for your service.',
+        'Thanks. Your service enquiry has been received. Robyn can now look at what your team is experiencing and help you decide whether the 3 Ladder Preview or Full 8 Ladder Pathway is the more sensible starting point.',
       );
     } catch (error) {
       console.error(
@@ -108,6 +209,7 @@ export default function DirectorReviewPage() {
       );
 
       setSubmissionStatus('error');
+
       setSubmissionMessage(
         error instanceof Error
           ? error.message
@@ -117,377 +219,587 @@ export default function DirectorReviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20 font-sans text-slate-800">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
-          <Link
-            href="/"
-            className="text-xs font-bold text-teal-800 transition hover:text-teal-900"
-          >
-            &larr; Back to Home
-          </Link>
-
-          <span className="rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-[11px] font-bold text-amber-950">
-            Short Director Enquiry
-          </span>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-2xl space-y-8 px-6 py-10">
-        <section className="space-y-3 text-center">
-          <span className="block text-xs font-bold uppercase tracking-wider text-teal-800">
-            Explore Regulator Champions
-          </span>
-
-          <h1 className="text-2xl font-extrabold text-slate-900 md:text-3xl">
-            Request a Regulator Champions Proposal
-          </h1>
-
-          <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600">
-            Tell us a little about your service, the pressure points your
-            team is currently experiencing and whether you are considering the
-            3-Ladder Preview or the full 8-Ladder pathway. This is a short
-            enquiry, not the full onboarding review.
-          </p>
-
-          <p className="text-xs font-semibold text-teal-800">
-            Takes approximately two minutes.
-          </p>
-        </section>
-
-        {submissionStatus === 'success' ? (
-          <section className="space-y-5 rounded-3xl border border-emerald-300 bg-emerald-50 p-8 text-center shadow-sm">
-            <span className="block text-xs font-bold uppercase tracking-wider text-emerald-800">
-              Enquiry Received
+    <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
+      {/* HERO */}
+      <section className="bg-[#1C3B34] text-white">
+        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
+          <div className="max-w-4xl">
+            <span className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#C29F60]/10 px-4 py-2 text-[10px] font-extrabold uppercase tracking-widest text-[#E4C98E]">
+              For directors and service leaders
             </span>
 
-            <h2 className="text-xl font-bold text-emerald-950">
-              Thank You, {formData.directorName}
-            </h2>
+            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              Not sure which Regulator
+              Champions pathway is right for
+              your service?
+            </h1>
 
-            <p className="mx-auto max-w-md text-sm leading-relaxed text-emerald-900">
-              {submissionMessage}
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#D8E1DC] sm:text-lg">
+              Tell me what your educators
+              are finding difficult at the
+              moment. You do not need to know
+              exactly what you want before
+              getting in touch.
             </p>
 
-            <p className="mx-auto max-w-md text-xs leading-relaxed text-emerald-800">
-              You have not started the longer Centre
-              Starting-Point Review. That onboarding review is
-              completed after a service joins the program.
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#BFD0C8]">
+              This is simply a short
+              service-level enquiry so I can
+              understand the pressure points
+              you are seeing and whether
+              Regulator Champions looks like
+              the right fit.
             </p>
+          </div>
+        </div>
+      </section>
 
-            <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
-              <Link
-                href={`/proposal?plan=${formData.programOption}`}
-                className="rounded-xl bg-teal-800 px-5 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-teal-900"
-              >
-                View My Selected Proposal &rarr;
-              </Link>
+      {/* REASSURANCE */}
+      <section className="border-b border-[#E6E2DC] bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6">
+          <div className="grid gap-5 sm:grid-cols-3">
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
+                Keep it simple
+              </span>
 
-              <Link
-                href="/"
-                className="rounded-xl border border-teal-700 bg-white px-5 py-3 text-xs font-bold text-teal-950 transition hover:bg-teal-100"
-              >
-                Return to Home
-              </Link>
+              <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
+                You do not need to prepare
+                documents or complete a long
+                assessment before enquiring.
+              </p>
             </div>
-          </section>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8"
-          >
-            {submissionStatus === 'error' && (
-              <div
-                role="alert"
-                className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm leading-relaxed text-rose-900"
-              >
+
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
+                Service level only
+              </span>
+
+              <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
+                Tell me about room patterns
+                and educator priorities, not
+                individual children.
+              </p>
+            </div>
+
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
+                No sales call required
+              </span>
+
+              <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
+                I can respond with the most
+                relevant information and next
+                step for your service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FORM AREA */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-4xl px-5 sm:px-6">
+          {submissionStatus ===
+          'success' ? (
+            <section className="rounded-4xl border border-[#B9D1C5] bg-white p-7 text-center shadow-sm sm:p-10">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF4F0] text-xl font-extrabold text-[#1C3B34]">
+                ✓
+              </div>
+
+              <span className="mt-5 block text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+                Enquiry received
+              </span>
+
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+                Thanks,{' '}
+                {formData.directorName}.
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-[#53645D]">
                 {submissionMessage}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="directorName"
-                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-                >
-                  Director or Nominated Supervisor *
-                </label>
-
-                <input
-                  id="directorName"
-                  name="directorName"
-                  type="text"
-                  required
-                  autoComplete="name"
-                  placeholder="e.g. Sarah Jenkins"
-                  maxLength={150}
-                  value={formData.directorName}
-                  onChange={(event) =>
-                    updateField(
-                      'directorName',
-                      event.target.value,
-                    )
-                  }
-                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-                >
-                  Work Email Address *
-                </label>
-
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  placeholder="director@centre.com.au"
-                  maxLength={254}
-                  value={formData.email}
-                  onChange={(event) =>
-                    updateField('email', event.target.value)
-                  }
-                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="serviceName"
-                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-                >
-                  Centre or Service Name *
-                </label>
-
-                <input
-                  id="serviceName"
-                  name="serviceName"
-                  type="text"
-                  required
-                  placeholder="e.g. Sunshine Early Learning"
-                  maxLength={200}
-                  value={formData.serviceName}
-                  onChange={(event) =>
-                    updateField(
-                      'serviceName',
-                      event.target.value,
-                    )
-                  }
-                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-                >
-                  Phone Number
-                </label>
-
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="Optional"
-                  maxLength={50}
-                  value={formData.phone}
-                  onChange={(event) =>
-                    updateField('phone', event.target.value)
-                  }
-                  className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="roomCount"
-                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-              >
-                Number of Active Rooms
-              </label>
-
-              <select
-                id="roomCount"
-                name="roomCount"
-                value={formData.roomCount}
-                onChange={(event) =>
-                  updateField(
-                    'roomCount',
-                    event.target.value,
-                  )
-                }
-                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-              >
-                <option value="1-2 Rooms">1–2 Rooms</option>
-                <option value="3-4 Rooms">3–4 Rooms</option>
-                <option value="5-6 Rooms">5–6 Rooms</option>
-                <option value="7+ Rooms">
-                  7+ Rooms or Multi-site
-                </option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="primaryPressurePoint"
-                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-              >
-                What is your biggest daily pressure point?
-              </label>
-
-              <select
-                id="primaryPressurePoint"
-                name="primaryPressurePoint"
-                value={formData.primaryPressurePoint}
-                onChange={(event) =>
-                  updateField(
-                    'primaryPressurePoint',
-                    event.target.value,
-                  )
-                }
-                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-              >
-                <option value="Drop-off separation distress and morning room volume">
-                  Drop-off separation distress and morning
-                  room volume
-                </option>
-
-                <option value="Pack-up transitions and instruction refusal">
-                  Pack-up transitions and instruction refusal
-                </option>
-
-                <option value="Rest-time regulation and non-sleeper participation">
-                  Rest-time regulation and non-sleeper
-                  participation
-                </option>
-
-                <option value="Afternoon sensory fatigue, running and noise">
-                  Afternoon sensory fatigue, running and noise
-                </option>
-
-                <option value="Inconsistent strategies across the educator team">
-                  Inconsistent strategies across the educator
-                  team
-                </option>
-
-                <option value="Other">
-                  Other or several combined concerns
-                </option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="programOption"
-                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-              >
-                Which starting option are you considering?
-              </label>
-
-              <select
-                id="programOption"
-                name="programOption"
-                value={formData.programOption}
-                onChange={(event) =>
-                  updateField(
-                    'programOption',
-                    event.target.value,
-                  )
-                }
-                className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-              >
-                <option value="preview">
-                  3-Ladder Preview — $1,790 incl. GST
-                </option>
-
-                <option value="full">
-                  Full 8-Ladder Site Membership — $4,790 incl. GST
-                </option>
-              </select>
-
-              <p className="mt-2 text-xs leading-relaxed text-slate-500">
-                The Preview provides six months of access. The full pathway
-                provides 12 months of access and is the lower total price for
-                completing all eight ladders.
-              </p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="notes"
-                className="mb-1 block text-[11px] font-bold uppercase text-slate-700"
-              >
-                Anything Else We Should Know?
-              </label>
-
-              <textarea
-                id="notes"
-                name="notes"
-                rows={3}
-                maxLength={2000}
-                placeholder="Optional. Add a short note about your service, current priorities or upcoming Assessment and Rating visit. Please do not include identifying child or family information."
-                value={formData.notes}
-                onChange={(event) =>
-                  updateField('notes', event.target.value)
-                }
-                className="w-full rounded-xl border border-slate-300 p-3 text-sm outline-none focus:ring-2 focus:ring-teal-600"
-              />
-            </div>
-
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-relaxed text-amber-950">
-              <strong className="block font-bold">
-                Please keep this enquiry service-level only.
-              </strong>
-
-              <p className="mt-1">
-                Do not include children&apos;s names, family names, dates of
-                birth, diagnoses, medical information or other identifying
-                details. Describe general room patterns, routines and educator
-                priorities only.
               </p>
 
-              <p className="mt-2">
-                Information submitted through this form is handled in
-                accordance with the{' '}
+              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                {formData.programOption !==
+                  'unsure' && (
+                  <Link
+                    href={`/proposal?plan=${formData.programOption}`}
+                    className="flex min-h-12 items-center justify-center rounded-xl bg-[#C29F60] px-6 py-3 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+                  >
+                    View selected proposal
+                  </Link>
+                )}
+
                 <Link
-                  href="/privacy"
-                  className="font-bold underline underline-offset-2"
+                  href="/"
+                  className="flex min-h-12 items-center justify-center rounded-xl border border-[#D8D0C4] bg-[#FAF8F5] px-6 py-3 text-sm font-bold text-[#1C3B34] transition hover:bg-white"
                 >
-                  Privacy Policy
+                  Return to Regulator
+                  Champions
                 </Link>
-                .
-              </p>
+              </div>
+            </section>
+          ) : (
+            <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+              {/* LEFT CONTEXT */}
+              <aside>
+                <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+                  What I want to understand
+                </span>
+
+                <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34]">
+                  What is becoming difficult
+                  in your rooms?
+                </h2>
+
+                <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
+                  Regulator Champions works
+                  best when it starts with
+                  something educators are
+                  genuinely experiencing,
+                  rather than professional
+                  learning being chosen
+                  because a funding deadline
+                  is approaching.
+                </p>
+
+                <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
+                  You might be seeing
+                  difficult drop-offs,
+                  dysregulated transitions,
+                  children struggling to
+                  participate, sensory
+                  overload or a team that is
+                  no longer confident about
+                  how to respond consistently.
+                </p>
+
+                <div className="mt-6 rounded-3xl bg-[#FAF5EC] p-5">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9A793D]">
+                    You can also skip this
+                    form
+                  </span>
+
+                  <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
+                    If you already know which
+                    pathway you want, you can
+                    go straight to the
+                    proposal page.
+                  </p>
+
+                  <Link
+                    href="/proposal"
+                    className="mt-4 inline-flex text-sm font-extrabold text-[#1C3B34]"
+                  >
+                    View pricing and proposal
+                    →
+                  </Link>
+                </div>
+              </aside>
+
+              {/* FORM */}
+              <form
+                onSubmit={handleSubmit}
+                className="rounded-4xl border border-[#E6E2DC] bg-white p-6 shadow-sm sm:p-8"
+              >
+                <div className="border-b border-[#E6E2DC] pb-5">
+                  <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
+                    Short service enquiry
+                  </span>
+
+                  <h2 className="mt-2 text-2xl font-extrabold text-[#1C3B34]">
+                    Tell me a little about
+                    your service.
+                  </h2>
+
+                  <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
+                    Most directors can
+                    complete this in a couple
+                    of minutes.
+                  </p>
+                </div>
+
+                {submissionStatus ===
+                  'error' && (
+                  <div
+                    role="alert"
+                    className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm leading-relaxed text-rose-800"
+                  >
+                    {submissionMessage}
+                  </div>
+                )}
+
+                <div className="mt-6 grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="directorName"
+                      className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                    >
+                      Your name
+                    </label>
+
+                    <input
+                      id="directorName"
+                      name="directorName"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      maxLength={150}
+                      value={
+                        formData.directorName
+                      }
+                      onChange={(event) =>
+                        updateField(
+                          'directorName',
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                    >
+                      Work email
+                    </label>
+
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      maxLength={254}
+                      placeholder="director@service.com.au"
+                      value={formData.email}
+                      onChange={(event) =>
+                        updateField(
+                          'email',
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition placeholder:text-[#8A9691] focus:border-[#657B6C]"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="serviceName"
+                      className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                    >
+                      Service name
+                    </label>
+
+                    <input
+                      id="serviceName"
+                      name="serviceName"
+                      type="text"
+                      required
+                      autoComplete="organization"
+                      maxLength={200}
+                      value={
+                        formData.serviceName
+                      }
+                      onChange={(event) =>
+                        updateField(
+                          'serviceName',
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                    >
+                      Phone
+                      <span className="ml-1 font-normal text-[#8A9691]">
+                        optional
+                      </span>
+                    </label>
+
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      autoComplete="tel"
+                      maxLength={50}
+                      value={formData.phone}
+                      onChange={(event) =>
+                        updateField(
+                          'phone',
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  <label
+                    htmlFor="roomCount"
+                    className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                  >
+                    Approximately how many
+                    rooms does your service
+                    have?
+                  </label>
+
+                  <select
+                    id="roomCount"
+                    name="roomCount"
+                    value={formData.roomCount}
+                    onChange={(event) =>
+                      updateField(
+                        'roomCount',
+                        event.target.value,
+                      )
+                    }
+                    className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                  >
+                    <option value="1-2 Rooms">
+                      1–2 rooms
+                    </option>
+
+                    <option value="3-4 Rooms">
+                      3–4 rooms
+                    </option>
+
+                    <option value="5-6 Rooms">
+                      5–6 rooms
+                    </option>
+
+                    <option value="7+ Rooms">
+                      7+ rooms
+                    </option>
+
+                    <option value="Multi-site organisation">
+                      Multi-site organisation
+                    </option>
+                  </select>
+                </div>
+
+                <div className="mt-5">
+                  <label
+                    htmlFor="primaryPressurePoint"
+                    className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                  >
+                    What is currently one of
+                    your biggest pressure
+                    points?
+                  </label>
+
+                  <select
+                    id="primaryPressurePoint"
+                    name="primaryPressurePoint"
+                    value={
+                      formData.primaryPressurePoint
+                    }
+                    onChange={(event) =>
+                      updateField(
+                        'primaryPressurePoint',
+                        event.target.value,
+                      )
+                    }
+                    className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                  >
+                    {PRESSURE_POINTS.map(
+                      (option) => (
+                        <option
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </div>
+
+                <div className="mt-5">
+                  <label
+                    htmlFor="programOption"
+                    className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                  >
+                    Which pathway are you
+                    currently considering?
+                  </label>
+
+                  <select
+                    id="programOption"
+                    name="programOption"
+                    value={
+                      formData.programOption
+                    }
+                    onChange={(event) =>
+                      updateField(
+                        'programOption',
+                        event.target
+                          .value as ProgramOption,
+                      )
+                    }
+                    className="min-h-12 w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C]"
+                  >
+                    <option value="unsure">
+                      I&apos;m not sure yet
+                    </option>
+
+                    <option value="preview">
+                      3 Ladder Preview —
+                      $1,790 incl. GST
+                    </option>
+
+                    <option value="full">
+                      Full 8 Ladder Pathway —
+                      $4,790 incl. GST
+                    </option>
+                  </select>
+
+                  <p className="mt-2 text-xs leading-relaxed text-[#6A7873]">
+                    The Preview provides six
+                    months of whole-service
+                    access. The Full 8 Ladder
+                    Pathway provides 12
+                    months.
+                  </p>
+                </div>
+
+                <div className="mt-5">
+                  <label
+                    htmlFor="notes"
+                    className="mb-1.5 block text-xs font-bold text-[#1C3B34]"
+                  >
+                    Anything else you want me
+                    to know?
+                    <span className="ml-1 font-normal text-[#8A9691]">
+                      optional
+                    </span>
+                  </label>
+
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    rows={4}
+                    maxLength={2000}
+                    placeholder="For example, what your educators are finding difficult, an identified professional learning priority or what you would like to see change across the service."
+                    value={formData.notes}
+                    onChange={(event) =>
+                      updateField(
+                        'notes',
+                        event.target.value,
+                      )
+                    }
+                    className="w-full rounded-xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none transition placeholder:text-[#8A9691] focus:border-[#657B6C]"
+                  />
+                </div>
+
+                {/* PRIVACY */}
+                <div className="mt-5 rounded-2xl border border-[#C29F60]/35 bg-[#FAF5EC] p-4">
+                  <strong className="block text-xs font-extrabold text-[#1C3B34]">
+                    Please keep this
+                    service-level only.
+                  </strong>
+
+                  <p className="mt-2 text-xs leading-relaxed text-[#53645D]">
+                    Please do not include
+                    children&apos;s names,
+                    family names, dates of
+                    birth, diagnoses, medical
+                    information or other
+                    identifying details. Room
+                    patterns, routines and
+                    educator priorities are
+                    enough.
+                  </p>
+
+                  <p className="mt-2 text-xs leading-relaxed text-[#53645D]">
+                    Information submitted
+                    through this form is
+                    handled in accordance
+                    with the{' '}
+                    <Link
+                      href="/privacy"
+                      className="font-bold underline underline-offset-2"
+                    >
+                      Privacy Policy
+                    </Link>
+                    .
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={
+                    submissionStatus ===
+                    'submitting'
+                  }
+                  className="mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-4 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {submissionStatus ===
+                  'submitting'
+                    ? 'Sending your enquiry...'
+                    : 'Send my service enquiry'}
+                </button>
+
+                <p className="mt-4 text-center text-xs leading-relaxed text-[#6A7873]">
+                  Sending this form does not
+                  enrol your service or
+                  commit you to purchasing
+                  Regulator Champions.
+                </p>
+              </form>
             </div>
+          )}
+        </div>
+      </section>
 
-            <button
-              type="submit"
-              disabled={submissionStatus === 'submitting'}
-              className="w-full rounded-2xl bg-teal-800 py-4 text-sm font-bold text-white shadow-xs transition hover:bg-teal-900 disabled:cursor-not-allowed disabled:opacity-60"
+      {/* PROGRAM BRIDGE */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
+          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#E4C98E]">
+            Regulator Champions
+          </span>
+
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            The goal is not to give your
+            educators more strategies to
+            remember.
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#D8E1DC]">
+            It is to help your team notice
+            what is happening earlier,
+            understand what may sit
+            underneath behaviour and make
+            more thoughtful decisions
+            together.
+          </p>
+
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/proposal?plan=preview"
+              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
             >
-              {submissionStatus === 'submitting'
-                ? 'Sending Enquiry...'
-                : 'Request My Centre Proposal →'}
-            </button>
+              View the 3 Ladder Preview
+            </Link>
 
-            <p className="text-center text-xs leading-relaxed text-slate-500">
-              The detailed Centre Starting-Point Review is completed later
-              by services that join either the 3-Ladder Preview or the full
-              8-Ladder pathway.
-            </p>
-          </form>
-        )}
-      </main>
-    </div>
+            <Link
+              href="/"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              Explore Regulator Champions
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
