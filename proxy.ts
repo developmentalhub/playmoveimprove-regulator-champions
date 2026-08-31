@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {
+  NextRequest,
+  NextResponse,
+} from 'next/server';
 
 import {
   getMemberSession,
@@ -15,39 +18,64 @@ const PROTECTED_PREFIXES = [
   '/platform',
 ];
 
-function isProtectedPath(pathname: string): boolean {
+function isProtectedPath(
+  pathname: string,
+): boolean {
   return PROTECTED_PREFIXES.some(
     (prefix) =>
       pathname === prefix ||
-      pathname.startsWith(`${prefix}/`),
+      pathname.startsWith(
+        `${prefix}/`,
+      ),
   );
 }
 
-export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export async function proxy(
+  request: NextRequest,
+) {
+  const { pathname } =
+    request.nextUrl;
 
-  if (!isProtectedPath(pathname)) {
+  if (
+    !isProtectedPath(
+      pathname,
+    )
+  ) {
     return NextResponse.next();
   }
 
+  /*
+   * Only the new signed
+   * member_access_token is valid.
+   *
+   * The old regulator_session
+   * cookie is deliberately no
+   * longer accepted.
+   */
   const token =
-    request.cookies.get(MEMBER_ACCESS_COOKIE)?.value;
+    request.cookies.get(
+      MEMBER_ACCESS_COOKIE,
+    )?.value;
 
-  const regulatorSession =
-    request.cookies.get('regulator_session')?.value;
+  const memberSession =
+    await getMemberSession(
+      token,
+    );
 
-  const hasMemberSession =
-    await getMemberSession(token);
-
-  const hasAccess = Boolean(
-    hasMemberSession || regulatorSession,
-  );
-
-  if (hasAccess) {
+  if (memberSession) {
     return NextResponse.next();
   }
 
-  const loginUrl = new URL('/login', request.url);
+  /*
+   * Send the educator to the
+   * correct Regulator Champions
+   * member access page.
+   */
+  const loginUrl =
+    new URL(
+      '/member-access',
+      request.url,
+    );
 
   loginUrl.searchParams.set(
     'returnTo',
@@ -55,18 +83,59 @@ export async function proxy(request: NextRequest) {
   );
 
   const response =
-    NextResponse.redirect(loginUrl);
+    NextResponse.redirect(
+      loginUrl,
+    );
 
-  if (token && !hasMemberSession) {
+  /*
+   * If an invalid or old signed
+   * member cookie exists, clear it
+   * so the educator can log in
+   * cleanly with their existing
+   * service access code.
+   */
+  if (token) {
     response.cookies.set({
-      name: MEMBER_ACCESS_COOKIE,
+      name:
+        MEMBER_ACCESS_COOKIE,
       value: '',
       httpOnly: true,
       secure:
-        process.env.NODE_ENV === 'production',
+        process.env.NODE_ENV ===
+        'production',
       sameSite: 'lax',
       path: '/',
       maxAge: 0,
+      expires:
+        new Date(0),
+    });
+  }
+
+  /*
+   * Also remove the old legacy
+   * regulator_session cookie.
+   *
+   * This does not change anyone's
+   * actual service access code.
+   */
+  if (
+    request.cookies.get(
+      'regulator_session',
+    )
+  ) {
+    response.cookies.set({
+      name:
+        'regulator_session',
+      value: '',
+      httpOnly: true,
+      secure:
+        process.env.NODE_ENV ===
+        'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 0,
+      expires:
+        new Date(0),
     });
   }
 

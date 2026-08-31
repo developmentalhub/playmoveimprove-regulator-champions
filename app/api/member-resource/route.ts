@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {
+  NextRequest,
+  NextResponse,
+} from 'next/server';
 
 import {
   getMemberSession,
@@ -9,26 +12,38 @@ type ResourceRequest = {
   file?: unknown;
 };
 
-const BUCKET = 'regulator-member-resources';
+const BUCKET =
+  'regulator-member-resources';
 
-const ALLOWED_FILES = new Set([
-  'Calm-Posters.pdf',
-  'Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
-  'Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
-]);
+const ALLOWED_FILES =
+  new Set([
+    'Calm-Posters.pdf',
+    'Morning-Routine-Ladder-Printable-Cards-Managers.pdf',
+    'Morning-Routine-Ladder-Printable-Cards-Parents.pdf',
+  ]);
 
-function cleanFileName(value: unknown): string {
-  if (typeof value !== 'string') {
+function cleanFileName(
+  value: unknown,
+): string {
+  if (
+    typeof value !== 'string'
+  ) {
     return '';
   }
 
-  return value.trim().slice(0, 200);
+  return value
+    .trim()
+    .slice(0, 200);
 }
 
-function encodeStoragePath(value: string): string {
+function encodeStoragePath(
+  value: string,
+): string {
   return value
     .split('/')
-    .map((part) => encodeURIComponent(part))
+    .map((part) =>
+      encodeURIComponent(part),
+    )
     .join('/');
 }
 
@@ -36,13 +51,20 @@ export async function POST(
   request: NextRequest,
 ) {
   try {
+    /*
+     * Read and verify the signed
+     * Regulator Champions member
+     * session.
+     */
     const token =
       request.cookies.get(
         MEMBER_ACCESS_COOKIE,
       )?.value;
 
     const session =
-      getMemberSession(token);
+      await getMemberSession(
+        token,
+      );
 
     if (!session) {
       return NextResponse.json(
@@ -54,18 +76,47 @@ export async function POST(
         {
           status: 401,
           headers: {
-            'Cache-Control': 'no-store',
+            'Cache-Control':
+              'no-store',
           },
         },
       );
     }
 
-    const body =
-      (await request.json()) as ResourceRequest;
+    /*
+     * Read the requested file.
+     */
+    let body: ResourceRequest;
+
+    try {
+      body =
+        (await request.json()) as ResourceRequest;
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            'The member resource request could not be read.',
+        },
+        {
+          status: 400,
+          headers: {
+            'Cache-Control':
+              'no-store',
+          },
+        },
+      );
+    }
 
     const file =
-      cleanFileName(body.file);
+      cleanFileName(
+        body.file,
+      );
 
+    /*
+     * Only explicitly approved
+     * member resources may be opened.
+     */
     if (
       !file ||
       !ALLOWED_FILES.has(file)
@@ -79,17 +130,20 @@ export async function POST(
         {
           status: 400,
           headers: {
-            'Cache-Control': 'no-store',
+            'Cache-Control':
+              'no-store',
           },
         },
       );
     }
 
     const supabaseUrl =
-      process.env.NEXT_PUBLIC_SUPABASE_URL;
+      process.env
+        .NEXT_PUBLIC_SUPABASE_URL;
 
     const serviceRoleKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY;
+      process.env
+        .SUPABASE_SERVICE_ROLE_KEY;
 
     if (
       !supabaseUrl ||
@@ -108,44 +162,60 @@ export async function POST(
         {
           status: 500,
           headers: {
-            'Cache-Control': 'no-store',
+            'Cache-Control':
+              'no-store',
           },
         },
       );
     }
 
     const encodedBucket =
-      encodeURIComponent(BUCKET);
+      encodeURIComponent(
+        BUCKET,
+      );
 
     const encodedFile =
-      encodeStoragePath(file);
+      encodeStoragePath(
+        file,
+      );
 
-    const response = await fetch(
-      `${supabaseUrl}/storage/v1/object/sign/${encodedBucket}/${encodedFile}`,
-      {
-        method: 'POST',
+    /*
+     * Ask Supabase Storage for
+     * a temporary signed URL.
+     *
+     * The service-role key never
+     * leaves this server route.
+     */
+    const storageResponse =
+      await fetch(
+        `${supabaseUrl}/storage/v1/object/sign/${encodedBucket}/${encodedFile}`,
+        {
+          method: 'POST',
 
-        headers: {
-          apikey: serviceRoleKey,
+          headers: {
+            apikey:
+              serviceRoleKey,
 
-          Authorization:
-            `Bearer ${serviceRoleKey}`,
+            Authorization:
+              `Bearer ${serviceRoleKey}`,
 
-          'Content-Type':
-            'application/json',
+            'Content-Type':
+              'application/json',
+          },
+
+          body: JSON.stringify({
+            expiresIn: 900,
+          }),
+
+          cache: 'no-store',
         },
+      );
 
-        body: JSON.stringify({
-          expiresIn: 900,
-        }),
-
-        cache: 'no-store',
-      },
-    );
-
-    if (!response.ok) {
+    if (
+      !storageResponse.ok
+    ) {
       const errorText =
-        await response.text();
+        await storageResponse.text();
 
       console.error(
         'Member resource signed URL failed:',
@@ -161,14 +231,15 @@ export async function POST(
         {
           status: 500,
           headers: {
-            'Cache-Control': 'no-store',
+            'Cache-Control':
+              'no-store',
           },
         },
       );
     }
 
     const result =
-      (await response.json()) as {
+      (await storageResponse.json()) as {
         signedURL?: string;
         signedUrl?: string;
       };
@@ -188,14 +259,17 @@ export async function POST(
         {
           status: 500,
           headers: {
-            'Cache-Control': 'no-store',
+            'Cache-Control':
+              'no-store',
           },
         },
       );
     }
 
     const signedUrl =
-      signedPath.startsWith('http')
+      signedPath.startsWith(
+        'http',
+      )
         ? signedPath
         : `${supabaseUrl}/storage/v1${signedPath}`;
 
@@ -207,7 +281,8 @@ export async function POST(
       {
         status: 200,
         headers: {
-          'Cache-Control': 'no-store',
+          'Cache-Control':
+            'no-store',
         },
       },
     );
@@ -226,7 +301,8 @@ export async function POST(
       {
         status: 500,
         headers: {
-          'Cache-Control': 'no-store',
+          'Cache-Control':
+            'no-store',
         },
       },
     );

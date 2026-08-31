@@ -1,7 +1,5 @@
 export const MEMBER_ACCESS_COOKIE = 'member_access_token';
 
-const SECRET_KEY = process.env.MEMBER_ACCESS_SECRET || 'playmoveimprove-secret-key-2026';
-
 export interface MemberSession {
   code: string;
   role: 'educator' | 'manager';
@@ -9,59 +7,208 @@ export interface MemberSession {
   plan?: string;
 }
 
-function hexToBytes(hex: string): Uint8Array {
-  const bytes = new Uint8Array(Math.ceil(hex.length / 2));
-  for (let i = 0; i < bytes.length; i++) {
-    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+function getMemberAccessSecret(): string {
+  const secret = process.env.MEMBER_ACCESS_SECRET;
+
+  if (!secret) {
+    throw new Error(
+      'Missing MEMBER_ACCESS_SECRET environment variable.',
+    );
   }
+
+  return secret;
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  if (
+    !hex ||
+    hex.length % 2 !== 0 ||
+    !/^[0-9a-fA-F]+$/.test(hex)
+  ) {
+    throw new Error('Invalid signature format.');
+  }
+
+  const bytes = new Uint8Array(hex.length / 2);
+
+  for (let i = 0; i < bytes.length; i += 1) {
+    bytes[i] = parseInt(
+      hex.slice(i * 2, i * 2 + 2),
+      16,
+    );
+  }
+
   return bytes;
 }
 
-async function verifySignature(data: string, signature: string, secret: string): Promise<boolean> {
+function base64ToString(value: string): string {
+  if (typeof atob === 'function') {
+    return atob(value);
+  }
+
+  return Buffer.from(
+    value,
+    'base64',
+  ).toString('utf8');
+}
+
+async function verifySignature(
+  data: string,
+  signature: string,
+  secret: string,
+): Promise<boolean> {
   try {
     const encoder = new TextEncoder();
-    const keyData = encoder.encode(secret);
+
     const key = await crypto.subtle.importKey(
       'raw',
-      keyData as unknown as BufferSource,
-      { name: 'HMAC', hash: 'SHA-256' },
+      encoder.encode(
+        secret,
+      ) as BufferSource,
+      {
+        name: 'HMAC',
+        hash: 'SHA-256',
+      },
       false,
-      ['verify']
+      ['verify'],
     );
 
-    const sigBytes = hexToBytes(signature);
-    const dataBytes = encoder.encode(data);
+    const signatureBytes =
+      hexToBytes(signature);
+
+    const dataBytes =
+      encoder.encode(data);
 
     return await crypto.subtle.verify(
       'HMAC',
       key,
-      sigBytes as unknown as BufferSource,
-      dataBytes as unknown as BufferSource
+      signatureBytes as BufferSource,
+      dataBytes as BufferSource,
     );
   } catch (error) {
+    console.error(
+      'Member session signature verification failed:',
+      error,
+    );
+
     return false;
   }
 }
 
-export async function getMemberSession(token: string | undefined | null): Promise<MemberSession | null> {
-  if (!token) return null;
+function isValidMemberSession(
+  value: unknown,
+): value is MemberSession {
+  if (
+    !value ||
+    typeof value !== 'object'
+  ) {
+    return false;
+  }
+
+  const session =
+    value as Partial<MemberSession>;
+
+  if (
+    typeof session.code !== 'string' ||
+    !session.code.trim()
+  ) {
+    return false;
+  }
+
+  if (
+    session.role !== 'educator' &&
+    session.role !== 'manager'
+  ) {
+    return false;
+  }
+
+  if (
+    typeof session.centreName !== 'string' ||
+    !session.centreName.trim()
+  ) {
+    return false;
+  }
+
+  if (
+    session.plan !== undefined &&
+    typeof session.plan !== 'string'
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+export async function getMemberSession(
+  token: string | undefined | null,
+): Promise<MemberSession | null> {
+  if (!token) {
+    return null;
+  }
 
   try {
     const parts = token.split('.');
+
     if (parts.length !== 2) {
-      const parsed = JSON.parse(token);
-      if (parsed && parsed.code) return parsed as MemberSession;
       return null;
     }
 
-    const [payloadBase64, signature] = parts;
-    const isValid = await verifySignature(payloadBase64, signature, SECRET_KEY);
+    const [
+      payloadBase64,
+      signature,
+    ] = parts;
 
-    if (!isValid) return null;
+    if (
+      !payloadBase64 ||
+      !signature
+    ) {
+      return null;
+    }
 
-    const jsonString = atob(payloadBase64);
-    return JSON.parse(jsonString) as MemberSession;
+    const secret =
+      getMemberAccessSecret();
+
+    const isValidSignature =
+      await verifySignature(
+        payloadBase64,
+        signature,
+        secret,
+      );
+
+    if (!isValidSignature) {
+      return null;
+    }
+
+    const jsonString =
+      base64ToString(
+        payloadBase64,
+      );
+
+    const parsed =
+      JSON.parse(jsonString);
+
+    if (
+      !isValidMemberSession(
+        parsed,
+      )
+    ) {
+      return null;
+    }
+
+    return {
+      code: parsed.code.trim(),
+      role: parsed.role,
+      centreName:
+        parsed.centreName.trim(),
+      plan:
+        parsed.plan?.trim() ||
+        undefined,
+    };
   } catch (error) {
+    console.error(
+      'Member session could not be read:',
+      error,
+    );
+
     return null;
   }
 }

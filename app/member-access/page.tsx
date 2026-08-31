@@ -43,18 +43,23 @@ function getSafeReturnPath(
 
 function MemberAccessContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams =
+    useSearchParams();
 
   const returnTo = useMemo(
     () =>
       getSafeReturnPath(
-        searchParams.get('returnTo'),
+        searchParams.get(
+          'returnTo',
+        ),
       ),
     [searchParams],
   );
 
-  const [accessCode, setAccessCode] =
-    useState('');
+  const [
+    accessCode,
+    setAccessCode,
+  ] = useState('');
 
   const [
     isCheckingExistingAccess,
@@ -77,16 +82,24 @@ function MemberAccessContent() {
     const checkExistingAccess =
       async () => {
         try {
-          const response = await fetch(
-            '/api/access-status',
-            {
-              method: 'GET',
-              cache: 'no-store',
-            },
-          );
+          const response =
+            await fetch(
+              '/api/access-status',
+              {
+                method: 'GET',
+                cache: 'no-store',
+              },
+            );
 
-          const result =
-            (await response.json()) as AccessStatusResponse;
+          let result: AccessStatusResponse =
+            {};
+
+          try {
+            result =
+              (await response.json()) as AccessStatusResponse;
+          } catch {
+            result = {};
+          }
 
           if (!isMounted) {
             return;
@@ -97,7 +110,10 @@ function MemberAccessContent() {
             result.success === true &&
             result.hasAccess === true
           ) {
-            router.replace(returnTo);
+            router.replace(
+              returnTo,
+            );
+
             return;
           }
         } catch (error) {
@@ -141,24 +157,33 @@ function MemberAccessContent() {
     setErrorMessage('');
 
     try {
-      const response = await fetch(
-        '/api/validate-access',
-        {
-          method: 'POST',
+      const response =
+        await fetch(
+          '/api/validate-access',
+          {
+            method: 'POST',
 
-          headers: {
-            'Content-Type':
-              'application/json',
+            headers: {
+              'Content-Type':
+                'application/json',
+            },
+
+            body: JSON.stringify({
+              accessCode:
+                cleanCode,
+            }),
           },
+        );
 
-          body: JSON.stringify({
-            accessCode: cleanCode,
-          }),
-        },
-      );
+      let result: ValidateAccessResponse =
+        {};
 
-      const result =
-        (await response.json()) as ValidateAccessResponse;
+      try {
+        result =
+          (await response.json()) as ValidateAccessResponse;
+      } catch {
+        result = {};
+      }
 
       if (
         !response.ok ||
@@ -172,6 +197,12 @@ function MemberAccessContent() {
         return;
       }
 
+      /*
+       * Confirm that the newly created
+       * signed member cookie can be read
+       * before sending the educator into
+       * the member portal.
+       */
       const statusResponse =
         await fetch(
           '/api/access-status',
@@ -181,13 +212,22 @@ function MemberAccessContent() {
           },
         );
 
-      const statusResult =
-        (await statusResponse.json()) as AccessStatusResponse;
+      let statusResult: AccessStatusResponse =
+        {};
+
+      try {
+        statusResult =
+          (await statusResponse.json()) as AccessStatusResponse;
+      } catch {
+        statusResult = {};
+      }
 
       if (
         !statusResponse.ok ||
-        statusResult.success !== true ||
-        statusResult.hasAccess !== true
+        statusResult.success !==
+          true ||
+        statusResult.hasAccess !==
+          true
       ) {
         setErrorMessage(
           'Your code was accepted, but the secure member session could not be confirmed. Please try again.',
@@ -198,7 +238,10 @@ function MemberAccessContent() {
 
       setAccessCode('');
 
-      router.replace(returnTo);
+      router.replace(
+        returnTo,
+      );
+
       router.refresh();
     } catch (error) {
       console.error(
@@ -218,15 +261,16 @@ function MemberAccessContent() {
     isCheckingExistingAccess
   ) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#FDFBF7] px-6">
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5] px-6">
         <div className="space-y-4 text-center">
           <div
-            className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-teal-800 border-t-transparent"
+            className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
             aria-label="Checking member access"
           />
 
-          <p className="text-xs font-semibold text-slate-500">
-            Checking member access…
+          <p className="text-xs font-semibold text-[#657B6C]">
+            Checking member
+            access…
           </p>
         </div>
       </div>
@@ -234,10 +278,10 @@ function MemberAccessContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-6 py-12 font-sans text-slate-800">
+    <div className="min-h-screen bg-[#FAF8F5] px-6 py-12 font-sans text-[#1C3B34]">
       <main className="mx-auto flex min-h-[75vh] max-w-md items-center justify-center">
-        <section className="w-full space-y-6 rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-md">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-teal-200 bg-teal-50 text-teal-800">
+        <section className="w-full space-y-6 rounded-3xl border border-[#E6E2DC] bg-white p-8 text-center shadow-md">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D8E3DE] bg-[#EEF3F0] text-[#1C3B34]">
             <svg
               className="h-7 w-7"
               fill="none"
@@ -255,27 +299,34 @@ function MemberAccessContent() {
           </div>
 
           <div className="space-y-2">
-            <span className="block text-[10px] font-bold uppercase tracking-widest text-teal-800">
+            <span className="block text-[10px] font-black uppercase tracking-widest text-[#C29F60]">
               Regulator Champions
             </span>
 
-            <h1 className="text-2xl font-extrabold text-slate-900">
+            <h1 className="text-2xl font-bold text-[#1C3B34]">
               Member Access
             </h1>
 
-            <p className="text-sm leading-relaxed text-slate-600">
-              Enter the service access code supplied to your centre to open your Regulator Champions member resources.
+            <p className="text-sm leading-relaxed text-[#657B6C]">
+              Enter the service
+              access code supplied
+              to your centre to
+              open your Regulator
+              Champions member
+              space.
             </p>
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={
+              handleSubmit
+            }
             className="space-y-4 text-left"
           >
             <div>
               <label
                 htmlFor="member-access-code"
-                className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-700"
+                className="mb-1 block text-[10px] font-black uppercase tracking-wider text-[#657B6C]"
               >
                 Service Access Code
               </label>
@@ -287,14 +338,19 @@ function MemberAccessContent() {
                 required
                 maxLength={100}
                 autoComplete="off"
+                autoCapitalize="characters"
+                spellCheck={false}
                 placeholder="Enter your access code"
                 value={accessCode}
-                onChange={(event) =>
+                onChange={(
+                  event,
+                ) =>
                   setAccessCode(
-                    event.target.value,
+                    event.target
+                      .value,
                   )
                 }
-                className="w-full rounded-xl border border-slate-300 p-3.5 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-teal-700"
+                className="w-full rounded-xl border border-[#D8D4CE] bg-white p-3.5 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C] focus:ring-2 focus:ring-[#D8E3DE]"
               />
             </div>
 
@@ -309,25 +365,35 @@ function MemberAccessContent() {
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full rounded-2xl bg-teal-800 py-3.5 text-sm font-bold text-white transition hover:bg-teal-900 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={
+                isSubmitting
+              }
+              className="w-full rounded-2xl bg-[#1C3B34] py-3.5 text-sm font-bold text-white transition hover:bg-[#294E45] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting
                 ? 'Checking access…'
-                : 'Open Member Resources →'}
+                : 'Open Member Hub →'}
             </button>
           </form>
 
-          <div className="space-y-3 border-t border-slate-100 pt-5">
-            <p className="text-xs leading-relaxed text-slate-500">
-              Access is provided to participating services. Keep your service code within your authorised educator team.
+          <div className="space-y-3 border-t border-[#E6E2DC] pt-5">
+            <p className="text-xs leading-relaxed text-[#657B6C]">
+              Access is provided
+              to participating
+              services. Keep your
+              service code within
+              your authorised
+              educator team.
             </p>
 
             <Link
               href="/proposal?plan=preview"
-              className="inline-block text-xs font-bold text-teal-800 hover:underline"
+              className="inline-block text-xs font-bold text-[#1C3B34] underline-offset-4 hover:underline"
             >
-              Need Regulator Champions access? View program options →
+              Need Regulator
+              Champions access?
+              View program options
+              →
             </Link>
           </div>
         </section>
@@ -338,15 +404,16 @@ function MemberAccessContent() {
 
 function MemberAccessFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#FDFBF7] px-6">
+    <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5] px-6">
       <div className="space-y-4 text-center">
         <div
-          className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-teal-800 border-t-transparent"
+          className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
           aria-label="Loading member access"
         />
 
-        <p className="text-xs font-semibold text-slate-500">
-          Loading member access…
+        <p className="text-xs font-semibold text-[#657B6C]">
+          Loading member
+          access…
         </p>
       </div>
     </div>

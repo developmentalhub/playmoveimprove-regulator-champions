@@ -261,7 +261,7 @@ export default function BlogIndexPage() {
                 key={item.slug}
                 className="overflow-hidden rounded-4xl border border-[#E6E2DC] bg-white shadow-sm"
               >
-                <div className="aspect-[16/8] overflow-hidden bg-[#F0ECE6]">
+                <div className="aspect-16/8 overflow-hidden bg-[#F0ECE6]">
                   <img
                     src={item.image}
                     alt={item.title}

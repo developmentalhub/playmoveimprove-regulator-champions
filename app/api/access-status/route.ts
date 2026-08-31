@@ -1,24 +1,94 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+import {
+  MEMBER_ACCESS_COOKIE,
+  getMemberSession,
+} from '@/lib/memberAccess';
+
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get('regulator_session');
+    const cookieStore =
+      await cookies();
 
-    if (!sessionCookie || !sessionCookie.value) {
-      return NextResponse.json({ success: true, hasAccess: false });
+    const token =
+      cookieStore.get(
+        MEMBER_ACCESS_COOKIE,
+      )?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          success: true,
+          hasAccess: false,
+        },
+        {
+          status: 200,
+          headers: {
+            'Cache-Control':
+              'no-store',
+          },
+        },
+      );
     }
 
-    const sessionData = JSON.parse(sessionCookie.value);
+    const session =
+      await getMemberSession(
+        token,
+      );
 
-    return NextResponse.json({
-      success: true,
-      hasAccess: true,
-      role: sessionData.role,
-      centreName: sessionData.centreName
-    });
+    if (!session) {
+      return NextResponse.json(
+        {
+          success: true,
+          hasAccess: false,
+        },
+        {
+          status: 200,
+          headers: {
+            'Cache-Control':
+              'no-store',
+          },
+        },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        hasAccess: true,
+        role: session.role,
+        centreName:
+          session.centreName,
+        plan:
+          session.plan ?? null,
+      },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control':
+            'no-store',
+        },
+      },
+    );
   } catch (error) {
-    return NextResponse.json({ success: false, hasAccess: false }, { status: 500 });
+    console.error(
+      'Member access status check failed:',
+      error,
+    );
+
+    return NextResponse.json(
+      {
+        success: false,
+        hasAccess: false,
+      },
+      {
+        status: 500,
+        headers: {
+          'Cache-Control':
+            'no-store',
+        },
+      },
+    );
   }
 }
