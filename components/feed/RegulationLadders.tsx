@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+
 import {
   regulationLadders,
   type RegulationLadder,
@@ -55,13 +56,43 @@ const ROOM_FACTORS: RoomFactor[] = [
   },
 ];
 
+const HOW_TO_USE_STEPS = [
+  {
+    number: '1',
+    title: 'Choose what is hard',
+    text: 'Pick the ladder that sounds closest to the situation happening in your room.',
+  },
+  {
+    number: '2',
+    title: 'Choose one rung',
+    text: 'You do not need to work through the whole ladder. Start with one practical idea.',
+  },
+  {
+    number: '3',
+    title: 'Try it',
+    text: 'Use the practice prompt during a real moment with a child or group.',
+  },
+  {
+    number: '4',
+    title: 'Watch what changes',
+    text: 'Notice the child, the environment and your own response. Success is not only whether the behaviour stopped.',
+  },
+  {
+    number: '5',
+    title: 'Reflect briefly',
+    text: 'Save one quick observation so you and your team can build on what you noticed.',
+  },
+];
+
 export default function RegulationLadders({
   userEmail = '',
 }: RegulationLaddersProps) {
   const availableLadders = useMemo(
     () =>
       regulationLadders.filter(
-        (ladder) => ladder.availability === 'available',
+        (ladder) =>
+          ladder.availability ===
+          'available',
       ),
     [],
   );
@@ -69,7 +100,9 @@ export default function RegulationLadders({
   const launchingSoonLadders = useMemo(
     () =>
       regulationLadders.filter(
-        (ladder) => ladder.availability === 'launching-soon',
+        (ladder) =>
+          ladder.availability ===
+          'launching-soon',
       ),
     [],
   );
@@ -77,45 +110,55 @@ export default function RegulationLadders({
   const comingSoonLadders = useMemo(
     () =>
       regulationLadders.filter(
-        (ladder) => ladder.availability === 'in-development',
+        (ladder) =>
+          ladder.availability ===
+          'in-development',
       ),
     [],
   );
 
-  const [selectedLadderId, setSelectedLadderId] = useState(
+  const [
+    selectedLadderId,
+    setSelectedLadderId,
+  ] = useState(
     availableLadders[0]?.id ?? '',
   );
 
-  const [selectedRungNumber, setSelectedRungNumber] = useState(1);
+  const [
+    selectedRungNumber,
+    setSelectedRungNumber,
+  ] = useState(1);
 
-  const [capacity, setCapacity] = useState<string | null>(null);
-  const [roomFactor, setRoomFactor] = useState<string | null>(null);
-  const [note, setNote] = useState('');
+  const [capacity, setCapacity] =
+    useState<string | null>(null);
 
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [error, setError] = useState('');
+  const [roomFactor, setRoomFactor] =
+    useState<string | null>(null);
+
+  const [note, setNote] =
+    useState('');
+
+  const [saving, setSaving] =
+    useState(false);
+
+  const [saved, setSaved] =
+    useState(false);
+
+  const [error, setError] =
+    useState('');
 
   const selectedLadder =
     availableLadders.find(
-      (ladder) => ladder.id === selectedLadderId,
+      (ladder) =>
+        ladder.id === selectedLadderId,
     ) ?? availableLadders[0];
 
   const selectedRung =
     selectedLadder?.rungs.find(
-      (rung) => rung.number === selectedRungNumber,
+      (rung) =>
+        rung.number ===
+        selectedRungNumber,
     ) ?? selectedLadder?.rungs[0];
-
-  const selectLadder = (ladder: RegulationLadder) => {
-    setSelectedLadderId(ladder.id);
-    setSelectedRungNumber(1);
-    resetReflection();
-  };
-
-  const selectRung = (rung: RegulationLadderRung) => {
-    setSelectedRungNumber(rung.number);
-    resetReflection();
-  };
 
   const resetReflection = () => {
     setCapacity(null);
@@ -125,11 +168,35 @@ export default function RegulationLadders({
     setError('');
   };
 
+  const selectLadder = (
+    ladder: RegulationLadder,
+  ) => {
+    setSelectedLadderId(ladder.id);
+    setSelectedRungNumber(1);
+    resetReflection();
+  };
+
+  const selectRung = (
+    rung: RegulationLadderRung,
+  ) => {
+    setSelectedRungNumber(
+      rung.number,
+    );
+    resetReflection();
+  };
+
   const handleSave = async () => {
-    if (!selectedLadder || !selectedRung) return;
+    if (
+      !selectedLadder ||
+      !selectedRung
+    ) {
+      return;
+    }
 
     if (!capacity) {
-      setError('Choose the option that feels closest first.');
+      setError(
+        'Choose the option that feels closest first.',
+      );
       return;
     }
 
@@ -138,44 +205,66 @@ export default function RegulationLadders({
     setError('');
 
     const capacityLabel =
-      CAPACITY_OPTIONS.find((option) => option.id === capacity)?.label ??
-      capacity;
+      CAPACITY_OPTIONS.find(
+        (option) =>
+          option.id === capacity,
+      )?.label ?? capacity;
 
     const factorLabel =
-      ROOM_FACTORS.find((factor) => factor.id === roomFactor)?.label ??
-      roomFactor;
+      ROOM_FACTORS.find(
+        (factor) =>
+          factor.id === roomFactor,
+      )?.label ?? roomFactor;
 
     const summaryParts = [
       `Educator reflection: ${capacityLabel}.`,
-      factorLabel ? `Room factor noticed: ${factorLabel}.` : '',
-      note.trim() ? `Note: ${note.trim()}` : '',
+      factorLabel
+        ? `Room factor noticed: ${factorLabel}.`
+        : '',
+      note.trim()
+        ? `Note: ${note.trim()}`
+        : '',
     ].filter(Boolean);
 
     try {
-      const response = await fetch('/api/ladder-rung', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        '/api/ladder-rung',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify({
+            userEmail,
+            ladderId:
+              selectedLadder.id,
+            ladderTitle:
+              selectedLadder.title,
+            rungNumber:
+              selectedRung.number,
+            rungTitle:
+              selectedRung.title,
+            tankLevel:
+              capacityLabel,
+            primaryStressor:
+              factorLabel || '',
+            notes:
+              summaryParts.join(' '),
+          }),
         },
-        body: JSON.stringify({
-          userEmail,
-          ladderId: selectedLadder.id,
-          ladderTitle: selectedLadder.title,
-          rungNumber: selectedRung.number,
-          rungTitle: selectedRung.title,
-          tankLevel: capacityLabel,
-          primaryStressor: factorLabel || '',
-          notes: summaryParts.join(' '),
-        }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Unable to save reflection');
+        throw new Error(
+          'Unable to save reflection',
+        );
       }
 
       setSaved(true);
     } catch (saveError) {
       console.error(saveError);
+
       setError(
         'This reflection could not be saved. Please try again.',
       );
@@ -184,11 +273,15 @@ export default function RegulationLadders({
     }
   };
 
-  if (!selectedLadder || !selectedRung) {
+  if (
+    !selectedLadder ||
+    !selectedRung
+  ) {
     return (
-      <section className="rounded-3xl border border-[#E6E2DC] bg-white p-6">
-        <p className="text-sm text-[#6A7873]">
-          No regulation ladders are available yet.
+      <section className="rounded-4xl border border-[#E5DED4] bg-white p-7">
+        <p className="text-lg text-[#65736D]">
+          No regulation ladders are
+          available yet.
         </p>
       </section>
     );
@@ -196,140 +289,224 @@ export default function RegulationLadders({
 
   return (
     <div className="space-y-10">
-      {/* INTRO */}
-      <section className="overflow-hidden rounded-3xl bg-[#1C3B34] text-white">
-        <div className="p-6 sm:p-8">
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D8C28D]">
-            Regulator Champions
+
+      {/* HOW TO USE THE LADDERS */}
+      <section className="overflow-hidden rounded-4xl bg-[#1C3B34] text-white shadow-lg">
+        <div className="p-7 sm:p-9">
+          <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+            How to use a Regulation Ladder
           </span>
 
-          <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-3xl">
-            Practice Ladders
+          <h2 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight sm:text-5xl">
+            You are not trying to complete
+            the ladder.
           </h2>
 
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/80">
-            Start with one rung. Try it in real practice, notice what
-            happens and save a quick reflection.
+          <p className="mt-5 max-w-4xl text-xl leading-relaxed text-[#D8E1DC]">
+            Use it when something feels
+            difficult. Choose one rung,
+            try one idea and notice what
+            happens.
           </p>
 
-          <div className="mt-5 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-white/90">
-            Notice → Try → Watch → Reflect
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {HOW_TO_USE_STEPS.map(
+              (step) => (
+                <article
+                  key={step.number}
+                  className="rounded-3xl border border-white/10 bg-white/5 p-5"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#C29F60] text-base font-extrabold text-[#1C3B34]">
+                    {step.number}
+                  </span>
+
+                  <h3 className="mt-4 text-lg font-extrabold text-white">
+                    {step.title}
+                  </h3>
+
+                  <p className="mt-2 text-base leading-relaxed text-[#C8D6D0]">
+                    {step.text}
+                  </p>
+                </article>
+              ),
+            )}
+          </div>
+
+          <div className="mt-7 rounded-3xl border border-[#C29F60]/40 bg-[#C29F60]/10 p-5">
+            <p className="text-lg font-extrabold text-[#E4C98E]">
+              The goal is not to make the
+              behaviour disappear as quickly
+              as possible.
+            </p>
+
+            <p className="mt-2 text-lg leading-relaxed text-[#D8E1DC]">
+              The goal is to understand more,
+              respond thoughtfully and learn
+              what helps this child in this
+              context.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* AVAILABLE NOW */}
+      {/* STEP 1 */}
       <section>
-        <div className="mb-4">
-          <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
-            Available now
+        <div className="mb-5">
+          <span className="inline-flex rounded-full bg-[#FAF5EC] px-4 py-2 text-sm font-extrabold text-[#9A793D]">
+            Step 1
           </span>
 
-          <h3 className="mt-1 text-xl font-extrabold text-[#1C3B34]">
-            Choose a practice ladder
+          <h3 className="mt-4 text-3xl font-extrabold text-[#1C3B34]">
+            What is hard right now?
           </h3>
+
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#65736D]">
+            Choose the ladder that sounds
+            closest to what your team is
+            dealing with. You do not need
+            to diagnose the child or be
+            certain why it is happening.
+          </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {availableLadders.map((ladder) => {
-            const isSelected = ladder.id === selectedLadder.id;
+        <div className="grid gap-5 md:grid-cols-2">
+          {availableLadders.map(
+            (ladder) => {
+              const isSelected =
+                ladder.id ===
+                selectedLadder.id;
 
-            return (
-              <button
-                key={ladder.id}
-                type="button"
-                onClick={() => selectLadder(ladder)}
-                className={`min-h-40 rounded-3xl border-2 p-5 text-left transition ${
-                  isSelected
-                    ? 'border-[#1C3B34] bg-[#F1F4F2] shadow-sm'
-                    : 'border-[#E6E2DC] bg-white hover:border-[#657B6C]'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-black ${
-                      isSelected
-                        ? 'bg-[#1C3B34] text-white'
-                        : 'bg-[#FAF5EC] text-[#1C3B34]'
-                    }`}
-                  >
-                    {ladder.number}
-                  </span>
-
-                  {isSelected && (
-                    <span className="rounded-full bg-[#1C3B34] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">
-                      Open
+              return (
+                <button
+                  key={ladder.id}
+                  type="button"
+                  onClick={() =>
+                    selectLadder(ladder)
+                  }
+                  className={`min-h-48 rounded-4xl border-2 p-6 text-left transition ${
+                    isSelected
+                      ? 'border-[#1C3B34] bg-[#F1F4F2] shadow-md'
+                      : 'border-[#E5DED4] bg-white hover:border-[#657B6C]'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <span
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${
+                        isSelected
+                          ? 'bg-[#1C3B34] text-white'
+                          : 'bg-[#FAF5EC] text-[#1C3B34]'
+                      }`}
+                    >
+                      {ladder.number}
                     </span>
-                  )}
-                </div>
 
-                <h4 className="mt-4 text-lg font-extrabold text-[#1C3B34]">
-                  {ladder.title}
-                </h4>
+                    {isSelected && (
+                      <span className="rounded-full bg-[#1C3B34] px-4 py-2 text-sm font-extrabold text-white">
+                        Selected
+                      </span>
+                    )}
+                  </div>
 
-                <p className="mt-2 text-xs leading-relaxed text-[#6A7873]">
-                  {ladder.subtitle}
-                </p>
-              </button>
-            );
-          })}
+                  <h4 className="mt-5 text-2xl font-extrabold text-[#1C3B34]">
+                    {ladder.title}
+                  </h4>
+
+                  <p className="mt-3 text-lg leading-relaxed text-[#65736D]">
+                    {ladder.subtitle}
+                  </p>
+                </button>
+              );
+            },
+          )}
         </div>
       </section>
 
       {/* ACTIVE LADDER */}
-      <section className="overflow-hidden rounded-3xl border border-[#E6E2DC] bg-white shadow-sm">
-        <div className="border-b border-[#E6E2DC] bg-[#FAF8F5] p-5 sm:p-6">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C29F60]">
-                Ladder {selectedLadder.number}
-              </span>
+      <section className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white shadow-sm">
 
-              <h3 className="mt-1 text-2xl font-extrabold text-[#1C3B34]">
-                {selectedLadder.title}
-              </h3>
+        {/* LADDER INTRO */}
+        <div className="border-b border-[#E5DED4] bg-[#FAF8F5] p-7 sm:p-9">
+          <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+            You chose Ladder{' '}
+            {selectedLadder.number}
+          </span>
 
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#6A7873]">
-                {selectedLadder.description}
-              </p>
-            </div>
+          <h3 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+            {selectedLadder.title}
+          </h3>
+
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#65736D]">
+            {selectedLadder.description}
+          </p>
+
+          <div className="mt-7 rounded-3xl bg-white p-5">
+            <p className="text-lg font-extrabold text-[#1C3B34]">
+              What do I do now?
+            </p>
+
+            <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+              Look through the rung numbers
+              below. Open one. Read the
+              practical suggestion. Try it
+              during a real moment. Then
+              come back and reflect.
+            </p>
           </div>
 
           {/* PRINTABLE CARDS */}
-          <div className="mt-5">
-            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.16em] text-[#657B6C]">
-              Printable cards
+          <div className="mt-7">
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#657B6C]">
+              Optional printable support
             </p>
 
-            <div className="flex flex-wrap gap-2">
-              {selectedLadder.printables.educator && (
+            <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+              These are here if your team
+              prefers something printed in
+              the room. You do not need
+              them to use the ladder.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              {selectedLadder.printables
+                .educator && (
                 <a
-                  href={selectedLadder.printables.educator}
+                  href={
+                    selectedLadder
+                      .printables.educator
+                  }
                   target="_blank"
                   rel="noreferrer"
-                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#284E45]"
+                  className="flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-5 py-3 text-base font-bold text-white transition hover:bg-[#284E45]"
                 >
                   Educator Cards
                 </a>
               )}
 
-              {selectedLadder.printables.manager && (
+              {selectedLadder.printables
+                .manager && (
                 <a
-                  href={selectedLadder.printables.manager}
+                  href={
+                    selectedLadder
+                      .printables.manager
+                  }
                   target="_blank"
                   rel="noreferrer"
-                  className="flex min-h-12 items-center justify-center rounded-xl border border-[#1C3B34] bg-white px-4 py-2 text-xs font-bold text-[#1C3B34] transition hover:bg-[#F1F4F2]"
+                  className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-[#1C3B34] bg-white px-5 py-3 text-base font-bold text-[#1C3B34]"
                 >
                   Manager Cards
                 </a>
               )}
 
-              {selectedLadder.printables.family && (
+              {selectedLadder.printables
+                .family && (
                 <a
-                  href={selectedLadder.printables.family}
+                  href={
+                    selectedLadder
+                      .printables.family
+                  }
                   target="_blank"
                   rel="noreferrer"
-                  className="flex min-h-12 items-center justify-center rounded-xl border border-[#C29F60] bg-[#FAF5EC] px-4 py-2 text-xs font-bold text-[#7E632F] transition hover:bg-[#F5EBD8]"
+                  className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-[#C29F60] bg-[#FAF5EC] px-5 py-3 text-base font-bold text-[#7E632F]"
                 >
                   Family Cards
                 </a>
@@ -338,47 +515,61 @@ export default function RegulationLadders({
           </div>
         </div>
 
-        {/* RUNG SELECTOR */}
-        <div className="border-b border-[#E6E2DC] p-5 sm:p-6">
-          <div className="mb-3 flex items-end justify-between gap-4">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
-                Choose a rung
-              </span>
+        {/* STEP 2 */}
+        <div className="border-b border-[#E5DED4] p-7 sm:p-9">
+          <span className="inline-flex rounded-full bg-[#FAF5EC] px-4 py-2 text-sm font-extrabold text-[#9A793D]">
+            Step 2
+          </span>
 
-              <p className="mt-1 text-xs text-[#6A7873]">
-                You do not need to complete them all at once.
-              </p>
-            </div>
+          <h3 className="mt-4 text-3xl font-extrabold text-[#1C3B34]">
+            Choose one rung.
+          </h3>
 
-            <span className="shrink-0 text-xs font-bold text-[#657B6C]">
-              {selectedRung.number} of {selectedLadder.rungs.length}
-            </span>
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#65736D]">
+            You do not need to begin at
+            rung one, finish every rung or
+            move through them in one day.
+            Choose the rung that feels most
+            useful right now.
+          </p>
+
+          <div className="mt-6 flex items-center justify-between gap-4">
+            <p className="text-base font-bold text-[#65736D]">
+              Currently viewing rung{' '}
+              {selectedRung.number} of{' '}
+              {selectedLadder.rungs.length}
+            </p>
           </div>
 
-          <div className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-2">
-            {selectedLadder.rungs.map((rung) => {
-              const isSelected = rung.number === selectedRung.number;
+          <div className="mt-5 -mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-3">
+            {selectedLadder.rungs.map(
+              (rung) => {
+                const isSelected =
+                  rung.number ===
+                  selectedRung.number;
 
-              return (
-                <button
-                  key={rung.number}
-                  type="button"
-                  onClick={() => selectRung(rung)}
-                  className={`min-h-12 min-w-12 shrink-0 snap-start rounded-xl border px-4 text-xs font-black transition ${
-                    isSelected
-                      ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
-                      : 'border-[#E6E2DC] bg-white text-[#657B6C] hover:border-[#657B6C]'
-                  }`}
-                >
-                  {rung.number}
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={rung.number}
+                    type="button"
+                    onClick={() =>
+                      selectRung(rung)
+                    }
+                    className={`min-h-14 min-w-14 shrink-0 snap-start rounded-2xl border-2 px-5 text-base font-extrabold transition ${
+                      isSelected
+                        ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
+                        : 'border-[#E5DED4] bg-white text-[#65736D] hover:border-[#657B6C]'
+                    }`}
+                  >
+                    {rung.number}
+                  </button>
+                );
+              },
+            )}
           </div>
         </div>
 
-        {/* RUNG CONTENT */}
+        {/* STEP 3 */}
         <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
           <div className="bg-[#F4F1EA]">
             <div className="aspect-4/3 overflow-hidden">
@@ -390,89 +581,138 @@ export default function RegulationLadders({
             </div>
           </div>
 
-          <div className="p-5 sm:p-7">
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C29F60]">
-              Rung {selectedRung.number}
+          <div className="p-7 sm:p-9">
+            <span className="inline-flex rounded-full bg-[#FAF5EC] px-4 py-2 text-sm font-extrabold text-[#9A793D]">
+              Step 3 · Try this rung
             </span>
 
-            <h4 className="mt-1 text-2xl font-extrabold leading-tight text-[#1C3B34]">
+            <h4 className="mt-4 text-3xl font-extrabold leading-tight text-[#1C3B34]">
               {selectedRung.title}
             </h4>
 
-            <p className="mt-3 text-sm font-bold leading-relaxed text-[#2B3833]">
+            <p className="mt-4 text-xl font-bold leading-relaxed text-[#2B3833]">
               {selectedRung.focus}
             </p>
 
-            <div className="mt-5 rounded-2xl bg-[#FAF5EC] p-4">
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#9A793D]">
-                Try this
+            <div className="mt-7 rounded-3xl border-l-4 border-[#C29F60] bg-[#FAF5EC] p-6">
+              <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#9A793D]">
+                What to try
               </span>
 
-              <p className="mt-2 text-sm leading-relaxed text-[#2B3833]">
+              <p className="mt-3 text-lg leading-relaxed text-[#2B3833]">
                 {selectedRung.practicePrompt}
               </p>
             </div>
 
-            <div className="mt-4 rounded-2xl bg-[#F1F4F2] p-4">
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
-                Notice
+            <div className="mt-5 rounded-3xl bg-[#F1F4F2] p-6">
+              <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#657B6C]">
+                Step 4 · Watch what happens
               </span>
 
-              <p className="mt-2 text-sm font-bold leading-relaxed text-[#1C3B34]">
+              <p className="mt-3 text-lg font-bold leading-relaxed text-[#1C3B34]">
                 {selectedRung.reflectionQuestion}
+              </p>
+            </div>
+
+            <div className="mt-5 rounded-3xl border border-[#E5DED4] bg-white p-5">
+              <p className="text-base font-extrabold text-[#1C3B34]">
+                Do not only ask:
+              </p>
+
+              <p className="mt-1 text-lg text-[#65736D]">
+                “Did the behaviour stop?”
+              </p>
+
+              <p className="mt-4 text-base font-extrabold text-[#1C3B34]">
+                Also notice:
+              </p>
+
+              <p className="mt-1 text-lg leading-relaxed text-[#65736D]">
+                Did the child soften, slow
+                down, reconnect, tolerate the
+                transition, process your
+                words, stay nearby or recover
+                more easily?
               </p>
             </div>
           </div>
         </div>
 
-        {/* QUICK REFLECTION */}
-        <div className="border-t border-[#E6E2DC] bg-[#FAF8F5] p-5 sm:p-7">
-          <div className="max-w-3xl">
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
-              30 second reflection
-            </span>
+        {/* STEP 5 REFLECTION */}
+        <div className="border-t border-[#E5DED4] bg-[#FAF8F5] p-7 sm:p-9">
+          <span className="inline-flex rounded-full bg-[#1C3B34] px-4 py-2 text-sm font-extrabold text-white">
+            Step 5
+          </span>
 
-            <h4 className="mt-1 text-lg font-extrabold text-[#1C3B34]">
-              How were you travelling in that moment?
-            </h4>
+          <h4 className="mt-4 text-3xl font-extrabold text-[#1C3B34]">
+            Take 30 seconds to reflect.
+          </h4>
 
-            <p className="mt-1 text-xs leading-relaxed text-[#6A7873]">
-              Tap the closest match. There is no perfect answer.
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#65736D]">
+            This is not a test. You are
+            simply capturing what was
+            happening so your team can learn
+            from the moment.
+          </p>
+
+          <div className="mt-8">
+            <p className="text-lg font-extrabold text-[#1C3B34]">
+              How were you travelling in
+              that moment?
             </p>
 
-            <div className="mt-4 grid gap-2 sm:grid-cols-3">
-              {CAPACITY_OPTIONS.map((option) => {
-                const isSelected = capacity === option.id;
+            <p className="mt-2 text-base text-[#65736D]">
+              Choose the closest match.
+            </p>
 
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => {
-                      setCapacity(option.id);
-                      setSaved(false);
-                      setError('');
-                    }}
-                    className={`min-h-14 rounded-2xl border-2 px-4 py-3 text-left text-xs font-bold transition ${
-                      isSelected
-                        ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
-                        : 'border-[#E6E2DC] bg-white text-[#2B3833] hover:border-[#657B6C]'
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              {CAPACITY_OPTIONS.map(
+                (option) => {
+                  const isSelected =
+                    capacity === option.id;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => {
+                        setCapacity(
+                          option.id,
+                        );
+                        setSaved(false);
+                        setError('');
+                      }}
+                      className={`min-h-16 rounded-2xl border-2 px-5 py-4 text-left text-base font-bold transition ${
+                        isSelected
+                          ? 'border-[#1C3B34] bg-[#1C3B34] text-white'
+                          : 'border-[#E5DED4] bg-white text-[#2B3833] hover:border-[#657B6C]'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                },
+              )}
             </div>
+          </div>
 
-            <div className="mt-6">
-              <p className="text-xs font-bold text-[#1C3B34]">
-                Was anything adding pressure?
-              </p>
+          <div className="mt-8">
+            <p className="text-lg font-extrabold text-[#1C3B34]">
+              Was anything adding pressure
+              to the room?
+            </p>
 
-              <div className="mt-2 flex flex-wrap gap-2">
-                {ROOM_FACTORS.map((factor) => {
-                  const isSelected = roomFactor === factor.id;
+            <p className="mt-2 text-base text-[#65736D]">
+              Optional. Choose one if it
+              stood out.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              {ROOM_FACTORS.map(
+                (factor) => {
+                  const isSelected =
+                    roomFactor ===
+                    factor.id;
 
                   return (
                     <button
@@ -480,153 +720,234 @@ export default function RegulationLadders({
                       type="button"
                       onClick={() => {
                         setRoomFactor(
-                          roomFactor === factor.id ? null : factor.id,
+                          roomFactor ===
+                            factor.id
+                            ? null
+                            : factor.id,
                         );
+
                         setSaved(false);
                       }}
-                      className={`min-h-12 rounded-xl border px-4 py-2 text-xs font-bold transition ${
+                      className={`min-h-14 rounded-2xl border-2 px-5 py-3 text-base font-bold transition ${
                         isSelected
                           ? 'border-[#657B6C] bg-[#657B6C] text-white'
-                          : 'border-[#E6E2DC] bg-white text-[#2B3833]'
+                          : 'border-[#E5DED4] bg-white text-[#2B3833]'
                       }`}
                     >
                       {factor.label}
                     </button>
                   );
-                })}
-              </div>
+                },
+              )}
             </div>
-
-            <div className="mt-6">
-              <label
-                htmlFor="ladder-note"
-                className="text-xs font-bold text-[#1C3B34]"
-              >
-                Anything worth remembering?
-              </label>
-
-              <textarea
-                id="ladder-note"
-                value={note}
-                onChange={(event) => {
-                  setNote(event.target.value.slice(0, 160));
-                  setSaved(false);
-                }}
-                maxLength={160}
-                rows={2}
-                placeholder="Optional. One short note is enough."
-                className="mt-2 w-full resize-none rounded-2xl border border-[#E6E2DC] bg-white p-4 text-sm text-[#2B3833] outline-none transition placeholder:text-[#9AA49F] focus:border-[#657B6C]"
-              />
-
-              <div className="mt-1 text-right text-[10px] text-[#8A9691]">
-                {note.length}/160
-              </div>
-            </div>
-
-            {error && (
-              <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
-                {error}
-              </div>
-            )}
-
-            {saved && (
-              <div className="mt-4 rounded-xl border border-[#657B6C]/30 bg-[#F1F4F2] p-3 text-xs font-bold text-[#1C3B34]">
-                Saved to your practice log.
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving}
-              className="mt-5 flex min-h-12 w-full items-center justify-center rounded-xl bg-[#1C3B34] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#284E45] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              {saving ? 'Saving...' : 'Save to my practice log'}
-            </button>
           </div>
+
+          <div className="mt-8 max-w-3xl">
+            <label
+              htmlFor="ladder-note"
+              className="text-lg font-extrabold text-[#1C3B34]"
+            >
+              Anything worth remembering?
+            </label>
+
+            <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+              One short observation is
+              enough. For example: “He
+              stayed close instead of
+              running away when I stopped
+              repeating the instruction.”
+            </p>
+
+            <textarea
+              id="ladder-note"
+              value={note}
+              onChange={(event) => {
+                setNote(
+                  event.target.value.slice(
+                    0,
+                    160,
+                  ),
+                );
+                setSaved(false);
+              }}
+              maxLength={160}
+              rows={3}
+              placeholder="Optional. One short note is enough."
+              className="mt-4 w-full resize-none rounded-2xl border-2 border-[#E5DED4] bg-white p-5 text-base leading-relaxed text-[#2B3833] outline-none transition placeholder:text-[#9AA49F] focus:border-[#657B6C]"
+            />
+
+            <div className="mt-2 text-right text-sm text-[#8A9691]">
+              {note.length}/160
+            </div>
+          </div>
+
+          {error && (
+            <div className="mt-5 max-w-3xl rounded-2xl border border-red-200 bg-red-50 p-4 text-base font-bold text-red-700">
+              {error}
+            </div>
+          )}
+
+          {saved && (
+            <div className="mt-5 max-w-3xl rounded-2xl border border-[#657B6C]/30 bg-[#F1F4F2] p-5">
+              <p className="text-lg font-extrabold text-[#1C3B34]">
+                Saved to your practice log.
+              </p>
+
+              <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+                Now decide what makes sense:
+                repeat this rung, try another
+                rung, discuss it with your
+                team or bring the situation
+                to monthly coaching.
+              </p>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#284E45] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          >
+            {saving
+              ? 'Saving…'
+              : 'Save my reflection'}
+          </button>
+        </div>
+      </section>
+
+      {/* WHAT NEXT */}
+      <section className="rounded-4xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-7 sm:p-9">
+        <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+          What do I do next?
+        </span>
+
+        <h3 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+          You have four good options.
+        </h3>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <NextStepCard
+            title="Repeat"
+            text="Try the same rung again in a similar moment."
+          />
+
+          <NextStepCard
+            title="Move"
+            text="Choose another rung if this one did not fit the situation."
+          />
+
+          <NextStepCard
+            title="Talk"
+            text="Bring what you noticed into a team reflection."
+          />
+
+          <NextStepCard
+            title="Ask"
+            text="Send the situation to Robyn through the Monthly Hub."
+          />
         </div>
       </section>
 
       {/* LAUNCHING SOON */}
-      {launchingSoonLadders.length > 0 && (
+      {launchingSoonLadders.length >
+        0 && (
         <section>
-          <div className="mb-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#C29F60]">
-              Next ladder
-            </span>
+          <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+            Next ladder
+          </span>
 
-            <h3 className="mt-1 text-xl font-extrabold text-[#1C3B34]">
-              Launching soon
-            </h3>
+          <h3 className="mt-2 text-3xl font-extrabold text-[#1C3B34]">
+            Launching soon
+          </h3>
+
+          <div className="mt-5 space-y-4">
+            {launchingSoonLadders.map(
+              (ladder) => (
+                <article
+                  key={ladder.id}
+                  className="rounded-4xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-7"
+                >
+                  <span className="text-sm font-extrabold text-[#9A793D]">
+                    Ladder {ladder.number}
+                  </span>
+
+                  <h4 className="mt-2 text-2xl font-extrabold text-[#1C3B34]">
+                    {ladder.title}
+                  </h4>
+
+                  <p className="mt-3 text-lg leading-relaxed text-[#65736D]">
+                    {ladder.description}
+                  </p>
+                </article>
+              ),
+            )}
           </div>
-
-          {launchingSoonLadders.map((ladder) => (
-            <div
-              key={ladder.id}
-              className="relative overflow-hidden rounded-3xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-6"
-            >
-              <div className="absolute right-0 top-0 rounded-bl-2xl bg-[#C29F60] px-4 py-2 text-[9px] font-black uppercase tracking-[0.16em] text-[#1C3B34]">
-                In development
-              </div>
-
-              <div className="max-w-2xl pr-16">
-                <span className="text-xs font-black text-[#9A793D]">
-                  Ladder {ladder.number}
-                </span>
-
-                <h4 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
-                  {ladder.title}
-                </h4>
-
-                <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                  {ladder.description}
-                </p>
-              </div>
-            </div>
-          ))}
         </section>
       )}
 
       {/* COMING SOON */}
       {comingSoonLadders.length > 0 && (
-        <section className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-5 sm:p-6">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#657B6C]">
-              Growing library
-            </span>
+        <section className="rounded-4xl border border-[#E5DED4] bg-[#FAF8F5] p-7">
+          <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
+            Growing practice library
+          </span>
 
-            <h3 className="mt-1 text-lg font-extrabold text-[#1C3B34]">
-              More practice ladders are coming
-            </h3>
+          <h3 className="mt-2 text-2xl font-extrabold text-[#1C3B34]">
+            More real-life situations are
+            being added.
+          </h3>
 
-            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-[#6A7873]">
-              New ladders will be added as the Regulator Champions
-              practice library grows.
-            </p>
-          </div>
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#65736D]">
+            New ladders will expand the
+            situations your team can work
+            through over time.
+          </p>
 
-          <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {comingSoonLadders.map((ladder) => (
-              <div
-                key={ladder.id}
-                className="rounded-2xl border border-[#E6E2DC] bg-white p-4"
-              >
-                <span className="text-[9px] font-black uppercase tracking-[0.16em] text-[#9A793D]">
-                  Coming soon
-                </span>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {comingSoonLadders.map(
+              (ladder) => (
+                <article
+                  key={ladder.id}
+                  className="rounded-3xl border border-[#E5DED4] bg-white p-5"
+                >
+                  <span className="text-sm font-extrabold text-[#9A793D]">
+                    Coming soon
+                  </span>
 
-                <h4 className="mt-1 text-sm font-extrabold text-[#1C3B34]">
-                  {ladder.shortTitle}
-                </h4>
+                  <h4 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
+                    {ladder.shortTitle}
+                  </h4>
 
-                <p className="mt-1 text-[11px] leading-relaxed text-[#6A7873]">
-                  {ladder.subtitle}
-                </p>
-              </div>
-            ))}
+                  <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+                    {ladder.subtitle}
+                  </p>
+                </article>
+              ),
+            )}
           </div>
         </section>
       )}
     </div>
+  );
+}
+
+function NextStepCard({
+  title,
+  text,
+}: {
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="rounded-3xl bg-white p-5">
+      <h4 className="text-xl font-extrabold text-[#1C3B34]">
+        {title}
+      </h4>
+
+      <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+        {text}
+      </p>
+    </article>
   );
 }

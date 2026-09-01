@@ -6,25 +6,27 @@ const siteUrl =
 
 export const metadata: Metadata = {
   title:
-    "Early Childhood Co-Regulation Professional Learning | Regulator Champions",
+    "Regulator Champions | Practical Regulation Support for Early Childhood Teams",
 
   description:
-    "Whole-service professional learning helping early childhood educators notice what children's bodies are communicating, understand behaviour, strengthen co-regulation and respond with greater confidence in everyday moments.",
+    "Regulator Champions helps early childhood educators understand what children's behaviour and bodies may be communicating, respond with greater confidence, strengthen co-regulation and build more consistent practice across the whole service.",
 
   keywords: [
     "Regulator Champions",
+    "early childhood regulation support",
     "early childhood co-regulation",
-    "early childhood regulation",
-    "educator professional learning",
     "behaviour support early childhood",
     "sensory regulation children",
-    "co-regulation educators",
+    "educator professional learning",
     "early childhood behaviour",
+    "co-regulation educators",
     "educator confidence",
+    "whole service professional learning",
+    "early childhood transitions",
+    "early childhood behaviour strategies",
+    "early childhood sensory strategies",
     "School Readiness Funding",
     "Kindy Uplift",
-    "early childhood professional development",
-    "whole service professional learning",
     "Play Move Improve",
     "Robyn Papworth",
   ],
@@ -38,15 +40,15 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Regulator Champions",
     title:
-      "Early Childhood Co-Regulation Professional Learning | Regulator Champions",
+      "Regulator Champions | Know What to Try When a Child Is Struggling",
     description:
-      "Practical whole-service professional learning helping educators notice children's body-based signs earlier, understand what may be happening beneath behaviour and respond through confident co-regulation.",
+      "Practical whole-service support helping educators notice what may be happening underneath behaviour, understand regulation needs and know what to try next.",
     images: [
       {
-        url: "/images/feed/01_babies_room.png",
+        url: "/images/feed/05_prep_transition.png",
         width: 1200,
         height: 630,
-        alt: "Early childhood educators supporting children through co-regulation",
+        alt: "Early childhood educator supporting a child during a difficult transition",
       },
     ],
   },
@@ -54,10 +56,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Early Childhood Co-Regulation Professional Learning | Regulator Champions",
+      "Regulator Champions | Practical Regulation Support for Educators",
     description:
-      "Whole-service professional learning for early childhood educators building stronger noticing, co-regulation and responsive practice.",
-    images: ["/images/feed/01_babies_room.png"],
+      "Help your early childhood team understand behaviour, notice regulation needs and respond with more confidence and consistency.",
+    images: ["/images/feed/05_prep_transition.png"],
   },
 
   robots: {
@@ -96,17 +98,18 @@ export default function HomePage() {
     "@id": `${siteUrl}/#robyn-papworth`,
     name: "Robyn Papworth",
     jobTitle:
-      "Exercise Physiologist and Developmental Educator",
+      "Accredited Exercise Physiologist and Developmental Educator",
     worksFor: {
       "@id": `${siteUrl}/#organization`,
     },
     knowsAbout: [
+      "Early childhood regulation",
       "Early childhood co-regulation",
       "Child development",
       "Sensory processing",
       "Movement development",
-      "Educator professional learning",
       "Early childhood behaviour",
+      "Educator professional learning",
       "Executive function",
       "Gross motor development",
     ],
@@ -119,7 +122,7 @@ export default function HomePage() {
     name: "Regulator Champions",
     url: siteUrl,
     description:
-      "Whole-service professional learning for early childhood educators supporting regulation, co-regulation, sensory needs and responsive practice.",
+      "Practical whole-service regulation support helping early childhood educators understand behaviour, strengthen co-regulation and know what to try when a child is struggling.",
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },
@@ -131,7 +134,7 @@ export default function HomePage() {
     "@type": "Course",
     name: "Regulator Champions",
     description:
-      "Whole-service professional learning helping early childhood educators understand children's body-based signs, sensory needs, behaviour and co-regulation across everyday routines.",
+      "Whole-service professional learning and practical regulation support helping early childhood educators notice body-based signs, understand what may sit underneath behaviour, strengthen co-regulation and respond more confidently in everyday situations.",
     provider: {
       "@id": `${siteUrl}/#organization`,
     },

@@ -1,10 +1,7 @@
 'use client';
 
-import React, {
-  FormEvent,
-  useState,
-} from 'react';
 import Link from 'next/link';
+import React, { FormEvent, useState } from 'react';
 
 import MemberSignOutButton from '@/components/MemberSignOutButton';
 import ProgressSummary from '@/components/feed/ProgressSummary';
@@ -13,6 +10,7 @@ import RegulationLadders from '@/components/feed/RegulationLadders';
 type HubView =
   | 'monthly'
   | 'resources'
+  | 'recordings'
   | 'ladders'
   | 'family'
   | 'progress';
@@ -55,15 +53,6 @@ const ATTENDANCE_OPTIONS = [
   'Live with colleagues',
   'Recording afterwards',
   'A mixture depending on the month',
-];
-
-const MONTHLY_SESSIONS = [
-  {
-    month: 'September',
-    date: 'Date being chosen by our founding Regulator Champion teams',
-    time: '',
-    topic: 'Notice Before We React',
-  },
 ];
 
 const FAMILY_BRIDGE_CARDS: FamilyBridgeCard[] = [
@@ -141,39 +130,66 @@ const FAMILY_BRIDGE_CARDS: FamilyBridgeCard[] = [
   },
 ];
 
-export default function MemberPortalPage() {
-  const [userEmail, setUserEmail] =
-    useState('');
+const NAV_ITEMS: {
+  value: HubView;
+  title: string;
+  description: string;
+}[] = [
+  {
+    value: 'monthly',
+    title: 'This Month',
+    description: 'Start here',
+  },
+  {
+    value: 'resources',
+    title: 'Resources',
+    description: 'Print and use',
+  },
+  {
+    value: 'recordings',
+    title: 'Recordings',
+    description: 'Watch when it suits',
+  },
+  {
+    value: 'ladders',
+    title: 'Regulation Ladders',
+    description: 'Work through a situation',
+  },
+  {
+    value: 'family',
+    title: 'Family Bridge',
+    description: 'Share with families',
+  },
+  {
+    value: 'progress',
+    title: 'My Progress',
+    description: 'Review your learning',
+  },
+];
 
+export default function MemberPortalPage() {
   const [hubView, setHubView] =
     useState<HubView>('monthly');
+
+  const [userEmail, setUserEmail] =
+    useState('');
 
   const [
     openingResource,
     setOpeningResource,
   ] = useState<string | null>(null);
 
-  const [
-    resourceError,
-    setResourceError,
-  ] = useState('');
+  const [resourceError, setResourceError] =
+    useState('');
 
   const [copiedCard, setCopiedCard] =
     useState<string | null>(null);
 
-  /*
-   * MONTHLY QUESTION FORM
-   */
+  const [whatNoticing, setWhatNoticing] =
+    useState('');
 
-  const [
-    whatNoticing,
-    setWhatNoticing,
-  ] = useState('');
-
-  const [
-    whatTried,
-    setWhatTried,
-  ] = useState('');
+  const [whatTried, setWhatTried] =
+    useState('');
 
   const [
     whatHelpUnderstanding,
@@ -195,10 +211,6 @@ export default function MemberPortalPage() {
     setQuestionMessage,
   ] = useState('');
 
-  /*
-   * SESSION VOTING FORM
-   */
-
   const [
     preferredDays,
     setPreferredDays,
@@ -209,10 +221,8 @@ export default function MemberPortalPage() {
     setPreferredTimes,
   ] = useState<string[]>([]);
 
-  const [
-    otherTime,
-    setOtherTime,
-  ] = useState('');
+  const [otherTime, setOtherTime] =
+    useState('');
 
   const [
     attendancePreference,
@@ -229,17 +239,13 @@ export default function MemberPortalPage() {
     setVoteStatus,
   ] = useState<SubmissionStatus>('idle');
 
-  const [
-    voteMessage,
-    setVoteMessage,
-  ] = useState('');
+  const [voteMessage, setVoteMessage] =
+    useState('');
 
   const cleanedEmail =
     userEmail.trim().toLowerCase();
 
-  const toggleDay = (
-    day: string,
-  ) => {
+  const toggleDay = (day: string) => {
     setPreferredDays((current) =>
       current.includes(day)
         ? current.filter(
@@ -249,9 +255,7 @@ export default function MemberPortalPage() {
     );
   };
 
-  const toggleTime = (
-    time: string,
-  ) => {
+  const toggleTime = (time: string) => {
     setPreferredTimes((current) =>
       current.includes(time)
         ? current.filter(
@@ -261,331 +265,312 @@ export default function MemberPortalPage() {
     );
   };
 
-  const handleQuestionSubmit =
-    async (
-      event: FormEvent<HTMLFormElement>,
-    ) => {
-      event.preventDefault();
+  const handleQuestionSubmit = async (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
 
-      setQuestionStatus('idle');
-      setQuestionMessage('');
+    setQuestionStatus('idle');
+    setQuestionMessage('');
 
-      if (
-        whatNoticing.trim().length < 10
-      ) {
-        setQuestionStatus('error');
-        setQuestionMessage(
-          'Please tell me a little more about what you are noticing.',
-        );
-        return;
-      }
+    if (whatNoticing.trim().length < 10) {
+      setQuestionStatus('error');
+      setQuestionMessage(
+        'Please tell me a little more about what you are noticing.',
+      );
+      return;
+    }
 
-      if (
-        !questionFirstName.trim()
-      ) {
-        setQuestionStatus('error');
-        setQuestionMessage(
-          'Please add your first name.',
-        );
-        return;
-      }
+    if (!questionFirstName.trim()) {
+      setQuestionStatus('error');
+      setQuestionMessage(
+        'Please add your first name.',
+      );
+      return;
+    }
 
-      setQuestionStatus(
-        'submitting',
+    setQuestionStatus('submitting');
+
+    try {
+      const response = await fetch(
+        '/api/monthly-question',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify({
+            whatNoticing:
+              whatNoticing.trim(),
+            whatTried: whatTried.trim(),
+            whatHelpUnderstanding:
+              whatHelpUnderstanding.trim(),
+            firstName:
+              questionFirstName.trim(),
+          }),
+        },
       );
 
+      let result: ApiResponse = {};
+
       try {
-        const response = await fetch(
-          '/api/monthly-question',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify({
-              whatNoticing:
-                whatNoticing.trim(),
-              whatTried:
-                whatTried.trim(),
-              whatHelpUnderstanding:
-                whatHelpUnderstanding.trim(),
-              firstName:
-                questionFirstName.trim(),
-            }),
-          },
-        );
-
-        let result: ApiResponse = {};
-
-        try {
-          result =
-            (await response.json()) as ApiResponse;
-        } catch {
-          result = {};
-        }
-
-        if (
-          !response.ok ||
-          result.success !== true
-        ) {
-          throw new Error(
-            result.error ??
-              'Your question could not be submitted.',
-          );
-        }
-
-        setQuestionStatus('success');
-        setQuestionMessage(
-          'Thank you. I’ve got it.',
-        );
-
-        setWhatNoticing('');
-        setWhatTried('');
-        setWhatHelpUnderstanding('');
-      } catch (error) {
-        console.error(
-          'Monthly question submission failed:',
-          error,
-        );
-
-        setQuestionStatus('error');
-        setQuestionMessage(
-          error instanceof Error
-            ? error.message
-            : 'Your question could not be submitted. Please try again.',
-        );
-      }
-    };
-
-  const handleVoteSubmit =
-    async (
-      event: FormEvent<HTMLFormElement>,
-    ) => {
-      event.preventDefault();
-
-      setVoteStatus('idle');
-      setVoteMessage('');
-
-      if (
-        preferredDays.length === 0
-      ) {
-        setVoteStatus('error');
-        setVoteMessage(
-          'Please choose at least one preferred day.',
-        );
-        return;
+        result =
+          (await response.json()) as ApiResponse;
+      } catch {
+        result = {};
       }
 
       if (
-        preferredTimes.length === 0
+        !response.ok ||
+        result.success !== true
       ) {
-        setVoteStatus('error');
-        setVoteMessage(
-          'Please choose at least one preferred time.',
+        throw new Error(
+          result.error ??
+            'Your question could not be submitted.',
         );
-        return;
+      }
+
+      setQuestionStatus('success');
+      setQuestionMessage(
+        'Thank you. I’ve got it.',
+      );
+
+      setWhatNoticing('');
+      setWhatTried('');
+      setWhatHelpUnderstanding('');
+    } catch (error) {
+      console.error(
+        'Monthly question submission failed:',
+        error,
+      );
+
+      setQuestionStatus('error');
+      setQuestionMessage(
+        error instanceof Error
+          ? error.message
+          : 'Your question could not be submitted. Please try again.',
+      );
+    }
+  };
+
+  const handleVoteSubmit = async (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
+
+    setVoteStatus('idle');
+    setVoteMessage('');
+
+    if (preferredDays.length === 0) {
+      setVoteStatus('error');
+      setVoteMessage(
+        'Please choose at least one preferred day.',
+      );
+      return;
+    }
+
+    if (preferredTimes.length === 0) {
+      setVoteStatus('error');
+      setVoteMessage(
+        'Please choose at least one preferred time.',
+      );
+      return;
+    }
+
+    if (
+      preferredTimes.includes('Other') &&
+      !otherTime.trim()
+    ) {
+      setVoteStatus('error');
+      setVoteMessage(
+        'Please tell me what other time usually works for your team.',
+      );
+      return;
+    }
+
+    if (!attendancePreference) {
+      setVoteStatus('error');
+      setVoteMessage(
+        'Please tell me how you would usually attend.',
+      );
+      return;
+    }
+
+    if (!voteFirstName.trim()) {
+      setVoteStatus('error');
+      setVoteMessage(
+        'Please add your first name.',
+      );
+      return;
+    }
+
+    setVoteStatus('submitting');
+
+    try {
+      const response = await fetch(
+        '/api/monthly-session-vote',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify({
+            preferredDays,
+            preferredTimes,
+            otherTime: otherTime.trim(),
+            attendancePreference,
+            firstName:
+              voteFirstName.trim(),
+          }),
+        },
+      );
+
+      let result: ApiResponse = {};
+
+      try {
+        result =
+          (await response.json()) as ApiResponse;
+      } catch {
+        result = {};
       }
 
       if (
-        preferredTimes.includes(
-          'Other',
-        ) &&
-        !otherTime.trim()
+        !response.ok ||
+        result.success !== true
       ) {
-        setVoteStatus('error');
-        setVoteMessage(
-          'Please tell me what other time usually works for your team.',
+        throw new Error(
+          result.error ??
+            'Your session preferences could not be submitted.',
         );
-        return;
       }
 
-      if (!attendancePreference) {
-        setVoteStatus('error');
-        setVoteMessage(
-          'Please tell me how you would usually attend.',
-        );
-        return;
-      }
+      setVoteStatus('success');
+      setVoteMessage(
+        'Thank you. Your preferences have been received.',
+      );
+    } catch (error) {
+      console.error(
+        'Monthly session vote failed:',
+        error,
+      );
 
-      if (!voteFirstName.trim()) {
-        setVoteStatus('error');
-        setVoteMessage(
-          'Please add your first name.',
-        );
-        return;
-      }
+      setVoteStatus('error');
+      setVoteMessage(
+        error instanceof Error
+          ? error.message
+          : 'Your session preferences could not be submitted. Please try again.',
+      );
+    }
+  };
 
-      setVoteStatus('submitting');
+  const openMemberResource = async (
+    file: string,
+  ) => {
+    setOpeningResource(file);
+    setResourceError('');
 
-      try {
-        const response = await fetch(
-          '/api/monthly-session-vote',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify({
-              preferredDays,
-              preferredTimes,
-              otherTime:
-                otherTime.trim(),
-              attendancePreference,
-              firstName:
-                voteFirstName.trim(),
-            }),
+    try {
+      const response = await fetch(
+        '/api/member-resource',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
           },
-        );
+          body: JSON.stringify({
+            file,
+          }),
+        },
+      );
 
-        let result: ApiResponse = {};
+      const result =
+        (await response.json()) as {
+          success?: boolean;
+          url?: string;
+          error?: string;
+        };
 
-        try {
-          result =
-            (await response.json()) as ApiResponse;
-        } catch {
-          result = {};
-        }
-
-        if (
-          !response.ok ||
-          result.success !== true
-        ) {
-          throw new Error(
-            result.error ??
-              'Your session preferences could not be submitted.',
-          );
-        }
-
-        setVoteStatus('success');
-        setVoteMessage(
-          'Thank you. Your preferences have been received.',
-        );
-      } catch (error) {
-        console.error(
-          'Monthly session vote failed:',
-          error,
-        );
-
-        setVoteStatus('error');
-        setVoteMessage(
-          error instanceof Error
-            ? error.message
-            : 'Your session preferences could not be submitted. Please try again.',
+      if (
+        !response.ok ||
+        result.success !== true ||
+        !result.url
+      ) {
+        throw new Error(
+          result.error ??
+            'The member resource could not be opened.',
         );
       }
-    };
 
-  const openMemberResource =
-    async (file: string) => {
-      setOpeningResource(file);
-      setResourceError('');
+      window.open(
+        result.url,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } catch (error) {
+      console.error(
+        'Member resource open failed:',
+        error,
+      );
 
-      try {
-        const response = await fetch(
-          '/api/member-resource',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type':
-                'application/json',
-            },
-            body: JSON.stringify({
-              file,
-            }),
-          },
-        );
+      setResourceError(
+        error instanceof Error
+          ? error.message
+          : 'The member resource could not be opened. Please try again.',
+      );
+    } finally {
+      setOpeningResource(null);
+    }
+  };
 
-        const result =
-          (await response.json()) as {
-            success?: boolean;
-            url?: string;
-            error?: string;
-          };
-
-        if (
-          !response.ok ||
-          result.success !== true ||
-          !result.url
-        ) {
-          throw new Error(
-            result.error ??
-              'The member resource could not be opened.',
-          );
-        }
-
-        window.open(
-          result.url,
-          '_blank',
-          'noopener,noreferrer',
-        );
-      } catch (error) {
-        console.error(
-          'Member resource open failed:',
-          error,
-        );
-
-        setResourceError(
-          error instanceof Error
-            ? error.message
-            : 'The member resource could not be opened. Please try again.',
-        );
-      } finally {
-        setOpeningResource(null);
-      }
-    };
-
-  const copyFamilyCard =
-    async (
-      card: FamilyBridgeCard,
-    ) => {
-      const copyText = `${card.educatorMessage}
+  const copyFamilyCard = async (
+    card: FamilyBridgeCard,
+  ) => {
+    const copyText = `${card.educatorMessage}
 
 A question for you:
 ${card.familyQuestion}`;
 
-      try {
-        await navigator.clipboard.writeText(
-          copyText,
-        );
+    try {
+      await navigator.clipboard.writeText(
+        copyText,
+      );
 
-        setCopiedCard(card.title);
+      setCopiedCard(card.title);
 
-        window.setTimeout(() => {
-          setCopiedCard((current) =>
-            current === card.title
-              ? null
-              : current,
-          );
-        }, 1800);
-      } catch (error) {
-        console.error(
-          'Copy failed:',
-          error,
+      window.setTimeout(() => {
+        setCopiedCard((current) =>
+          current === card.title
+            ? null
+            : current,
         );
-      }
-    };
+      }, 1800);
+    } catch (error) {
+      console.error('Copy failed:', error);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] pb-20 font-sans text-[#1C3B34]">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b-2 border-[#E6E2DC] bg-white px-4 py-3">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#FAF8F5] pb-20 text-[#1C3B34]">
+      {/* PORTAL HEADER */}
+      <header className="sticky top-0 z-40 border-b border-[#E5DED4] bg-white/95 shadow-sm backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-6">
           <div>
-            <span className="block text-[10px] font-black uppercase tracking-widest text-[#C29F60]">
+            <span className="block text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
               Regulator Champions
             </span>
 
-            <h1 className="text-base font-bold text-[#1C3B34] md:text-lg">
-              Service Practice Hub
+            <h1 className="mt-1 text-xl font-extrabold text-[#1C3B34] sm:text-2xl">
+              Educator Hub
             </h1>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link
               href="/platform/educator"
-              className="hidden min-h-12 items-center rounded-xl bg-[#657B6C] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#53665A] sm:flex"
+              className="hidden min-h-12 items-center rounded-2xl bg-[#657B6C] px-5 py-3 text-base font-bold text-white transition hover:bg-[#53665A] sm:flex"
             >
               Floor Deck
             </Link>
@@ -595,201 +580,191 @@ ${card.familyQuestion}`;
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl space-y-8 px-4 py-6">
+      <main className="mx-auto max-w-7xl space-y-8 px-5 py-8 sm:px-6 sm:py-10">
+
         {/* WELCOME */}
-        <section className="rounded-4xl border-2 border-[#1C3B34] bg-[#1C3B34] p-6 text-white shadow-sm md:p-8">
-          <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
-            <div>
-              <span className="inline-block rounded-full bg-[#C29F60] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#1C3B34]">
-                Your Regulator Champions Space
+        <section className="overflow-hidden rounded-4xl bg-[#1C3B34] text-white shadow-lg">
+          <div className="grid lg:grid-cols-[1.25fr_0.75fr]">
+            <div className="p-7 sm:p-10">
+              <span className="inline-flex rounded-full bg-[#C29F60] px-4 py-2 text-sm font-extrabold text-[#1C3B34]">
+                Your place to start
               </span>
 
-              <h2 className="mt-4 max-w-2xl text-2xl font-bold leading-tight text-white md:text-4xl">
-                Notice. Ask. Try. Come
-                back and talk about what
-                happened.
+              <h2 className="mt-6 max-w-3xl text-4xl font-extrabold leading-tight sm:text-5xl">
+                Notice something. Try something. Come back when you need help.
               </h2>
 
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
-                Regulator Champions is
-                designed to stay connected
-                to the real moments
-                happening in your rooms.
-                Use this space throughout
-                the month, not just when
-                you are completing
-                training.
+              <p className="mt-6 max-w-3xl text-xl leading-relaxed text-[#D8E1DC]">
+                You do not need to work through
+                everything at once. Start with
+                whatever is making today harder
+                for your team.
               </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setHubView('monthly')
+                  }
+                  className="min-h-14 rounded-2xl bg-[#C29F60] px-6 py-4 text-base font-extrabold text-[#1C3B34]"
+                >
+                  Start with this month
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setHubView('ladders')
+                  }
+                  className="min-h-14 rounded-2xl border border-white/20 bg-white/5 px-6 py-4 text-base font-bold text-white"
+                >
+                  Open Regulation Ladders
+                </button>
+              </div>
             </div>
 
-            <Link
-              href="/platform/manager"
-              className="flex min-h-12 items-center rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-white/20"
-            >
-              Manager QIP Dashboard
-            </Link>
+            <div className="bg-[#16332D] p-7 sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+                Remember
+              </span>
+
+              <div className="mt-5 space-y-5">
+                <QuickReminder
+                  number="1"
+                  title="Notice"
+                  text="What is the child’s body telling you?"
+                />
+
+                <QuickReminder
+                  number="2"
+                  title="Get curious"
+                  text="What might be making this moment hard?"
+                />
+
+                <QuickReminder
+                  number="3"
+                  title="Try"
+                  text="Make one thoughtful adjustment."
+                />
+
+                <QuickReminder
+                  number="4"
+                  title="Reflect"
+                  text="What changed after you responded differently?"
+                />
+              </div>
+
+              <Link
+                href="/platform/manager"
+                className="mt-8 flex min-h-14 items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-center text-base font-bold text-white transition hover:bg-white/10"
+              >
+                Manager QIP Dashboard
+              </Link>
+            </div>
           </div>
         </section>
 
-        {/* MAIN NAVIGATION */}
+        {/* HUB NAVIGATION */}
         <nav
           aria-label="Regulator Champions member hub"
-          className="grid grid-cols-2 gap-3 text-sm font-bold md:grid-cols-3 lg:grid-cols-5"
+          className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6"
         >
-          <HubButton
-            active={
-              hubView === 'monthly'
-            }
-            label="Monthly Hub"
-            onClick={() =>
-              setHubView('monthly')
-            }
-          />
-
-          <HubButton
-            active={
-              hubView === 'resources'
-            }
-            label="Resources"
-            onClick={() =>
-              setHubView('resources')
-            }
-          />
-
-          <HubButton
-            active={
-              hubView === 'ladders'
-            }
-            label="Regulation Ladders"
-            onClick={() =>
-              setHubView('ladders')
-            }
-          />
-
-          <HubButton
-            active={
-              hubView === 'family'
-            }
-            label="Family Bridge"
-            onClick={() =>
-              setHubView('family')
-            }
-          />
-
-          <HubButton
-            active={
-              hubView === 'progress'
-            }
-            label="My Progress"
-            onClick={() =>
-              setHubView('progress')
-            }
-          />
+          {NAV_ITEMS.map((item) => (
+            <HubButton
+              key={item.value}
+              active={hubView === item.value}
+              title={item.title}
+              description={item.description}
+              onClick={() =>
+                setHubView(item.value)
+              }
+            />
+          ))}
         </nav>
 
         {/* MONTHLY HUB */}
         {hubView === 'monthly' && (
           <div className="space-y-8">
-            {/* MONTH INTRO */}
-            <section className="overflow-hidden rounded-4xl border-2 border-[#E6E2DC] bg-white shadow-sm">
-              <div className="bg-[#FAF5EC] p-6 md:p-8">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9A793D]">
-                  September in
-                  Regulator Champions
-                </span>
 
-                <h2 className="mt-3 text-3xl font-bold leading-tight text-[#1C3B34] md:text-4xl">
-                  Notice Before We React
-                </h2>
-
-                <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#53645D]">
-                  This month we are
-                  practising one thing:
-                  noticing the
-                  child&apos;s body before
-                  deciding what the
-                  behaviour means.
-                </p>
-              </div>
-
-              <div className="grid gap-0 md:grid-cols-[1.15fr_0.85fr]">
-                <div className="p-6 md:p-8">
-                  <span className="text-xs font-black uppercase tracking-widest text-[#657B6C]">
-                    Try it in your room
-                    this month
+            {/* THIS MONTH */}
+            <section className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white shadow-sm">
+              <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
+                <div className="p-7 sm:p-10">
+                  <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                    September focus
                   </span>
 
-                  <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                    Choose one child or
-                    one recurring part of
-                    the day where things
-                    tend to become
-                    difficult. Instead of
-                    immediately changing
-                    the behaviour, spend
-                    some time noticing
-                    what changes in the
-                    child&apos;s body
-                    first.
+                  <h2 className="mt-3 text-4xl font-extrabold text-[#1C3B34] sm:text-5xl">
+                    Notice Before We React
+                  </h2>
+
+                  <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#53645D]">
+                    This month we are practising
+                    one thing: noticing what
+                    happens in the child&apos;s
+                    body before deciding what
+                    their behaviour means.
                   </p>
 
-                  <div className="mt-5 space-y-2 border-l-4 border-[#C29F60] pl-5 text-sm font-semibold leading-relaxed text-[#1C3B34]">
-                    <p>
-                      What happens to their
-                      movement?
+                  <div className="mt-8 rounded-3xl bg-[#FAF5EC] p-6">
+                    <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#657B6C]">
+                      Try this
+                    </span>
+
+                    <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
+                      Choose one child or one
+                      recurring part of the day
+                      that often becomes
+                      difficult. Before trying
+                      to stop the behaviour,
+                      notice:
                     </p>
 
-                    <p>
-                      Their voice?
-                    </p>
+                    <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                      {[
+                        'What happens to their movement?',
+                        'What happens to their voice?',
+                        'What changes in their posture?',
+                        'Can they still process your words?',
+                        'What happened immediately beforehand?',
+                        'What changes when you slow down?',
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="flex gap-3 rounded-2xl bg-white p-4"
+                        >
+                          <span className="font-extrabold text-[#C29F60]">
+                            ✓
+                          </span>
 
-                    <p>
-                      Their posture?
-                    </p>
-
-                    <p>
-                      Their ability to
-                      process your words?
-                    </p>
-
-                    <p>
-                      What happened
-                      immediately
-                      beforehand?
-                    </p>
+                          <p className="text-base font-bold leading-relaxed text-[#2B3833]">
+                            {item}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <p className="mt-5 text-sm leading-relaxed text-[#53645D]">
-                    You do not need to
-                    solve everything.
-                  </p>
-
-                  <p className="mt-2 font-bold text-[#1C3B34]">
-                    Notice first. Bring
-                    your questions with
-                    you. We will build
-                    from there.
+                  <p className="mt-6 text-xl font-extrabold text-[#1C3B34]">
+                    You do not need to solve
+                    everything. Notice first.
                   </p>
                 </div>
 
-                <div className="flex flex-col justify-center bg-[#1C3B34] p-6 text-white md:p-8">
-                  <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#E4C98E]">
-                    This month&apos;s
-                    practical resource
+                <div className="flex flex-col justify-center bg-[#1C3B34] p-7 text-white sm:p-9">
+                  <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+                    This month&apos;s tool
                   </span>
 
-                  <h3 className="mt-3 text-2xl font-bold leading-tight text-white">
-                    What Is the
-                    Child&apos;s Body
-                    Telling Me?
+                  <h3 className="mt-4 text-3xl font-extrabold leading-tight">
+                    What Is the Child&apos;s Body Telling Me?
                   </h3>
 
-                  <p className="mt-3 text-sm leading-relaxed text-white/80">
-                    A two-page noticing
-                    checklist for
-                    educators to use
-                    before behaviour
-                    becomes the whole
+                  <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+                    A simple two-page noticing
+                    checklist to use before
+                    behaviour becomes the whole
                     story.
                   </p>
 
@@ -797,176 +772,77 @@ ${card.familyQuestion}`;
                     href="/pdf/What-Is-the-Childs-Body-Telling-Me.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-5 py-3 text-center text-sm font-bold text-[#1C3B34] transition hover:bg-[#D1B477]"
+                    className="mt-7 flex min-h-14 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-4 text-center text-base font-extrabold text-[#1C3B34]"
                   >
-                    Open the Two-Page
-                    Checklist
+                    Open the checklist
                   </a>
-
                 </div>
               </div>
             </section>
 
-            {/* MONTHLY SCHEDULE */}
-            <section className="rounded-4xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm md:p-8">
-              <div className="max-w-3xl">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-[#C29F60]">
-                  Monthly Sessions
-                </span>
+            {/* SESSION STATUS */}
+            <section className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                Monthly coaching
+              </span>
 
-                <h2 className="mt-2 text-2xl font-bold text-[#1C3B34] md:text-3xl">
-                  What&apos;s coming up
-                </h2>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+                September: Notice Before We React
+              </h2>
 
-                <p className="mt-3 text-sm leading-relaxed text-[#6A7873]">
-                  Your live session date
-                  will appear here as
-                  soon as this
-                  month&apos;s voting is
-                  complete.
+              <div className="mt-6 rounded-3xl border border-[#E5DED4] bg-[#FAF8F5] p-6">
+                <p className="text-lg font-extrabold text-[#1C3B34]">
+                  Date being chosen by our
+                  founding Regulator Champion
+                  teams.
                 </p>
-              </div>
 
-              <div className="mt-6 space-y-3">
-                {MONTHLY_SESSIONS.map(
-                  (session) => (
-                    <article
-                      key={`${session.month}-${session.topic}`}
-                      className="grid gap-4 rounded-3xl border-2 border-[#E6E2DC] bg-[#FAF8F5] p-5 md:grid-cols-[150px_1fr] md:p-6"
-                    >
-                      <div>
-                        <span className="text-xs font-black uppercase tracking-widest text-[#9A793D]">
-                          {session.month}
-                        </span>
-                      </div>
-
-                      <div>
-                        <h3 className="text-lg font-bold text-[#1C3B34]">
-                          {
-                            session.topic
-                          }
-                        </h3>
-
-                        <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
-                          {session.date}
-                          {session.time
-                            ? ` · ${session.time}`
-                            : ''}
-                        </p>
-                      </div>
-                    </article>
-                  ),
-                )}
+                <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+                  Vote below. The confirmed
+                  date will appear here once
+                  responses have been reviewed.
+                </p>
               </div>
             </section>
 
-            {/* VOTING */}
-            <section className="rounded-4xl border-2 border-[#C29F60]/60 bg-[#FAF5EC] p-6 shadow-sm md:p-8">
-              <div className="max-w-3xl">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-[#9A793D]">
-                  September Schedule
-                </span>
+            {/* VOTE */}
+            <section className="rounded-4xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                Help choose the session time
+              </span>
 
-                <h2 className="mt-2 text-2xl font-bold text-[#1C3B34] md:text-3xl">
-                  Help Us Choose Our First
-                  Monthly Session
-                </h2>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+                What actually works for your team?
+              </h2>
 
-                <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
-                  Our first Regulator
-                  Champions monthly
-                  session will be held
-                  towards the end of
-                  September.
-                </p>
+              <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+                Choose every day and time that
+                could realistically work. I
+                will use the most popular
+                combination for our first
+                monthly session.
+              </p>
 
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  Rather than choosing a
-                  time that suits me and
-                  hoping educators can
-                  attend, I would like our
-                  first Regulator
-                  Champion teams to help
-                  shape the schedule.
-                </p>
-
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  Tell me which days and
-                  times are most
-                  realistic for your
-                  team. I will look at
-                  the responses at the
-                  end of this week and
-                  choose the option that
-                  works for the greatest
-                  number of educators.
-                </p>
-
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  The confirmed September
-                  date and our ongoing
-                  monthly schedule will
-                  then appear here.
-                </p>
-              </div>
-
-              {voteStatus ===
-              'success' ? (
-                <div
-                  role="status"
-                  className="mt-7 rounded-3xl border-2 border-[#A8C5B7] bg-white p-6"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E7F1EC] font-black text-[#1C3B34]">
-                    ✓
-                  </div>
-
-                  <h3 className="mt-4 text-xl font-bold text-[#1C3B34]">
-                    Thank you.
-                  </h3>
-
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#53645D]">
-                    Your preferences have
-                    been received. I will
-                    compare responses
-                    across our founding
-                    Regulator Champion
-                    teams before
-                    confirming the
-                    September session.
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setVoteStatus(
-                        'idle',
-                      );
-                      setPreferredDays(
-                        [],
-                      );
-                      setPreferredTimes(
-                        [],
-                      );
-                      setOtherTime('');
-                      setAttendancePreference(
-                        '',
-                      );
-                    }}
-                    className="mt-5 text-sm font-bold text-[#657B6C] underline-offset-4 hover:underline"
-                  >
-                    Submit another
-                    response
-                  </button>
-                </div>
+              {voteStatus === 'success' ? (
+                <SuccessBox
+                  title="Thank you. Your preferences are in."
+                  text="I’ll compare the responses across participating teams before confirming the September session."
+                  buttonLabel="Submit another response"
+                  onClick={() => {
+                    setVoteStatus('idle');
+                    setPreferredDays([]);
+                    setPreferredTimes([]);
+                    setOtherTime('');
+                    setAttendancePreference('');
+                  }}
+                />
               ) : (
                 <form
-                  onSubmit={
-                    handleVoteSubmit
-                  }
-                  className="mt-7 space-y-7"
+                  onSubmit={handleVoteSubmit}
+                  className="mt-8 space-y-8"
                 >
                   <FormGroup
-                    label="Which days could work for your team?"
+                    label="Which days could work?"
                     helper="Choose as many as you like."
                   >
                     <div className="grid gap-3 sm:grid-cols-3">
@@ -1001,9 +877,7 @@ ${card.familyQuestion}`;
                             )}
                             label={time}
                             onClick={() =>
-                              toggleTime(
-                                time,
-                              )
+                              toggleTime(time)
                             }
                           />
                         ),
@@ -1015,26 +889,20 @@ ${card.familyQuestion}`;
                     ) && (
                       <input
                         type="text"
-                        value={
-                          otherTime
-                        }
-                        onChange={(
-                          event,
-                        ) =>
+                        value={otherTime}
+                        onChange={(event) =>
                           setOtherTime(
-                            event
-                              .target
-                              .value,
+                            event.target.value,
                           )
                         }
-                        placeholder="Tell me another time that usually works"
-                        className="mt-3 min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-white px-4 py-3 text-sm text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                        placeholder="Tell me another time that works"
+                        className="mt-4 min-h-14 w-full rounded-2xl border-2 border-[#E5DED4] bg-white px-5 py-4 text-base text-[#1C3B34] outline-none focus:border-[#657B6C]"
                       />
                     )}
                   </FormGroup>
 
                   <FormGroup label="How would you usually attend?">
-                    <div className="grid gap-3 md:grid-cols-2">
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {ATTENDANCE_OPTIONS.map(
                         (option) => (
                           <SelectionButton
@@ -1043,9 +911,7 @@ ${card.familyQuestion}`;
                               attendancePreference ===
                               option
                             }
-                            label={
-                              option
-                            }
+                            label={option}
                             onClick={() =>
                               setAttendancePreference(
                                 option,
@@ -1057,49 +923,27 @@ ${card.familyQuestion}`;
                     </div>
                   </FormGroup>
 
-                  <div className="grid gap-4 sm:grid-cols-[1fr_1.2fr]">
-                    <FormField
-                      label="Your first name"
+                  <FormField
+                    label="Your first name"
+                    required
+                  >
+                    <input
+                      type="text"
                       required
-                    >
-                      <input
-                        type="text"
-                        required
-                        value={
-                          voteFirstName
-                        }
-                        onChange={(
-                          event,
-                        ) =>
-                          setVoteFirstName(
-                            event
-                              .target
-                              .value,
-                          )
-                        }
-                        className="min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-white px-4 py-3 text-sm text-[#1C3B34] outline-none focus:border-[#657B6C]"
-                      />
-                    </FormField>
+                      value={voteFirstName}
+                      onChange={(event) =>
+                        setVoteFirstName(
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-14 w-full rounded-2xl border-2 border-[#E5DED4] bg-white px-5 py-4 text-base text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                    />
+                  </FormField>
 
-                    <div className="rounded-2xl border border-[#D9D2C8] bg-white/70 p-4">
-                      <p className="text-xs font-bold uppercase tracking-wider text-[#9A793D]">
-                        Your service
-                      </p>
-
-                      <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
-                        Your response will automatically be matched to the service connected to your Regulator Champions access code.
-                      </p>
-                    </div>
-                  </div>
-
-                  {voteStatus ===
-                    'error' && (
-                    <p
-                      role="alert"
-                      className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold leading-relaxed text-rose-800"
-                    >
+                  {voteStatus === 'error' && (
+                    <ErrorBox>
                       {voteMessage}
-                    </p>
+                    </ErrorBox>
                   )}
 
                   <button
@@ -1108,129 +952,90 @@ ${card.familyQuestion}`;
                       voteStatus ===
                       'submitting'
                     }
-                    className="min-h-12 rounded-2xl bg-[#1C3B34] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#284E45] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-14 rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#284E45] disabled:opacity-60"
                   >
                     {voteStatus ===
                     'submitting'
-                      ? 'Sending preferences…'
-                      : 'Submit My Preferences'}
+                      ? 'Sending…'
+                      : 'Submit my preferences'}
                   </button>
                 </form>
               )}
             </section>
 
-            {/* ASK A QUESTION */}
-            <section className="rounded-4xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm md:p-8">
-              <div className="max-w-3xl">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-[#657B6C]">
-                  Ask Robyn
-                </span>
+            {/* RECORDING NOTE */}
+            <section className="rounded-4xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                Cannot get educators off the floor?
+              </span>
 
-                <h2 className="mt-2 text-2xl font-bold text-[#1C3B34] md:text-3xl">
-                  What are you noticing in
-                  your room?
-                </h2>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+                You do not have to attend live.
+              </h2>
 
-                <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
-                  Regulator Champions is
-                  designed to grow from
-                  the real moments
-                  happening in early
-                  childhood settings, so
-                  throughout the month I
-                  would love you to send
-                  through the situations
-                  you are finding
-                  difficult, confusing or
-                  interesting.
-                </p>
+              <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#53645D]">
+                Each monthly coaching session will be recorded and added to the
+                Recordings area of this Member Hub. Educators can watch later
+                when staffing, ratios and floor coverage allow.
+              </p>
 
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  Maybe a child is
-                  suddenly hiding during
-                  transitions. Maybe rough
-                  play is increasing.
-                  Maybe your team is
-                  unsure when to step in,
-                  when to wait, or why a
-                  strategy that usually
-                  works has stopped
-                  working.
-                </p>
+              <button
+                type="button"
+                onClick={() => setHubView('recordings')}
+                className="mt-6 min-h-14 rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#284E45]"
+              >
+                Open Recordings
+              </button>
+            </section>
 
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  Send your question below
-                  and I will use the
-                  themes coming through
-                  from Regulator Champion
-                  teams to shape our next
-                  monthly session.
-                </p>
-              </div>
+            {/* ASK ROBYN */}
+            <section className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
+                Ask Robyn
+              </span>
 
-              <div className="mt-6 rounded-2xl border border-[#C29F60]/60 bg-[#FAF5EC] p-5">
-                <strong className="block text-sm text-[#1C3B34]">
-                  Keep children and
-                  families de-identified.
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+                Stuck on something happening in your room?
+              </h2>
+
+              <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+                Send through the situation.
+                You do not need to have the
+                answer first. These real
+                questions help shape our
+                monthly coaching.
+              </p>
+
+              <div className="mt-6 rounded-3xl border border-[#C29F60]/50 bg-[#FAF5EC] p-5">
+                <strong className="text-lg text-[#1C3B34]">
+                  Keep children and families
+                  de-identified.
                 </strong>
 
-                <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
-                  Please do not include
-                  children&apos;s names,
-                  dates of birth, family
-                  names or other
-                  identifying
+                <p className="mt-2 text-base leading-relaxed text-[#53645D]">
+                  Do not include children&apos;s
+                  names, dates of birth, family
+                  names or other identifying
                   information.
                 </p>
               </div>
 
               {questionStatus ===
               'success' ? (
-                <div
-                  role="status"
-                  className="mt-7 rounded-3xl border-2 border-[#A8C5B7] bg-[#F0F7F3] p-6 md:p-7"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white font-black text-[#1C3B34]">
-                    ✓
-                  </div>
-
-                  <h3 className="mt-4 text-xl font-bold text-[#1C3B34]">
-                    Thank you. I&apos;ve
-                    got it.
-                  </h3>
-
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#53645D]">
-                    Your question will
-                    help shape an
-                    upcoming Regulator
-                    Champions
-                    conversation.
-                    Questions may be
-                    discussed in a
-                    de-identified way so
-                    we can all learn from
-                    the patterns showing
-                    up across our rooms.
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setQuestionStatus(
-                        'idle',
-                      )
-                    }
-                    className="mt-5 text-sm font-bold text-[#657B6C] underline-offset-4 hover:underline"
-                  >
-                    Ask another question
-                  </button>
-                </div>
+                <SuccessBox
+                  title="Thank you. I’ve got it."
+                  text="Your question can help shape an upcoming Regulator Champions conversation. Any discussion will remain de-identified."
+                  buttonLabel="Ask another question"
+                  onClick={() =>
+                    setQuestionStatus('idle')
+                  }
+                />
               ) : (
                 <form
                   onSubmit={
                     handleQuestionSubmit
                   }
-                  className="mt-7 space-y-5"
+                  className="mt-8 space-y-6"
                 >
                   <FormField
                     label="What are you noticing?"
@@ -1239,19 +1044,14 @@ ${card.familyQuestion}`;
                     <textarea
                       required
                       rows={6}
-                      value={
-                        whatNoticing
-                      }
-                      onChange={(
-                        event,
-                      ) =>
+                      value={whatNoticing}
+                      onChange={(event) =>
                         setWhatNoticing(
-                          event.target
-                            .value,
+                          event.target.value,
                         )
                       }
                       placeholder="Describe the broad situation or pattern you are noticing..."
-                      className="w-full resize-y rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                      className="w-full resize-y rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
                     />
                   </FormField>
 
@@ -1262,16 +1062,13 @@ ${card.familyQuestion}`;
                     <textarea
                       rows={4}
                       value={whatTried}
-                      onChange={(
-                        event,
-                      ) =>
+                      onChange={(event) =>
                         setWhatTried(
-                          event.target
-                            .value,
+                          event.target.value,
                         )
                       }
                       placeholder="What has your team tried so far?"
-                      className="w-full resize-y rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                      className="w-full resize-y rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
                     />
                   </FormField>
 
@@ -1284,64 +1081,40 @@ ${card.familyQuestion}`;
                       value={
                         whatHelpUnderstanding
                       }
-                      onChange={(
-                        event,
-                      ) =>
+                      onChange={(event) =>
                         setWhatHelpUnderstanding(
-                          event.target
-                            .value,
+                          event.target.value,
                         )
                       }
-                      placeholder="What feels confusing or what would you like us to unpack together?"
-                      className="w-full resize-y rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                      placeholder="What feels confusing or what would you like unpacked?"
+                      className="w-full resize-y rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base leading-relaxed text-[#1C3B34] outline-none focus:border-[#657B6C]"
                     />
                   </FormField>
 
-                  <div className="grid gap-4 sm:grid-cols-[1fr_1.2fr]">
-                    <FormField
-                      label="Your first name"
+                  <FormField
+                    label="Your first name"
+                    required
+                  >
+                    <input
+                      type="text"
                       required
-                    >
-                      <input
-                        type="text"
-                        required
-                        value={
-                          questionFirstName
-                        }
-                        onChange={(
-                          event,
-                        ) =>
-                          setQuestionFirstName(
-                            event
-                              .target
-                              .value,
-                          )
-                        }
-                        className="min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3 text-sm text-[#1C3B34] outline-none focus:border-[#657B6C]"
-                      />
-                    </FormField>
-
-                    <div className="rounded-2xl border border-[#E6E2DC] bg-[#FAF8F5] p-4">
-                      <p className="text-xs font-bold uppercase tracking-wider text-[#9A793D]">
-                        Your service
-                      </p>
-
-                      <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
-                        Your question will automatically be matched to the service connected to your Regulator Champions access code.
-                      </p>
-                    </div>
-                  </div>
+                      value={
+                        questionFirstName
+                      }
+                      onChange={(event) =>
+                        setQuestionFirstName(
+                          event.target.value,
+                        )
+                      }
+                      className="min-h-14 w-full rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base text-[#1C3B34] outline-none focus:border-[#657B6C]"
+                    />
+                  </FormField>
 
                   {questionStatus ===
                     'error' && (
-                    <p
-                      role="alert"
-                      className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold leading-relaxed text-rose-800"
-                    >
-                      {
-                        questionMessage
-                      }
-                    </p>
+                    <ErrorBox>
+                      {questionMessage}
+                    </ErrorBox>
                   )}
 
                   <button
@@ -1350,12 +1123,12 @@ ${card.familyQuestion}`;
                       questionStatus ===
                       'submitting'
                     }
-                    className="min-h-12 rounded-2xl bg-[#657B6C] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#53665A] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-14 rounded-2xl bg-[#657B6C] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#53665A] disabled:opacity-60"
                   >
                     {questionStatus ===
                     'submitting'
-                      ? 'Sending your question…'
-                      : 'Submit my question'}
+                      ? 'Sending…'
+                      : 'Send my question to Robyn'}
                   </button>
                 </form>
               )}
@@ -1363,148 +1136,121 @@ ${card.familyQuestion}`;
           </div>
         )}
 
-        {/* MEMBER RESOURCES */}
-        {hubView === 'resources' && (
-          <div className="space-y-6">
-            {/* EMAIL MATCHING */}
-            <section className="space-y-3 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-              <div>
-                <h3 className="text-base font-bold text-[#1C3B34]">
-                  Work email for
-                  reflection matching
-                </h3>
+        {/* RECORDINGS */}
+        {hubView === 'recordings' && (
+          <div className="space-y-8">
+            <SectionIntro
+              eyebrow="Monthly Coaching Recordings"
+              title="Watch when your team has time."
+              text="Live attendance is optional. Each monthly coaching session will be added here so educators can catch up when staffing and floor coverage allow."
+            />
 
-                <p className="mt-1 text-xs leading-relaxed text-[#6A7873]">
-                  Enter your work email
-                  to match saved ladder
-                  progress and QIP
-                  reflection notes.
-                </p>
+            <section className="rounded-4xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                Recording library
+              </span>
+
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+                Your first recording will appear here after the first monthly coaching session.
+              </h2>
+
+              <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#53645D]">
+                There are no recordings yet because the first Regulator Champions
+                monthly coaching session has not run. Once sessions begin, each
+                recording will be added here with the topic and a short explanation
+                of what the session helps educators work through.
+              </p>
+
+              <div className="mt-7 grid gap-4 md:grid-cols-3">
+                <RecordingFeature
+                  title="Watch later"
+                  text="Educators can catch up when they are able to step away from the floor."
+                />
+
+                <RecordingFeature
+                  title="Revisit a topic"
+                  text="Return to a session when the same type of situation appears again."
+                />
+
+                <RecordingFeature
+                  title="Keep asking questions"
+                  text="If the recording does not answer the situation, send a private question to Robyn through This Month."
+                />
               </div>
-
-              <input
-                id="practice-email"
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                value={userEmail}
-                onChange={(event) =>
-                  setUserEmail(
-                    event.target.value,
-                  )
-                }
-                placeholder="educator@service.com.au"
-                className="min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm font-medium text-[#1C3B34] outline-none focus:border-[#657B6C]"
-              />
             </section>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="flex flex-col justify-between space-y-4 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-                <div>
-                  <span className="block text-xs font-black uppercase text-[#C29F60]">
-                    Ladder 1 Foundation
-                  </span>
+            <section className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
+                First monthly topic
+              </span>
 
-                  <h3 className="mt-2 text-lg font-bold text-[#1C3B34]">
-                    Morning Action Plans
-                  </h3>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+                Notice Before We React
+              </h2>
 
-                  <p className="mt-2 text-xs leading-relaxed text-[#6A7873]">
-                    Prompts for arrivals,
-                    drop-off handovers and
-                    transition setups.
-                  </p>
-                </div>
+              <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+                Once the September coaching session has been held, its recording
+                can be placed here for your team to watch and revisit.
+              </p>
 
-                <Link
-                  href="/playbooks"
-                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#657B6C] px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-[#53665A]"
-                >
-                  Open Action Plans
-                </Link>
-              </div>
+              <button
+                type="button"
+                onClick={() => setHubView('monthly')}
+                className="mt-6 min-h-14 rounded-2xl bg-[#657B6C] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#53665A]"
+              >
+                Go to This Month
+              </button>
+            </section>
+          </div>
+        )}
 
-              <div className="flex flex-col justify-between space-y-4 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-                <div>
-                  <span className="block text-xs font-black uppercase text-[#657B6C]">
-                    Ladder 2 Learning
-                  </span>
+        {/* RESOURCES */}
+        {hubView === 'resources' && (
+          <div className="space-y-8">
+            <SectionIntro
+              eyebrow="Resource Library"
+              title="Find something useful for the room today."
+              text="Open the tools, cards and reflection resources your team can use without having to work through a long course first."
+            />
 
-                  <h3 className="mt-2 text-lg font-bold text-[#1C3B34]">
-                    EASE Model Practices
-                  </h3>
+            <EmailBox
+              value={userEmail}
+              onChange={setUserEmail}
+            />
 
-                  <p className="mt-2 text-xs leading-relaxed text-[#6A7873]">
-                    Reduce sensory load
-                    and respond earlier
-                    when pressure is
-                    building.
-                  </p>
-                </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              <ResourceCard
+                eyebrow="Ladder 1"
+                title="Morning Action Plans"
+                text="Practical prompts for arrivals, drop-off handovers and transition setups."
+                href="/playbooks"
+                button="Open Action Plans"
+              />
 
-                <Link
-                  href="/month-2-ease"
-                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#657B6C] px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-[#53665A]"
-                >
-                  Open EASE Model
-                </Link>
-              </div>
-
-              <div className="flex flex-col justify-between space-y-4 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-                <div>
-                  <span className="block text-xs font-black uppercase text-[#1C3B34]">
-                    Practice Leadership
-                  </span>
-
-                  <h3 className="mt-2 text-lg font-bold text-[#1C3B34]">
-                    NQS &amp; QIP Matrix
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-relaxed text-[#6A7873]">
-                    Connect professional
-                    learning and floor
-                    practice with NQS
-                    elements and QIP
-                    evidence.
-                  </p>
-                </div>
-
-                <Link
-                  href="/nqs-mapping"
-                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-4 py-3 text-center text-xs font-bold text-white transition hover:bg-[#284E45]"
-                >
-                  Open NQS Matrix
-                </Link>
-              </div>
+              <ResourceCard
+                eyebrow="Practice Leadership"
+                title="NQS & QIP Matrix"
+                text="Connect professional learning and floor practice with NQS elements and QIP evidence."
+                href="/nqs-mapping"
+                button="Open NQS Matrix"
+              />
             </div>
 
-            {/* PRINTABLE VAULT */}
-            <div className="space-y-4 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm md:p-8">
-              <div>
-                <span className="mb-1 block text-xs font-black uppercase text-[#C29F60]">
-                  Printable Vault
-                </span>
+            <section className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+                Printable Vault
+              </span>
 
-                <h3 className="text-xl font-bold text-[#1C3B34]">
-                  Room posters and
-                  strategy card downloads
-                </h3>
+              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+                Print it. Put it in the room. Use it.
+              </h2>
 
-                <p className="mt-1 text-xs leading-relaxed text-[#6A7873]">
-                  Open print-ready
-                  resources for educator
-                  rooms, leadership
-                  conversations and
-                  family continuity.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+              <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <a
                   href="/pdf/Morning-Routine-Ladder-Printable-Cards-Educators.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-12 items-center justify-center rounded-2xl bg-[#1C3B34] px-4 py-3.5 text-center text-xs font-bold text-white transition hover:bg-[#284E45]"
+                  className="flex min-h-16 items-center justify-center rounded-2xl bg-[#1C3B34] px-5 py-4 text-center text-base font-extrabold text-white"
                 >
                   Educator Routine Cards
                 </a>
@@ -1517,10 +1263,9 @@ ${card.familyQuestion}`;
                     )
                   }
                   disabled={
-                    openingResource !==
-                    null
+                    openingResource !== null
                   }
-                  className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-4 py-3.5 text-center text-xs font-bold text-[#1C3B34] transition hover:bg-[#D1B477] disabled:opacity-50"
+                  className="min-h-16 rounded-2xl bg-[#C29F60] px-5 py-4 text-base font-extrabold text-[#1C3B34] disabled:opacity-50"
                 >
                   {openingResource ===
                   'Calm-Posters.pdf'
@@ -1536,10 +1281,9 @@ ${card.familyQuestion}`;
                     )
                   }
                   disabled={
-                    openingResource !==
-                    null
+                    openingResource !== null
                   }
-                  className="flex min-h-12 items-center justify-center rounded-2xl bg-[#657B6C] px-4 py-3.5 text-center text-xs font-bold text-white transition hover:bg-[#53665A] disabled:opacity-50"
+                  className="min-h-16 rounded-2xl bg-[#657B6C] px-5 py-4 text-base font-extrabold text-white disabled:opacity-50"
                 >
                   {openingResource ===
                   'Morning-Routine-Ladder-Printable-Cards-Managers.pdf'
@@ -1555,10 +1299,9 @@ ${card.familyQuestion}`;
                     )
                   }
                   disabled={
-                    openingResource !==
-                    null
+                    openingResource !== null
                   }
-                  className="flex min-h-12 items-center justify-center rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-center text-xs font-bold text-[#1C3B34] transition hover:border-[#657B6C] disabled:opacity-50"
+                  className="min-h-16 rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base font-extrabold text-[#1C3B34] disabled:opacity-50"
                 >
                   {openingResource ===
                   'Morning-Routine-Ladder-Printable-Cards-Parents.pdf'
@@ -1568,43 +1311,33 @@ ${card.familyQuestion}`;
               </div>
 
               {resourceError && (
-                <p className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-bold text-rose-700">
-                  {resourceError}
-                </p>
+                <div className="mt-5">
+                  <ErrorBox>
+                    {resourceError}
+                  </ErrorBox>
+                </div>
               )}
-            </div>
+            </section>
           </div>
         )}
 
-        {/* REGULATION LADDERS */}
+        {/* LADDERS */}
         {hubView === 'ladders' && (
-          <div className="space-y-5">
-            <section className="space-y-3 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-              <h3 className="text-base font-bold text-[#1C3B34]">
-                Work email for saved
-                progress
-              </h3>
+          <div className="space-y-8">
+            <SectionIntro
+              eyebrow="Regulation Ladders"
+              title="Work through the situation that is hard right now."
+              text="Use the ladders to slow down the moment, notice what may be happening and choose what to try next."
+            />
 
-              <input
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                value={userEmail}
-                onChange={(event) =>
-                  setUserEmail(
-                    event.target.value,
-                  )
-                }
-                placeholder="educator@service.com.au"
-                className="min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm font-medium text-[#1C3B34] outline-none focus:border-[#657B6C]"
-              />
-            </section>
+            <EmailBox
+              value={userEmail}
+              onChange={setUserEmail}
+            />
 
-            <div className="rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
+            <div className="rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm sm:p-8">
               <RegulationLadders
-                userEmail={
-                  cleanedEmail
-                }
+                userEmail={cleanedEmail}
               />
             </div>
           </div>
@@ -1612,85 +1345,59 @@ ${card.familyQuestion}`;
 
         {/* FAMILY BRIDGE */}
         {hubView === 'family' && (
-          <div className="space-y-6">
-            <section className="rounded-3xl bg-[#1C3B34] p-6 text-white md:p-8">
-              <span className="text-xs font-black uppercase tracking-widest text-[#E4C98E]">
+          <div className="space-y-8">
+            <section className="rounded-4xl bg-[#1C3B34] p-7 text-white shadow-lg sm:p-9">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
                 Family Bridge
               </span>
 
-              <h2 className="mt-2 text-2xl font-bold md:text-3xl">
-                Keep the message short.
-                Keep the conversation
-                two-way.
+              <h2 className="mt-3 text-4xl font-extrabold">
+                Make family conversations easier.
               </h2>
 
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#D8E1DC]">
-                Choose a message that
-                reflects what educators
-                are practising today.
-                Copy it into your usual
-                family communication
-                platform, then invite the
-                family to share what they
-                notice too.
+              <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#D8E1DC]">
+                Choose a message that reflects
+                what your team is practising,
+                copy it into your usual family
+                communication platform and
+                invite the family to share what
+                they notice too.
               </p>
-
-              <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
-                <span className="block text-[10px] font-black uppercase tracking-widest text-[#E4C98E]">
-                  NQS practice connection
-                </span>
-
-                <p className="mt-1 text-xs leading-relaxed text-[#D8E1DC]">
-                  Supports Quality Area 6
-                  by strengthening
-                  respectful, two-way
-                  communication and
-                  inviting families to
-                  contribute knowledge
-                  about their child.
-                </p>
-              </div>
             </section>
 
-            <section className="grid gap-4 md:grid-cols-2">
+            <section className="grid gap-5 md:grid-cols-2">
               {FAMILY_BRIDGE_CARDS.map(
                 (card) => (
                   <article
                     key={card.title}
-                    className="flex flex-col justify-between rounded-3xl border-2 border-[#E6E2DC] bg-white p-5 shadow-sm"
+                    className="flex flex-col justify-between rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm"
                   >
                     <div>
-                      <span className="inline-flex rounded-full bg-[#FAF5EC] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#9A793D]">
+                      <span className="inline-flex rounded-full bg-[#FAF5EC] px-3 py-1.5 text-sm font-extrabold text-[#9A793D]">
                         {card.category}
                       </span>
 
-                      <h3 className="mt-3 text-lg font-bold text-[#1C3B34]">
+                      <h3 className="mt-4 text-2xl font-extrabold text-[#1C3B34]">
                         {card.title}
                       </h3>
 
-                      <div className="mt-4 rounded-2xl bg-[#FAF8F5] p-4">
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-[#657B6C]">
-                          Share with the
-                          family
+                      <div className="mt-5 rounded-3xl bg-[#FAF8F5] p-5">
+                        <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
+                          Share with the family
                         </span>
 
-                        <p className="mt-2 text-sm font-medium leading-relaxed text-[#2B3833]">
-                          {
-                            card.educatorMessage
-                          }
+                        <p className="mt-3 text-lg font-medium leading-relaxed text-[#2B3833]">
+                          {card.educatorMessage}
                         </p>
                       </div>
 
-                      <div className="mt-3 border-l-4 border-[#C29F60] pl-4">
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-[#657B6C]">
-                          Invite their
-                          knowledge
+                      <div className="mt-5 border-l-4 border-[#C29F60] pl-5">
+                        <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
+                          Ask them
                         </span>
 
-                        <p className="mt-1 text-sm leading-relaxed text-[#53645D]">
-                          {
-                            card.familyQuestion
-                          }
+                        <p className="mt-2 text-lg leading-relaxed text-[#53645D]">
+                          {card.familyQuestion}
                         </p>
                       </div>
                     </div>
@@ -1702,7 +1409,7 @@ ${card.familyQuestion}`;
                           card,
                         )
                       }
-                      className="mt-5 flex min-h-12 w-full items-center justify-center rounded-xl bg-[#1C3B34] px-4 py-3 text-xs font-bold text-white transition hover:bg-[#284E45]"
+                      className="mt-6 min-h-14 w-full rounded-2xl bg-[#1C3B34] px-5 py-4 text-base font-extrabold text-white"
                     >
                       {copiedCard ===
                       card.title
@@ -1714,28 +1421,20 @@ ${card.familyQuestion}`;
               )}
             </section>
 
-            <section className="rounded-3xl border-2 border-[#C29F60]/50 bg-[#FAF5EC] p-6">
-              <span className="text-xs font-black uppercase tracking-widest text-[#9A793D]">
-                Important practice note
-              </span>
-
-              <h3 className="mt-2 text-lg font-bold text-[#1C3B34]">
-                These are conversation
-                starters, not
-                instructions for
-                families.
+            <section className="rounded-4xl border border-[#C29F60]/50 bg-[#FAF5EC] p-7">
+              <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+                These are conversation starters,
+                not instructions for families.
               </h3>
 
-              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[#53645D]">
-                Families know their
-                child in contexts
-                educators do not see.
-                Their responses can help
-                the team understand
-                patterns, preferences,
-                strengths and what
-                already works outside
-                the service.
+              <p className="mt-3 max-w-4xl text-lg leading-relaxed text-[#53645D]">
+                Families know their child in
+                contexts educators do not see.
+                Their responses can help your
+                team understand patterns,
+                preferences, strengths and what
+                already works outside the
+                service.
               </p>
             </section>
           </div>
@@ -1743,33 +1442,21 @@ ${card.familyQuestion}`;
 
         {/* PROGRESS */}
         {hubView === 'progress' && (
-          <div className="space-y-5">
-            <section className="space-y-3 rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
-              <h3 className="text-base font-bold text-[#1C3B34]">
-                Work email for saved
-                progress
-              </h3>
+          <div className="space-y-8">
+            <SectionIntro
+              eyebrow="My Progress"
+              title="See what you have explored and reflected on."
+              text="Enter your work email so your saved learning and reflections can be matched to you."
+            />
 
-              <input
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                value={userEmail}
-                onChange={(event) =>
-                  setUserEmail(
-                    event.target.value,
-                  )
-                }
-                placeholder="educator@service.com.au"
-                className="min-h-12 w-full rounded-2xl border-2 border-[#E6E2DC] bg-[#FAF8F5] px-4 py-3.5 text-sm font-medium text-[#1C3B34] outline-none focus:border-[#657B6C]"
-              />
-            </section>
+            <EmailBox
+              value={userEmail}
+              onChange={setUserEmail}
+            />
 
-            <div className="rounded-3xl border-2 border-[#E6E2DC] bg-white p-6 shadow-sm">
+            <div className="rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm sm:p-8">
               <ProgressSummary
-                userEmail={
-                  cleanedEmail
-                }
+                userEmail={cleanedEmail}
               />
             </div>
           </div>
@@ -1781,31 +1468,67 @@ ${card.familyQuestion}`;
 
 function HubButton({
   active,
-  label,
+  title,
+  description,
   onClick,
 }: {
   active: boolean;
-  label: string;
+  title: string;
+  description: string;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-h-12 items-center justify-between rounded-2xl border-2 px-4 py-4 text-left transition ${
+      className={`min-h-24 rounded-3xl border-2 p-5 text-left transition ${
         active
           ? 'border-[#1C3B34] bg-[#1C3B34] text-white shadow-md'
-          : 'border-[#E6E2DC] bg-white text-[#1C3B34] hover:border-[#657B6C]'
+          : 'border-[#E5DED4] bg-white text-[#1C3B34] hover:border-[#657B6C]'
       }`}
     >
-      <span>{label}</span>
+      <span className="block text-lg font-extrabold">
+        {title}
+      </span>
 
-      {active && (
-        <span className="ml-2 text-[#C29F60]">
-          ●
-        </span>
-      )}
+      <span
+        className={`mt-1 block text-sm ${
+          active
+            ? 'text-[#D8E1DC]'
+            : 'text-[#65736D]'
+        }`}
+      >
+        {description}
+      </span>
     </button>
+  );
+}
+
+function QuickReminder({
+  number,
+  title,
+  text,
+}: {
+  number: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="flex gap-4">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#C29F60] font-extrabold text-[#1C3B34]">
+        {number}
+      </span>
+
+      <div>
+        <strong className="text-lg text-white">
+          {title}
+        </strong>
+
+        <p className="mt-1 text-base leading-relaxed text-[#C8D6D0]">
+          {text}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -1822,15 +1545,15 @@ function SelectionButton({
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-12 rounded-2xl border-2 px-4 py-3 text-left text-sm font-bold transition ${
+      className={`min-h-14 rounded-2xl border-2 px-5 py-4 text-left text-base font-bold transition ${
         active
           ? 'border-[#1C3B34] bg-[#1C3B34] text-white shadow-sm'
-          : 'border-[#E6E2DC] bg-white text-[#1C3B34] hover:border-[#657B6C]'
+          : 'border-[#E5DED4] bg-white text-[#1C3B34] hover:border-[#657B6C]'
       }`}
     >
-      <span className="flex items-center gap-2">
+      <span className="flex items-center gap-3">
         <span
-          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 text-[10px] ${
+          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 text-xs ${
             active
               ? 'border-[#C29F60] bg-[#C29F60] text-[#1C3B34]'
               : 'border-[#CFC8BD] bg-white'
@@ -1856,18 +1579,18 @@ function FormGroup({
 }) {
   return (
     <fieldset>
-      <legend className="text-sm font-bold text-[#1C3B34]">
+      <legend className="text-lg font-extrabold text-[#1C3B34]">
         {label}
       </legend>
 
       {helper && (
-        <p className="mb-3 mt-1 text-xs text-[#6A7873]">
+        <p className="mb-4 mt-1 text-base text-[#65736D]">
           {helper}
         </p>
       )}
 
       {!helper && (
-        <div className="h-3" />
+        <div className="h-4" />
       )}
 
       {children}
@@ -1888,7 +1611,7 @@ function FormField({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center gap-2 text-sm font-bold text-[#1C3B34]">
+      <span className="mb-3 flex flex-wrap items-center gap-2 text-lg font-extrabold text-[#1C3B34]">
         {label}
 
         {required && (
@@ -1898,7 +1621,7 @@ function FormField({
         )}
 
         {helper && (
-          <span className="text-xs font-normal text-[#6A7873]">
+          <span className="text-base font-normal text-[#65736D]">
             {helper}
           </span>
         )}
@@ -1906,5 +1629,177 @@ function FormField({
 
       {children}
     </label>
+  );
+}
+
+function SectionIntro({
+  eyebrow,
+  title,
+  text,
+}: {
+  eyebrow: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <section className="rounded-4xl bg-[#1C3B34] p-7 text-white shadow-lg sm:p-9">
+      <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+        {eyebrow}
+      </span>
+
+      <h2 className="mt-3 text-4xl font-extrabold sm:text-5xl">
+        {title}
+      </h2>
+
+      <p className="mt-5 max-w-4xl text-xl leading-relaxed text-[#D8E1DC]">
+        {text}
+      </p>
+    </section>
+  );
+}
+
+function EmailBox({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <section className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm">
+      <h3 className="text-xl font-extrabold text-[#1C3B34]">
+        Your work email
+      </h3>
+
+      <p className="mt-2 text-base leading-relaxed text-[#65736D]">
+        This matches saved progress and
+        reflection notes to you.
+      </p>
+
+      <input
+        type="email"
+        inputMode="email"
+        autoComplete="email"
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        placeholder="educator@service.com.au"
+        className="mt-5 min-h-14 w-full rounded-2xl border-2 border-[#E5DED4] bg-[#FAF8F5] px-5 py-4 text-base font-medium text-[#1C3B34] outline-none focus:border-[#657B6C]"
+      />
+    </section>
+  );
+}
+
+function ResourceCard({
+  eyebrow,
+  title,
+  text,
+  href,
+  button,
+}: {
+  eyebrow: string;
+  title: string;
+  text: string;
+  href: string;
+  button: string;
+}) {
+  return (
+    <article className="flex flex-col justify-between rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm">
+      <div>
+        <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#9A793D]">
+          {eyebrow}
+        </span>
+
+        <h3 className="mt-3 text-2xl font-extrabold text-[#1C3B34]">
+          {title}
+        </h3>
+
+        <p className="mt-3 text-lg leading-relaxed text-[#65736D]">
+          {text}
+        </p>
+      </div>
+
+      <Link
+        href={href}
+        className="mt-6 flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-5 py-4 text-center text-base font-extrabold text-white"
+      >
+        {button}
+      </Link>
+    </article>
+  );
+}
+
+function RecordingFeature({
+  title,
+  text,
+}: {
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="rounded-3xl border border-[#E5DED4] bg-white p-6">
+      <h3 className="text-xl font-extrabold text-[#1C3B34]">
+        {title}
+      </h3>
+
+      <p className="mt-3 text-base leading-relaxed text-[#65736D]">
+        {text}
+      </p>
+    </article>
+  );
+}
+
+function SuccessBox({
+  title,
+  text,
+  buttonLabel,
+  onClick,
+}: {
+  title: string;
+  text: string;
+  buttonLabel: string;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      role="status"
+      className="mt-8 rounded-3xl border-2 border-[#A8C5B7] bg-[#F0F7F3] p-7"
+    >
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-xl font-extrabold text-[#1C3B34]">
+        ✓
+      </div>
+
+      <h3 className="mt-4 text-2xl font-extrabold text-[#1C3B34]">
+        {title}
+      </h3>
+
+      <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+        {text}
+      </p>
+
+      <button
+        type="button"
+        onClick={onClick}
+        className="mt-5 text-base font-extrabold text-[#657B6C] underline-offset-4 hover:underline"
+      >
+        {buttonLabel}
+      </button>
+    </div>
+  );
+}
+
+function ErrorBox({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <p
+      role="alert"
+      className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-base font-bold leading-relaxed text-rose-800"
+    >
+      {children}
+    </p>
   );
 }

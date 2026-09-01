@@ -12,15 +12,15 @@ type NavigationLink = {
 const navigationLinks: NavigationLink[] = [
   {
     href: '/',
-    label: 'Regulator Champions',
-  },
-  {
-    href: '/free-guide',
-    label: 'Free Guide',
+    label: 'How It Works',
   },
   {
     href: '/feed',
     label: 'Practice Scenarios',
+  },
+  {
+    href: '/free-guide',
+    label: 'Free Guide',
   },
   {
     href: '/school-readiness-funding',
@@ -45,40 +45,40 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-teal-800/80 bg-teal-950/95 text-white shadow-md backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#1C3B34]/95 text-white shadow-lg backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
         <Link
           href="/"
           onClick={closeMobileMenu}
           className="group flex shrink-0 items-center gap-3"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-700 text-xs font-extrabold text-white shadow-sm transition group-hover:bg-teal-600">
-            PMI
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#C29F60] text-sm font-extrabold text-[#1C3B34] shadow-sm transition group-hover:bg-[#D1B477]">
+            RC
           </div>
 
           <div>
-            <span className="block text-[10px] font-bold uppercase leading-tight tracking-widest text-teal-300">
+            <span className="block text-xs font-bold uppercase leading-tight tracking-[0.14em] text-[#E4C98E]">
               Play Move Improve
             </span>
 
-            <span className="text-sm font-extrabold tracking-tight text-white">
+            <span className="mt-0.5 block text-lg font-extrabold tracking-tight text-white">
               Regulator Champions
             </span>
           </div>
         </Link>
 
         <nav
-          className="hidden items-center gap-1 lg:flex"
+          className="hidden items-center gap-1 xl:flex"
           aria-label="Main navigation"
         >
           {navigationLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-xl px-3 py-2 text-xs font-bold transition ${
+              className={`rounded-xl px-4 py-3 text-base font-bold transition ${
                 isActive(link.href)
-                  ? 'bg-teal-700 text-white'
-                  : 'text-teal-200 hover:bg-teal-900 hover:text-white'
+                  ? 'bg-white/10 text-white'
+                  : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white'
               }`}
             >
               {link.label}
@@ -86,17 +86,17 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <Link
             href="/portal"
-            className="rounded-xl border border-teal-700 px-4 py-2 text-xs font-bold text-teal-100 transition hover:bg-teal-900 hover:text-white"
+            className="rounded-2xl border border-white/20 bg-white/5 px-5 py-3 text-base font-bold text-white transition hover:bg-white/10"
           >
             Member Hub
           </Link>
 
           <Link
             href="/proposal"
-            className="rounded-xl bg-amber-400 px-4 py-2 text-xs font-extrabold text-slate-950 shadow-sm transition hover:bg-amber-300"
+            className="rounded-2xl bg-[#C29F60] px-5 py-3 text-base font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#D1B477]"
           >
             View Proposal
           </Link>
@@ -105,13 +105,13 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen((current) => !current)}
-          className="rounded-xl p-2 text-teal-200 transition hover:bg-teal-800 hover:text-white lg:hidden"
+          className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
           aria-label="Toggle navigation menu"
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
         >
           <svg
-            className="h-6 w-6 fill-current"
+            className="h-7 w-7 fill-current"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
@@ -135,19 +135,19 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <nav
           id="mobile-navigation"
-          className="border-t border-teal-800/80 bg-teal-950 px-5 py-5 shadow-xl lg:hidden"
+          className="border-t border-white/10 bg-[#1C3B34] px-5 py-6 shadow-xl xl:hidden"
           aria-label="Mobile navigation"
         >
-          <div className="space-y-1">
+          <div className="space-y-2">
             {navigationLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={closeMobileMenu}
-                className={`block rounded-xl px-3 py-3 text-sm font-bold transition ${
+                className={`block rounded-2xl px-4 py-4 text-lg font-bold transition ${
                   isActive(link.href)
-                    ? 'bg-teal-700 text-white'
-                    : 'text-teal-200 hover:bg-teal-900 hover:text-white'
+                    ? 'bg-white/10 text-white'
+                    : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {link.label}
@@ -155,11 +155,11 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="mt-5 grid gap-3 border-t border-teal-900 pt-5">
+          <div className="mt-6 grid gap-3 border-t border-white/10 pt-6">
             <Link
               href="/portal"
               onClick={closeMobileMenu}
-              className="block rounded-xl border border-teal-700 px-4 py-3 text-center text-sm font-bold text-teal-100 transition hover:bg-teal-900 hover:text-white"
+              className="block rounded-2xl border border-white/20 bg-white/5 px-5 py-4 text-center text-lg font-bold text-white transition hover:bg-white/10"
             >
               Member Hub
             </Link>
@@ -167,7 +167,7 @@ export default function Navbar() {
             <Link
               href="/proposal"
               onClick={closeMobileMenu}
-              className="block rounded-xl bg-amber-400 px-4 py-3 text-center text-sm font-extrabold text-slate-950 shadow-sm transition hover:bg-amber-300"
+              className="block rounded-2xl bg-[#C29F60] px-5 py-4 text-center text-lg font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#D1B477]"
             >
               View Proposal
             </Link>

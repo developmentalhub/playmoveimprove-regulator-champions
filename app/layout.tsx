@@ -22,27 +22,29 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      'Regulator Champions | Early Childhood Co-Regulation Professional Learning',
+      'Regulator Champions | Practical Regulation Support for Early Childhood Teams',
     template: '%s | Regulator Champions',
   },
 
   description:
-    'Whole-service early childhood professional learning helping educators notice what children’s bodies are communicating, understand behaviour and sensory needs, strengthen co-regulation and respond with greater confidence in everyday moments.',
+    'Regulator Champions helps early childhood educators understand what children’s behaviour and bodies may be communicating, respond with greater confidence and build more consistent co-regulation practice across the whole service.',
 
   keywords: [
     'Regulator Champions',
+    'early childhood regulation support',
     'early childhood co-regulation',
-    'early childhood regulation',
-    'co-regulation educators',
-    'early childhood professional learning',
-    'early childhood professional development',
-    'educator professional learning',
     'early childhood behaviour support',
     'sensory regulation children',
     'sensory processing early childhood',
+    'educator professional learning',
+    'early childhood professional development',
+    'co-regulation educators',
     'educator confidence',
     'responsive practice early childhood',
     'whole service professional learning',
+    'early childhood transitions',
+    'early childhood behaviour strategies',
+    'early childhood sensory strategies',
     'School Readiness Funding',
     'Kindy Uplift',
     'National Quality Standard',
@@ -80,15 +82,15 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: 'Regulator Champions',
     title:
-      'Regulator Champions | Early Childhood Co-Regulation Professional Learning',
+      'Regulator Champions | Know What to Try When a Child Is Struggling',
     description:
-      'Practical whole-service professional learning helping early childhood teams notice body-based signs earlier, understand what may be happening beneath behaviour and respond through thoughtful co-regulation.',
+      'Practical whole-service support helping early childhood educators notice what may be happening underneath behaviour, understand regulation needs and know what to try next.',
     images: [
       {
-        url: '/images/feed/01_babies_room.png',
+        url: '/images/feed/05_prep_transition.png',
         width: 1200,
         height: 630,
-        alt: 'Regulator Champions early childhood co-regulation professional learning',
+        alt: 'Early childhood educator supporting a child during a difficult transition',
       },
     ],
   },
@@ -96,10 +98,10 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title:
-      'Regulator Champions | Early Childhood Co-Regulation Professional Learning',
+      'Regulator Champions | Practical Regulation Support for Educators',
     description:
-      'Whole-service professional learning helping early childhood educators strengthen noticing, co-regulation and responsive practice.',
-    images: ['/images/feed/01_babies_room.png'],
+      'Help your early childhood team understand behaviour, notice regulation needs and respond with more confidence and consistency.',
+    images: ['/images/feed/05_prep_transition.png'],
   },
 
   formatDetection: {
@@ -121,7 +123,7 @@ export default function RootLayout({
     name: 'Regulator Champions',
     url: SITE_URL,
     description:
-      'Whole-service professional learning for early childhood educators supporting regulation, co-regulation, sensory needs, behaviour and responsive practice.',
+      'Practical whole-service regulation support helping early childhood educators understand behaviour, strengthen co-regulation and respond with more confidence in everyday situations.',
     founder: {
       '@id': `${SITE_URL}/#robyn-papworth`,
     },
@@ -138,21 +140,21 @@ export default function RootLayout({
     '@type': 'Person',
     '@id': `${SITE_URL}/#robyn-papworth`,
     name: 'Robyn Papworth',
-    jobTitle: 'Exercise Physiologist and Developmental Educator',
+    jobTitle:
+      'Accredited Exercise Physiologist and Developmental Educator',
     url: PLAY_MOVE_IMPROVE_URL,
     worksFor: {
       '@id': `${SITE_URL}/#organization`,
     },
     knowsAbout: [
-      'Early childhood co-regulation',
       'Early childhood regulation',
+      'Early childhood co-regulation',
+      'Early childhood behaviour',
       'Sensory processing',
       'Child development',
       'Movement development',
       'Gross motor development',
-      'Primitive reflexes',
       'Executive function',
-      'Early childhood behaviour',
       'Educator professional learning',
       'Responsive practice',
     ],
@@ -165,7 +167,7 @@ export default function RootLayout({
     name: 'Regulator Champions',
     url: SITE_URL,
     description:
-      'Whole-service early childhood professional learning helping educators notice children’s body-based signs, understand behaviour and sensory needs, and strengthen co-regulation practice.',
+      'Practical early childhood regulation support helping educators notice what may be happening underneath behaviour, understand children’s body-based signs and choose thoughtful responses.',
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
@@ -181,7 +183,7 @@ export default function RootLayout({
     '@id': `${SITE_URL}/#regulator-champions-course`,
     name: 'Regulator Champions',
     description:
-      'A whole-service professional learning pathway helping early childhood educators strengthen noticing, co-regulation, sensory understanding and responsive practice through practical learning ladders and implementation resources.',
+      'A whole-service professional learning pathway helping early childhood educators notice body-based signs, understand what may sit underneath behaviour, strengthen co-regulation and know what to try next in everyday situations.',
     url: SITE_URL,
     provider: {
       '@id': `${SITE_URL}/#organization`,

@@ -49,9 +49,7 @@ function MemberAccessContent() {
   const returnTo = useMemo(
     () =>
       getSafeReturnPath(
-        searchParams.get(
-          'returnTo',
-        ),
+        searchParams.get('returnTo'),
       ),
     [searchParams],
   );
@@ -110,10 +108,7 @@ function MemberAccessContent() {
             result.success === true &&
             result.hasAccess === true
           ) {
-            router.replace(
-              returnTo,
-            );
-
+            router.replace(returnTo);
             return;
           }
         } catch (error) {
@@ -149,7 +144,6 @@ function MemberAccessContent() {
       setErrorMessage(
         'Please enter your service access code.',
       );
-
       return;
     }
 
@@ -162,15 +156,12 @@ function MemberAccessContent() {
           '/api/validate-access',
           {
             method: 'POST',
-
             headers: {
               'Content-Type':
                 'application/json',
             },
-
             body: JSON.stringify({
-              accessCode:
-                cleanCode,
+              accessCode: cleanCode,
             }),
           },
         );
@@ -197,12 +188,6 @@ function MemberAccessContent() {
         return;
       }
 
-      /*
-       * Confirm that the newly created
-       * signed member cookie can be read
-       * before sending the educator into
-       * the member portal.
-       */
       const statusResponse =
         await fetch(
           '/api/access-status',
@@ -224,10 +209,8 @@ function MemberAccessContent() {
 
       if (
         !statusResponse.ok ||
-        statusResult.success !==
-          true ||
-        statusResult.hasAccess !==
-          true
+        statusResult.success !== true ||
+        statusResult.hasAccess !== true
       ) {
         setErrorMessage(
           'Your code was accepted, but the secure member session could not be confirmed. Please try again.',
@@ -238,10 +221,7 @@ function MemberAccessContent() {
 
       setAccessCode('');
 
-      router.replace(
-        returnTo,
-      );
-
+      router.replace(returnTo);
       router.refresh();
     } catch (error) {
       console.error(
@@ -257,20 +237,17 @@ function MemberAccessContent() {
     }
   };
 
-  if (
-    isCheckingExistingAccess
-  ) {
+  if (isCheckingExistingAccess) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5] px-6">
         <div className="space-y-4 text-center">
           <div
-            className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
+            className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
             aria-label="Checking member access"
           />
 
-          <p className="text-xs font-semibold text-[#657B6C]">
-            Checking member
-            access…
+          <p className="text-base font-semibold text-[#657B6C]">
+            Checking member access…
           </p>
         </div>
       </div>
@@ -278,58 +255,93 @@ function MemberAccessContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] px-6 py-12 font-sans text-[#1C3B34]">
-      <main className="mx-auto flex min-h-[75vh] max-w-md items-center justify-center">
-        <section className="w-full space-y-6 rounded-3xl border border-[#E6E2DC] bg-white p-8 text-center shadow-md">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D8E3DE] bg-[#EEF3F0] text-[#1C3B34]">
-            <svg
-              className="h-7 w-7"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
-          </div>
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
+      <main className="mx-auto grid min-h-screen max-w-7xl lg:grid-cols-[1.05fr_0.95fr]">
 
-          <div className="space-y-2">
-            <span className="block text-[10px] font-black uppercase tracking-widest text-[#C29F60]">
+        {/* LEFT */}
+        <section className="flex items-center bg-[#1C3B34] px-6 py-12 text-white sm:px-10 lg:px-14">
+          <div className="max-w-2xl">
+            <span className="inline-flex rounded-full bg-[#C29F60] px-4 py-2 text-sm font-extrabold text-[#1C3B34]">
               Regulator Champions
             </span>
 
-            <h1 className="text-2xl font-bold text-[#1C3B34]">
-              Member Access
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
+              When something is hard in the
+              room, you do not have to work
+              out the next step alone.
             </h1>
 
-            <p className="text-sm leading-relaxed text-[#657B6C]">
-              Enter the service
-              access code supplied
-              to your centre to
-              open your Regulator
-              Champions member
-              space.
+            <p className="mt-5 text-xl leading-relaxed text-[#D8E1DC]">
+              Use Regulator Champions to
+              notice what may be happening,
+              choose something thoughtful to
+              try and come back for support
+              when you are still unsure.
             </p>
-          </div>
 
-          <form
-            onSubmit={
-              handleSubmit
-            }
-            className="space-y-4 text-left"
-          >
-            <div>
+            <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
+              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+                Once you are inside
+              </span>
+
+              <div className="mt-5 space-y-4">
+                <JourneyStep
+                  number="1"
+                  title="Start with what is hard"
+                  text="Choose a Regulation Ladder or Floor Deck moment that matches what is happening."
+                />
+
+                <JourneyStep
+                  number="2"
+                  title="Try one thing"
+                  text="Use one practical response and watch what changes."
+                />
+
+                <JourneyStep
+                  number="3"
+                  title="Come back if you are stuck"
+                  text="Submit a private question to Robyn or bring the situation into monthly coaching."
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT */}
+        <section className="flex items-center justify-center px-6 py-12 sm:px-10 lg:px-14">
+          <div className="w-full max-w-lg">
+            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+              Member access
+            </span>
+
+            <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+              Open your service hub.
+            </h2>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#65736D]">
+              Enter the access code supplied
+              to your service. The same code
+              can be shared with authorised
+              educators in your team.
+            </p>
+
+            <form
+              onSubmit={handleSubmit}
+              className="mt-8 rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm sm:p-8"
+            >
               <label
                 htmlFor="member-access-code"
-                className="mb-1 block text-[10px] font-black uppercase tracking-wider text-[#657B6C]"
+                className="block text-base font-extrabold text-[#1C3B34]"
               >
-                Service Access Code
+                Service access code
               </label>
+
+              <p className="mt-2 text-sm leading-relaxed text-[#65736D]">
+                Your director or service
+                leader should have received
+                this when your service
+                joined Regulator Champions.
+              </p>
 
               <input
                 id="member-access-code"
@@ -342,62 +354,104 @@ function MemberAccessContent() {
                 spellCheck={false}
                 placeholder="Enter your access code"
                 value={accessCode}
-                onChange={(
-                  event,
-                ) =>
+                onChange={(event) =>
                   setAccessCode(
-                    event.target
-                      .value,
+                    event.target.value,
                   )
                 }
-                className="w-full rounded-xl border border-[#D8D4CE] bg-white p-3.5 text-sm text-[#1C3B34] outline-none transition focus:border-[#657B6C] focus:ring-2 focus:ring-[#D8E3DE]"
+                className="mt-4 min-h-14 w-full rounded-2xl border-2 border-[#D8D4CE] bg-white p-4 text-lg text-[#1C3B34] outline-none transition focus:border-[#657B6C] focus:ring-2 focus:ring-[#D8E3DE]"
               />
+
+              {errorMessage && (
+                <p
+                  role="alert"
+                  className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold leading-relaxed text-rose-700"
+                >
+                  {errorMessage}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-5 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-4 text-base font-extrabold text-white transition hover:bg-[#294E45] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSubmitting
+                  ? 'Checking access…'
+                  : 'Open my Member Hub'}
+              </button>
+            </form>
+
+            {/* START HERE */}
+            <div className="mt-6 rounded-3xl bg-[#F1F4F2] p-6">
+              <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#657B6C]">
+                New to Regulator Champions?
+              </span>
+
+              <h3 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
+                You do not need to explore
+                everything on your first
+                visit.
+              </h3>
+
+              <p className="mt-3 text-base leading-relaxed text-[#65736D]">
+                Once you enter the Member
+                Hub, start with the current
+                month or choose the
+                Regulation Ladder that
+                sounds closest to the issue
+                happening in your room.
+              </p>
             </div>
 
-            {errorMessage && (
-              <p
-                role="alert"
-                className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-semibold leading-relaxed text-rose-700"
-              >
-                {errorMessage}
+            <div className="mt-6 border-t border-[#E5DED4] pt-6">
+              <p className="text-sm leading-relaxed text-[#657B6C]">
+                Access is for participating
+                services and their authorised
+                educator teams. Please keep
+                your service code within your
+                team.
               </p>
-            )}
 
-            <button
-              type="submit"
-              disabled={
-                isSubmitting
-              }
-              className="w-full rounded-2xl bg-[#1C3B34] py-3.5 text-sm font-bold text-white transition hover:bg-[#294E45] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isSubmitting
-                ? 'Checking access…'
-                : 'Open Member Hub →'}
-            </button>
-          </form>
-
-          <div className="space-y-3 border-t border-[#E6E2DC] pt-5">
-            <p className="text-xs leading-relaxed text-[#657B6C]">
-              Access is provided
-              to participating
-              services. Keep your
-              service code within
-              your authorised
-              educator team.
-            </p>
-
-            <Link
-              href="/proposal?plan=preview"
-              className="inline-block text-xs font-bold text-[#1C3B34] underline-offset-4 hover:underline"
-            >
-              Need Regulator
-              Champions access?
-              View program options
-              →
-            </Link>
+              <Link
+                href="/proposal?plan=preview"
+                className="mt-4 inline-flex text-sm font-extrabold text-[#1C3B34] underline-offset-4 hover:underline"
+              >
+                Need Regulator Champions
+                access? View program options →
+              </Link>
+            </div>
           </div>
         </section>
       </main>
+    </div>
+  );
+}
+
+function JourneyStep({
+  number,
+  title,
+  text,
+}: {
+  number: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="flex gap-4">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#C29F60] font-extrabold text-[#1C3B34]">
+        {number}
+      </span>
+
+      <div>
+        <h3 className="text-lg font-extrabold text-white">
+          {title}
+        </h3>
+
+        <p className="mt-1 text-base leading-relaxed text-[#C8D6D0]">
+          {text}
+        </p>
+      </div>
     </div>
   );
 }
@@ -407,13 +461,12 @@ function MemberAccessFallback() {
     <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5] px-6">
       <div className="space-y-4 text-center">
         <div
-          className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
+          className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-[#1C3B34] border-t-transparent"
           aria-label="Loading member access"
         />
 
-        <p className="text-xs font-semibold text-[#657B6C]">
-          Loading member
-          access…
+        <p className="text-base font-semibold text-[#657B6C]">
+          Loading member access…
         </p>
       </div>
     </div>

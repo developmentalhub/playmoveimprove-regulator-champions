@@ -1,31 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fdfbf7;
-  --foreground: #1f2937;
+  --background: #faf8f5;
+  --background-warm: #faf5ec;
+  --foreground: #1c3b34;
 
   --green-dark: #1c3b34;
   --green-mid: #657b6c;
   --green-hover: #53665a;
 
-  --teal-dark: #134e4a;
-  --teal-deep: #042f2e;
+  --gold: #c29f60;
+  --gold-light: #e4c98e;
 
-  --amber: #fbbf24;
-  --amber-hover: #fcd34d;
-  --amber-text: #172033;
+  --cream: #faf5ec;
+  --white: #ffffff;
+  --border: #e5ded4;
+
+  --text-main: #1c3b34;
+  --text-body: #53645d;
+  --text-muted: #65736d;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--background);
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+
   background: var(--background);
   color: var(--foreground);
 
@@ -39,57 +49,80 @@ body {
     "Segoe UI",
     sans-serif;
 
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.7;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  width: 100%;
 }
 
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   margin-top: 0;
+  margin-bottom: 0;
 
   font-family:
     "Trebuchet MS",
     "Avenir Next",
     Avenir,
     system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
 
   color: inherit;
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
 h1 {
-  line-height: 1.05;
+  line-height: 1.02;
 }
 
 h2 {
-  line-height: 1.12;
+  line-height: 1.08;
 }
 
-h3,
-h4 {
+h3 {
+  line-height: 1.15;
+}
+
+h4,
+h5,
+h6 {
   line-height: 1.2;
 }
 
 p {
+  margin-top: 0;
+  margin-bottom: 0;
   text-wrap: pretty;
 }
 
-/* LINKS */
+main p {
+  letter-spacing: 0;
+}
+
+strong,
+b {
+  font-weight: 800;
+}
 
 a {
   color: inherit;
   text-decoration: none;
 }
-
-/* FORM CONTROLS */
 
 button,
 input,
@@ -103,16 +136,45 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* AMBER / YELLOW BUTTONS */
+button {
+  border: 0;
+}
 
-button[class*="bg-amber-"],
-a[class*="bg-amber-"],
-button[class*="bg-yellow-"],
-a[class*="bg-yellow-"],
+button:disabled {
+  cursor: not-allowed;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  display: block;
+}
+
+::selection {
+  background: #e4c98e;
+  color: #1c3b34;
+}
+
+:focus-visible {
+  outline: 3px solid #c29f60;
+  outline-offset: 4px;
+}
+
+/* GOLD BUTTONS */
+
 button[class*="bg-[#C29F60]"],
 a[class*="bg-[#C29F60]"] {
-  color: var(--amber-text) !important;
+  color: #1c3b34 !important;
   font-weight: 800;
+}
+
+button[class*="bg-[#C29F60]"]:hover,
+a[class*="bg-[#C29F60]"]:hover {
+  color: #1c3b34 !important;
 }
 
 /* DARK GREEN BUTTONS */
@@ -126,6 +188,11 @@ a[class*="bg-[#042f2e]"] {
   color: #ffffff !important;
 }
 
+button[class*="bg-[#1C3B34]"]:hover,
+a[class*="bg-[#1C3B34]"]:hover {
+  color: #ffffff !important;
+}
+
 /* MID GREEN BUTTONS */
 
 button[class*="bg-[#657B6C]"],
@@ -135,70 +202,116 @@ a[class*="bg-[#53665A]"] {
   color: #ffffff !important;
 }
 
-/* GREEN BUTTON HOVER STATES */
+/* WHITE BUTTONS */
 
-button[class*="bg-[#1C3B34]"]:hover,
-a[class*="bg-[#1C3B34]"]:hover {
-  color: #ffffff !important;
+button[class*="bg-white"],
+a[class*="bg-white"] {
+  color: #1c3b34;
 }
 
-button[class*="bg-[#657B6C]"]:hover,
-a[class*="bg-[#657B6C]"]:hover {
-  color: #ffffff !important;
+/* FORM FIELDS */
+
+input,
+textarea,
+select {
+  border-radius: 0.75rem;
 }
 
-/* OUTLINE / WHITE BUTTONS */
-
-button[class*="bg-white"][class*="border"],
-a[class*="bg-white"][class*="border"] {
-  color: var(--green-dark);
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
 }
 
-/* DISABLED BUTTONS */
+/* BETTER READING WIDTH */
 
-button:disabled {
-  cursor: not-allowed;
+.prose-reading {
+  max-width: 760px;
 }
 
-/* IMAGES */
+/* PREVENT TINY TEXT FROM BECOMING UNREADABLE */
 
-img {
-  display: block;
-  max-width: 100%;
+main .text-xs {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
 }
 
-/* TEXT SELECTION */
-
-::selection {
-  background: #99f6e4;
-  color: #134e4a;
+main .text-sm {
+  font-size: 1rem;
+  line-height: 1.65rem;
 }
 
-/* ACCESSIBILITY */
+/* SECTION RHYTHM */
 
-:focus-visible {
-  outline: 3px solid #f59e0b;
-  outline-offset: 3px;
+section {
+  position: relative;
 }
 
-/* LONG FORM TEXT */
+/* TOUCH TARGETS */
 
-main p {
-  letter-spacing: 0.005em;
+button,
+a {
+  touch-action: manipulation;
 }
+
+/* MOBILE */
 
 @media (max-width: 640px) {
   body {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.68;
   }
 
   h1 {
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
   }
 
   h2 {
+    letter-spacing: -0.035em;
+  }
+
+  h3 {
     letter-spacing: -0.025em;
+  }
+
+  main .text-xs {
+    font-size: 0.82rem;
+    line-height: 1.4rem;
+  }
+
+  main .text-sm {
+    font-size: 0.96rem;
+    line-height: 1.55rem;
+  }
+}
+
+/* TABLET AND DESKTOP */
+
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: 19px;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -206,8 +319,10 @@ main p {
 
 @media print {
   body {
-    background-color: #ffffff !important;
+    background: #ffffff !important;
     color: #000000 !important;
+    font-size: 12pt;
+    line-height: 1.5;
   }
 
   .no-print {
