@@ -36,7 +36,7 @@ const CURRENT_LADDERS = [
   },
   {
     number: '02',
-    image: '/images/watercolour-dropoff.png',
+    image: '/images/safe-touch-early-childhood.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
     text: 'Build more predictable responses around separation, arrival and connection.',
@@ -152,17 +152,17 @@ export default function HomePageClient() {
             </div>
 
             <h1 className="mt-6 max-w-4xl text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl lg:text-7xl">
-              Your team probably does not need another PDF.
+              When a child is struggling, your team deserves support that feels practical, calm and easy to come back to.
             </h1>
 
             <p className="mt-7 max-w-3xl text-2xl font-bold leading-relaxed text-white">
-              They need to know what to do when the real situation is happening.
+              Regulator Champions helps early childhood educators know what to notice, what to try, and where to go when they are still unsure.
             </p>
 
             <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#D8E1DC]">
-              Regulator Champions gives educators practical Regulation Ladders,
-              monthly coaching and ongoing access to Robyn when they are still
-              unsure what to try next.
+              It brings together practical Regulation Ladders, monthly coaching, recordings
+              and ongoing access to Robyn, so your team has somewhere to return
+              when real situations come up.
             </p>
 
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
@@ -186,18 +186,18 @@ export default function HomePageClient() {
             <div className="overflow-hidden rounded-4xl border border-white/10 bg-white/5 p-3 shadow-2xl">
               <img
                 src="/images/watercolour-dropoff.png"
-                alt="Early childhood educator supporting a child during a transition"
+                alt="Early childhood educator supporting a child with calm, responsive care"
                 className="aspect-4/5 w-full rounded-3xl object-cover"
               />
             </div>
 
             <div className="relative -mt-8 mx-5 rounded-3xl bg-[#FAF5EC] p-6 text-[#1C3B34] shadow-xl">
               <p className="text-xl font-extrabold leading-snug">
-                Free helps you learn.
+                Free resources can help you get started.
               </p>
 
               <p className="mt-2 text-lg font-extrabold leading-snug text-[#9A793D]">
-                Regulator Champions helps your team act.
+                Regulator Champions gives your team somewhere to keep going.
               </p>
             </div>
           </div>
