@@ -36,7 +36,7 @@ const CURRENT_LADDERS = [
   },
   {
     number: '02',
-    image: '/images/safe-touch-early-childhood.png',
+    image: '/images/watercolour-dropoff.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
     text: 'Build more predictable responses around separation, arrival and connection.',
