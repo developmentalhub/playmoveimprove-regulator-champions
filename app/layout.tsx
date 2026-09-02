@@ -13,21 +13,24 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
   'https://playmoveimprove-regulator-champions.vercel.app';
 
-const PLAY_MOVE_IMPROVE_URL = 'https://www.playmoveimprove.com';
+const PLAY_MOVE_IMPROVE_URL =
+  'https://www.playmoveimprove.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  applicationName: 'Regulator Champions',
+  applicationName:
+    'Regulator Champions',
 
   title: {
     default:
-      'Regulator Champions | Practical Regulation Support for Early Childhood Teams',
-    template: '%s | Regulator Champions',
+      'Regulator Champions | Ongoing Regulation Support for Early Childhood Teams',
+    template:
+      '%s | Regulator Champions',
   },
 
   description:
-    'Regulator Champions helps early childhood educators understand what children’s behaviour and bodies may be communicating, respond with greater confidence and build more consistent co-regulation practice across the whole service.',
+    'Regulator Champions gives early childhood teams practical Regulation Ladders, monthly coaching, recordings and ongoing support so educators know what to notice, what to try and where to go when they are still unsure.',
 
   keywords: [
     'Regulator Champions',
@@ -38,13 +41,14 @@ export const metadata: Metadata = {
     'sensory processing early childhood',
     'educator professional learning',
     'early childhood professional development',
+    'educator coaching',
     'co-regulation educators',
     'educator confidence',
     'responsive practice early childhood',
     'whole service professional learning',
     'early childhood transitions',
-    'early childhood behaviour strategies',
-    'early childhood sensory strategies',
+    'early childhood regulation strategies',
+    'monthly educator coaching',
     'School Readiness Funding',
     'Kindy Uplift',
     'National Quality Standard',
@@ -62,11 +66,13 @@ export const metadata: Metadata = {
   creator: 'Robyn Papworth',
   publisher: 'Play Move Improve',
 
-  category: 'Early Childhood Professional Learning',
+  category:
+    'Early Childhood Professional Learning',
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -80,28 +86,37 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_AU',
     url: SITE_URL,
-    siteName: 'Regulator Champions',
+    siteName:
+      'Regulator Champions',
+
     title:
-      'Regulator Champions | Know What to Try When a Child Is Struggling',
+      'Regulator Champions | Ongoing Support for Early Childhood Teams',
+
     description:
-      'Practical whole-service support helping early childhood educators notice what may be happening underneath behaviour, understand regulation needs and know what to try next.',
+      'Practical Regulation Ladders, monthly coaching, recordings and ongoing support to help educators know what to notice, what to try and where to go when they are still unsure.',
+
     images: [
       {
-        url: '/images/feed/05_prep_transition.png',
+        url: '/images/safe-touch-early-childhood.png',
         width: 1200,
         height: 630,
-        alt: 'Early childhood educator supporting a child during a difficult transition',
+        alt: 'Early childhood educator providing calm and responsive support to a child',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
+
     title:
-      'Regulator Champions | Practical Regulation Support for Educators',
+      'Regulator Champions | Ongoing Support for Early Childhood Teams',
+
     description:
-      'Help your early childhood team understand behaviour, notice regulation needs and respond with more confidence and consistency.',
-    images: ['/images/feed/05_prep_transition.png'],
+      'Practical Regulation Ladders, monthly coaching, recordings and ongoing support for early childhood educators.',
+
+    images: [
+      '/images/safe-touch-early-childhood.png',
+    ],
   },
 
   formatDetection: {
@@ -117,35 +132,68 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const organisationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': `${SITE_URL}/#organization`,
-    name: 'Regulator Champions',
-    url: SITE_URL,
+    '@context':
+      'https://schema.org',
+
+    '@type':
+      'Organization',
+
+    '@id':
+      `${SITE_URL}/#organization`,
+
+    name:
+      'Regulator Champions',
+
+    url:
+      SITE_URL,
+
     description:
-      'Practical whole-service regulation support helping early childhood educators understand behaviour, strengthen co-regulation and respond with more confidence in everyday situations.',
+      'Ongoing regulation support for early childhood teams using practical Regulation Ladders, monthly coaching, recordings and professional guidance.',
+
     founder: {
-      '@id': `${SITE_URL}/#robyn-papworth`,
+      '@id':
+        `${SITE_URL}/#robyn-papworth`,
     },
+
     parentOrganization: {
-      '@type': 'Organization',
-      '@id': `${PLAY_MOVE_IMPROVE_URL}/#organization`,
-      name: 'Play Move Improve',
-      url: PLAY_MOVE_IMPROVE_URL,
+      '@type':
+        'Organization',
+
+      '@id':
+        `${PLAY_MOVE_IMPROVE_URL}/#organization`,
+
+      name:
+        'Play Move Improve',
+
+      url:
+        PLAY_MOVE_IMPROVE_URL,
     },
   };
 
   const personSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    '@id': `${SITE_URL}/#robyn-papworth`,
-    name: 'Robyn Papworth',
+    '@context':
+      'https://schema.org',
+
+    '@type':
+      'Person',
+
+    '@id':
+      `${SITE_URL}/#robyn-papworth`,
+
+    name:
+      'Robyn Papworth',
+
     jobTitle:
       'Accredited Exercise Physiologist and Developmental Educator',
-    url: PLAY_MOVE_IMPROVE_URL,
+
+    url:
+      PLAY_MOVE_IMPROVE_URL,
+
     worksFor: {
-      '@id': `${SITE_URL}/#organization`,
+      '@id':
+        `${SITE_URL}/#organization`,
     },
+
     knowsAbout: [
       'Early childhood regulation',
       'Early childhood co-regulation',
@@ -161,42 +209,36 @@ export default function RootLayout({
   };
 
   const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
-    name: 'Regulator Champions',
-    url: SITE_URL,
-    description:
-      'Practical early childhood regulation support helping educators notice what may be happening underneath behaviour, understand children’s body-based signs and choose thoughtful responses.',
-    publisher: {
-      '@id': `${SITE_URL}/#organization`,
-    },
-    creator: {
-      '@id': `${SITE_URL}/#robyn-papworth`,
-    },
-    inLanguage: 'en-AU',
-  };
+    '@context':
+      'https://schema.org',
 
-  const courseSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Course',
-    '@id': `${SITE_URL}/#regulator-champions-course`,
-    name: 'Regulator Champions',
+    '@type':
+      'WebSite',
+
+    '@id':
+      `${SITE_URL}/#website`,
+
+    name:
+      'Regulator Champions',
+
+    url:
+      SITE_URL,
+
     description:
-      'A whole-service professional learning pathway helping early childhood educators notice body-based signs, understand what may sit underneath behaviour, strengthen co-regulation and know what to try next in everyday situations.',
-    url: SITE_URL,
-    provider: {
-      '@id': `${SITE_URL}/#organization`,
+      'Ongoing early childhood regulation support helping educators know what to notice, what to try and where to go when they need further support.',
+
+    publisher: {
+      '@id':
+        `${SITE_URL}/#organization`,
     },
+
     creator: {
-      '@id': `${SITE_URL}/#robyn-papworth`,
+      '@id':
+        `${SITE_URL}/#robyn-papworth`,
     },
-    audience: {
-      '@type': 'EducationalAudience',
-      educationalRole: 'Early childhood educator',
-    },
-    educationalLevel: 'Professional learning',
-    inLanguage: 'en-AU',
+
+    inLanguage:
+      'en-AU',
   };
 
   return (
@@ -205,35 +247,39 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organisationSchema),
+            __html:
+              JSON.stringify(
+                organisationSchema,
+              ),
           }}
         />
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(personSchema),
+            __html:
+              JSON.stringify(
+                personSchema,
+              ),
           }}
         />
 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(courseSchema),
+            __html:
+              JSON.stringify(
+                websiteSchema,
+              ),
           }}
         />
 
         <div className="flex min-h-screen flex-col">
           <Navbar />
 
-          <div className="flex-1">{children}</div>
+          <div className="flex-1">
+            {children}
+          </div>
 
           <Footer />
         </div>

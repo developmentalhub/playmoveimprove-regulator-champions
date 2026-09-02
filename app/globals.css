@@ -35,7 +35,6 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-
   background: var(--background);
   color: var(--foreground);
 
@@ -134,6 +133,7 @@ select {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 button {
@@ -164,16 +164,31 @@ iframe {
   outline-offset: 4px;
 }
 
+/* =========================================================
+   BUTTON AND CTA CONTRAST
+   ========================================================= */
+
 /* GOLD BUTTONS */
 
 button[class*="bg-[#C29F60]"],
-a[class*="bg-[#C29F60]"] {
+a[class*="bg-[#C29F60]"],
+button[class*="bg-[#D1B477]"],
+a[class*="bg-[#D1B477]"] {
   color: #1c3b34 !important;
   font-weight: 800;
 }
 
+button[class*="bg-[#C29F60]"] *,
+a[class*="bg-[#C29F60]"] *,
+button[class*="bg-[#D1B477]"] *,
+a[class*="bg-[#D1B477]"] * {
+  color: #1c3b34 !important;
+}
+
 button[class*="bg-[#C29F60]"]:hover,
-a[class*="bg-[#C29F60]"]:hover {
+a[class*="bg-[#C29F60]"]:hover,
+button[class*="bg-[#D1B477]"]:hover,
+a[class*="bg-[#D1B477]"]:hover {
   color: #1c3b34 !important;
 }
 
@@ -181,6 +196,10 @@ a[class*="bg-[#C29F60]"]:hover {
 
 button[class*="bg-[#1C3B34]"],
 a[class*="bg-[#1C3B34]"],
+button[class*="bg-[#132C27]"],
+a[class*="bg-[#132C27]"],
+button[class*="bg-[#16332D]"],
+a[class*="bg-[#16332D]"],
 button[class*="bg-[#134e4a]"],
 a[class*="bg-[#134e4a]"],
 button[class*="bg-[#042f2e]"],
@@ -188,8 +207,25 @@ a[class*="bg-[#042f2e]"] {
   color: #ffffff !important;
 }
 
+button[class*="bg-[#1C3B34]"] *,
+a[class*="bg-[#1C3B34]"] *,
+button[class*="bg-[#132C27]"] *,
+a[class*="bg-[#132C27]"] *,
+button[class*="bg-[#16332D]"] *,
+a[class*="bg-[#16332D]"] *,
+button[class*="bg-[#134e4a]"] *,
+a[class*="bg-[#134e4a]"] *,
+button[class*="bg-[#042f2e]"] *,
+a[class*="bg-[#042f2e]"] * {
+  color: #ffffff !important;
+}
+
 button[class*="bg-[#1C3B34]"]:hover,
-a[class*="bg-[#1C3B34]"]:hover {
+a[class*="bg-[#1C3B34]"]:hover,
+button[class*="bg-[#132C27]"]:hover,
+a[class*="bg-[#132C27]"]:hover,
+button[class*="bg-[#16332D]"]:hover,
+a[class*="bg-[#16332D]"]:hover {
   color: #ffffff !important;
 }
 
@@ -198,18 +234,83 @@ a[class*="bg-[#1C3B34]"]:hover {
 button[class*="bg-[#657B6C]"],
 a[class*="bg-[#657B6C]"],
 button[class*="bg-[#53665A]"],
-a[class*="bg-[#53665A]"] {
+a[class*="bg-[#53665A]"],
+button[class*="bg-[#284E45]"],
+a[class*="bg-[#284E45]"] {
+  color: #ffffff !important;
+}
+
+button[class*="bg-[#657B6C]"] *,
+a[class*="bg-[#657B6C]"] *,
+button[class*="bg-[#53665A]"] *,
+a[class*="bg-[#53665A]"] *,
+button[class*="bg-[#284E45]"] *,
+a[class*="bg-[#284E45]"] * {
   color: #ffffff !important;
 }
 
 /* WHITE BUTTONS */
 
 button[class*="bg-white"],
-a[class*="bg-white"] {
-  color: #1c3b34;
+a[class*="bg-white"],
+button[class*="bg-[#FFFFFF]"],
+a[class*="bg-[#FFFFFF]"] {
+  color: #1c3b34 !important;
 }
 
-/* FORM FIELDS */
+button[class*="bg-white"] *,
+a[class*="bg-white"] *,
+button[class*="bg-[#FFFFFF]"] *,
+a[class*="bg-[#FFFFFF]"] * {
+  color: #1c3b34 !important;
+}
+
+/* CREAM / LIGHT BUTTONS */
+
+button[class*="bg-[#FAF5EC]"],
+a[class*="bg-[#FAF5EC]"],
+button[class*="bg-[#FAF8F5]"],
+a[class*="bg-[#FAF8F5]"],
+button[class*="bg-[#F1F4F2]"],
+a[class*="bg-[#F1F4F2]"] {
+  color: #1c3b34 !important;
+}
+
+button[class*="bg-[#FAF5EC]"] *,
+a[class*="bg-[#FAF5EC]"] *,
+button[class*="bg-[#FAF8F5]"] *,
+a[class*="bg-[#FAF8F5]"] *,
+button[class*="bg-[#F1F4F2]"] *,
+a[class*="bg-[#F1F4F2]"] * {
+  color: #1c3b34 !important;
+}
+
+/* TRANSPARENT BUTTONS ON DARK SECTIONS */
+
+.bg-\[\#1C3B34\] button[class*="bg-white/5"],
+.bg-\[\#1C3B34\] a[class*="bg-white/5"],
+.bg-\[\#1C3B34\] button[class*="bg-white/10"],
+.bg-\[\#1C3B34\] a[class*="bg-white/10"] {
+  color: #ffffff !important;
+}
+
+.bg-\[\#1C3B34\] button[class*="bg-white/5"] *,
+.bg-\[\#1C3B34\] a[class*="bg-white/5"] *,
+.bg-\[\#1C3B34\] button[class*="bg-white/10"] *,
+.bg-\[\#1C3B34\] a[class*="bg-white/10"] * {
+  color: #ffffff !important;
+}
+
+/* KEEP BUTTON LABELS VISIBLE EVEN IF CHILD ELEMENTS HAVE TEXT COLOURS */
+
+button > span,
+a[class*="rounded"] > span {
+  color: inherit;
+}
+
+/* =========================================================
+   FORM FIELDS
+   ========================================================= */
 
 input,
 textarea,
@@ -222,13 +323,13 @@ textarea::placeholder {
   opacity: 1;
 }
 
-/* BETTER READING WIDTH */
+/* =========================================================
+   READING
+   ========================================================= */
 
 .prose-reading {
   max-width: 760px;
 }
-
-/* PREVENT TINY TEXT FROM BECOMING UNREADABLE */
 
 main .text-xs {
   font-size: 0.875rem;
@@ -240,20 +341,13 @@ main .text-sm {
   line-height: 1.65rem;
 }
 
-/* SECTION RHYTHM */
-
 section {
   position: relative;
 }
 
-/* TOUCH TARGETS */
-
-button,
-a {
-  touch-action: manipulation;
-}
-
-/* MOBILE */
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 640px) {
   body {
@@ -284,7 +378,9 @@ a {
   }
 }
 
-/* TABLET AND DESKTOP */
+/* =========================================================
+   TABLET / DESKTOP
+   ========================================================= */
 
 @media (min-width: 768px) {
   body {
@@ -298,7 +394,9 @@ a {
   }
 }
 
-/* REDUCED MOTION */
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -315,7 +413,9 @@ a {
   }
 }
 
-/* QUALITY IMPROVEMENT PLAN PRINT STYLES */
+/* =========================================================
+   PRINT
+   ========================================================= */
 
 @media print {
   body {

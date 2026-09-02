@@ -2,20 +2,20 @@
 
 const programLinks = [
   {
-    href: '/',
-    label: 'How Regulator Champions Works',
-  },
-  {
-    href: '/feed',
-    label: 'Practice Scenarios',
+    href: '/#how-it-works',
+    label: 'How It Works',
   },
   {
     href: '/free-guide',
     label: 'Free Safe Touch Guide',
   },
   {
-    href: '/portal',
-    label: 'Member Hub',
+    href: '/pricing',
+    label: 'Program Options',
+  },
+  {
+    href: '/member-access',
+    label: 'Member Access',
   },
 ];
 
@@ -28,16 +28,16 @@ const fundingLinks = [
     href: '/kindy-uplift',
     label: 'Kindy Uplift',
   },
-  {
-    href: '/nqs-mapping',
-    label: 'NQS & QIP Reflection',
-  },
 ];
 
-const enquiryLinks = [
+const supportLinks = [
   {
-    href: '/proposal',
-    label: 'Proposal & Quote',
+    href: '/proposal?plan=preview',
+    label: '6-Month Preview',
+  },
+  {
+    href: '/proposal?plan=full',
+    label: '12-Month Regulator Champions',
   },
   {
     href: '/director-review',
@@ -60,6 +60,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-[#E5DED4] bg-[#1C3B34] text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-14 sm:grid-cols-2 lg:grid-cols-5">
+        {/* BRAND */}
         <div className="space-y-5 lg:col-span-2">
           <div>
             <span className="block text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
@@ -72,13 +73,17 @@ export default function Footer() {
           </div>
 
           <p className="max-w-xl text-lg leading-relaxed text-[#D8E1DC]">
-            Practical whole-service support helping early childhood educators
-            understand what may be happening underneath behaviour, notice
-            regulation needs and know what to try next.
+            Ongoing regulation support for
+            early childhood teams who want
+            to know what to notice, what to
+            try and where to go when they
+            are still unsure.
           </p>
 
           <p className="max-w-xl text-lg font-bold leading-relaxed text-white">
-            Less guessing. More confidence. More consistency across your team.
+            Practical tools. Monthly
+            coaching. Ongoing access to
+            Robyn.
           </p>
 
           <a
@@ -91,6 +96,7 @@ export default function Footer() {
           </a>
         </div>
 
+        {/* EXPLORE */}
         <div>
           <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
             Explore
@@ -109,9 +115,10 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* FUNDING */}
         <div>
           <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
-            Funding & Evidence
+            Funding
           </h3>
 
           <div className="space-y-3">
@@ -127,13 +134,14 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* PROGRAM OPTIONS */}
         <div>
           <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
-            Enquiries
+            Program
           </h3>
 
           <div className="space-y-3">
-            {enquiryLinks.map((link) => (
+            {supportLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -163,10 +171,14 @@ export default function Footer() {
       <div className="border-t border-white/10 bg-[#16332D]">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-sm text-[#BFD0C8] sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} Play Move Improve. All rights reserved.
+            © {new Date().getFullYear()} Play
+            Move Improve. All rights reserved.
           </p>
 
-          <p>Regulator Champions · Victoria, Australia</p>
+          <p>
+            Regulator Champions · Victoria,
+            Australia
+          </p>
         </div>
       </div>
     </footer>
