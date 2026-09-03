@@ -6,25 +6,26 @@ const siteUrl =
 
 export const metadata: Metadata = {
   title:
-    "Regulator Champions | Ongoing Regulation Support for Early Childhood Teams",
+    "Regulator Champions | Regulation Support for Early Childhood Teams",
 
   description:
-    "Regulator Champions gives early childhood teams practical Regulation Ladders, monthly coaching, recordings and ongoing support so educators know what to notice, what to try and where to go when they are still unsure.",
+    "Regulator Champions helps early childhood educators understand what children's behaviour and bodies may be communicating, notice regulation needs earlier, and feel more confident deciding what to try next.",
 
   keywords: [
     "Regulator Champions",
     "early childhood regulation support",
     "early childhood co-regulation",
     "behaviour support early childhood",
+    "child regulation early childhood",
+    "sensory regulation children",
     "early childhood professional learning",
     "educator coaching",
-    "early childhood regulation",
+    "early childhood behaviour",
     "educator confidence",
     "whole service professional learning",
-    "regulation strategies early childhood",
-    "early childhood behaviour support",
-    "sensory regulation children",
     "early childhood transitions",
+    "early childhood behaviour strategies",
+    "sensory processing early childhood",
     "monthly educator coaching",
     "School Readiness Funding",
     "Kindy Uplift",
@@ -41,39 +42,31 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Regulator Champions",
     title:
-      "Regulator Champions | Practical Support When Educators Are Still Unsure",
-
+      "Regulator Champions | Help Educators Know What to Try When Regulation Is Hard",
     description:
-      "Help your early childhood team know what to notice, what to try and where to go when a regulation or behaviour situation is difficult.",
-
+      "Practical whole-service support helping early childhood educators notice what may be happening underneath behaviour, understand regulation needs and make more confident decisions about what to try next.",
     images: [
       {
-        url: "/images/safe-touch-early-childhood.png",
+        url: "/images/watercolour-dropoff.png",
         width: 1200,
         height: 630,
-        alt: "Early childhood educator providing calm and responsive support to a child",
+        alt: "Early childhood educator supporting a child during a difficult regulation moment",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-
     title:
-      "Regulator Champions | Ongoing Support for Early Childhood Teams",
-
+      "Regulator Champions | Regulation Support for Early Childhood Teams",
     description:
-      "Practical Regulation Ladders, monthly coaching, recordings and ongoing support for early childhood educators.",
-
-    images: [
-      "/images/safe-touch-early-childhood.png",
-    ],
+      "Help educators understand what a child's behaviour and body may be communicating, notice regulation needs earlier and know what to try next.",
+    images: ["/images/watercolour-dropoff.png"],
   },
 
   robots: {
     index: true,
     follow: true,
-
     googleBot: {
       index: true,
       follow: true,
@@ -89,16 +82,13 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${siteUrl}/#organization`,
-
     name: "Regulator Champions",
     url: siteUrl,
-
     parentOrganization: {
       "@type": "Organization",
       name: "Play Move Improve",
       url: "https://www.playmoveimprove.com",
     },
-
     founder: {
       "@id": `${siteUrl}/#robyn-papworth`,
     },
@@ -108,16 +98,12 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": `${siteUrl}/#robyn-papworth`,
-
     name: "Robyn Papworth",
-
     jobTitle:
       "Accredited Exercise Physiologist and Developmental Educator",
-
     worksFor: {
       "@id": `${siteUrl}/#organization`,
     },
-
     knowsAbout: [
       "Early childhood regulation",
       "Early childhood co-regulation",
@@ -135,17 +121,13 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${siteUrl}/#website`,
-
     name: "Regulator Champions",
     url: siteUrl,
-
     description:
-      "Ongoing regulation support for early childhood teams, with practical Regulation Ladders, monthly coaching, recordings and access to professional guidance when educators are unsure what to try next.",
-
+      "Practical early childhood regulation support helping educators notice what children's bodies and behaviour may be communicating, understand regulation needs and choose thoughtful responses when situations become difficult.",
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },
-
     inLanguage: "en-AU",
   };
 
@@ -153,30 +135,22 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${siteUrl}/#regulator-champions-service`,
-
     name: "Regulator Champions",
-
     description:
-      "A whole-service early childhood professional learning and regulation support program helping educators know what to notice, what to try and where to go when they need further support.",
-
+      "A whole-service early childhood professional learning and regulation support program helping educators understand what may sit underneath behaviour, notice regulation needs earlier, strengthen co-regulation and decide what to try next in everyday situations.",
     provider: {
       "@id": `${siteUrl}/#organization`,
     },
-
     audience: {
       "@type": "EducationalAudience",
-      educationalRole:
-        "early childhood educator",
+      educationalRole: "early childhood educator",
     },
-
     areaServed: {
       "@type": "Country",
       name: "Australia",
     },
-
     serviceType:
       "Early childhood professional learning and regulation support",
-
     url: siteUrl,
   };
 
@@ -185,36 +159,28 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            organisationSchema,
-          ),
+          __html: JSON.stringify(organisationSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            personSchema,
-          ),
+          __html: JSON.stringify(personSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            websiteSchema,
-          ),
+          __html: JSON.stringify(websiteSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            serviceSchema,
-          ),
+          __html: JSON.stringify(serviceSchema),
         }}
       />
 

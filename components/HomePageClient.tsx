@@ -12,17 +12,17 @@ const CORE_PROMISES = [
   {
     number: '01',
     title: 'Know what to notice',
-    text: 'Help educators slow the moment down and notice what may be happening in the child, the environment and themselves.',
+    text: 'Help educators slow the moment down enough to notice what the child’s body, the environment and the interaction may be communicating before the team rushes straight to stopping the behaviour.',
   },
   {
     number: '02',
     title: 'Know what to try',
-    text: 'Choose one practical response instead of reaching for more instructions, more consequences or another long list of strategies.',
+    text: 'Choose one practical response that fits what educators are noticing in that moment, then watch closely enough to see whether the child’s body tells them they are moving in the right direction.',
   },
   {
     number: '03',
     title: 'Know where to go when stuck',
-    text: 'Ask Robyn, bring the situation into monthly coaching and return to recordings when live attendance is not possible.',
+    text: 'Bring the situation back to Robyn through private questions, monthly coaching and recordings, so educators are not left trying to solve the same difficult moment alone when the first idea does not quite fit.',
   },
 ];
 
@@ -57,7 +57,7 @@ const MEMBER_JOURNEY = [
   },
   {
     title: 'Choose a ladder or floor prompt',
-    text: 'Use the closest practical tool instead of searching through a large course library.',
+    text: 'Use the closest practical tool for the situation your team is seeing, rather than trying to solve every regulation challenge at once.',
   },
   {
     title: 'Try one thing',
@@ -152,17 +152,15 @@ export default function HomePageClient() {
             </div>
 
             <h1 className="mt-6 max-w-4xl text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl lg:text-7xl">
-              When a child is struggling, your team deserves support that feels practical, calm and easy to come back to.
+              When a child is struggling, your educators need to be able to make sense of what they are seeing and feel more confident about what to try next.
             </h1>
 
             <p className="mt-7 max-w-3xl text-2xl font-bold leading-relaxed text-white">
-              Regulator Champions helps early childhood educators know what to notice, what to try, and where to go when they are still unsure.
+              Regulator Champions helps early childhood teams look beyond the surface of behaviour, notice what a child’s body may be communicating, and make calmer, more thoughtful decisions when regulation is becoming difficult.
             </p>
 
             <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#D8E1DC]">
-              It brings together practical Regulation Ladders, monthly coaching, recordings
-              and ongoing access to Robyn, so your team has somewhere to return
-              when real situations come up.
+              It brings together practical Regulation Ladders, monthly coaching, recordings and ongoing access to Robyn, so your team can work through the situations that actually happen in early childhood rooms, from difficult drop-offs and group times to transitions, escalation, shutdown and the moments when an educator has already tried several things and is still unsure what the child needs.
             </p>
 
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
@@ -193,11 +191,11 @@ export default function HomePageClient() {
 
             <div className="relative -mt-8 mx-5 rounded-3xl bg-[#FAF5EC] p-6 text-[#1C3B34] shadow-xl">
               <p className="text-xl font-extrabold leading-snug">
-                Free resources can help you get started.
+                Behaviour gives us information.
               </p>
 
               <p className="mt-2 text-lg font-extrabold leading-snug text-[#9A793D]">
-                Regulator Champions gives your team somewhere to keep going.
+                The work is learning how to notice it earlier and respond thoughtfully.
               </p>
             </div>
           </div>
@@ -209,11 +207,11 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-4xl text-center">
             <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
-              Keep it simple
+              What your team learns to do
             </span>
 
             <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Your educators should know three things.
+              Help educators notice more before they react.
             </h2>
           </div>
 
@@ -240,23 +238,21 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* WHY PAID */}
+      {/* REGULATION CONTEXT */}
       <section className="bg-[#FAF5EC] py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-8 lg:grid-cols-2">
             <article className="rounded-4xl border border-[#E5DED4] bg-white p-8">
               <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
-                Free resources
+                What educators often see
               </span>
 
               <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
-                “Here is something useful to think about.”
+                The behaviour is usually the part we notice first.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#65736D]">
-                A checklist, printable or social post can help an educator notice
-                something differently. That is useful, but it cannot work through
-                the exact situation happening in their room.
+                A child may be running away, crying, refusing, hiding, crashing into other children, becoming physical, or finding it almost impossible to sit with the group, and when the room is busy it is very easy for adults to respond to what the behaviour looks like before they have had enough time to consider what may be happening underneath it.
               </p>
             </article>
 
@@ -266,12 +262,11 @@ export default function HomePageClient() {
               </span>
 
               <h2 className="mt-3 text-3xl font-extrabold">
-                “This is happening in our room. What do we do next?”
+                Move from reacting to noticing, then deciding what to try.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
-                The paid program gives your team a process for working through the
-                moment, plus somewhere to return when the first idea does not quite fit.
+                Regulator Champions gives educators a practical way to slow the moment down, notice the child’s body, the environment and the interaction, choose one response that makes sense, and then watch what changes rather than expecting one strategy to work for every child in every situation.
               </p>
             </article>
           </div>
@@ -290,12 +285,11 @@ export default function HomePageClient() {
             </span>
 
             <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Start with the problem. Not the library.
+              Start with the situation your educators are actually dealing with.
             </h2>
 
             <p className="mt-5 text-xl leading-relaxed text-[#53645D]">
-              Educators do not need to complete a course in order before the
-              program becomes useful.
+              The program is designed to be useful in the middle of real early childhood practice, so educators can begin with the pressure point that is showing up now, choose the closest Regulation Ladder or floor prompt, try one thoughtful adjustment, and then notice what the child’s response tells them about what to do next.
             </p>
           </div>
 
@@ -381,12 +375,11 @@ export default function HomePageClient() {
               </span>
 
               <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-                A small number of useful things, connected together.
+                Practical supports that help educators think in the moment and reflect afterwards.
               </h2>
 
               <p className="mt-6 text-xl leading-relaxed text-[#53645D]">
-                The aim is not to give your educators hundreds of resources.
-                It is to give them a simple support system they can keep returning to.
+                The purpose of the Member Hub is to make it easier for educators to move from concern to action, with practical tools for the room, reflection supports for afterwards, and access to Robyn when a situation is still difficult or the first response has not helped enough.
               </p>
             </div>
 
@@ -419,12 +412,11 @@ export default function HomePageClient() {
             </span>
 
             <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Start with the three Regulation Ladders already built.
+              Begin with three common regulation challenges already built into the program.
             </h2>
 
             <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#53645D]">
-              We are not pretending there is a huge finished library. These are
-              the three practical starting points currently available.
+              These starting points focus on moments that can create a great deal of pressure in early childhood settings, while future Regulation Ladders will be shaped by the real questions and recurring challenges participating teams bring into the program.
             </p>
           </div>
 
@@ -531,18 +523,15 @@ export default function HomePageClient() {
             </span>
 
             <h2 className="mt-4 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Built around the moments educators actually struggle with.
+              Built around the moments when knowing the theory is not enough.
             </h2>
 
             <p className="mt-6 max-w-4xl text-xl leading-relaxed text-[#D8E1DC]">
-              Regulator Champions brings regulation, sensory, movement and
-              developmental knowledge back to the practical decisions educators
-              make throughout an ordinary early childhood day.
+              Regulator Champions brings regulation, sensory, movement and developmental knowledge back to the practical decisions educators have to make throughout an ordinary early childhood day, particularly when a child is escalating, shutting down, struggling with separation, finding group participation difficult, or becoming overwhelmed by the demands around them.
             </p>
 
             <p className="mt-5 max-w-4xl text-xl font-bold leading-relaxed text-white">
-              The goal is not perfectly calm children or perfect educators.
-              It is more confident, thoughtful practice when things become difficult.
+              The goal is not to create perfectly calm children or perfectly regulated rooms, but to help educators become more confident at noticing what is happening, understanding what may be contributing to the child’s response, and deciding what to try next without feeling that they have to have every answer immediately.
             </p>
           </div>
         </div>
@@ -596,7 +585,7 @@ export default function HomePageClient() {
             </span>
 
             <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Two whole-service options.
+              Choose the level of ongoing support that suits your service.
             </h2>
           </div>
 
@@ -606,7 +595,7 @@ export default function HomePageClient() {
               price={PREVIEW_PRICE}
               period={`${PREVIEW_ACCESS_MONTHS} months`}
               title="Start with the current three ladders"
-              text="A smaller way to experience the Regulation Ladders, Ask Robyn and monthly coaching with your whole team before deciding whether to continue."
+              text="A six-month whole-service starting point for teams who want to begin using the current Regulation Ladders, bring real practice questions to Robyn, access monthly coaching and watch the recordings when live attendance is difficult."
               href="/proposal?plan=preview"
               button="View 6-Month Preview"
             />
@@ -616,7 +605,7 @@ export default function HomePageClient() {
               price={FULL_PRICE}
               period="12 months"
               title="Give your team year-round support"
-              text="Ongoing access to the Regulation Ladders, monthly coaching, Ask Robyn support, recordings and the growing member learning system."
+              text="Twelve months of whole-service support so educators can keep returning to the Regulation Ladders, monthly coaching, Ask Robyn and recordings as different children, transitions and regulation challenges arise across the year."
               href="/proposal?plan=full"
               button="View 12-Month Program"
               featured
@@ -661,11 +650,11 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="mx-auto mb-10 max-w-3xl text-center">
             <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-              Ready to explore it?
+              For directors and leaders
             </span>
 
             <h2 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Get the information you need to take Regulator Champions to your leadership team.
+              If regulation, behaviour and educator confidence are creating pressure in your service, you can request the program information and quote you need to discuss Regulator Champions with your leadership team.
             </h2>
           </div>
 

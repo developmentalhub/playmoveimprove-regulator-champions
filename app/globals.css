@@ -5,20 +5,20 @@
   --background-warm: #faf5ec;
   --foreground: #1c3b34;
 
-  --green-dark: #1c3b34;
-  --green-mid: #657b6c;
-  --green-hover: #53665a;
+  --green-dark: #12362f;
+  --green-mid: #526a60;
+  --green-hover: #3f574e;
 
-  --gold: #c29f60;
-  --gold-light: #e4c98e;
+  --gold: #e0bc68;
+  --gold-light: #f0d99a;
 
   --cream: #faf5ec;
   --white: #ffffff;
   --border: #e5ded4;
 
-  --text-main: #1c3b34;
-  --text-body: #53645d;
-  --text-muted: #65736d;
+  --text-main: #12362f;
+  --text-body: #42544d;
+  --text-muted: #5e6d67;
 }
 
 *,
@@ -109,10 +109,6 @@ p {
   text-wrap: pretty;
 }
 
-main p {
-  letter-spacing: 0;
-}
-
 strong,
 b {
   font-weight: 800;
@@ -155,17 +151,18 @@ iframe {
 }
 
 ::selection {
-  background: #e4c98e;
-  color: #1c3b34;
+  background: #e0bc68;
+  color: #12362f;
 }
 
 :focus-visible {
-  outline: 3px solid #c29f60;
+  outline: 3px solid #e0bc68;
   outline-offset: 4px;
 }
 
 /* =========================================================
-   BUTTON AND CTA CONTRAST
+   BUTTONS
+   Strong contrast across the whole site
    ========================================================= */
 
 /* GOLD BUTTONS */
@@ -173,29 +170,39 @@ iframe {
 button[class*="bg-[#C29F60]"],
 a[class*="bg-[#C29F60]"],
 button[class*="bg-[#D1B477]"],
-a[class*="bg-[#D1B477]"] {
-  color: #1c3b34 !important;
-  font-weight: 800;
+a[class*="bg-[#D1B477]"],
+button[class*="bg-[#E0BC68]"],
+a[class*="bg-[#E0BC68]"] {
+  background-color: #e0bc68 !important;
+  color: #102e28 !important;
+  font-weight: 800 !important;
 }
 
 button[class*="bg-[#C29F60]"] *,
 a[class*="bg-[#C29F60]"] *,
 button[class*="bg-[#D1B477]"] *,
-a[class*="bg-[#D1B477]"] * {
-  color: #1c3b34 !important;
+a[class*="bg-[#D1B477]"] *,
+button[class*="bg-[#E0BC68]"] *,
+a[class*="bg-[#E0BC68]"] * {
+  color: #102e28 !important;
 }
 
 button[class*="bg-[#C29F60]"]:hover,
 a[class*="bg-[#C29F60]"]:hover,
 button[class*="bg-[#D1B477]"]:hover,
-a[class*="bg-[#D1B477]"]:hover {
-  color: #1c3b34 !important;
+a[class*="bg-[#D1B477]"]:hover,
+button[class*="bg-[#E0BC68]"]:hover,
+a[class*="bg-[#E0BC68]"]:hover {
+  background-color: #edcd82 !important;
+  color: #102e28 !important;
 }
 
 /* DARK GREEN BUTTONS */
 
 button[class*="bg-[#1C3B34]"],
 a[class*="bg-[#1C3B34]"],
+button[class*="bg-[#12362F]"],
+a[class*="bg-[#12362F]"],
 button[class*="bg-[#132C27]"],
 a[class*="bg-[#132C27]"],
 button[class*="bg-[#16332D]"],
@@ -204,11 +211,15 @@ button[class*="bg-[#134e4a]"],
 a[class*="bg-[#134e4a]"],
 button[class*="bg-[#042f2e]"],
 a[class*="bg-[#042f2e]"] {
+  background-color: #12362f !important;
   color: #ffffff !important;
+  font-weight: 800 !important;
 }
 
 button[class*="bg-[#1C3B34]"] *,
 a[class*="bg-[#1C3B34]"] *,
+button[class*="bg-[#12362F]"] *,
+a[class*="bg-[#12362F]"] *,
 button[class*="bg-[#132C27]"] *,
 a[class*="bg-[#132C27]"] *,
 button[class*="bg-[#16332D]"] *,
@@ -222,10 +233,11 @@ a[class*="bg-[#042f2e]"] * {
 
 button[class*="bg-[#1C3B34]"]:hover,
 a[class*="bg-[#1C3B34]"]:hover,
+button[class*="bg-[#12362F]"]:hover,
+a[class*="bg-[#12362F]"]:hover,
 button[class*="bg-[#132C27]"]:hover,
-a[class*="bg-[#132C27]"]:hover,
-button[class*="bg-[#16332D]"]:hover,
-a[class*="bg-[#16332D]"]:hover {
+a[class*="bg-[#132C27]"]:hover {
+  background-color: #224c42 !important;
   color: #ffffff !important;
 }
 
@@ -235,15 +247,21 @@ button[class*="bg-[#657B6C]"],
 a[class*="bg-[#657B6C]"],
 button[class*="bg-[#53665A]"],
 a[class*="bg-[#53665A]"],
+button[class*="bg-[#526A60]"],
+a[class*="bg-[#526A60]"],
 button[class*="bg-[#284E45]"],
 a[class*="bg-[#284E45]"] {
+  background-color: #526a60 !important;
   color: #ffffff !important;
+  font-weight: 800 !important;
 }
 
 button[class*="bg-[#657B6C]"] *,
 a[class*="bg-[#657B6C]"] *,
 button[class*="bg-[#53665A]"] *,
 a[class*="bg-[#53665A]"] *,
+button[class*="bg-[#526A60]"] *,
+a[class*="bg-[#526A60]"] *,
 button[class*="bg-[#284E45]"] *,
 a[class*="bg-[#284E45]"] * {
   color: #ffffff !important;
@@ -255,14 +273,16 @@ button[class*="bg-white"],
 a[class*="bg-white"],
 button[class*="bg-[#FFFFFF]"],
 a[class*="bg-[#FFFFFF]"] {
-  color: #1c3b34 !important;
+  background-color: #ffffff !important;
+  color: #12362f !important;
+  font-weight: 800 !important;
 }
 
 button[class*="bg-white"] *,
 a[class*="bg-white"] *,
 button[class*="bg-[#FFFFFF]"] *,
 a[class*="bg-[#FFFFFF]"] * {
-  color: #1c3b34 !important;
+  color: #12362f !important;
 }
 
 /* CREAM / LIGHT BUTTONS */
@@ -273,7 +293,8 @@ button[class*="bg-[#FAF8F5]"],
 a[class*="bg-[#FAF8F5]"],
 button[class*="bg-[#F1F4F2]"],
 a[class*="bg-[#F1F4F2]"] {
-  color: #1c3b34 !important;
+  color: #12362f !important;
+  font-weight: 800 !important;
 }
 
 button[class*="bg-[#FAF5EC]"] *,
@@ -282,26 +303,35 @@ button[class*="bg-[#FAF8F5]"] *,
 a[class*="bg-[#FAF8F5]"] *,
 button[class*="bg-[#F1F4F2]"] *,
 a[class*="bg-[#F1F4F2]"] * {
-  color: #1c3b34 !important;
+  color: #12362f !important;
 }
 
-/* TRANSPARENT BUTTONS ON DARK SECTIONS */
+/* TRANSPARENT / GHOST BUTTONS ON DARK BACKGROUNDS */
 
 .bg-\[\#1C3B34\] button[class*="bg-white/5"],
 .bg-\[\#1C3B34\] a[class*="bg-white/5"],
 .bg-\[\#1C3B34\] button[class*="bg-white/10"],
-.bg-\[\#1C3B34\] a[class*="bg-white/10"] {
+.bg-\[\#1C3B34\] a[class*="bg-white/10"],
+.bg-\[\#12362F\] button[class*="bg-white/5"],
+.bg-\[\#12362F\] a[class*="bg-white/5"],
+.bg-\[\#12362F\] button[class*="bg-white/10"],
+.bg-\[\#12362F\] a[class*="bg-white/10"] {
   color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .bg-\[\#1C3B34\] button[class*="bg-white/5"] *,
 .bg-\[\#1C3B34\] a[class*="bg-white/5"] *,
 .bg-\[\#1C3B34\] button[class*="bg-white/10"] *,
-.bg-\[\#1C3B34\] a[class*="bg-white/10"] * {
+.bg-\[\#1C3B34\] a[class*="bg-white/10"] *,
+.bg-\[\#12362F\] button[class*="bg-white/5"] *,
+.bg-\[\#12362F\] a[class*="bg-white/5"] *,
+.bg-\[\#12362F\] button[class*="bg-white/10"] *,
+.bg-\[\#12362F\] a[class*="bg-white/10"] * {
   color: #ffffff !important;
 }
 
-/* KEEP BUTTON LABELS VISIBLE EVEN IF CHILD ELEMENTS HAVE TEXT COLOURS */
+/* BUTTON LABELS */
 
 button > span,
 a[class*="rounded"] > span {
@@ -321,6 +351,21 @@ select {
 input::placeholder,
 textarea::placeholder {
   opacity: 1;
+}
+
+/* DARK FORM FIELDS */
+
+input[class*="bg-[#132C27]"],
+textarea[class*="bg-[#132C27]"],
+select[class*="bg-[#132C27]"] {
+  background: #102e28 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+input[class*="bg-[#132C27]"]::placeholder,
+textarea[class*="bg-[#132C27]"]::placeholder {
+  color: #d6e0dc !important;
 }
 
 /* =========================================================
@@ -440,7 +485,7 @@ section {
 
   .qip-document-page {
     page-break-inside: avoid;
-    border: 2px solid #657b6c !important;
+    border: 2px solid #526a60 !important;
     padding: 24px !important;
     border-radius: 12px !important;
     background: #ffffff !important;
