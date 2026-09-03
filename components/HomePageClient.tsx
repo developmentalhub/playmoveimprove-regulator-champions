@@ -12,17 +12,17 @@ const CORE_PROMISES = [
   {
     number: '01',
     title: 'Know what to notice',
-    text: 'Help educators slow the moment down enough to notice what the child’s body, the environment and the interaction may be communicating before the team rushes straight to stopping the behaviour.',
+    text: 'Help educators notice the child’s body, the environment, what has just happened and what may be adding pressure before they move straight into correcting the behaviour.',
   },
   {
     number: '02',
     title: 'Know what to try',
-    text: 'Choose one practical response that fits what educators are noticing in that moment, then watch closely enough to see whether the child’s body tells them they are moving in the right direction.',
+    text: 'Use what the team is noticing to choose one practical response, then watch the child closely enough to see whether that response is helping, adding pressure or needs to be adjusted.',
   },
   {
     number: '03',
-    title: 'Know where to go when stuck',
-    text: 'Bring the situation back to Robyn through private questions, monthly coaching and recordings, so educators are not left trying to solve the same difficult moment alone when the first idea does not quite fit.',
+    title: 'Know where to go when you are still unsure',
+    text: 'Bring real practice questions back through Ask Robyn, monthly coaching and recordings, so difficult situations can be thought through rather than leaving educators to keep guessing.',
   },
 ];
 
@@ -32,53 +32,48 @@ const CURRENT_LADDERS = [
     image: '/images/watercolour-anchor.png',
     tag: 'Regulated Educator',
     title: 'Start with the educator',
-    text: 'Notice your own pace, body, voice and the pressure you may be bringing into the interaction.',
+    text: 'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
   },
   {
     number: '02',
     image: '/images/watercolour-dropoff.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
-    text: 'Build more predictable responses around separation, arrival and connection.',
+    text: 'Help educators look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer in the transition.',
   },
   {
     number: '03',
     image: '/images/watercolour-mattime.png',
     tag: 'Participation Beyond Sitting',
     title: 'Rethink participation',
-    text: 'Support children to join in without making stillness the only measure of engagement.',
+    text: 'Support children to join in ways their bodies can manage, rather than assuming that sitting still is the only sign that a child is listening, learning or belonging.',
   },
 ];
 
 const MEMBER_JOURNEY = [
   {
-    title: 'Something is hard',
-    text: 'Start with the moment that is creating pressure in your room today.',
+    title: 'Start with the moment that is hard',
+    text: 'Begin with the situation that is placing pressure on the child and the educators today, whether that is drop-off, group time, transitions, escalation, shutdown, rough play or another repeated point of stress.',
   },
   {
-    title: 'Choose a ladder or floor prompt',
-    text: 'Use the closest practical tool for the situation your team is seeing, rather than trying to solve every regulation challenge at once.',
+    title: 'Choose the closest practical support',
+    text: 'Use the Regulation Ladder or floor prompt that best matches what the team is seeing, so educators have a useful place to start without trying to solve every regulation challenge at once.',
   },
   {
-    title: 'Try one thing',
-    text: 'Make one thoughtful adjustment and notice what changes.',
+    title: 'Try one thoughtful adjustment',
+    text: 'Change one thing in the environment, the adult response, the movement available, the language being used or the level of demand, then notice what the child’s body tells you next.',
   },
   {
-    title: 'Ask when you are still unsure',
-    text: 'Submit a private, de-identified question to Robyn.',
-  },
-  {
-    title: 'Learn from the monthly coaching',
-    text: 'Join live if staffing allows, or watch the recording afterwards.',
+    title: 'Bring the situation back when you are still unsure',
+    text: 'Educators can submit a private, de-identified question to Robyn so the situation can help shape future coaching and the team has somewhere to return when the first strategy does not quite fit.',
   },
 ];
 
 const CURRENT_INCLUSIONS = [
-  'The 3 Regulation Ladders currently available',
+  'Three Regulation Ladders currently available',
   'Educator Floor Deck for quick in-the-room support',
   'Private Ask Robyn question submissions',
   'Live monthly Regulator Champions coaching',
-  'Monthly coaching shaped by educator questions',
   'Recordings added after each coaching session',
   'Educator reflection and progress tools',
   'Manager QIP and critical reflection support',
@@ -142,86 +137,132 @@ export default function HomePageClient() {
     <main className="min-h-screen overflow-x-hidden bg-[#FAF8F5] text-[#1C3B34]">
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#1C3B34] text-white">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#657B6C]/20 blur-3xl" />
-        <div className="absolute -bottom-40 -right-20 h-120 w-120 rounded-full bg-[#C29F60]/10 blur-3xl" />
+        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#657B6C]/20 blur-3xl" />
+        <div className="absolute -bottom-32 -right-16 h-96 w-96 rounded-full bg-[#C29F60]/10 blur-3xl" />
 
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-16 md:py-20 lg:grid-cols-12 lg:items-center lg:py-24">
-          <div className="lg:col-span-7">
-            <div className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#C29F60]/10 px-5 py-2.5 text-sm font-bold text-[#E4C98E]">
-              Ongoing regulation support for early childhood teams
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-12 md:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:py-18">
+          <div>
+            <div className="inline-flex rounded-full border border-[#E4C98E]/40 bg-[#E4C98E]/10 px-4 py-2 text-sm font-extrabold text-[#F5E6BE]">
+              Whole-service regulation support
             </div>
 
-            <h1 className="mt-6 max-w-4xl text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl lg:text-7xl">
-              When a child is struggling, your educators need to be able to make sense of what they are seeing and feel more confident about what to try next.
+            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.55rem]">
+              When a child is struggling, your educators need more than good intentions. They need help making sense of what the child may be communicating and deciding what to try next.
             </h1>
 
-            <p className="mt-7 max-w-3xl text-2xl font-bold leading-relaxed text-white">
-              Regulator Champions helps early childhood teams look beyond the surface of behaviour, notice what a child’s body may be communicating, and make calmer, more thoughtful decisions when regulation is becoming difficult.
+            <p className="mt-6 max-w-3xl text-xl leading-relaxed text-[#E0E8E4]">
+              Regulator Champions supports early childhood teams to notice regulation needs earlier, look beneath the surface of behaviour and respond more thoughtfully when a child is overwhelmed, shutting down, escalating, struggling with separation, finding group times difficult or becoming stuck during transitions.
             </p>
 
-            <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#D8E1DC]">
-              It brings together practical Regulation Ladders, monthly coaching, recordings and ongoing access to Robyn, so your team can work through the situations that actually happen in early childhood rooms, from difficult drop-offs and group times to transitions, escalation, shutdown and the moments when an educator has already tried several things and is still unsure what the child needs.
-            </p>
-
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/proposal?plan=preview"
-                className="flex min-h-14 items-center justify-center rounded-2xl bg-[#C29F60] px-7 py-4 text-base font-extrabold text-[#1C3B34] shadow-lg transition hover:bg-[#D1B477]"
+                className="flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] shadow-lg transition hover:bg-[#EDCD82]"
               >
                 See the program options
               </Link>
 
               <a
                 href="#how-it-works"
-                className="flex min-h-14 items-center justify-center rounded-2xl border border-white/25 bg-white/5 px-7 py-4 text-base font-bold text-white transition hover:bg-white/10"
+                className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-white bg-white px-7 py-4 text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8] hover:text-[#12362F]"
               >
                 See how educators use it
               </a>
             </div>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="overflow-hidden rounded-4xl border border-white/10 bg-white/5 p-3 shadow-2xl">
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-[#FAF5EC] p-3 shadow-2xl">
               <img
-                src="/images/watercolour-dropoff.png"
-                alt="Early childhood educator supporting a child with calm, responsive care"
-                className="aspect-4/5 w-full rounded-3xl object-cover"
+                src="/images/watercolour-anchor.png"
+                alt="Watercolour illustration representing calm educator support and regulation"
+                width={900}
+                height={900}
+                decoding="async"
+                fetchPriority="high"
+                className="aspect-square w-full rounded-[1.45rem] object-cover"
               />
             </div>
 
-            <div className="relative -mt-8 mx-5 rounded-3xl bg-[#FAF5EC] p-6 text-[#1C3B34] shadow-xl">
-              <p className="text-xl font-extrabold leading-snug">
-                Behaviour gives us information.
+            <div className="relative -mt-7 mx-5 rounded-3xl border border-[#E5DED4] bg-white p-5 text-[#1C3B34] shadow-xl">
+              <p className="text-lg font-extrabold leading-snug">
+                What is this child’s body telling us?
               </p>
-
-              <p className="mt-2 text-lg font-extrabold leading-snug text-[#9A793D]">
-                The work is learning how to notice it earlier and respond thoughtfully.
+              <p className="mt-2 text-base leading-relaxed text-[#53645D]">
+                That question sits at the centre of Regulator Champions, because educators can respond more effectively when they understand what they are noticing before deciding what the child needs from them.
               </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* REAL MOMENTS */}
+      <section className="bg-white py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
+                Built around real early childhood moments
+              </span>
+
+              <h2 className="mt-4 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+                Regulation challenges rarely arrive one at a time, and they rarely happen when an educator has space to stop and think.
+              </h2>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                They happen while another child needs help, a parent is at the door, the group is moving to lunch, the room is noisy and the educator is already carrying the demands of the day. Regulator Champions is designed for that reality, helping teams build a clearer way of noticing what may be happening underneath the behaviour so they can make more confident decisions in the moments that usually feel the hardest.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="overflow-hidden rounded-3xl border border-[#E5DED4] bg-[#FAF5EC]">
+                <img
+                  src="/images/watercolour-dropoff.png"
+                  alt="Watercolour illustration representing a difficult early childhood drop-off"
+                  width={700}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/5] w-full object-cover"
+                />
+              </div>
+
+              <div className="mt-8 overflow-hidden rounded-3xl border border-[#E5DED4] bg-[#FAF5EC]">
+                <img
+                  src="/images/watercolour-mattime.png"
+                  alt="Watercolour illustration representing participation during group time"
+                  width={700}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/5] w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* THREE PROMISES */}
-      <section className="border-b border-[#E5DED4] bg-white py-16 sm:py-20">
+      <section className="border-y border-[#E5DED4] bg-[#FAF5EC] py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
               What your team learns to do
             </span>
 
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Help educators notice more before they react.
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              The aim is to help educators become more confident at noticing what is happening before they decide how to respond.
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {CORE_PROMISES.map((item) => (
               <article
                 key={item.number}
-                className="rounded-4xl border border-[#E5DED4] bg-[#FAF8F5] p-7"
+                className="rounded-4xl border border-[#E5DED4] bg-white p-7 shadow-sm"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#C29F60] text-base font-extrabold text-[#1C3B34]">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E0BC68] text-base font-extrabold text-[#102E28]">
                   {item.number}
                 </span>
 
@@ -229,7 +270,7 @@ export default function HomePageClient() {
                   {item.title}
                 </h3>
 
-                <p className="mt-3 text-lg leading-relaxed text-[#65736D]">
+                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
                   {item.text}
                 </p>
               </article>
@@ -238,66 +279,60 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* REGULATION CONTEXT */}
-      <section className="bg-[#FAF5EC] py-16 sm:py-20">
+      {/* BEHAVIOUR TO NEED */}
+      <section className="bg-white py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-8 lg:grid-cols-2">
-            <article className="rounded-4xl border border-[#E5DED4] bg-white p-8">
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
-                What educators often see
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+            <div className="rounded-4xl bg-[#1C3B34] p-8 text-white sm:p-10">
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#F0D99A]">
+                The moment before the reaction matters
               </span>
 
-              <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
-                The behaviour is usually the part we notice first.
+              <h2 className="mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+                A child who is kicking, running away, refusing, crying, hiding, crashing into others or unable to settle is giving us information, even when the behaviour is difficult to manage.
               </h2>
 
-              <p className="mt-5 text-lg leading-relaxed text-[#65736D]">
-                A child may be running away, crying, refusing, hiding, crashing into other children, becoming physical, or finding it almost impossible to sit with the group, and when the room is busy it is very easy for adults to respond to what the behaviour looks like before they have had enough time to consider what may be happening underneath it.
+              <p className="mt-6 text-lg leading-relaxed text-[#D8E1DC]">
+                Regulator Champions helps educators become more curious about what may be increasing the pressure on the child while still maintaining safety, boundaries and expectations. The goal is not to excuse behaviour, but to understand enough about the child’s regulation needs that the adult response becomes more useful.
               </p>
-            </article>
+            </div>
 
-            <article className="rounded-4xl border-2 border-[#C29F60] bg-[#1C3B34] p-8 text-white">
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-                Regulator Champions
-              </span>
-
-              <h2 className="mt-3 text-3xl font-extrabold">
-                Move from reacting to noticing, then deciding what to try.
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
-                Regulator Champions gives educators a practical way to slow the moment down, notice the child’s body, the environment and the interaction, choose one response that makes sense, and then watch what changes rather than expecting one strategy to work for every child in every situation.
-              </p>
-            </article>
+            <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
+              <img
+                src="/images/watercolour-playbooks.png"
+                alt="Watercolour illustration representing practical educator support"
+                width={900}
+                height={900}
+                loading="lazy"
+                decoding="async"
+                className="aspect-square w-full rounded-3xl object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* MEMBER JOURNEY */}
+      {/* HOW IT WORKS */}
       <section
         id="how-it-works"
-        className="bg-white py-16 sm:py-20"
+        className="bg-[#FAF8F5] py-14 sm:py-18"
       >
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
               How educators use it
             </span>
 
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Start with the situation your educators are actually dealing with.
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              Educators begin with the situation that is actually happening in their room, rather than working through a course in a fixed order.
             </h2>
-
-            <p className="mt-5 text-xl leading-relaxed text-[#53645D]">
-              The program is designed to be useful in the middle of real early childhood practice, so educators can begin with the pressure point that is showing up now, choose the closest Regulation Ladder or floor prompt, try one thoughtful adjustment, and then notice what the child’s response tells them about what to do next.
-            </p>
           </div>
 
-          <div className="mt-12 space-y-4">
+          <div className="mt-10 space-y-4">
             {MEMBER_JOURNEY.map((step, index) => (
               <article
                 key={step.title}
-                className="grid gap-5 rounded-4xl border border-[#E5DED4] bg-[#FAF8F5] p-6 sm:grid-cols-[80px_1fr] sm:items-center sm:p-8"
+                className="grid gap-5 rounded-4xl border border-[#E5DED4] bg-white p-6 sm:grid-cols-[72px_1fr] sm:items-center sm:p-8"
               >
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1C3B34] text-lg font-extrabold text-white">
                   {String(index + 1).padStart(2, '0')}
@@ -308,7 +343,7 @@ export default function HomePageClient() {
                     {step.title}
                   </h3>
 
-                  <p className="mt-2 text-lg leading-relaxed text-[#65736D]">
+                  <p className="mt-2 text-lg leading-relaxed text-[#53645D]">
                     {step.text}
                   </p>
                 </div>
@@ -318,105 +353,63 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* RECORDINGS / STAFFING OBJECTION */}
-      <section className="bg-[#1C3B34] py-16 text-white sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
+      {/* RECORDINGS */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-18">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-                Cannot get educators off the floor?
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#F0D99A]">
+                Built for real staffing conditions
               </span>
 
-              <h2 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-                Live attendance is helpful. It is not required.
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                If educators cannot get off the floor for live coaching, they can still bring their questions into the program and return to the recording when staffing allows.
               </h2>
 
-              <p className="mt-6 text-xl leading-relaxed text-[#D8E1DC]">
-                Each monthly coaching session is recorded and added to the Member
-                Hub, so educators can watch when staffing and floor coverage allow.
+              <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
+                Monthly coaching is there to help teams think through the situations that are actually occurring in practice, while recordings mean the learning does not disappear simply because someone was covering lunch breaks, supporting a child or unable to leave the room at the scheduled time.
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <SimpleDarkCard
+              <InfoBubble
                 title="Join live"
-                text="Bring current questions into the conversation and learn with other participating teams."
+                text="Bring current questions into the conversation when staffing makes live attendance possible."
               />
 
-              <SimpleDarkCard
+              <InfoBubble
                 title="Watch later"
-                text="Return to the recording when there is time, or use it during a team meeting or professional learning block."
+                text="Use the recording during planning time, a team meeting or another professional learning opportunity."
               />
 
-              <SimpleDarkCard
+              <InfoBubble
                 title="Ask before the session"
-                text="Educators can submit a private question even if they know they cannot attend live."
+                text="Submit a de-identified question even when you already know you will not be able to attend live."
               />
 
-              <SimpleDarkCard
+              <InfoBubble
                 title="Come back again"
-                text="If the recording still does not answer the situation, submit another question for future coaching."
+                text="Return with another question when the first idea does not quite fit the child or the context."
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT IS INCLUDED */}
-      <section
-        id="included"
-        className="bg-[#FAF8F5] py-16 sm:py-20"
-      >
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
-                What is included
-              </span>
-
-              <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-                Practical supports that help educators think in the moment and reflect afterwards.
-              </h2>
-
-              <p className="mt-6 text-xl leading-relaxed text-[#53645D]">
-                The purpose of the Member Hub is to make it easier for educators to move from concern to action, with practical tools for the room, reflection supports for afterwards, and access to Robyn when a situation is still difficult or the first response has not helped enough.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {CURRENT_INCLUSIONS.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 rounded-3xl border border-[#E5DED4] bg-white p-5"
-                >
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#C29F60] text-sm font-extrabold text-[#1C3B34]">
-                    ✓
-                  </span>
-
-                  <p className="text-base font-semibold leading-relaxed text-[#53645D]">
-                    {item}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CURRENT LADDERS */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-white py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
               Available now
             </span>
 
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Begin with three common regulation challenges already built into the program.
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              The program currently begins with three Regulation Ladders that address common pressure points in early childhood practice.
             </h2>
 
-            <p className="mt-5 max-w-3xl text-xl leading-relaxed text-[#53645D]">
-              These starting points focus on moments that can create a great deal of pressure in early childhood settings, while future Regulation Ladders will be shaped by the real questions and recurring challenges participating teams bring into the program.
+            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+              These are not meant to be completed like units in a course. They give educators a practical place to begin when a familiar situation is becoming difficult, while new ladder content can be added as the program develops around the challenges participating services are actually bringing forward.
             </p>
           </div>
 
@@ -430,7 +423,11 @@ export default function HomePageClient() {
                   <img
                     src={ladder.image}
                     alt=""
-                    className="aspect-[4/4.6] w-full object-cover"
+                    width={700}
+                    height={820}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[4/4.7] w-full object-cover"
                   />
 
                   <span className="absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#1C3B34] text-base font-extrabold text-white">
@@ -439,7 +436,7 @@ export default function HomePageClient() {
                 </div>
 
                 <div className="p-7">
-                  <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#9A793D]">
+                  <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
                     {ladder.tag}
                   </span>
 
@@ -447,7 +444,7 @@ export default function HomePageClient() {
                     {ladder.title}
                   </h3>
 
-                  <p className="mt-4 text-lg leading-relaxed text-[#65736D]">
+                  <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
                     {ladder.text}
                   </p>
                 </div>
@@ -457,57 +454,48 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* TWO WAYS TO WORK WITH ROBYN */}
-      <section className="bg-[#FAF5EC] py-16 sm:py-20">
+      {/* WHAT IS INCLUDED */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mx-auto max-w-4xl text-center">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
-              Two ways to work with Robyn
-            </span>
-
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Choose intensive learning or ongoing support.
-            </h2>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <article className="rounded-4xl border border-[#E5DED4] bg-white p-8">
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
-                Face-to-face at Chirnside Park
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <div>
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
+                What is included
               </span>
 
-              <h3 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
-                Half or full-day team workshop
-              </h3>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+                Regulator Champions brings the practical tools and ongoing support together so educators have somewhere useful to return when regulation becomes difficult.
+              </h2>
 
-              <p className="mt-4 text-lg leading-relaxed text-[#65736D]">
-                Bring your team together for concentrated professional learning,
-                discussion and practical teaching with Robyn.
-              </p>
+              <div className="mt-7 overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3">
+                <img
+                  src="/images/watercolour-wake.png"
+                  alt="Watercolour illustration representing movement and regulation support"
+                  width={900}
+                  height={650}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/3] w-full rounded-3xl object-cover"
+                />
+              </div>
+            </div>
 
-              <p className="mt-5 text-base font-bold leading-relaxed text-[#1C3B34]">
-                Best when your team wants a focused learning day together.
-              </p>
-            </article>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {CURRENT_INCLUSIONS.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-3xl border border-[#E5DED4] bg-white p-5"
+                >
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#E0BC68] text-sm font-extrabold text-[#102E28]">
+                    ✓
+                  </span>
 
-            <article className="rounded-4xl border-2 border-[#C29F60] bg-[#1C3B34] p-8 text-white">
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-                Regulator Champions
-              </span>
-
-              <h3 className="mt-3 text-3xl font-extrabold">
-                Support that continues across the year
-              </h3>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                Use the tools in practice, submit questions, join monthly coaching
-                when possible and return to recordings as new situations arise.
-              </p>
-
-              <p className="mt-5 text-base font-bold leading-relaxed text-white">
-                Best when your team wants somewhere to keep coming back to.
-              </p>
-            </article>
+                  <p className="text-base font-semibold leading-relaxed text-[#42544D]">
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -515,45 +503,84 @@ export default function HomePageClient() {
       <SafeTouchHomepageSection />
 
       {/* ABOUT */}
-      <section className="bg-white py-16 sm:py-20">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="bg-white py-14 sm:py-18">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-4xl bg-[#1C3B34] p-8 text-white sm:p-10">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#F0D99A]">
               Created by Robyn Papworth
             </span>
 
-            <h2 className="mt-4 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Built around the moments when knowing the theory is not enough.
+            <h2 className="mt-4 max-w-4xl text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Regulator Champions was built around the gap between understanding that behaviour is communication and knowing what to actually do when a child is struggling in front of you.
             </h2>
 
-            <p className="mt-6 max-w-4xl text-xl leading-relaxed text-[#D8E1DC]">
-              Regulator Champions brings regulation, sensory, movement and developmental knowledge back to the practical decisions educators have to make throughout an ordinary early childhood day, particularly when a child is escalating, shutting down, struggling with separation, finding group participation difficult, or becoming overwhelmed by the demands around them.
-            </p>
-
-            <p className="mt-5 max-w-4xl text-xl font-bold leading-relaxed text-white">
-              The goal is not to create perfectly calm children or perfectly regulated rooms, but to help educators become more confident at noticing what is happening, understanding what may be contributing to the child’s response, and deciding what to try next without feeling that they have to have every answer immediately.
+            <p className="mt-6 max-w-4xl text-lg leading-relaxed text-[#D8E1DC]">
+              Good educators can understand regulation in theory and still feel unsure when one child is screaming, another is running away, the room is noisy and the rest of the group still needs them. The purpose of this program is to make regulation knowledge more usable in those ordinary, messy moments by helping educators notice more, think more clearly and adjust their response without expecting perfection from themselves or the child.
             </p>
           </div>
         </div>
       </section>
 
+      {/* TWO WAYS */}
+      <section className="bg-[#FAF8F5] py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-4xl text-center">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
+              Two ways to work with Robyn
+            </span>
+
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              Some teams need a concentrated learning day together, while others need support they can keep returning to as different regulation challenges arise across the year.
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <article className="rounded-4xl border border-[#E5DED4] bg-white p-8">
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
+                Face-to-face at Chirnside Park
+              </span>
+
+              <h3 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+                Half or full-day team workshop
+              </h3>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                Bring the team together for concentrated professional learning, practical teaching and discussion with Robyn around regulation, behaviour, sensory needs, movement and the everyday situations educators want more confidence responding to.
+              </p>
+            </article>
+
+            <article className="rounded-4xl border-2 border-[#E0BC68] bg-[#1C3B34] p-8 text-white">
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#F0D99A]">
+                Regulator Champions
+              </span>
+
+              <h3 className="mt-3 text-3xl font-extrabold text-white">
+                Support that continues across the year
+              </h3>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+                Use the Regulation Ladders in practice, submit questions when new situations arise, join monthly coaching when possible and return to recordings when the team needs to revisit a topic or work through a challenge again.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       {/* FUNDING */}
-      <section className="bg-[#FAF8F5] py-16 sm:py-20">
+      <section className="bg-white py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
+              <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
                 Funding information
               </span>
 
-              <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-                Need to explain the investment to leadership?
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+                If your service needs to take the program to leadership, we can provide the information and formal quote needed for that conversation.
               </h2>
 
-              <p className="mt-6 text-xl leading-relaxed text-[#53645D]">
-                We can provide program information and a formal quote for your
-                service to consider alongside its own funding priorities and
-                eligibility requirements.
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Services can consider Regulator Champions alongside their own identified professional learning priorities, improvement planning and current funding eligibility requirements.
               </p>
             </div>
 
@@ -562,14 +589,14 @@ export default function HomePageClient() {
                 state="Victoria"
                 title="School Readiness Funding"
                 href="/school-readiness-funding"
-                text="Information for services considering the program alongside an identified professional learning or practice improvement priority."
+                text="Information for Victorian services considering the program alongside an identified professional learning or practice improvement priority."
               />
 
               <FundingLink
                 state="Queensland"
                 title="Kindy Uplift"
                 href="/kindy-uplift"
-                text="Information for services considering the program alongside professional learning, participation and social and emotional capability priorities."
+                text="Information for Queensland services considering the program alongside professional learning and social and emotional capability priorities."
               />
             </div>
           </div>
@@ -577,15 +604,15 @@ export default function HomePageClient() {
       </section>
 
       {/* PRICING */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-[#FAF5EC] py-14 sm:py-18">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mx-auto max-w-4xl text-center">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
-              Choose your starting point
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#9A793D]">
+              Program options
             </span>
 
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1C3B34] sm:text-5xl">
-              Choose the level of ongoing support that suits your service.
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
+              Choose whether your service wants a six-month introduction or year-round access to the Regulator Champions support system.
             </h2>
           </div>
 
@@ -595,7 +622,7 @@ export default function HomePageClient() {
               price={PREVIEW_PRICE}
               period={`${PREVIEW_ACCESS_MONTHS} months`}
               title="Start with the current three ladders"
-              text="A six-month whole-service starting point for teams who want to begin using the current Regulation Ladders, bring real practice questions to Robyn, access monthly coaching and watch the recordings when live attendance is difficult."
+              text="A smaller whole-service introduction to the Regulation Ladders, Ask Robyn, monthly coaching and recordings, giving your team time to use the support in practice before deciding what they need next."
               href="/proposal?plan=preview"
               button="View 6-Month Preview"
             />
@@ -605,7 +632,7 @@ export default function HomePageClient() {
               price={FULL_PRICE}
               period="12 months"
               title="Give your team year-round support"
-              text="Twelve months of whole-service support so educators can keep returning to the Regulation Ladders, monthly coaching, Ask Robyn and recordings as different children, transitions and regulation challenges arise across the year."
+              text="Ongoing whole-service access to the Regulation Ladders, monthly coaching, Ask Robyn support, recordings and new member resources added as the program develops."
               href="/proposal?plan=full"
               button="View 12-Month Program"
               featured
@@ -615,28 +642,23 @@ export default function HomePageClient() {
       </section>
 
       {/* MULTI SERVICE */}
-      <section className="bg-[#FAF8F5] py-12">
+      <section className="bg-white py-12">
         <div className="mx-auto max-w-7xl px-6">
           <div className="rounded-4xl bg-[#1C3B34] p-8 text-white shadow-lg sm:p-10">
             <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
               <div>
-                <span className="inline-block rounded-full bg-[#C29F60] px-4 py-2 text-sm font-extrabold text-[#1C3B34]">
+                <span className="inline-block rounded-full bg-[#E0BC68] px-4 py-2 text-sm font-extrabold text-[#102E28]">
                   Multiple services
                 </span>
 
-                <h2 className="mt-4 text-3xl font-extrabold">
-                  Want a consistent approach across several centres?
+                <h2 className="mt-4 text-3xl font-extrabold text-white">
+                  Organisations supporting several centres can request a multi-service proposal if they want a more consistent approach across directors, leaders and educator teams.
                 </h2>
-
-                <p className="mt-3 max-w-2xl text-lg leading-relaxed text-[#D8E1DC]">
-                  Multi-service proposals are available for organisations wanting
-                  shared practice across directors, leaders and educator teams.
-                </p>
               </div>
 
               <a
                 href="mailto:robyn@playmoveimprove.com.au?subject=Multi-Service%20Regulator%20Champions%20Quote%20Request"
-                className="flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-[#C29F60] px-7 py-4 text-center text-base font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+                className="flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-white px-7 py-4 text-center text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8] hover:text-[#12362F]"
               >
                 Request multi-service proposal
               </a>
@@ -646,21 +668,21 @@ export default function HomePageClient() {
       </section>
 
       {/* QUOTE */}
-      <section className="bg-[#1C3B34] py-16 text-white sm:py-20">
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-18">
         <div className="mx-auto max-w-5xl px-6">
-          <div className="mx-auto mb-10 max-w-3xl text-center">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-              For directors and leaders
+          <div className="mx-auto mb-9 max-w-3xl text-center">
+            <span className="text-sm font-extrabold uppercase tracking-widest text-[#F0D99A]">
+              Ready to explore it?
             </span>
 
-            <h2 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
-              If regulation, behaviour and educator confidence are creating pressure in your service, you can request the program information and quote you need to discuss Regulator Champions with your leadership team.
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Request the program information and quote you need to take Regulator Champions back to your leadership team.
             </h2>
           </div>
 
           {quoteSubmitted ? (
-            <div className="mx-auto max-w-2xl rounded-4xl border border-white/10 bg-white/5 p-8 text-center">
-              <h3 className="text-2xl font-extrabold text-[#E4C98E]">
+            <div className="mx-auto max-w-2xl rounded-4xl border border-white/15 bg-white/5 p-8 text-center">
+              <h3 className="text-2xl font-extrabold text-[#F0D99A]">
                 Proposal request received
               </h3>
 
@@ -670,7 +692,7 @@ export default function HomePageClient() {
 
               <Link
                 href={`/proposal?plan=${quoteForm.programOption}`}
-                className="mt-6 inline-flex min-h-14 items-center rounded-2xl bg-[#C29F60] px-7 py-4 text-base font-extrabold text-[#1C3B34]"
+                className="mt-6 inline-flex min-h-14 items-center rounded-2xl bg-white px-7 py-4 text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8] hover:text-[#12362F]"
               >
                 Open proposal
               </Link>
@@ -678,14 +700,11 @@ export default function HomePageClient() {
           ) : (
             <form
               onSubmit={handleQuoteSubmit}
-              className="mx-auto max-w-3xl space-y-5 rounded-4xl border border-white/10 bg-white/5 p-7 sm:p-9"
+              className="mx-auto max-w-3xl space-y-5 rounded-4xl border border-white/15 bg-white/5 p-7 sm:p-9"
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <PlanButton
-                  active={
-                    quoteForm.programOption ===
-                    'preview'
-                  }
+                  active={quoteForm.programOption === 'preview'}
                   title="6-Month Preview"
                   price={PREVIEW_PRICE}
                   onClick={() =>
@@ -697,10 +716,7 @@ export default function HomePageClient() {
                 />
 
                 <PlanButton
-                  active={
-                    quoteForm.programOption ===
-                    'full'
-                  }
+                  active={quoteForm.programOption === 'full'}
                   title="12-Month Regulator Champions"
                   price={FULL_PRICE}
                   onClick={() =>
@@ -725,7 +741,7 @@ export default function HomePageClient() {
                       fullName: event.target.value,
                     })
                   }
-                  className="min-h-14 rounded-xl border border-white/15 bg-[#132C27] p-4 text-base text-white placeholder:text-[#91A39B] focus:outline-none focus:ring-2 focus:ring-[#C29F60]"
+                  className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#D8E1DC] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                 />
 
                 <input
@@ -740,7 +756,7 @@ export default function HomePageClient() {
                       email: event.target.value,
                     })
                   }
-                  className="min-h-14 rounded-xl border border-white/15 bg-[#132C27] p-4 text-base text-white placeholder:text-[#91A39B] focus:outline-none focus:ring-2 focus:ring-[#C29F60]"
+                  className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#D8E1DC] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                 />
               </div>
 
@@ -757,7 +773,7 @@ export default function HomePageClient() {
                       serviceName: event.target.value,
                     })
                   }
-                  className="min-h-14 rounded-xl border border-white/15 bg-[#132C27] p-4 text-base text-white placeholder:text-[#91A39B] focus:outline-none focus:ring-2 focus:ring-[#C29F60]"
+                  className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#D8E1DC] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                 />
 
                 <select
@@ -765,12 +781,11 @@ export default function HomePageClient() {
                   onChange={(event) =>
                     setQuoteForm({
                       ...quoteForm,
-                      fundingSource:
-                        event.target.value,
+                      fundingSource: event.target.value,
                     })
                   }
                   aria-label="Funding pathway"
-                  className="min-h-14 rounded-xl border border-white/15 bg-[#132C27] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#C29F60]"
+                  className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                 >
                   <option value="Victorian School Readiness Funding (SRF)">
                     Victorian School Readiness Funding
@@ -793,7 +808,7 @@ export default function HomePageClient() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="min-h-14 w-full rounded-2xl bg-[#C29F60] px-6 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477] disabled:cursor-not-allowed disabled:opacity-60"
+                className="min-h-14 w-full rounded-2xl bg-[#E0BC68] px-6 py-4 text-base font-extrabold text-[#102E28] transition hover:bg-[#EDCD82] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting
                   ? 'Sending request…'
@@ -807,7 +822,7 @@ export default function HomePageClient() {
   );
 }
 
-function SimpleDarkCard({
+function InfoBubble({
   title,
   text,
 }: {
@@ -815,12 +830,12 @@ function SimpleDarkCard({
   text: string;
 }) {
   return (
-    <article className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      <h3 className="text-2xl font-extrabold text-white">
+    <article className="rounded-3xl border border-white/15 bg-white/7 p-6">
+      <h3 className="text-xl font-extrabold text-white">
         {title}
       </h3>
 
-      <p className="mt-3 text-base leading-relaxed text-[#C8D6D0]">
+      <p className="mt-3 text-base leading-relaxed text-[#D8E1DC]">
         {text}
       </p>
     </article>
@@ -841,9 +856,9 @@ function FundingLink({
   return (
     <Link
       href={href}
-      className="rounded-4xl border border-[#E5DED4] bg-white p-7 transition hover:border-[#C29F60]"
+      className="rounded-4xl border border-[#E5DED4] bg-[#FAF8F5] p-7 transition hover:border-[#C29F60]"
     >
-      <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#657B6C]">
+      <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
         {state}
       </span>
 
@@ -851,7 +866,7 @@ function FundingLink({
         {title}
       </h3>
 
-      <p className="mt-4 text-base leading-relaxed text-[#65736D]">
+      <p className="mt-4 text-base leading-relaxed text-[#53645D]">
         {text}
       </p>
 
@@ -886,13 +901,13 @@ function PricingCard({
       className={`rounded-4xl p-8 shadow-sm ${
         featured
           ? 'bg-[#1C3B34] text-white'
-          : 'border-2 border-[#C29F60] bg-white text-[#1C3B34]'
+          : 'border-2 border-[#E0BC68] bg-white text-[#1C3B34]'
       }`}
     >
       <span
-        className={`text-sm font-extrabold uppercase tracking-[0.14em] ${
+        className={`text-sm font-extrabold uppercase tracking-widest ${
           featured
-            ? 'text-[#E4C98E]'
+            ? 'text-[#F0D99A]'
             : 'text-[#9A793D]'
         }`}
       >
@@ -906,8 +921,8 @@ function PricingCard({
       <p
         className={`mt-2 text-base ${
           featured
-            ? 'text-[#C8D6D0]'
-            : 'text-[#6A7873]'
+            ? 'text-[#D8E1DC]'
+            : 'text-[#53645D]'
         }`}
       >
         incl. GST · {period}
@@ -929,10 +944,10 @@ function PricingCard({
 
       <Link
         href={href}
-        className={`mt-8 flex min-h-14 items-center justify-center rounded-2xl px-6 py-4 text-center text-base font-extrabold ${
+        className={`mt-8 flex min-h-14 items-center justify-center rounded-2xl px-6 py-4 text-center text-base font-extrabold shadow-sm ${
           featured
-            ? 'bg-[#C29F60] text-[#1C3B34]'
-            : 'bg-[#1C3B34] text-white'
+            ? 'bg-white text-[#12362F] hover:bg-[#F4F0E8] hover:text-[#12362F]'
+            : 'bg-[#12362F] text-white hover:bg-[#224C42] hover:text-white'
         }`}
       >
         {button}
@@ -958,15 +973,23 @@ function PlanButton({
       onClick={onClick}
       className={`min-h-24 rounded-2xl border p-5 text-left transition ${
         active
-          ? 'border-[#C29F60] bg-white/10'
-          : 'border-white/10 bg-black/10'
+          ? 'border-[#E0BC68] bg-white text-[#12362F]'
+          : 'border-white/30 bg-[#102E28] text-white'
       }`}
     >
-      <span className="block text-lg font-extrabold">
+      <span
+        className={`block text-lg font-extrabold ${
+          active ? 'text-[#12362F]' : 'text-white'
+        }`}
+      >
         {title}
       </span>
 
-      <span className="mt-1 block text-base text-[#C8D6D0]">
+      <span
+        className={`mt-1 block text-base ${
+          active ? 'text-[#42544D]' : 'text-[#D8E1DC]'
+        }`}
+      >
         ${price.toLocaleString()} incl. GST
       </span>
     </button>
