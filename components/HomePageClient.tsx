@@ -29,14 +29,14 @@ const CORE_PROMISES = [
 const CURRENT_LADDERS = [
   {
     number: '01',
-    image: '/images/watercolour-anchor.png',
+    image: '/images/ladders/ladder2_rung05.png',
     tag: 'Regulated Educator',
     title: 'Start with the educator',
     text: 'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
   },
   {
     number: '02',
-    image: '/images/watercolour-dropoff.png',
+    image: '/images/ladders/ladder3_rung06.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
     text: 'Help educators look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer in the transition.',
@@ -146,7 +146,7 @@ export default function HomePageClient() {
               Whole-service regulation support
             </div>
 
-            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.55rem]">
+            <h1 className="mt-5 max-w-4xl text-3xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-5xl">
               When a child is struggling, your educators need more than good intentions. They need help making sense of what the child may be communicating and deciding what to try next.
             </h1>
 
@@ -172,9 +172,9 @@ export default function HomePageClient() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-[#FAF5EC] p-3 shadow-2xl">
+            <div className="overflow-hidden rounded-4xl border border-white/15 bg-[#FAF5EC] p-3 shadow-2xl">
               <img
-                src="/images/watercolour-anchor.png"
+                src="/images/ladders/ladder2_rung05.png"
                 alt="Watercolour illustration representing calm educator support and regulation"
                 width={900}
                 height={900}
@@ -217,25 +217,25 @@ export default function HomePageClient() {
             <div className="grid grid-cols-2 gap-4">
               <div className="overflow-hidden rounded-3xl border border-[#E5DED4] bg-[#FAF5EC]">
                 <img
-                  src="/images/watercolour-dropoff.png"
+                  src="/images/ladders/ladder1_rung08.png"
                   alt="Watercolour illustration representing a difficult early childhood drop-off"
                   width={700}
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/5] w-full object-cover"
+                  className="aspect-4/5 w-full object-cover"
                 />
               </div>
 
               <div className="mt-8 overflow-hidden rounded-3xl border border-[#E5DED4] bg-[#FAF5EC]">
                 <img
-                  src="/images/watercolour-mattime.png"
+                  src="/images/ladders/ladder3_rung06.png"
                   alt="Watercolour illustration representing participation during group time"
                   width={700}
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/5] w-full object-cover"
+                  className="aspect-4/5 w-full object-cover"
                 />
               </div>
             </div>
@@ -299,7 +299,7 @@ export default function HomePageClient() {
 
             <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
               <img
-                src="/images/watercolour-playbooks.png"
+                src="/images/ladders/ladder2_rung07.png"
                 alt="Watercolour illustration representing practical educator support"
                 width={900}
                 height={900}
@@ -469,13 +469,13 @@ export default function HomePageClient() {
 
               <div className="mt-7 overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3">
                 <img
-                  src="/images/watercolour-wake.png"
+                  src="/images/ladders/ladder1_rung10.png"
                   alt="Watercolour illustration representing movement and regulation support"
                   width={900}
                   height={650}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/3] w-full rounded-3xl object-cover"
+                  className="aspect-4/3 w-full rounded-3xl object-cover"
                 />
               </div>
             </div>
