@@ -19,36 +19,36 @@ const PLAY_MOVE_IMPROVE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  applicationName:
-    'Regulator Champions',
+  applicationName: 'Regulator Champions',
 
   title: {
     default:
-      'Regulator Champions | Ongoing Regulation Support for Early Childhood Teams',
+      'Regulator Champions | Early Childhood Regulation Support',
     template:
       '%s | Regulator Champions',
   },
 
   description:
-    'Regulator Champions gives early childhood teams practical Regulation Ladders, monthly coaching, recordings and ongoing support so educators know what to notice, what to try and where to go when they are still unsure.',
+    'Practical early childhood regulation support helping educators understand behaviour, notice what children may be communicating and decide what to try next. Use the Regulation Cards, recordings and deeper support in the way your team has capacity for.',
 
   keywords: [
     'Regulator Champions',
+    'early childhood regulation',
     'early childhood regulation support',
     'early childhood co-regulation',
     'early childhood behaviour support',
+    'behaviour support early childhood',
+    'early childhood behaviour',
+    'regulation cards early childhood',
     'sensory regulation children',
     'sensory processing early childhood',
-    'educator professional learning',
-    'early childhood professional development',
-    'educator coaching',
+    'early childhood educators',
+    'early childhood professional learning',
+    'educator professional development',
     'co-regulation educators',
-    'educator confidence',
-    'responsive practice early childhood',
-    'whole service professional learning',
-    'early childhood transitions',
     'early childhood regulation strategies',
-    'monthly educator coaching',
+    'early childhood transitions',
+    'whole service professional learning',
     'School Readiness Funding',
     'Kindy Uplift',
     'National Quality Standard',
@@ -86,21 +86,20 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_AU',
     url: SITE_URL,
-    siteName:
-      'Regulator Champions',
+    siteName: 'Regulator Champions',
 
     title:
-      'Regulator Champions | Ongoing Support for Early Childhood Teams',
+      'Regulator Champions | Practical Regulation Support for Early Childhood Teams',
 
     description:
-      'Practical Regulation Ladders, monthly coaching, recordings and ongoing support to help educators know what to notice, what to try and where to go when they are still unsure.',
+      'Practical Regulation Cards, recordings and support helping early childhood teams work out what to notice and what to try when behaviour and regulation become difficult.',
 
     images: [
       {
-        url: '/images/safe-touch-early-childhood.png',
+        url: '/images/early-childhood-regulation-program.png',
         width: 1200,
         height: 630,
-        alt: 'Early childhood educator providing calm and responsive support to a child',
+        alt: 'Two early childhood educators reviewing Regulator Champions regulation cards together',
       },
     ],
   },
@@ -109,13 +108,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
 
     title:
-      'Regulator Champions | Ongoing Support for Early Childhood Teams',
+      'Regulator Champions | Early Childhood Regulation Support',
 
     description:
-      'Practical Regulation Ladders, monthly coaching, recordings and ongoing support for early childhood educators.',
+      'Practical Regulation Cards, recordings and support helping early childhood teams know what to notice and what to try when behaviour becomes difficult.',
 
     images: [
-      '/images/safe-touch-early-childhood.png',
+      '/images/early-childhood-regulation-program.png',
     ],
   },
 
@@ -148,7 +147,7 @@ export default function RootLayout({
       SITE_URL,
 
     description:
-      'Ongoing regulation support for early childhood teams using practical Regulation Ladders, monthly coaching, recordings and professional guidance.',
+      'Practical regulation support for early childhood teams using Regulation Ladders, recordings and professional guidance to help educators understand behaviour and decide what to try next.',
 
     founder: {
       '@id':
@@ -225,7 +224,7 @@ export default function RootLayout({
       SITE_URL,
 
     description:
-      'Ongoing early childhood regulation support helping educators know what to notice, what to try and where to go when they need further support.',
+      'Early childhood regulation support helping educators understand behaviour, read children’s body cues and decide what to try next in difficult everyday moments.',
 
     publisher: {
       '@id':

@@ -6,27 +6,28 @@ const siteUrl =
 
 export const metadata: Metadata = {
   title:
-    "Regulator Champions | Regulation Support for Early Childhood Teams",
+    "Regulator Champions | Early Childhood Regulation & Behaviour Support",
 
   description:
-    "Regulator Champions helps early childhood educators understand what children's behaviour and bodies may be communicating, notice regulation needs earlier, and feel more confident deciding what to try next.",
+    "Practical regulation support for early childhood teams. Use Regulation Cards, recordings and ongoing support to work out what to notice and what to try when behaviour becomes difficult.",
 
   keywords: [
     "Regulator Champions",
+    "early childhood regulation",
     "early childhood regulation support",
     "early childhood co-regulation",
     "behaviour support early childhood",
-    "child regulation early childhood",
-    "sensory regulation children",
-    "early childhood professional learning",
-    "educator coaching",
     "early childhood behaviour",
-    "educator confidence",
-    "whole service professional learning",
-    "early childhood transitions",
-    "early childhood behaviour strategies",
+    "regulation cards early childhood",
+    "early childhood educators",
+    "sensory regulation children",
     "sensory processing early childhood",
-    "monthly educator coaching",
+    "early childhood professional learning",
+    "educator professional development",
+    "educator coaching",
+    "early childhood behaviour strategies",
+    "early childhood transitions",
+    "whole service professional learning",
     "School Readiness Funding",
     "Kindy Uplift",
     "Play Move Improve",
@@ -42,15 +43,15 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Regulator Champions",
     title:
-      "Regulator Champions | Help Educators Know What to Try When Regulation Is Hard",
+      "When Behaviour Keeps Happening, Help Your Team Know What to Try Next",
     description:
-      "Practical whole-service support helping early childhood educators notice what may be happening underneath behaviour, understand regulation needs and make more confident decisions about what to try next.",
+      "Regulator Champions helps early childhood teams notice what may be happening underneath behaviour, use practical Regulation Cards and choose thoughtful responses in real early childhood moments.",
     images: [
       {
-        url: "/images/watercolour-dropoff.png",
+        url: "/images/early-childhood-regulation-program.png",
         width: 1200,
         height: 630,
-        alt: "Early childhood educator supporting a child during a difficult regulation moment",
+        alt: "Two early childhood educators reviewing Regulator Champions regulation cards together",
       },
     ],
   },
@@ -58,10 +59,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Regulator Champions | Regulation Support for Early Childhood Teams",
+      "Regulator Champions | Early Childhood Regulation Support",
     description:
-      "Help educators understand what a child's behaviour and body may be communicating, notice regulation needs earlier and know what to try next.",
-    images: ["/images/watercolour-dropoff.png"],
+      "Practical Regulation Cards, recordings and support helping early childhood teams work out what to notice and what to try when behaviour becomes difficult.",
+    images: [
+      "/images/early-childhood-regulation-program.png",
+    ],
   },
 
   robots: {
@@ -107,10 +110,10 @@ export default function HomePage() {
     knowsAbout: [
       "Early childhood regulation",
       "Early childhood co-regulation",
-      "Child development",
-      "Sensory processing",
-      "Movement development",
       "Early childhood behaviour",
+      "Sensory processing",
+      "Child development",
+      "Movement development",
       "Educator professional learning",
       "Executive function",
       "Gross motor development",
@@ -124,7 +127,7 @@ export default function HomePage() {
     name: "Regulator Champions",
     url: siteUrl,
     description:
-      "Practical early childhood regulation support helping educators notice what children's bodies and behaviour may be communicating, understand regulation needs and choose thoughtful responses when situations become difficult.",
+      "Practical early childhood regulation support helping educators understand behaviour, notice children's body cues and decide what to try next in difficult everyday moments.",
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },
@@ -137,20 +140,27 @@ export default function HomePage() {
     "@id": `${siteUrl}/#regulator-champions-service`,
     name: "Regulator Champions",
     description:
-      "A whole-service early childhood professional learning and regulation support program helping educators understand what may sit underneath behaviour, notice regulation needs earlier, strengthen co-regulation and decide what to try next in everyday situations.",
+      "An early childhood regulation support program using practical Regulation Ladders, recordings and ongoing support to help educators, managers and families understand behaviour, notice what may be contributing and decide what to try next.",
     provider: {
       "@id": `${siteUrl}/#organization`,
     },
-    audience: {
-      "@type": "EducationalAudience",
-      educationalRole: "early childhood educator",
-    },
+    audience: [
+      {
+        "@type": "EducationalAudience",
+        educationalRole: "early childhood educator",
+      },
+      {
+        "@type": "Audience",
+        audienceType:
+          "Early childhood directors and educational leaders",
+      },
+    ],
     areaServed: {
       "@type": "Country",
       name: "Australia",
     },
     serviceType:
-      "Early childhood professional learning and regulation support",
+      "Early childhood regulation support and professional learning",
     url: siteUrl,
   };
 
@@ -159,28 +169,36 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organisationSchema),
+          __html: JSON.stringify(
+            organisationSchema,
+          ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personSchema),
+          __html: JSON.stringify(
+            personSchema,
+          ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteSchema),
+          __html: JSON.stringify(
+            websiteSchema,
+          ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serviceSchema),
+          __html: JSON.stringify(
+            serviceSchema,
+          ),
         }}
       />
 

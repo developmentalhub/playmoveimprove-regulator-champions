@@ -1,21 +1,22 @@
 ﻿import Link from 'next/link';
 
-const programLinks = [
+const exploreLinks = [
   {
-    href: '/#how-it-works',
-    label: 'How It Works',
+    href: '/#regulation-ladders',
+    label: 'How it works',
+  },
+  {
+    href: '/#full-program',
+    label: 'Full program',
   },
   {
     href: '/free-guide',
     label: 'Free Safe Touch Guide',
   },
   {
-    href: '/pricing',
-    label: 'Program Options',
-  },
-  {
-    href: '/member-access',
-    label: 'Member Access',
+    href: 'mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20enquiry',
+    label: 'Enquire',
+    external: true,
   },
 ];
 
@@ -30,7 +31,11 @@ const fundingLinks = [
   },
 ];
 
-const supportLinks = [
+const memberLinks = [
+  {
+    href: '/member-access',
+    label: 'Member Login',
+  },
   {
     href: '/proposal?plan=preview',
     label: '6-Month Preview',
@@ -38,10 +43,6 @@ const supportLinks = [
   {
     href: '/proposal?plan=full',
     label: '12-Month Regulator Champions',
-  },
-  {
-    href: '/director-review',
-    label: 'Director Review',
   },
 ];
 
@@ -59,69 +60,68 @@ const legalLinks = [
 export default function Footer() {
   return (
     <footer className="border-t border-[#E5DED4] bg-[#1C3B34] text-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-14 sm:grid-cols-2 lg:grid-cols-5">
-        {/* BRAND */}
-        <div className="space-y-5 lg:col-span-2">
-          <div>
-            <span className="block text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-              Play Move Improve
-            </span>
-
-            <h2 className="mt-2 text-3xl font-extrabold text-white">
-              Regulator Champions
-            </h2>
-          </div>
-
-          <p className="max-w-xl text-lg leading-relaxed text-[#D8E1DC]">
-            Ongoing regulation support for
-            early childhood teams who want
-            to know what to notice, what to
-            try and where to go when they
-            are still unsure.
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+        <div>
+          <p className="text-base font-semibold text-[#E4C98E]">
+            Play Move Improve
           </p>
 
-          <p className="max-w-xl text-lg font-bold leading-relaxed text-white">
-            Practical tools. Monthly
-            coaching. Ongoing access to
-            Robyn.
+          <h2 className="mt-2 text-3xl font-extrabold text-white">
+            Regulator Champions
+          </h2>
+
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#D8E1DC]">
+            Practical support for early childhood teams trying to work out what may be happening underneath behaviour, what to notice next and what might be worth trying in the room.
+          </p>
+
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-[#BFD0C8]">
+            Start with the practical resources, return to the recordings when your team has time, and use the broader program when you want more support.
           </p>
 
           <a
             href="https://www.playmoveimprove.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex text-base font-extrabold text-[#E4C98E] transition hover:text-white"
+            className="mt-6 inline-flex text-base font-semibold text-[#E4C98E] transition hover:text-white"
           >
-            Visit Play Move Improve →
+            Visit Play Move Improve
           </a>
         </div>
 
-        {/* EXPLORE */}
         <div>
-          <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
+          <h3 className="text-lg font-extrabold text-white">
             Explore
           </h3>
 
-          <div className="space-y-3">
-            {programLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-base leading-relaxed text-[#D8E1DC] transition hover:text-white"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="mt-5 space-y-3">
+            {exploreLinks.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="block text-base leading-relaxed text-[#D8E1DC] transition hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-base leading-relaxed text-[#D8E1DC] transition hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </div>
         </div>
 
-        {/* FUNDING */}
         <div>
-          <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
-            Funding
+          <h3 className="text-lg font-extrabold text-white">
+            Funding information
           </h3>
 
-          <div className="space-y-3">
+          <div className="mt-5 space-y-3">
             {fundingLinks.map((link) => (
               <Link
                 key={link.href}
@@ -132,20 +132,23 @@ export default function Footer() {
               </Link>
             ))}
           </div>
+
+          <p className="mt-5 text-sm leading-relaxed text-[#BFD0C8]">
+            Funding suitability depends on your service priorities and current eligibility requirements.
+          </p>
         </div>
 
-        {/* PROGRAM OPTIONS */}
         <div>
-          <h3 className="mb-5 text-sm font-extrabold uppercase tracking-[0.12em] text-[#E4C98E]">
-            Program
+          <h3 className="text-lg font-extrabold text-white">
+            Already involved?
           </h3>
 
-          <div className="space-y-3">
-            {supportLinks.map((link) => (
+          <div className="mt-5 space-y-3">
+            {memberLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-base font-bold text-white transition hover:text-[#E4C98E]"
+                className="block text-base leading-relaxed text-[#D8E1DC] transition hover:text-white"
               >
                 {link.label}
               </Link>
@@ -171,13 +174,11 @@ export default function Footer() {
       <div className="border-t border-white/10 bg-[#16332D]">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-sm text-[#BFD0C8] sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} Play
-            Move Improve. All rights reserved.
+            © {new Date().getFullYear()} Play Move Improve. All rights reserved.
           </p>
 
           <p>
-            Regulator Champions · Victoria,
-            Australia
+            Regulator Champions · Victoria, Australia
           </p>
         </div>
       </div>

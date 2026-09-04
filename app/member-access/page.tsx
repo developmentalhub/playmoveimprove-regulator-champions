@@ -257,52 +257,45 @@ function MemberAccessContent() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
       <main className="mx-auto grid min-h-screen max-w-7xl lg:grid-cols-[1.05fr_0.95fr]">
-
         {/* LEFT */}
         <section className="flex items-center bg-[#1C3B34] px-6 py-12 text-white sm:px-10 lg:px-14">
           <div className="max-w-2xl">
-            <span className="inline-flex rounded-full bg-[#C29F60] px-4 py-2 text-sm font-extrabold text-[#1C3B34]">
+            <p className="text-base font-semibold text-[#E4C98E]">
               Regulator Champions
-            </span>
-
-            <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl">
-              When something is hard in the
-              room, you do not have to work
-              out the next step alone.
-            </h1>
-
-            <p className="mt-5 text-xl leading-relaxed text-[#D8E1DC]">
-              Use Regulator Champions to
-              notice what may be happening,
-              choose something thoughtful to
-              try and come back for support
-              when you are still unsure.
             </p>
 
-            <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
-              <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E4C98E]">
-                Once you are inside
-              </span>
+            <h1 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+              Come in when you need help making sense of what is happening in the room.
+            </h1>
 
-              <div className="mt-5 space-y-4">
-                <JourneyStep
-                  number="1"
-                  title="Start with what is hard"
-                  text="Choose a Regulation Ladder or Floor Deck moment that matches what is happening."
-                />
+            <p className="mt-6 text-xl leading-relaxed text-[#D8E1DC]">
+              The Member Hub is here so your team can return to the Regulation Ladders, practical resources and recordings when something is difficult, rather than trying to remember everything from one training session.
+            </p>
 
-                <JourneyStep
-                  number="2"
-                  title="Try one thing"
-                  text="Use one practical response and watch what changes."
-                />
+            <p className="mt-4 text-lg leading-relaxed text-[#C8D6D0]">
+              You do not need to work through everything in order. Start with the situation that is actually happening for your team.
+            </p>
 
-                <JourneyStep
-                  number="3"
-                  title="Come back if you are stuck"
-                  text="Submit a private question to Robyn or bring the situation into monthly coaching."
-                />
-              </div>
+            <div className="mt-9 border-y border-white/20">
+              <MemberUseRow
+                title="Something keeps happening"
+                text="Choose the Regulation Ladder that sounds closest to the situation your team is dealing with."
+              />
+
+              <MemberUseRow
+                title="You want another idea"
+                text="Use the educator, manager or family cards to look at the same situation from a different perspective."
+              />
+
+              <MemberUseRow
+                title="You have more time later"
+                text="Return to a recording or practical resource when there is enough space to think more deeply."
+              />
+
+              <MemberUseRow
+                title="You are still unsure"
+                text="Submit a de-identified question for Robyn to consider or join a live session when that is useful."
+              />
             </div>
           </div>
         </section>
@@ -310,24 +303,21 @@ function MemberAccessContent() {
         {/* RIGHT */}
         <section className="flex items-center justify-center px-6 py-12 sm:px-10 lg:px-14">
           <div className="w-full max-w-lg">
-            <span className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#9A793D]">
-              Member access
-            </span>
+            <p className="text-base font-semibold text-[#9A793D]">
+              Member Login
+            </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-extrabold text-[#1C3B34] sm:text-4xl">
               Open your service hub.
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#65736D]">
-              Enter the access code supplied
-              to your service. The same code
-              can be shared with authorised
-              educators in your team.
+              Enter the access code supplied to your service. Authorised educators in the same service can use the shared service code to open the Member Hub.
             </p>
 
             <form
               onSubmit={handleSubmit}
-              className="mt-8 rounded-4xl border border-[#E5DED4] bg-white p-6 shadow-sm sm:p-8"
+              className="mt-8 border-y border-[#E5DED4] bg-white py-7"
             >
               <label
                 htmlFor="member-access-code"
@@ -337,10 +327,7 @@ function MemberAccessContent() {
               </label>
 
               <p className="mt-2 text-sm leading-relaxed text-[#65736D]">
-                Your director or service
-                leader should have received
-                this when your service
-                joined Regulator Champions.
+                Your director or service leader should have received this when your service joined Regulator Champions.
               </p>
 
               <input
@@ -382,43 +369,31 @@ function MemberAccessContent() {
               </button>
             </form>
 
-            {/* START HERE */}
-            <div className="mt-6 rounded-3xl bg-[#F1F4F2] p-6">
-              <span className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#657B6C]">
+            {/* NEW MEMBERS */}
+            <div className="mt-7">
+              <h3 className="text-xl font-extrabold text-[#1C3B34]">
                 New to Regulator Champions?
-              </span>
-
-              <h3 className="mt-2 text-xl font-extrabold text-[#1C3B34]">
-                You do not need to explore
-                everything on your first
-                visit.
               </h3>
 
               <p className="mt-3 text-base leading-relaxed text-[#65736D]">
-                Once you enter the Member
-                Hub, start with the current
-                month or choose the
-                Regulation Ladder that
-                sounds closest to the issue
-                happening in your room.
+                You do not need to explore everything on your first visit. Once you are inside, start with the Regulation Ladder that sounds closest to what is happening in your room, or open a recording if that is what your team needs today.
+              </p>
+
+              <p className="mt-3 text-base leading-relaxed text-[#65736D]">
+                There is no expectation that every educator moves through the hub at the same pace.
               </p>
             </div>
 
-            <div className="mt-6 border-t border-[#E5DED4] pt-6">
+            <div className="mt-7 border-t border-[#E5DED4] pt-6">
               <p className="text-sm leading-relaxed text-[#657B6C]">
-                Access is for participating
-                services and their authorised
-                educator teams. Please keep
-                your service code within your
-                team.
+                Access is for participating services and their authorised educator teams. Please keep your service code within your team.
               </p>
 
               <Link
-                href="/proposal?plan=preview"
-                className="mt-4 inline-flex text-sm font-extrabold text-[#1C3B34] underline-offset-4 hover:underline"
+                href="/pricing"
+                className="mt-4 inline-flex text-sm font-semibold text-[#1C3B34] underline-offset-4 hover:underline"
               >
-                Need Regulator Champions
-                access? View program options →
+                Looking for Regulator Champions options?
               </Link>
             </div>
           </div>
@@ -428,30 +403,22 @@ function MemberAccessContent() {
   );
 }
 
-function JourneyStep({
-  number,
+function MemberUseRow({
   title,
   text,
 }: {
-  number: string;
   title: string;
   text: string;
 }) {
   return (
-    <div className="flex gap-4">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#C29F60] font-extrabold text-[#1C3B34]">
-        {number}
-      </span>
+    <div className="border-b border-white/20 py-5 last:border-b-0">
+      <h3 className="text-lg font-extrabold text-white">
+        {title}
+      </h3>
 
-      <div>
-        <h3 className="text-lg font-extrabold text-white">
-          {title}
-        </h3>
-
-        <p className="mt-1 text-base leading-relaxed text-[#C8D6D0]">
-          {text}
-        </p>
-      </div>
+      <p className="mt-2 text-base leading-relaxed text-[#C8D6D0]">
+        {text}
+      </p>
     </div>
   );
 }

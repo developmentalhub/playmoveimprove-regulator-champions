@@ -7,44 +7,48 @@ import { useState } from 'react';
 type NavigationLink = {
   href: string;
   label: string;
+  external?: boolean;
 };
 
 const navigationLinks: NavigationLink[] = [
   {
-    href: '/#how-it-works',
+    href: '/#regulation-ladders',
     label: 'How It Works',
   },
   {
-    href: '/free-guide',
-    label: 'Free Guide',
+    href: 'https://playmoveimprove.com.au/products/regulation-cards-for-early-childhood-teams',
+    label: 'Regulation Cards',
+    external: true,
   },
   {
-    href: '/school-readiness-funding',
-    label: 'Funding',
+    href: '/#full-program',
+    label: 'Full Program',
   },
   {
-    href: '/pricing',
-    label: 'Program Options',
+    href: 'mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20enquiry',
+    label: 'Enquire',
+    external: true,
   },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [
-    mobileMenuOpen,
-    setMobileMenuOpen,
-  ] = useState(false);
-
-  const isActive = (
-    href: string,
-  ) => {
+  const isActive = (href: string) => {
     if (href.startsWith('/#')) {
       return pathname === '/';
     }
 
     if (href === '/') {
       return pathname === '/';
+    }
+
+    if (
+      href.startsWith('http') ||
+      href.startsWith('mailto:')
+    ) {
+      return false;
     }
 
     return pathname.startsWith(href);
@@ -59,9 +63,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
         <Link
           href="/"
-          onClick={
-            closeMobileMenu
-          }
+          onClick={closeMobileMenu}
           className="group flex shrink-0 items-center gap-3"
         >
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#C29F60] text-sm font-extrabold text-[#1C3B34] shadow-sm transition group-hover:bg-[#D1B477]">
@@ -83,54 +85,52 @@ export default function Navbar() {
           className="hidden items-center gap-1 xl:flex"
           aria-label="Main navigation"
         >
-          {navigationLinks.map(
-            (link) => (
+          {navigationLinks.map((link) => {
+            if (link.external) {
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-xl px-4 py-3 text-base font-bold text-[#D8E1DC] transition hover:bg-white/10 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              );
+            }
+
+            return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`rounded-xl px-4 py-3 text-base font-bold transition ${
-                  isActive(
-                    link.href,
-                  )
+                  isActive(link.href)
                     ? 'bg-white/10 text-white'
                     : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {link.label}
               </Link>
-            ),
-          )}
+            );
+          })}
         </nav>
 
-        <div className="hidden items-center gap-3 xl:flex">
+        <div className="hidden items-center xl:flex">
           <Link
             href="/member-access"
-            className="rounded-2xl border border-white/20 bg-white/5 px-5 py-3 text-base font-bold text-white transition hover:bg-white/10"
+            className="rounded-2xl border border-white/20 px-5 py-3 text-sm font-semibold text-[#D8E1DC] transition hover:border-white/35 hover:bg-white/5 hover:text-white"
           >
-            Member Access
-          </Link>
-
-          <Link
-            href="/proposal?plan=preview"
-            className="rounded-2xl bg-[#C29F60] px-5 py-3 text-base font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#D1B477]"
-          >
-            View Program
+            Member Login
           </Link>
         </div>
 
         <button
           type="button"
           onClick={() =>
-            setMobileMenuOpen(
-              (current) =>
-                !current,
-            )
+            setMobileMenuOpen((current) => !current)
           }
           className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
           aria-label="Toggle navigation menu"
-          aria-expanded={
-            mobileMenuOpen
-          }
+          aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
         >
           <svg
@@ -161,52 +161,45 @@ export default function Navbar() {
           className="border-t border-white/10 bg-[#1C3B34] px-5 py-6 shadow-xl xl:hidden"
           aria-label="Mobile navigation"
         >
-          <div className="space-y-2">
-            {navigationLinks.map(
-              (link) => (
+          <div className="space-y-1">
+            {navigationLinks.map((link) => {
+              if (link.external) {
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={closeMobileMenu}
+                    className="block border-b border-white/10 px-2 py-4 text-lg font-bold text-[#D8E1DC] transition hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+
+              return (
                 <Link
-                  key={
-                    link.href
-                  }
-                  href={
-                    link.href
-                  }
-                  onClick={
-                    closeMobileMenu
-                  }
-                  className={`block rounded-2xl px-4 py-4 text-lg font-bold transition ${
-                    isActive(
-                      link.href,
-                    )
-                      ? 'bg-white/10 text-white'
-                      : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white'
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMobileMenu}
+                  className={`block border-b border-white/10 px-2 py-4 text-lg font-bold transition ${
+                    isActive(link.href)
+                      ? 'text-white'
+                      : 'text-[#D8E1DC] hover:text-white'
                   }`}
                 >
                   {link.label}
                 </Link>
-              ),
-            )}
+              );
+            })}
           </div>
 
-          <div className="mt-6 grid gap-3 border-t border-white/10 pt-6">
+          <div className="mt-6 pt-2">
             <Link
               href="/member-access"
-              onClick={
-                closeMobileMenu
-              }
-              className="block rounded-2xl border border-white/20 bg-white/5 px-5 py-4 text-center text-lg font-bold text-white transition hover:bg-white/10"
+              onClick={closeMobileMenu}
+              className="block rounded-2xl border border-white/20 px-5 py-4 text-center text-base font-semibold text-[#D8E1DC] transition hover:bg-white/5 hover:text-white"
             >
-              Member Access
-            </Link>
-
-            <Link
-              href="/proposal?plan=preview"
-              onClick={
-                closeMobileMenu
-              }
-              className="block rounded-2xl bg-[#C29F60] px-5 py-4 text-center text-lg font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#D1B477]"
-            >
-              View Program
+              Member Login
             </Link>
           </div>
         </nav>
