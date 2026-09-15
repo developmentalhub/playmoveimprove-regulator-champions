@@ -138,6 +138,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+  url: `${baseUrl}/nsw-early-childhood-professional-development`,
+  changeFrequency: 'monthly',
+  priority: 0.9,
+},
+
+{
+  url: `${baseUrl}/south-australia-early-childhood-professional-development`,
+  changeFrequency: 'monthly',
+  priority: 0.9,
+},
+
+    {
       url: `${baseUrl}/terms`,
       changeFrequency: 'yearly',
       priority: 0.2,
