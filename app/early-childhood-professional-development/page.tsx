@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -230,8 +231,8 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
 
       {/* HERO */}
       <section className="bg-[#1C3B34] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
-          <div className="max-w-4xl">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
             <p className="text-base font-semibold text-[#E4C98E]">
               Early childhood professional development
             </p>
@@ -245,11 +246,11 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
             </p>
 
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
-              Good professional development should do more than leave educators with a notebook full of ideas. It should help them understand what they are seeing, make better decisions in difficult moments and build confidence across everyday routines.
+              Your educators probably do not need another folder of strategies. They need learning that helps them understand what they are seeing, think more clearly when a situation becomes difficult, and feel more confident deciding what to try next.
             </p>
 
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
-              That becomes particularly important around emotional regulation, transitions, sensory overload, participation, behaviour and the moments when children need adults to co-regulate with them.
+              That becomes particularly important around emotional regulation, transitions, sensory overload, participation, behaviour and the everyday moments when children need adults to co-regulate with them.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -262,36 +263,89 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
 
               <Link
                 href="/#full-program"
-                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
               >
                 Explore Regulator Champions
               </Link>
             </div>
           </div>
+
+          <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
+            <Image
+              src="/images/educators-testing-regulation-activity-together.jpg"
+              alt="Early childhood educators trying a practical regulation activity together while children continue to play nearby"
+              width={1400}
+              height={1000}
+              priority
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
         </div>
       </section>
 
       {/* QUICK TEST */}
-      <section className="border-b border-[#E6E2DC] bg-white">
+      <section className="border-b border-[#E6E2DC] bg-[#E8D39D]">
         <div className="mx-auto max-w-7xl px-5 py-9 sm:px-6">
-          <div className="border-l-4 border-[#C29F60] pl-6">
-            <p className="text-sm font-semibold text-[#9A793D]">
-              A simple question before booking professional development
+          <div className="border-l-4 border-[#8A6F3E] pl-6">
+            <p className="text-sm font-semibold text-[#6E5426]">
+              A useful question before booking professional development
             </p>
 
             <p className="mt-3 max-w-4xl text-2xl font-extrabold leading-relaxed">
               Will this learning help my educators make better decisions next week?
             </p>
 
-            <p className="mt-3 max-w-4xl text-base leading-relaxed text-[#53645D]">
-              If the answer is difficult to explain, the learning may still be interesting, but it may be harder to see how it will change everyday practice.
+            <p className="mt-3 max-w-4xl text-base leading-relaxed text-[#45564F]">
+              If it is difficult to explain what educators might notice, try or discuss differently afterwards, the learning may still be interesting, but it may be harder for a busy team to carry it back into practice.
             </p>
           </div>
         </div>
       </section>
 
-      {/* WHAT GOOD PD SHOULD DO */}
+      {/* REAL ROOMS */}
       <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-[#657B6C]">
+                Professional learning in real rooms
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Reflection does not always need another meeting.
+              </h2>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Some of the most useful professional conversations can happen while educators are already in the environment, watching what children are doing and talking quietly about what they are noticing.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                One educator might notice that a child becomes unsettled whenever the play space becomes crowded. Another might notice that the same child stays engaged much longer when there is movement, water or a quieter position available. Neither educator needs to have the perfect answer immediately.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                The value is in learning how to look more closely, compare observations and decide together what might be worth changing or trying.
+              </p>
+            </div>
+
+            <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
+              <Image
+                src="/images/educators-reflecting-during-outdoor-play.jpg"
+                alt="Two educators reflecting together during outdoor play while other educators continue actively engaging with children"
+                width={1400}
+                height={1000}
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 54vw"
+                className="h-auto w-full rounded-3xl object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT GOOD PD SHOULD DO */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
@@ -316,13 +370,17 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
               <p>
                 Educators need enough knowledge to understand why an approach may help, and enough confidence to recognise when something needs to be adapted for the child, group or environment in front of them.
               </p>
+
+              <p className="text-xl font-extrabold leading-relaxed text-[#1C3B34]">
+                Good professional learning should make the educator more capable of thinking, not more dependent on being given the next strategy.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* TOPICS */}
-      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm font-semibold text-[#657B6C]">
@@ -332,6 +390,10 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               What early childhood teams are often trying to strengthen.
             </h2>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              These areas often overlap. A child struggling with participation may also be managing sensory load, executive-function demands, transitions and regulation at the same time.
+            </p>
           </div>
 
           <div className="grid gap-x-10 md:grid-cols-2">
@@ -375,44 +437,83 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
         </div>
       </section>
 
-      {/* IMPLEMENTATION */}
+      {/* TIRED TEAMS */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-xl">
+            <Image
+              src="/images/team-reflecting-after-childcare-session.jpg"
+              alt="Early childhood educators having a short reflective conversation together at the end of a busy childcare session"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-[#E4C98E]">
+              Professional learning for tired teams
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Your educators may not need more content. They may need help making sense of what already happened today.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
+              A team can finish a long day carrying dozens of small moments with them. A difficult drop-off. A child who could not manage group time. An educator who felt themselves becoming frustrated. A strategy that worked for ten minutes and then suddenly did not.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+              Useful professional learning can give those experiences somewhere to go. Rather than beginning another abstract topic, the team can return to one real situation and ask what they noticed, what may have increased the pressure, what helped, and what they might change tomorrow.
+            </p>
+
+            <p className="mt-5 text-xl font-extrabold leading-relaxed text-white">
+              That is professional learning too.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* IMPLEMENTATION */}
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <p className="text-sm font-semibold text-[#E4C98E]">
+              <p className="text-sm font-semibold text-[#9A793D]">
                 Beyond one-off training
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                Professional development has more impact when implementation is part of the learning.
+                Professional development has more influence when implementation is part of the learning.
               </h2>
             </div>
 
-            <div className="space-y-6">
-              <div className="border-t border-white/20 pt-5">
+            <div className="space-y-7">
+              <div className="border-t border-[#BDB3A5] pt-5">
                 <h3 className="text-2xl font-extrabold">
                   “That was a great session.”
                 </h3>
 
-                <p className="mt-3 text-base leading-relaxed text-[#C8D6D0]">
+                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
                   Educators hear useful ideas, take notes and return to work, but may be left to work out by themselves how those ideas fit their rooms, routines and current pressures.
                 </p>
               </div>
 
               <div className="border-t border-[#C29F60] pt-5">
-                <h3 className="text-2xl font-extrabold text-[#E4C98E]">
+                <h3 className="text-2xl font-extrabold text-[#7A6032]">
                   “We tried this. Here is what we noticed.”
                 </h3>
 
-                <p className="mt-3 text-base leading-relaxed text-[#D8E1DC]">
+                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
                   Educators learn, apply, reflect, adjust and revisit the topic so the knowledge gradually becomes part of everyday practice.
                 </p>
               </div>
 
               <Link
                 href="/educator-capacity-building"
-                className="inline-flex text-sm font-extrabold text-[#E4C98E] underline decoration-[#E4C98E]/40 underline-offset-4"
+                className="inline-flex text-base font-extrabold text-[#7A6032] underline decoration-[#C29F60]/50 underline-offset-4"
               >
                 Read the Educator Capacity Building Guide
               </Link>
@@ -479,6 +580,10 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
               <p>
                 This becomes particularly important for regulation and co-regulation because a child may interact with many different educators across the week.
               </p>
+
+              <p>
+                Shared practice does not mean every educator responds identically. It means the team has a more consistent way of noticing what may be happening and talking together about why they are choosing a particular response.
+              </p>
             </div>
           </div>
         </div>
@@ -498,7 +603,7 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
               </h2>
 
               <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-                These questions can help you distinguish between professional learning that sounds interesting and learning that is more likely to support your current priorities.
+                You do not need to assess professional learning by how impressive the slide deck looks. These questions can help you think about whether the learning is likely to be useful to the educators and children in your own service.
               </p>
             </div>
 
@@ -527,7 +632,19 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
       {/* REGULATOR CHAMPIONS */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-xl">
+              <Image
+                src="/images/educators-sharing-one-card-at-staff-meeting.jpg"
+                alt="Early childhood educators using one Regulation Card as the starting point for an informal team discussion"
+                width={1400}
+                height={1000}
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-auto w-full rounded-3xl object-cover"
+              />
+            </div>
+
             <div>
               <p className="text-sm font-semibold text-[#E4C98E]">
                 Regulator Champions
@@ -536,24 +653,40 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
                 Ongoing support for teams that need more than another list of regulation strategies.
               </h2>
-            </div>
 
-            <div className="space-y-5 text-lg leading-relaxed text-[#D8E1DC]">
-              <p>
-                Regulator Champions helps early childhood teams notice what may be happening underneath behaviour, think about the environment and adult response, and decide what might be worth trying next.
-              </p>
+              <div className="mt-5 space-y-5 text-lg leading-relaxed text-[#D8E1DC]">
+                <p>
+                  Regulator Champions helps early childhood teams notice what may be happening underneath behaviour, think about the environment and adult response, and decide what might be worth trying next.
+                </p>
 
-              <p>
-                Regulation Ladders provide a practical starting point, while recordings, reflection resources and ongoing support help teams go deeper when they have the capacity.
-              </p>
+                <p>
+                  A Regulation Card can be enough to start a ten-minute conversation. A recording can help when the team wants to understand the topic more deeply. A question can be brought back when the strategy that sounded good on paper becomes more complicated in a real room.
+                </p>
 
-              <p>
-                The aim is not for every educator to complete another large course. It is to give the team something useful to return to when real situations arise.
-              </p>
+                <p>
+                  The aim is not for every educator to complete another large course. It is to give the team something useful to return to when real situations arise.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/playbooks"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
+                >
+                  Try the Free Regulation Ladder
+                </Link>
+
+                <Link
+                  href="/proposal?plan=preview"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
+                >
+                  View Program Options
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div className="mt-10 border-y border-white/20 md:grid md:grid-cols-3">
+          <div className="mt-12 border-y border-white/20 md:grid md:grid-cols-3">
             <ProgramPoint
               title="Developmentally informed"
               text="Connect regulation with sensory processing, movement, executive function and participation."
@@ -570,22 +703,6 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
               text="Give educators time to notice, trial, review and make the next practical adjustment."
               divided
             />
-          </div>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/playbooks"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
-            >
-              Try the Free Regulation Ladder
-            </Link>
-
-            <Link
-              href="/proposal?plan=preview"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-white/20 px-6 py-3.5 text-sm font-bold text-white"
-            >
-              View Program Options
-            </Link>
           </div>
         </div>
       </section>
@@ -707,7 +824,7 @@ export default function EarlyChildhoodProfessionalDevelopmentPage() {
 
             <Link
               href="/proposal?plan=preview"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
               View Program Options
             </Link>

@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next"
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Footer from '@/components/Footer';
@@ -303,16 +304,18 @@ export default function RootLayout({
           }}
         />
 
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
+  <div className="flex min-h-screen flex-col">
+    <Navbar />
 
-          <div className="flex-1">
-            {children}
-          </div>
+    <div className="flex-1">
+      {children}
+    </div>
 
-          <Footer />
-        </div>
-      </body>
-    </html>
-  );
+    <Footer />
+  </div>
+
+  <Analytics />
+</body>
+</html>
+);
 }

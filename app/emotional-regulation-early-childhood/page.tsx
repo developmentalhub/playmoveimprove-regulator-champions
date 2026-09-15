@@ -1,23 +1,23 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title:
-    'Emotional Regulation in Early Childhood | Educator Strategies',
+    'Emotional Regulation in Early Childhood | Practical Support for Educators',
 
   description:
-    'Understand emotional regulation in early childhood through a practical educator lens. Learn what children may be communicating through behaviour, sensory overload, shutdown, movement and stress responses.',
+    'A practical early childhood guide to emotional regulation, helping educators notice what children may be communicating through behaviour, movement, shutdown, overwhelm and transitions, and decide what to try next.',
 
   alternates: {
-    canonical:
-      '/emotional-regulation-early-childhood',
+    canonical: '/emotional-regulation-early-childhood',
   },
 
   openGraph: {
     title:
-      'Emotional Regulation in Early Childhood | Regulator Champions',
+      'Emotional Regulation in Early Childhood | Practical Support for Educators',
     description:
-      'A practical guide for early childhood educators, child care staff and preschool teachers who want to understand what may sit underneath behaviour and support regulation through connection, environment and thoughtful adult responses.',
+      'Explore emotional regulation in early childhood, including what behaviour may be communicating, how to notice body cues earlier and what thoughtful support can look like in practice.',
     url: '/emotional-regulation-early-childhood',
     type: 'article',
   },
@@ -27,9 +27,9 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline:
-    'Emotional Regulation in Early Childhood: What Is the Child’s Body Telling Us?',
+    'Emotional Regulation in Early Childhood: What Educators May Be Missing',
   description:
-    'A practical guide for early childhood educators looking beyond behaviour to consider regulation, sensory load, environment, adult responses and co-regulation.',
+    'A practical early childhood guide helping educators understand emotional regulation, notice body-based signs earlier and respond more thoughtfully in everyday situations.',
   author: {
     '@type': 'Person',
     name: 'Robyn Papworth',
@@ -48,116 +48,176 @@ const articleSchema = {
   },
 };
 
-const SIGNS_TO_NOTICE = [
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name:
+        'What is emotional regulation in early childhood?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Emotional regulation in early childhood refers to the developing ability to manage feelings, recover from frustration, cope with change and remain engaged enough to participate in everyday life. Young children often still need significant adult support while these skills are developing.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name:
+        'What does emotional dysregulation look like in young children?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Emotional dysregulation can look like yelling, running, hitting, hiding, refusing, becoming unusually still, withdrawing from play, struggling to transition or finding it hard to recover after a challenge. It does not always look loud or disruptive.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name:
+        'Why do some children struggle more than others?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Children differ in temperament, sensory processing, developmental skills, life experiences, sleep, stress levels, communication abilities and the amount of demand placed on them. Emotional regulation difficulties usually reflect multiple contributing factors rather than one simple cause.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name:
+        'What can educators do when a child is struggling?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Educators can notice body cues earlier, reduce unnecessary demand, change the environment, slow their own pace, use fewer words, support transitions more predictably and reflect on what may be happening underneath the behaviour rather than only reacting to the behaviour itself.',
+      },
+    },
+  ],
+};
+
+const BODY_CUES = [
   {
-    title: 'The child suddenly gets louder',
+    title: 'Movement changes',
     text:
-      'Volume can increase when excitement, sensory load, fatigue or emotional demand is building. The useful question is not only how to quieten the child, but what changed before the volume increased.',
+      'Some children move more when regulation is becoming difficult. They may pace, run, crash, climb, fidget, wander or seem unable to stay with the group in the way adults were expecting.',
   },
   {
-    title: 'The child starts running',
+    title: 'Voice changes',
     text:
-      'Running can be playful, impulsive, sensory seeking, avoidance, excitement or an attempt to regulate through movement. Context matters.',
+      'You may notice voices becoming louder, sharper, more repetitive or more urgent. For other children, speech may reduce and they may stop using words effectively when the demand becomes too high.',
   },
   {
-    title: 'The child becomes very still',
+    title: 'Attention changes',
     text:
-      'Regulation difficulties do not always look busy. A child who freezes, withdraws, stops speaking or becomes unusually compliant may also be overwhelmed.',
+      'A child may appear distracted, scattered, stuck on one detail or unable to shift into the next part of the routine. This can look like disobedience from the outside, but it may actually reflect overload.',
   },
   {
-    title: 'Everything becomes a refusal',
+    title: 'Connection changes',
     text:
-      'Repeated “no”, dropping to the floor or avoiding instructions may appear behavioural, but can also emerge when the child no longer has enough capacity for another demand.',
-  },
-  {
-    title: 'Small problems become very big',
-    text:
-      'When a child is already carrying a high load, a seemingly minor frustration can become the final demand they cannot manage.',
-  },
-  {
-    title: 'The child cannot return to the group',
-    text:
-      'Recovery can take time. A child may look calmer before their attention, flexibility and social participation are genuinely available again.',
+      'Some children move away, avoid eye contact, hide under furniture, turn their bodies away or become more controlling in play because connection feels harder to manage in that moment.',
   },
 ];
 
-const THREE_PLACES = [
+const WHAT_TO_TRY = [
   {
-    number: '01',
-    title: 'The child',
+    title: 'Notice earlier',
     text:
-      'What is their body communicating? Consider movement, breathing, posture, facial expression, voice, proximity, attention and changes from their usual behaviour.',
+      'The earlier adults notice a change in the child’s body, participation or communication, the less likely the support is to become reactive and rushed.',
   },
   {
-    number: '02',
-    title: 'The environment',
+    title: 'Reduce the load',
     text:
-      'What is happening around them? Noise, crowding, transitions, visual load, waiting, unpredictable routines and competing sensory information can all matter.',
+      'Sometimes the most effective support is not adding a calming strategy but reducing noise, crowding, waiting, language or social pressure so the situation becomes more manageable.',
   },
   {
-    number: '03',
-    title: 'The adult response',
+    title: 'Change the expectation',
     text:
-      'What happens when we enter the moment? Our pace, voice, amount of language, physical position and urgency can either reduce or add to the demand.',
+      'If a child cannot manage the task in the way it is currently being asked of them, we may need to adjust how participation looks before expecting success.',
+  },
+  {
+    title: 'Support the transition',
+    text:
+      'Many emotional regulation difficulties emerge around stopping, waiting, moving, separating or shifting attention, so improving transitions often improves regulation.',
+  },
+  {
+    title: 'Reflect as a team',
+    text:
+      'When the same behaviour keeps happening, it helps to ask what the adults are noticing, what has already been tried and what may need to change around the child, not only within the child.',
   },
 ];
 
-const PRACTICE_EXAMPLES = [
+const FAQS = [
   {
-    situation:
-      'A child keeps leaving group time.',
-    reaction:
-      '“Come back and sit down. Everyone else is sitting.”',
-    noticing:
-      'Is the group too long? Does the child need movement? Are they following the language? Is sitting still actually required for participation?',
+    question:
+      'What is emotional regulation in early childhood?',
+    answer:
+      'Emotional regulation in early childhood is the developing ability to manage feelings, recover from frustration, cope with change and remain engaged enough to participate in everyday life. Young children often still need significant adult support while these skills are developing.',
   },
   {
-    situation:
-      'A child pushes another child during pack-up.',
-    reaction:
-      '“We do not push. Say sorry.”',
-    noticing:
-      'Was the room crowded? Was the transition sudden? Was the child trying to move through a bottleneck? Had their capacity already dropped?',
+    question:
+      'What does emotional dysregulation look like in young children?',
+    answer:
+      'It can look like yelling, running, hitting, refusing, hiding, shutting down, becoming very still, leaving the group or finding it hard to recover after a challenge. It does not always look loud or disruptive.',
   },
   {
-    situation:
-      'A child screams when their parent leaves.',
-    reaction:
-      '“Mum will be back later. Come and play.”',
-    noticing:
-      'What does their body need first? More time, less language, proximity, a familiar routine, movement, comfort or a quieter arrival?',
+    question:
+      'Is emotional regulation only about calming a child down?',
+    answer:
+      'No. It is also about participation, recovery, flexibility, communication and whether the child can remain connected enough to learn and be with others.',
+  },
+  {
+    question:
+      'Why might a child seem fine one moment and then suddenly fall apart?',
+    answer:
+      'What looks sudden is often the point where accumulated demand has become too much. Sensory load, transitions, waiting, hunger, fatigue, social pressure or a build-up of smaller stresses may all contribute.',
+  },
+  {
+    question:
+      'What should educators do first?',
+    answer:
+      'Begin by noticing what the child’s body, participation and environment are showing you. Then ask what part of the situation can be made more manageable before expecting the child to do something differently.',
   },
 ];
 
-export default function EmotionalRegulationPage() {
+export default function EmotionalRegulationEarlyChildhoodPage() {
   return (
     <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            JSON.stringify(articleSchema),
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
         }}
       />
 
       {/* HERO */}
       <section className="bg-[#1C3B34] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
-          <div className="max-w-4xl">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
             <p className="text-base font-semibold text-[#E4C98E]">
-              Emotional regulation in early childhood
+              Practical guide for early childhood educators
             </p>
 
             <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Before we ask a child to calm down, what is their body telling us?
+              Emotional regulation in early childhood
             </h1>
 
+            <p className="mt-5 max-w-3xl text-xl font-bold leading-relaxed text-[#F5EFE4]">
+              When behaviour becomes difficult, the most useful question is often not how to stop it, but what the child may be communicating through it.
+            </p>
+
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
-              Emotional regulation is often talked about as though it is a skill a child should simply be able to use when things get difficult. In early childhood, it is much more relational than that.
+              Emotional regulation is not simply about whether a child looks calm. It is about whether they can stay connected enough to participate, cope with change, move through frustration, recover after stress and manage the ordinary demands of early childhood life with growing support and skill.
             </p>
 
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
-              Young children are still developing the ability to manage strong feelings, sensory information, impulses, transitions and frustration. They often need adults to notice what is happening before expecting them to manage it alone.
+              Children show us a great deal through their bodies before a situation becomes big, and the earlier educators notice those signs, the more thoughtful and effective their response can become.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -169,92 +229,148 @@ export default function EmotionalRegulationPage() {
               </Link>
 
               <Link
-                href="/#full-program"
-                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+                href="/proposal?plan=preview"
+                className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
               >
                 Explore Regulator Champions
               </Link>
             </div>
           </div>
+
+          <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
+            <Image
+              src="/images/educator-noticing-child-body-cues.jpg"
+              alt="Educator thoughtfully noticing a child's body cues in an early childhood room while other educators continue supporting children nearby"
+              width={1400}
+              height={1000}
+              priority
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
         </div>
       </section>
 
-      {/* POSITIONING */}
-      <section className="border-b border-[#E6E2DC] bg-white">
+      {/* QUICK REFRAME */}
+      <section className="border-b border-[#E6E2DC] bg-[#E8D39D]">
         <div className="mx-auto max-w-7xl px-5 py-9 sm:px-6">
-          <div className="border-l-4 border-[#C29F60] pl-6">
-            <p className="text-sm font-semibold text-[#9A793D]">
-              Regulation is not the same as being quiet
+          <div className="border-l-4 border-[#8A6F3E] pl-6">
+            <p className="text-sm font-semibold text-[#6E5426]">
+              A useful reframe
             </p>
 
-            <p className="mt-3 max-w-4xl text-lg font-semibold leading-relaxed">
-              A child can be quiet and overwhelmed. A child can be moving and regulated. A child can follow an instruction while disconnected, frozen or trying very hard to hold themselves together.
-            </p>
-
-            <p className="mt-3 max-w-4xl text-base leading-relaxed text-[#53645D]">
-              Looking only at whether behaviour appears calm can cause us to miss what is actually happening.
+            <p className="mt-3 max-w-4xl text-xl font-extrabold leading-relaxed">
+              Emotional regulation difficulties do not always begin at the moment of visible behaviour. They often begin earlier, in the child’s body, attention, movement, sensory experience or capacity to manage what the environment is asking of them.
             </p>
           </div>
         </div>
       </section>
 
-      {/* WHAT REGULATION MEANS */}
+      {/* WHAT IT IS */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-sm font-semibold text-[#657B6C]">
-                Start here
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                Emotional regulation is the ability to respond and recover, not the absence of emotion.
-              </h2>
-            </div>
-
-            <div className="space-y-5 text-lg leading-relaxed text-[#53645D]">
-              <p>
-                Children do not need to be calm all day. They need opportunities to experience excitement, frustration, disappointment, uncertainty and strong feelings while gradually learning what helps them remain connected and recover.
-              </p>
-
-              <p>
-                In early childhood, that learning happens with other people. Adults support children through predictable relationships, thoughtful environments, body-based experiences and responses that match the child&apos;s current capacity.
-              </p>
-
-              <p>
-                This is why co-regulation matters. Before self-regulation becomes more reliable, children often depend on adults to help make difficult moments manageable enough for participation and learning to occur.
-              </p>
-
-              <Link
-                href="/co-regulation-early-childhood"
-                className="inline-flex font-bold text-[#9A793D] underline decoration-[#C29F60] decoration-2 underline-offset-4"
-              >
-                Read the co-regulation guide
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SIGNS */}
-      <section className="bg-[#FAF8F5] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="max-w-3xl">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+          <div>
             <p className="text-sm font-semibold text-[#657B6C]">
-              What might regulation difficulty look like?
+              What emotional regulation means
             </p>
 
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Look for changes in the body, not just “challenging behaviour”.
+              Emotional regulation is about far more than appearing settled.
+            </h2>
+
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
+              <p>
+                In early childhood, emotional regulation involves a child’s developing ability to cope with disappointment, hold onto a plan, wait, recover after frustration, manage the demands of group life and keep returning to connection and participation even when things do not go smoothly.
+              </p>
+
+              <p>
+                Because these abilities are still developing, many children need adult support while moving through big feelings, changing routines, noisy rooms, social conflict, separation, tiredness or sensory overload. That is why it helps to think less in terms of “good behaviour” and “bad behaviour” and more in terms of what the child’s system may be able to manage in that moment.
+              </p>
+
+              <p>
+                When we start there, we are far more likely to notice what the child needs before we simply react to what the child is doing.
+              </p>
+            </div>
+          </div>
+
+          <aside className="border-l-4 border-[#C29F60] bg-[#FAF5EC] p-7">
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Important to remember
+            </p>
+
+            <h3 className="mt-3 text-2xl font-extrabold">
+              Regulation is developmental.
+            </h3>
+
+            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+              Children are not meant to regulate like small adults. They are learning over time, and their capacity will vary across the day, across environments and across different types of demand.
+            </p>
+
+            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
+              This is one reason a child may cope beautifully in one moment and struggle in the next without that being a sign of manipulation or deliberate defiance.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      {/* NOT ALWAYS QUIET */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[0.98fr_1.02fr] lg:items-center">
+          <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/child-moving-while-regulated-early-childhood.jpg"
+              alt="Young child moving purposefully through an early childhood environment while an educator observes supportively and other educators supervise nearby"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Regulation does not always look quiet
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              A child can be moving a lot and still be participating well.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              One of the easiest traps in early childhood is assuming that stillness equals regulation and movement equals dysregulation. For some children, movement is part of how they organise themselves, stay engaged, process sensory input and remain available for connection.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              That means the question is not always whether the child is still. It is often whether the child is connected, purposeful, safe and able to keep participating in a way their body can manage.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              Looking at emotional regulation through that wider lens can change how adults interpret children who fidget, pace, carry, wander, build, climb or need movement woven into the routine.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* BODY TELLING US */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-[#657B6C]">
+              What is the child’s body telling us?
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Before behaviour becomes big, the body is often already telling a story.
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              There is no single behaviour that proves a child is dysregulated. The pattern, context and change from that child&apos;s usual presentation are much more useful.
+              Some children become louder and more chaotic, while others become quiet, avoidant or unusually still. Both can be signs that regulation is becoming harder. This is why noticing early changes matters so much.
             </p>
           </div>
 
           <div className="mt-10 grid gap-x-10 md:grid-cols-2">
-            {SIGNS_TO_NOTICE.map((item) => (
+            {BODY_CUES.map((item) => (
               <article
                 key={item.title}
                 className="border-t border-[#D8CFC2] py-6"
@@ -272,197 +388,125 @@ export default function EmotionalRegulationPage() {
         </div>
       </section>
 
-      {/* THREE PLACES */}
+      {/* QUIET CHILD */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="max-w-4xl">
-            <p className="text-sm font-semibold text-[#E4C98E]">
-              Before choosing a strategy
-            </p>
+          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#E4C98E]">
+                The child we may miss
+              </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Look in three places.
-            </h2>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Emotional regulation difficulties do not always look disruptive.
+              </h2>
+            </div>
 
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-[#D8E1DC]">
-              Regulation is rarely only about the child. The environment and adult response are part of the picture too.
-            </p>
-          </div>
+            <div className="space-y-5 text-lg leading-relaxed text-[#D8E1DC]">
+              <p>
+                In many teams, the child who runs, yells or resists is noticed quickly because their difficulty affects the group. The child who becomes unusually quiet, drifts away, watches from the edge, hides, shuts down or stops participating can be much easier to miss.
+              </p>
 
-          <div className="mt-10 border-y border-white/20 md:grid md:grid-cols-3">
-            {THREE_PLACES.map(
-              (item, index) => (
-                <div
-                  key={item.number}
-                  className={`py-6 md:px-6 ${
-                    index > 0
-                      ? 'border-t border-white/20 md:border-l md:border-t-0'
-                      : ''
-                  }`}
-                >
-                  <span className="text-sm font-extrabold text-[#E4C98E]">
-                    {item.number}
-                  </span>
+              <p>
+                Yet these children may also be telling us that the load has become too much. They may need support just as much as the child whose struggle is louder and more visible.
+              </p>
 
-                  <h3 className="mt-2 text-xl font-extrabold">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-3 text-base leading-relaxed text-[#C8D6D0]">
-                    {item.text}
-                  </p>
-                </div>
-              ),
-            )}
+              <p className="font-semibold text-white">
+                A child does not need to be disruptive for us to ask whether the environment, the demand or the pace of the day is becoming hard to manage.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* REAL EXAMPLES */}
+      {/* ENVIRONMENT MATTERS */}
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Looking wider than the child
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Sometimes the environment is carrying more of the problem than we realise.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Transitions, crowded doorways, noisy spaces, long waiting, rapid instructions and sudden changes can all increase emotional load. When a child struggles at the same point each day, it is worth looking carefully at the routine itself rather than assuming the child just needs firmer behaviour management.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              This does not mean we lower expectations endlessly. It means we become more curious about what is making success difficult and more thoughtful about how to adjust the demands around the child.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/educator-noticing-crowded-transition.jpg"
+              alt="Educators noticing that a crowded transition is contributing to a child's emotional overload in an early childhood service"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT TO TRY */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold text-[#657B6C]">
-              Everyday examples
+              What educators can try
             </p>
 
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Change the question before changing the child.
+              Emotional regulation support becomes more useful when adults widen the lens.
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              The aim is not to avoid boundaries or expectations. It is to understand the moment well enough to choose an appropriate response.
+              There is rarely one strategy that solves every difficult moment. More often, it is the quality of noticing, reflection and adaptation that makes the difference over time.
             </p>
           </div>
 
-          <div className="mt-10 border-t border-[#D8CFC2]">
-            {PRACTICE_EXAMPLES.map(
-              (example) => (
-                <article
-                  key={example.situation}
-                  className="border-b border-[#D8CFC2] py-7"
-                >
-                  <div className="grid gap-6 lg:grid-cols-3">
-                    <div>
-                      <p className="text-sm font-semibold text-[#657B6C]">
-                        What we see
-                      </p>
+          <div className="mt-10 grid gap-x-10 md:grid-cols-2">
+            {WHAT_TO_TRY.map((item) => (
+              <article
+                key={item.title}
+                className="border-t border-[#D8CFC2] py-6"
+              >
+                <h3 className="text-xl font-extrabold">
+                  {item.title}
+                </h3>
 
-                      <p className="mt-2 text-lg font-extrabold leading-relaxed">
-                        {example.situation}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-sm font-semibold text-[#9A793D]">
-                        The quick reaction
-                      </p>
-
-                      <p className="mt-2 text-base font-semibold leading-relaxed text-[#53645D]">
-                        {example.reaction}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-sm font-semibold text-[#9A793D]">
-                        What else could we notice?
-                      </p>
-
-                      <p className="mt-2 text-base leading-relaxed text-[#53645D]">
-                        {example.noticing}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ),
-            )}
+                <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                  {item.text}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* WHY STRATEGIES FAIL */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-            <div>
-              <p className="text-sm font-semibold text-[#9A793D]">
-                Why strategies sometimes fail
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                A breathing exercise is not useful just because we call it a regulation strategy.
-              </h2>
-            </div>
-
-            <div className="space-y-5 text-lg leading-relaxed text-[#53645D]">
-              <p>
-                Educators can end up with long lists of “calm-down strategies” that are offered regardless of why the child is struggling. Breathing, squeezing, heavy work, quiet spaces and sensory tools can all be useful in the right context, but none of them are universal answers.
-              </p>
-
-              <p>
-                A child distressed by separation may need connection. A child who has been sitting for too long may need movement. A child overwhelmed by noise may need the environment changed. A child whose capacity has dropped may simply need fewer demands.
-              </p>
-
-              <p className="font-semibold text-[#1C3B34]">
-                Regulator Champions focuses on helping educators understand the moment first so the strategy is chosen for a reason.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CO-REGULATION */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-sm font-semibold text-[#657B6C]">
-                The adult matters too
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                Co-regulation is not something we do to a child.
-              </h2>
-            </div>
-
-            <div>
-              <p className="text-lg leading-relaxed text-[#53645D]">
-                It is relational. Children notice our face, posture, voice, proximity, rhythm and emotional state. That does not mean an educator must remain perfectly calm all day. It means the adult is part of the regulation environment and deserves to be considered when reflecting on difficult moments.
-              </p>
-
-              <div className="mt-7 border-t border-[#D8CFC2]">
-                <ReflectionPoint
-                  title="More words are not always more support"
-                  text="When a child is overloaded, repeatedly explaining, questioning and reminding can increase the amount they need to process."
-                />
-
-                <ReflectionPoint
-                  title="Connection does not remove boundaries"
-                  text="We can remain warm and connected while still holding limits, protecting safety and helping children participate in the expectations of the setting."
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FREE LADDER */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+      {/* FREE LADDER CTA */}
+      <section className="bg-[#E8D39D] py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold text-[#9A793D]">
-                Try the approach with your team
+              <p className="text-sm font-semibold text-[#6E5426]">
+                If you want something practical
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                See how the same situation looks from more than one perspective.
+                Start with the free Regulation Ladder.
               </h2>
             </div>
 
             <div>
-              <p className="text-lg leading-relaxed text-[#53645D]">
-                The free Regulation Ladder includes educator, manager and family perspectives so teams can practise looking beyond the behaviour before deciding what to try next.
+              <p className="text-lg leading-relaxed text-[#45564F]">
+                If your team is trying to work out what to notice and what to try when behaviour keeps repeating, the free Regulation Ladder is a simple way to begin. It helps educators, leaders and families look at the same situation from different angles rather than reaching too quickly for one explanation.
               </p>
 
               <Link
@@ -476,137 +520,97 @@ export default function EmotionalRegulationPage() {
         </div>
       </section>
 
-      {/* RELATED */}
+      {/* RELATED CONTENT */}
       <section className="bg-white py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="max-w-3xl">
+          <div className="mb-7 max-w-3xl">
             <p className="text-sm font-semibold text-[#657B6C]">
               Keep exploring
             </p>
 
             <h2 className="mt-3 text-2xl font-extrabold sm:text-3xl">
-              Related early childhood regulation resources
+              Related early childhood support pages
             </h2>
           </div>
 
-          <div className="mt-7 border-t border-[#D8CFC2]">
+          <div className="border-t border-[#D8CFC2]">
             <RelatedLink
               href="/co-regulation-early-childhood"
               title="Co-regulation in early childhood"
-              text="Explore how relationship, adult responses, environment and expectations influence difficult moments."
+              text="Explore how adult responses, environment and relationship influence a child's ability to stay connected and participate."
+            />
+
+            <RelatedLink
+              href="/educator-capacity-building"
+              title="Educator capacity building"
+              text="Look at how teams can strengthen judgement, reflection and confidence rather than simply collecting more strategies."
             />
 
             <RelatedLink
               href="/early-childhood-professional-development"
               title="Early childhood professional development"
-              text="Explore professional learning that is designed to change what educators notice and do in everyday practice."
-            />
-
-            <RelatedLink
-              href="/blog"
-              title="Articles and free training"
-              text="Find more practical regulation, child development and educator learning resources."
+              text="Explore what type of professional learning is more likely to influence everyday educator practice."
             />
           </div>
         </div>
       </section>
 
-      {/* LOCATION PATHWAYS */}
-      <section className="bg-[#FAF8F5] py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-sm font-semibold text-[#657B6C]">
-                Quality and professional learning pathways
-              </p>
+      {/* FAQ */}
+      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <p className="text-sm font-semibold text-[#657B6C]">
+            Frequently asked questions
+          </p>
 
-              <h2 className="mt-3 text-3xl font-extrabold">
-                Looking at how regulation professional learning fits your local early childhood system?
-              </h2>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
+            Emotional regulation FAQs
+          </h2>
 
-              <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-                These pages provide additional information for teams working within different quality, funding and professional development systems.
-              </p>
-            </div>
+          <div className="mt-8 border-t border-[#D8CFC2]">
+            {FAQS.map((item) => (
+              <details
+                key={item.question}
+                className="group border-b border-[#D8CFC2] py-5"
+              >
+                <summary className="cursor-pointer list-none text-base font-extrabold">
+                  {item.question}
+                </summary>
 
-            <div className="border-t border-[#D8CFC2]">
-              <LocationLink
-                href="/us-early-childhood-quality"
-                title="United States"
-                text="NAEYC, Developmentally Appropriate Practice, QRIS and child care quality improvement."
-              />
-
-              <LocationLink
-                href="/nqs-mapping"
-                title="NQS and QIP"
-                text="National Quality Standard and Quality Improvement Plan connections."
-              />
-
-              <LocationLink
-                href="/school-readiness-funding"
-                title="School Readiness Funding"
-                text="Information for Victorian kindergarten services."
-              />
-
-              <LocationLink
-                href="/kindy-uplift"
-                title="Kindy Uplift"
-                text="Information for Queensland kindergarten services."
-              />
-            </div>
+                <p className="mt-3 max-w-4xl text-base leading-relaxed text-[#53645D]">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* AUTHOR */}
-      <section className="bg-white py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="max-w-4xl border-l-4 border-[#C29F60] pl-6">
-            <p className="text-sm font-semibold text-[#657B6C]">
-              About Robyn
-            </p>
-
-            <h2 className="mt-2 text-2xl font-extrabold">
-              Robyn Papworth
-            </h2>
-
-            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-              Robyn is an Accredited Exercise Physiologist and Developmental Educator and the founder of Play Move Improve. Her work with early childhood teams focuses on regulation, movement, sensory processing, executive function, participation and practical co-regulation within everyday learning environments.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* PROGRAM CTA */}
+      {/* FINAL CTA */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <h2 className="max-w-4xl text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Help your educators understand what may be happening before behaviour escalates.
+            When the same behaviours keep happening, it helps to give educators a way to think more clearly, notice more effectively and work out what to try next together.
           </h2>
 
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
-            Regulator Champions helps early childhood teams notice what may sit underneath behaviour, look at the environment and adult response, and decide what to try next together.
+            Regulator Champions is designed to support that process through practical Regulation Ladders, useful examples, recordings and broader professional learning support for teams that want to go further.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/playbooks"
-              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
               Try the Free Regulation Ladder
             </Link>
 
             <Link
-              href="/proposal?plan=full"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              href="/proposal?plan=preview"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
-              View the Full Regulator Champions Program
+              Explore the 6-Month Preview
             </Link>
           </div>
-
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[#BFD0C8]">
-            Six-month and twelve-month whole-team options are available.
-          </p>
         </div>
       </section>
 
@@ -619,26 +623,6 @@ export default function EmotionalRegulationPage() {
         </div>
       </section>
     </main>
-  );
-}
-
-function ReflectionPoint({
-  title,
-  text,
-}: {
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="border-b border-[#D8CFC2] py-5">
-      <h3 className="text-xl font-extrabold">
-        {title}
-      </h3>
-
-      <p className="mt-2 text-base leading-relaxed text-[#53645D]">
-        {text}
-      </p>
-    </div>
   );
 }
 
@@ -661,31 +645,6 @@ function RelatedLink({
       </h3>
 
       <p className="mt-2 max-w-4xl text-base leading-relaxed text-[#53645D]">
-        {text}
-      </p>
-    </Link>
-  );
-}
-
-function LocationLink({
-  href,
-  title,
-  text,
-}: {
-  href: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="block border-b border-[#D8CFC2] py-5"
-    >
-      <h3 className="text-xl font-extrabold">
-        {title}
-      </h3>
-
-      <p className="mt-2 text-base leading-relaxed text-[#53645D]">
         {text}
       </p>
     </Link>

@@ -137,7 +137,7 @@ export default function USEarlyChildhoodQualityPage() {
 
           <div className="overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-3 shadow-xl">
             <Image
-              src="/images/regulator-champions-team-planning.png"
+              src="/images/educator-pair-with-child-regulation-support.jpg"
               alt="Early childhood educators using Regulation Ladder cards together during team planning"
               width={1400}
               height={1050}
@@ -211,7 +211,7 @@ export default function USEarlyChildhoodQualityPage() {
                     width={800}
                     height={1000}
                     loading="lazy"
-                    className="aspect-[4/5] w-full rounded-2xl object-cover"
+                    className="aspect-4/5 w-full rounded-2xl object-cover"
                   />
                 </div>
 
@@ -222,7 +222,7 @@ export default function USEarlyChildhoodQualityPage() {
                     width={800}
                     height={1000}
                     loading="lazy"
-                    className="aspect-[4/5] w-full rounded-2xl object-cover"
+                    className="aspect-4/5 w-full rounded-2xl object-cover"
                   />
                 </div>
               </div>
@@ -313,7 +313,7 @@ export default function USEarlyChildhoodQualityPage() {
                   width={800}
                   height={1000}
                   loading="lazy"
-                  className="aspect-[4/5] w-full rounded-2xl object-cover"
+                  className="aspect-4/5 w-full rounded-2xl object-cover"
                 />
               </div>
 
@@ -324,7 +324,7 @@ export default function USEarlyChildhoodQualityPage() {
                   width={800}
                   height={1000}
                   loading="lazy"
-                  className="aspect-[4/5] w-full rounded-2xl object-cover"
+                  className="aspect-4/5 w-full rounded-2xl object-cover"
                 />
               </div>
             </div>
@@ -338,8 +338,8 @@ export default function USEarlyChildhoodQualityPage() {
           <div>
             <div className="overflow-hidden rounded-3xl bg-white p-3">
               <Image
-                src="/images/cards/safe-reset.png"
-                alt="Watercolour illustration showing calm early childhood co-regulation support"
+                src="/images/children-and-educators-sensory-reset.jpg"
+                alt="Illustration showing calm early childhood co-regulation support"
                 width={900}
                 height={900}
                 loading="lazy"

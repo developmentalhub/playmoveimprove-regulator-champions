@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -189,23 +190,21 @@ export default function CoRegulationEarlyChildhoodPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            JSON.stringify(articleSchema),
+          __html: JSON.stringify(articleSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            JSON.stringify(faqSchema),
+          __html: JSON.stringify(faqSchema),
         }}
       />
 
       {/* HERO */}
       <section className="bg-[#1C3B34] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
-          <div className="max-w-4xl">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.94fr_1.06fr] lg:items-center">
+          <div>
             <p className="text-base font-semibold text-[#E4C98E]">
               Practical guide for early childhood educators
             </p>
@@ -235,26 +234,42 @@ export default function CoRegulationEarlyChildhoodPage() {
               </Link>
 
               <Link
-                href="/#full-program"
-                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+                href="/proposal?plan=preview"
+                className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
               >
                 Explore Regulator Champions
               </Link>
             </div>
           </div>
+
+          <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
+            <Image
+              src="/images/educator-co-regulation-at-child-level.jpg"
+              alt="Early childhood educator supporting a child at their level during a co-regulation moment while other educators continue supporting children nearby"
+              width={1400}
+              height={1000}
+              priority
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
         </div>
       </section>
 
       {/* QUICK ANSWER */}
-      <section className="border-b border-[#E6E2DC] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6">
-          <div className="border-l-4 border-[#C29F60] pl-6">
-            <p className="text-sm font-semibold text-[#9A793D]">
+      <section className="border-b border-[#E6E2DC] bg-[#E8D39D]">
+        <div className="mx-auto max-w-7xl px-5 py-9 sm:px-6">
+          <div className="border-l-4 border-[#8A6F3E] pl-6">
+            <p className="text-sm font-semibold text-[#6E5426]">
               What is co-regulation?
             </p>
 
-            <p className="mt-3 max-w-4xl text-lg font-semibold leading-relaxed">
-              Co-regulation is the responsive support one person provides to another during a difficult, demanding or emotionally intense moment. For young children, this may include reducing demands, changing the environment, offering connection, using fewer words, allowing movement or helping make the next step feel more manageable.
+            <p className="mt-3 max-w-4xl text-xl font-extrabold leading-relaxed">
+              Co-regulation is the responsive support one person provides to another during a difficult, demanding or emotionally intense moment.
+            </p>
+
+            <p className="mt-3 max-w-4xl text-base leading-relaxed text-[#45564F]">
+              For young children, that may mean reducing demands, changing the environment, offering connection, using fewer words, allowing movement or simply helping the next step feel more manageable.
             </p>
           </div>
         </div>
@@ -263,7 +278,7 @@ export default function CoRegulationEarlyChildhoodPage() {
       {/* DEVELOPMENT */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold text-[#657B6C]">
                 Co-regulation and child development
@@ -309,8 +324,43 @@ export default function CoRegulationEarlyChildhoodPage() {
         </div>
       </section>
 
+      {/* WHAT IT CAN LOOK LIKE */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+          <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/educator-child-water-play-regulation.jpg"
+              alt="Early childhood educator connecting with children through calm water play while other educators continue supervising nearby"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-[#9A793D]">
+              What co-regulation can look like
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              It does not always look like sitting quietly beside a distressed child.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Sometimes co-regulation is being physically close. Sometimes it is giving more space. Sometimes it is moving together, carrying something heavy, pouring water, lowering the noise, changing where an activity happens or simply removing one unnecessary instruction.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              The useful question is not “Which calming strategy should I use?” but “What is happening for this child right now, and what part of this moment can I make more manageable?”
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* PRACTICAL STRATEGIES */}
-      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold text-[#657B6C]">
@@ -402,50 +452,85 @@ export default function CoRegulationEarlyChildhoodPage() {
         </div>
       </section>
 
+      {/* PURPOSEFUL EVERYDAY ACTIVITY */}
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[0.94fr_1.06fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Connection before instruction
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Co-regulation can happen while children are moving, helping and participating.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Carrying a watering can, moving a basket, helping in the garden or walking beside an educator can offer movement, purpose and connection without turning regulation into another task the child has to perform correctly.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              None of these activities is automatically regulating for every child. The important part is noticing what happens to the child&apos;s engagement, body, communication and connection as the experience changes.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/educator-child-purposeful-carrying-activity.jpg"
+              alt="Educator walking alongside a child completing a purposeful carrying activity during outdoor play while other educators supervise children nearby"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ADULT STATE */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-            <div>
-              <p className="text-sm font-semibold text-[#657B6C]">
-                The educator is part of the environment
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center">
+          <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
+            <Image
+              src="/images/educators-reset-before-supporting-child.jpg"
+              alt="Two educators briefly supporting each other and resetting while other educators continue playing with and supervising children"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold text-[#657B6C]">
+              The educator is part of the environment
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Adults can co-regulate each other too.
+            </h2>
+
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
+              <p>
+                Educators do not need to be perfectly calm before supporting a child. They do benefit from noticing when their own stress is making them speak faster, add more words, move abruptly or become less flexible.
               </p>
 
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                Adult awareness is part of co-regulation.
-              </h2>
+              <p>
+                Sometimes the best next step is another educator quietly stepping in, offering a brief moment of support, or giving their colleague enough space to slow down before returning to the interaction.
+              </p>
 
-              <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
-                <p>
-                  Educators do not need to be perfectly calm before supporting a child. They do benefit from noticing when their own stress is making them speak faster, add more words, move abruptly or become less flexible.
-                </p>
-
-                <p>
-                  A small shift in the adult can change the interaction. Slowing down, lowering the voice, giving the child more processing time or asking a colleague for brief support can create enough space for a more thoughtful response.
-                </p>
-              </div>
-
-              <Link
-                href="/somatic-checkin"
-                className="mt-7 inline-flex min-h-12 items-center rounded-xl bg-[#1C3B34] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#284E45]"
-              >
-                Try the free educator check-in
-              </Link>
+              <p>
+                That does not mean leaving children unsupported. A well-functioning team can share the regulation load while other educators continue engaging with and supervising the group.
+              </p>
             </div>
 
-            <aside className="border-l-4 border-[#C29F60] bg-[#FAF5EC] p-7">
-              <p className="text-sm font-semibold text-[#9A793D]">
-                Co-regulation does not require perfection
-              </p>
-
-              <p className="mt-4 text-xl font-extrabold leading-relaxed">
-                Repair is part of healthy relationships too.
-              </p>
-
-              <p className="mt-3 text-base leading-relaxed text-[#53645D]">
-                An educator can recognise when a moment did not go well, reconnect with the child and try again. Children can learn from those experiences as well.
-              </p>
-            </aside>
+            <Link
+              href="/somatic-checkin"
+              className="mt-7 inline-flex min-h-12 items-center rounded-xl bg-[#1C3B34] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#284E45]"
+            >
+              Try the free educator check-in
+            </Link>
           </div>
         </div>
       </section>
@@ -533,11 +618,11 @@ export default function CoRegulationEarlyChildhoodPage() {
       </section>
 
       {/* FREE LADDER */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+      <section className="bg-[#E8D39D] py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold text-[#9A793D]">
+              <p className="text-sm font-semibold text-[#6E5426]">
                 Put this thinking into practice
               </p>
 
@@ -547,7 +632,7 @@ export default function CoRegulationEarlyChildhoodPage() {
             </div>
 
             <div>
-              <p className="text-lg leading-relaxed text-[#53645D]">
+              <p className="text-lg leading-relaxed text-[#45564F]">
                 The free Regulation Ladder shows the same situation from educator, manager and family perspectives so the response does not sit with one person or one strategy.
               </p>
 
@@ -589,9 +674,9 @@ export default function CoRegulationEarlyChildhoodPage() {
             />
 
             <RelatedLink
-              href="/blog"
-              title="Articles and free training"
-              text="Explore more practical regulation, development and educator learning resources."
+              href="/educator-capacity-building"
+              title="Educator capacity building"
+              text="Explore how leaders can strengthen educator judgement rather than simply adding more strategies."
             />
           </div>
         </div>
@@ -707,16 +792,16 @@ export default function CoRegulationEarlyChildhoodPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/playbooks"
-              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
               Try the Free Regulation Ladder
             </Link>
 
             <Link
-              href="/proposal?plan=full"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              href="/proposal?plan=preview"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
-              View the Full Regulator Champions Program
+              Explore the 6-Month Preview
             </Link>
           </div>
 

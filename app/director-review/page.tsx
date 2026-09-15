@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
@@ -200,7 +201,7 @@ export default function DirectorReviewPage() {
       setSubmissionStatus('success');
 
       setSubmissionMessage(
-        'Thanks. Your enquiry has been received. Robyn can now look at what your team is experiencing and help you decide whether the 6-Month Preview, 12-Month Regulator Champions option or another starting point makes the most sense.',
+        'Thanks. Your enquiry has been received. I can now look at what your team is experiencing and help you decide whether the 6-Month Preview, 12-Month Regulator Champions option or another starting point makes the most sense.',
       );
     } catch (error) {
       console.error(
@@ -222,58 +223,105 @@ export default function DirectorReviewPage() {
     <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
       {/* HERO */}
       <section className="bg-[#1C3B34] text-white">
-        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
-          <div className="max-w-4xl">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
             <p className="text-base font-semibold text-[#E4C98E]">
               For directors, owners and early childhood leaders
             </p>
 
             <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Not sure whether Regulator Champions is the right fit for your team?
+              You do not need to work out the answer before you contact me.
             </h1>
 
+            <p className="mt-5 max-w-3xl text-xl font-bold leading-relaxed text-[#F5EFE4]">
+              Tell me what keeps coming back to you, and I can help you work out whether Regulator Champions is actually a useful fit.
+            </p>
+
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
-              Tell me what your educators are finding difficult at the moment. You do not need to know exactly what you want before getting in touch.
+              You might be dealing with difficult drop-offs, repeated transition problems, children struggling to participate, sensory overload, big emotional responses or educators who are all trying hard but responding in quite different ways.
             </p>
 
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
-              This is a short team-level enquiry so I can understand the patterns you are seeing and whether Regulator Champions, the Regulation Cards or another starting point looks most useful.
+              You do not need to diagnose the problem, prepare a report or know which package you want. A short description of what your team is experiencing is enough for me to start.
             </p>
+          </div>
+
+          <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
+            <Image
+              src="/images/regulation-training-for-educators.png"
+              alt="Early childhood educators exploring practical regulation ideas together"
+              width={1400}
+              height={1000}
+              priority
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
           </div>
         </div>
       </section>
 
       {/* REASSURANCE */}
-      <section className="border-b border-[#E6E2DC] bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-9 sm:px-6">
-          <div className="grid gap-7 sm:grid-cols-3">
-            <div className="border-t border-[#D8CFC2] pt-5">
-              <h2 className="text-lg font-extrabold">
+      <section className="border-b border-[#E6E2DC] bg-[#E8D39D]">
+        <div className="mx-auto max-w-7xl px-5 py-9 sm:px-6">
+          <div className="grid gap-7 md:grid-cols-3">
+            <div className="border-t border-[#A88A52] pt-5">
+              <h2 className="text-xl font-extrabold">
                 Keep it simple
               </h2>
 
-              <p className="mt-2 text-base leading-relaxed text-[#53645D]">
+              <p className="mt-3 text-base leading-relaxed text-[#45564F]">
                 You do not need to prepare documents or complete a long assessment before enquiring.
               </p>
             </div>
 
-            <div className="border-t border-[#D8CFC2] pt-5">
-              <h2 className="text-lg font-extrabold">
-                Team level only
+            <div className="border-t border-[#A88A52] pt-5">
+              <h2 className="text-xl font-extrabold">
+                Keep it team-level
               </h2>
 
-              <p className="mt-2 text-base leading-relaxed text-[#53645D]">
+              <p className="mt-3 text-base leading-relaxed text-[#45564F]">
                 Tell me about room patterns, routines and educator priorities rather than identifiable information about individual children.
               </p>
             </div>
 
-            <div className="border-t border-[#D8CFC2] pt-5">
-              <h2 className="text-lg font-extrabold">
+            <div className="border-t border-[#A88A52] pt-5">
+              <h2 className="text-xl font-extrabold">
                 No sales call required
               </h2>
 
-              <p className="mt-2 text-base leading-relaxed text-[#53645D]">
-                I can respond with the most relevant information or next step for your team.
+              <p className="mt-3 text-base leading-relaxed text-[#45564F]">
+                I can respond with the information or starting point that looks most relevant. Enquiring does not commit you to anything.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* A LITTLE CONTEXT */}
+      <section className="bg-white py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#657B6C]">
+                You may already know the pattern
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Sometimes the clue is the situation that keeps returning to leadership.
+              </h2>
+            </div>
+
+            <div className="space-y-5 text-lg leading-relaxed text-[#53645D]">
+              <p>
+                It may be the room that keeps asking for help with the same transition. The educator who says they have tried everything. The child whose participation becomes difficult at the same point each day. Or the staff meeting that keeps circling back to regulation and behaviour without the team feeling any clearer about what to do next.
+              </p>
+
+              <p>
+                Those patterns do not automatically mean your service needs Regulator Champions. They do give us a useful place to begin the conversation, because professional learning is much more valuable when it starts with something your educators are genuinely experiencing.
+              </p>
+
+              <p className="font-semibold text-[#1C3B34]">
+                You can tell me the pattern. You do not need to arrive with the solution.
               </p>
             </div>
           </div>
@@ -281,11 +329,11 @@ export default function DirectorReviewPage() {
       </section>
 
       {/* FORM AREA */}
-      <section className="py-12 sm:py-16">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+      <section className="bg-[#FAF8F5] py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
           {submissionStatus ===
           'success' ? (
-            <section className="border-l-4 border-[#C29F60] bg-white p-7 sm:p-10">
+            <section className="border-l-4 border-[#C29F60] bg-white p-7 shadow-sm sm:p-10">
               <p className="text-sm font-semibold text-[#657B6C]">
                 Enquiry received
               </p>
@@ -319,7 +367,7 @@ export default function DirectorReviewPage() {
               </div>
             </section>
           ) : (
-            <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
+            <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
               {/* LEFT */}
               <aside>
                 <p className="text-sm font-semibold text-[#657B6C]">
@@ -330,43 +378,43 @@ export default function DirectorReviewPage() {
                   What keeps becoming difficult for your team?
                 </h2>
 
-                <p className="mt-5 text-base leading-relaxed text-[#53645D]">
-                  Regulator Champions works best when professional learning starts with something educators are genuinely experiencing rather than simply choosing another training topic.
+                <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                  I am not looking for polished answers. I want to know what your educators are actually finding hard so I can see whether the resources and support inside Regulator Champions match that need.
                 </p>
 
-                <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-                  You might be seeing difficult drop-offs, dysregulated transitions, children struggling to participate, sensory overload, repeated escalation or educators who are no longer confident about how to respond consistently.
+                <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                  Sometimes that is regulation knowledge. Sometimes the team understands the theory but struggles to apply it in busy rooms. Sometimes the biggest need is shared language, more confident reflection or a practical way to stop the same difficult situation being approached from scratch every time.
                 </p>
 
-                <div className="mt-7 border-t border-[#D8CFC2] pt-5">
+                <div className="mt-8 border-t border-[#D8CFC2] pt-5">
                   <p className="font-extrabold">
                     Already know what you want?
                   </p>
 
                   <p className="mt-2 text-base leading-relaxed text-[#53645D]">
-                    You can skip this form and go directly to the program proposal page.
+                    You can skip this form and look directly at the six-month and twelve-month program options.
                   </p>
 
                   <Link
                     href="/proposal"
-                    className="mt-4 inline-flex font-extrabold text-[#9A793D] underline decoration-[#C29F60] decoration-2 underline-offset-4"
+                    className="mt-4 inline-flex font-extrabold text-[#7A6032] underline decoration-[#C29F60] decoration-2 underline-offset-4"
                   >
-                    View pricing and proposal
+                    View pricing and program options
                   </Link>
                 </div>
 
-                <div className="mt-7 border-t border-[#D8CFC2] pt-5">
+                <div className="mt-8 border-t border-[#D8CFC2] pt-5">
                   <p className="font-extrabold">
-                    Want to see the approach first?
+                    Want to see how I think first?
                   </p>
 
                   <p className="mt-2 text-base leading-relaxed text-[#53645D]">
-                    The free Regulation Ladder lets you see the educator, leadership and family perspectives before deciding whether you need the broader program.
+                    The free Regulation Ladder gives you a practical example of how the approach widens the conversation beyond one behaviour or one strategy.
                   </p>
 
                   <Link
                     href="/playbooks"
-                    className="mt-4 inline-flex font-extrabold text-[#9A793D] underline decoration-[#C29F60] decoration-2 underline-offset-4"
+                    className="mt-4 inline-flex font-extrabold text-[#7A6032] underline decoration-[#C29F60] decoration-2 underline-offset-4"
                   >
                     Open the Free Regulation Ladder
                   </Link>
@@ -388,7 +436,7 @@ export default function DirectorReviewPage() {
                   </h2>
 
                   <p className="mt-2 text-base leading-relaxed text-[#6A7873]">
-                    Most directors can complete this in a couple of minutes.
+                    This should only take a couple of minutes. If you are unsure about an answer, choose the closest option and keep moving.
                   </p>
                 </div>
 
@@ -581,7 +629,7 @@ export default function DirectorReviewPage() {
                   </select>
 
                   <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                    The six-month option is a smaller starting point. The twelve-month option gives your team longer to return to the Regulation Ladders, recordings and ongoing support.
+                    The six-month option gives your team a meaningful implementation period without committing to a full year. The twelve-month option provides more time to revisit the learning, recordings and ongoing support as different needs emerge.
                   </p>
                 </div>
 
@@ -601,7 +649,7 @@ export default function DirectorReviewPage() {
                     name="notes"
                     rows={5}
                     maxLength={2000}
-                    placeholder="For example, what your educators are finding difficult, an identified professional learning priority or what you would like to see change across the team."
+                    placeholder="For example, what keeps happening in a room, what your educators are unsure about, or what you would like to feel easier across the team."
                     value={formData.notes}
                     onChange={(event) =>
                       updateField(
@@ -670,7 +718,7 @@ export default function DirectorReviewPage() {
           </h2>
 
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
-            It is to help your team notice what is happening earlier, understand what may sit underneath behaviour and make more thoughtful decisions together.
+            It is to help your team notice what is happening earlier, understand what may sit underneath behaviour and become more confident deciding what might be useful to try next.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -683,7 +731,7 @@ export default function DirectorReviewPage() {
 
             <Link
               href="/proposal"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              className="flex min-h-12 items-center justify-center rounded-2xl border border-white bg-white px-6 py-3.5 text-sm font-extrabold text-[#1C3B34]"
             >
               View Program Options
             </Link>

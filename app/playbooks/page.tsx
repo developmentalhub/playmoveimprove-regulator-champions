@@ -35,6 +35,54 @@ const FAMILY_PDF =
 const REGULATION_CARDS_URL =
   'https://playmoveimprove.com.au/products/regulation-cards-for-early-childhood-teams';
 
+const NOTICE_CARDS = [
+  {
+    image: '/images/cards/card2-posture.png',
+    title: 'Notice posture',
+    text:
+      'A child’s body position can tell us something about effort, safety, attention and how manageable the environment feels.',
+  },
+  {
+    image: '/images/cards/card3-environment.png',
+    title: 'Look around the child',
+    text:
+      'Noise, space, movement, expectations and the way the room is organised can all change what participation feels like.',
+  },
+  {
+    image: '/images/cards/card7-space.png',
+    title: 'Notice space',
+    text:
+      'Sometimes the question is not whether a child can participate, but whether they have enough space to do it in a way their body can manage.',
+  },
+];
+
+const PRACTICAL_CARDS = [
+  {
+    image: '/images/cards/card4-coolwater.png',
+    title: 'Cool water',
+  },
+  {
+    image: '/images/cards/card5-heavywork.png',
+    title: 'Heavy work',
+  },
+  {
+    image: '/images/cards/card6-rhythm.png',
+    title: 'Rhythm and repetition',
+  },
+  {
+    image: '/images/cards/card8-transition.png',
+    title: 'Transition support',
+  },
+  {
+    image: '/images/cards/card9-attachment.png',
+    title: 'Connection',
+  },
+  {
+    image: '/images/cards/card10-refill.png',
+    title: 'Refill capacity',
+  },
+];
+
 export default function PlaybooksPage() {
   return (
     <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
@@ -55,7 +103,7 @@ export default function PlaybooksPage() {
             </p>
 
             <p className="mt-5 max-w-3xl text-lg leading-8 text-[#D8E1DC]">
-              This free sample shows you one complete Regulation Ladder from three perspectives, because an educator standing beside the child, a manager looking at the environment and a family who knows the child outside the centre may each notice something useful that the others cannot see.
+              This free sample shows one complete Regulation Ladder from three perspectives, because an educator standing beside the child, a manager looking at the environment and a family who knows the child outside the service may each notice something useful that the others cannot see.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -68,7 +116,7 @@ export default function PlaybooksPage() {
 
               <Link
                 href="/"
-                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/25 bg-white/5 px-7 py-4 text-base font-extrabold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/25 bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
               >
                 See How Regulator Champions Works
               </Link>
@@ -91,24 +139,65 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
-      {/* WHAT THIS SAMPLE IS */}
+      {/* SAMPLE INTRO */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-5xl px-6">
-          <p className="text-sm font-extrabold text-[#9A793D]">
-            The sample ladder
-          </p>
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              The sample ladder
+            </p>
 
-          <h2 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-            Participation Beyond Sitting
-          </h2>
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Participation Beyond Sitting
+            </h2>
 
-          <p className="mt-6 max-w-4xl text-lg leading-8 text-[#53645D]">
-            This ladder looks at participation because one of the patterns I continue to see in early childhood is that sitting still can quietly become our main measure of whether a child is listening, learning or belonging. A child who moves away from the group, lies on the floor, needs something in their hands or joins from the edge can quickly be seen as refusing to participate, even when their body may be telling us something much more useful.
-          </p>
+            <p className="mt-6 text-lg leading-8 text-[#53645D]">
+              One of the patterns I continue to see in early childhood is that sitting still can quietly become our main measure of whether a child is listening, learning or belonging. A child who moves away from the group, lies on the floor, needs something in their hands or joins from the edge can quickly be seen as refusing to participate, even when their body may be telling us something much more useful.
+            </p>
 
-          <p className="mt-5 max-w-4xl text-lg leading-8 text-[#53645D]">
-            The aim of the ladder is not to remove expectations or suggest that every form of participation should look different for every child. It is to help the adults around the child pause long enough to ask whether the expectation, environment, sensory load, movement needs or adult response may need to be considered before we decide that the problem sits entirely within the child.
-          </p>
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              The aim of the ladder is not to remove expectations or suggest that every form of participation should look different for every child. It is to help the adults around the child pause long enough to ask whether the expectation, environment, sensory load, movement needs or adult response may need to be considered before we decide that the problem sits entirely within the child.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="overflow-hidden rounded-3xl bg-[#FAF5EC] p-2">
+              <Image
+                src="/images/ladders/ladder3_rung04.png"
+                alt="Watercolour illustration from the Participation Beyond Sitting Regulation Ladder"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
+            </div>
+
+            <div className="mt-10 overflow-hidden rounded-3xl bg-[#FAF5EC] p-2">
+              <Image
+                src="/images/ladders/ladder3_rung05.png"
+                alt="Watercolour illustration from the Participation Beyond Sitting Regulation Ladder"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* THREE PERSPECTIVES */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Three different perspectives
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              The same moment can ask something different of the educator, the manager and the family.
+            </h2>
+          </div>
 
           <div className="mt-10 border-y border-[#D8CFC2]">
             <PerspectiveRow
@@ -132,10 +221,59 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
+      {/* NOTICE VISUALLY */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Before deciding what to try
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Start by noticing what the child and the environment are already telling you.
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                The cards are not intended to make educators analyse every movement or search for a hidden explanation behind every behaviour. They are prompts that help us slow down enough to notice information we may otherwise miss when a room is busy.
+              </p>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-3">
+              {NOTICE_CARDS.map((item) => (
+                <article
+                  key={item.title}
+                  className="border-t border-[#D8CFC2] pt-5"
+                >
+                  <div className="overflow-hidden rounded-3xl bg-[#FAF5EC] p-2">
+                    <Image
+                      src={item.image}
+                      alt=""
+                      width={700}
+                      height={700}
+                      loading="lazy"
+                      className="aspect-square w-full rounded-2xl object-cover"
+                    />
+                  </div>
+
+                  <h3 className="mt-5 text-xl font-extrabold">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-3 text-base leading-7 text-[#53645D]">
+                    {item.text}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FREE DOWNLOADS */}
       <section
         id="free-ladder"
-        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-20"
+        className="scroll-mt-24 bg-[#F3EEE7] py-14 sm:py-20"
       >
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
@@ -143,7 +281,7 @@ export default function PlaybooksPage() {
               Open the full sample
             </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
               Use the perspective that is most useful to you, or open all three and compare what each person is being asked to notice.
             </h2>
 
@@ -152,7 +290,7 @@ export default function PlaybooksPage() {
             </p>
           </div>
 
-          <div className="mt-10 border-y border-[#D8CFC2]">
+          <div className="mt-10 border-y border-[#CFC5B7]">
             <DownloadRow
               title="For educators"
               description="Use this version when you want to look closely at what is happening during the interaction and consider what could be changed in the room."
@@ -177,31 +315,96 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
-      {/* HOW TO USE IT */}
+      {/* HOW TO USE */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="overflow-hidden rounded-3xl bg-[#FAF5EC] p-2">
+              <Image
+                src="/images/ladders/ladder2_rung03.png"
+                alt="Watercolour illustration of an educator and child in an early childhood room"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
+            </div>
+
+            <div className="mt-10 overflow-hidden rounded-3xl bg-[#FAF5EC] p-2">
+              <Image
+                src="/images/ladders/ladder1_rung06.png"
+                alt="Watercolour illustration of an educator supporting a child"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
+            </div>
+          </div>
+
           <div>
             <p className="text-sm font-extrabold text-[#9A793D]">
               How I would use it with a team
             </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
               Do not try to complete the whole ladder in one meeting.
             </h2>
-          </div>
 
-          <div className="space-y-6 text-lg leading-8 text-[#53645D]">
-            <p>
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
               I would start with the actual child or situation your team is already thinking about and choose the card that makes you pause because it sounds familiar. Talk about what you are noticing, decide on one realistic change and then give yourselves enough time to see whether anything shifts.
             </p>
 
-            <p>
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
               What you notice afterwards matters just as much as whether the behaviour stops. A child may stay with the group slightly longer, move closer to the educator, accept an invitation more easily, recover more quickly or need fewer repeated instructions. Those smaller changes do not prove that you have found the whole answer, but they can give the team useful information about what may be helping.
             </p>
 
-            <p>
-              If nothing changes, that is useful information as well. It tells us that the first idea may not have matched what the child needed and gives the team somewhere more thoughtful to go next than simply adding another strategy on top.
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              If nothing changes, that is useful information too, because it tells us that the first idea may not have matched what the child needed and gives the team somewhere more thoughtful to go next than simply adding another strategy on top.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* PRACTICAL IDEAS */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Regulation can be practical
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Regulation support does not have to look like children being taken away from play to calm down.
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                Depending on the child and the moment, regulation can sit inside movement, rhythm, water, connection, sensory play, predictable routines and the way educators structure transitions. These ideas are not prescriptions. They are examples of the kinds of experiences teams can consider when they are thinking about what the body may need.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              {PRACTICAL_CARDS.map((item) => (
+                <div
+                  key={item.title}
+                  className="overflow-hidden rounded-3xl bg-white p-2"
+                >
+                  <Image
+                    src={item.image}
+                    alt=""
+                    width={700}
+                    height={700}
+                    loading="lazy"
+                    className="aspect-square w-full rounded-2xl object-cover"
+                  />
+
+                  <p className="px-2 pb-2 pt-4 text-center text-sm font-extrabold">
+                    {item.title}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -215,7 +418,7 @@ export default function PlaybooksPage() {
                 Why three versions?
               </p>
 
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
                 Difficult situations rarely belong to one person to solve.
               </h2>
             </div>
@@ -233,42 +436,7 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
-      {/* TEAM PRACTICE IMAGE */}
-      <section className="bg-[#F3EEE7] py-14 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="overflow-hidden border border-[#DDD5C9] bg-white p-3 shadow-sm">
-            <Image
-              src="/images/regulator-champions-team-planning.png"
-              alt="Early childhood educators discussing Regulation Ladder cards together during team planning"
-              width={1400}
-              height={1050}
-              loading="lazy"
-              sizes="(max-width: 1024px) 100vw, 52vw"
-              className="h-auto w-full object-cover"
-            />
-          </div>
-
-          <div>
-            <p className="text-sm font-extrabold text-[#9A793D]">
-              Try it with your own team
-            </p>
-
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-              The value of the ladder is in the conversation it helps your team have.
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-[#53645D]">
-              Print the educator and manager versions, choose one situation that has been coming up in your service and put a few of the cards on the table. You do not need to agree immediately about what the behaviour means. In fact, the differences in what educators notice can be useful because they show you where the team may be interpreting the same moment in different ways.
-            </p>
-
-            <p className="mt-5 text-lg leading-8 text-[#53645D]">
-              I would be more interested in whether the discussion becomes more thoughtful than whether everybody reaches the same conclusion. If the cards help your team move from “this child just won&apos;t participate” towards a conversation about what the child, environment and interaction may be telling you, then you have already started using the process the way it was intended.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* WHICH NEXT STEP */}
+      {/* CARDS OR PROGRAM */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
@@ -276,12 +444,12 @@ export default function PlaybooksPage() {
               What happens after the free sample?
             </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
               You may not need the full Regulator Champions program.
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-[#53645D]">
-              I would rather you use this free ladder with your team and work out what you actually need next than assume every service should move into a larger program. For some teams, a small collection of practical Regulation Cards may be enough. For others, the cards may reveal that the team needs more time, discussion and support to build this way of thinking into everyday practice.
+              I would rather you use this free ladder with your team and work out what you actually need next than assume every service should move into a larger program. For some teams, a small collection of practical Regulation Cards may be enough. For others, using the cards may reveal that the team needs more time, discussion and support to build this way of thinking into everyday practice.
             </p>
           </div>
 
@@ -309,53 +477,73 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
-      {/* SIX MONTH BRIDGE */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.84fr_1.16fr]">
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                When the cards are only the beginning
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-                Sometimes the resource is not the part the team is missing.
-              </h2>
+      {/* SIX MONTH */}
+      <section className="bg-[#F3EEE7] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="overflow-hidden rounded-3xl bg-white p-2">
+              <Image
+                src="/images/ladders/ladder4_rung03.png"
+                alt="Watercolour illustration of early childhood participation"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
             </div>
 
-            <div>
-              <p className="text-lg leading-8 text-[#53645D]">
-                A director may already have shelves of professional development resources, posters and strategy lists. The difficulty can be helping educators know which ideas matter in a particular moment, how to talk about what they are seeing together and what to do when the first strategy does not quite fit.
+            <div className="mt-10 overflow-hidden rounded-3xl bg-white p-2">
+              <Image
+                src="/images/ladders/ladder4_rung05.png"
+                alt="Watercolour illustration of an educator supporting children"
+                width={800}
+                height={1000}
+                loading="lazy"
+                className="aspect-4/5 w-full rounded-2xl object-cover"
+              />
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              When the cards are only the beginning
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Sometimes the resource is not the part the team is missing.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              A director may already have shelves of professional development resources, posters and strategy lists. The difficulty can be helping educators know which ideas matter in a particular moment, how to talk about what they are seeing together and what to do when the first strategy does not quite fit.
+            </p>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              That is where the broader Regulator Champions program begins to make more sense. The Regulation Ladders remain the practical starting point, but the team can also return to recordings, submit de-identified questions, use additional implementation resources and join live learning when that support is useful.
+            </p>
+
+            <div className="mt-7 border-l-4 border-[#C29F60] pl-6">
+              <p className="text-2xl font-extrabold">
+                6-Month Preview — $1,790 AUD
               </p>
 
-              <p className="mt-5 text-lg leading-8 text-[#53645D]">
-                That is where the broader Regulator Champions program begins to make more sense. The Regulation Ladders remain the practical starting point, but the team can also return to recordings, submit de-identified questions, use additional implementation resources and join live learning when that support is useful.
+              <p className="mt-3 text-lg leading-8 text-[#53645D]">
+                This is a whole-team starting period rather than a course educators have to complete. The intention is to give the service enough time to use the approach in real situations and decide whether it is valuable for the way your team works.
               </p>
 
-              <div className="mt-7 border-l-4 border-[#C29F60] pl-6">
-                <p className="text-2xl font-extrabold">
-                  6-Month Preview — $1,790 AUD
-                </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/proposal?plan=preview"
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+                >
+                  View the 6-Month Proposal
+                </Link>
 
-                <p className="mt-3 text-lg leading-8 text-[#53645D]">
-                  This is a whole-team starting period rather than a course educators have to complete. The intention is to give the service enough time to use the approach in real situations and decide whether it is valuable for the way your team works.
-                </p>
-
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    href="/proposal?plan=preview"
-                    className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-                  >
-                    View the 6-Month Proposal
-                  </Link>
-
-                  <Link
-                    href="/director-review"
-                    className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-                  >
-                    Tell Me About Your Team
-                  </Link>
-                </div>
+                <Link
+                  href="/director-review"
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#FAF5EC]"
+                >
+                  Tell Me About Your Team
+                </Link>
               </div>
             </div>
           </div>
@@ -369,25 +557,25 @@ export default function PlaybooksPage() {
             Start where your team is
           </p>
 
-          <h2 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+          <h2 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight sm:text-4xl">
             Use the free ladder first and see what conversation it creates.
           </h2>
 
           <p className="mt-5 max-w-4xl text-lg leading-8 text-[#D8E1DC]">
-            If it gives your educators a more useful way to talk about participation, try it before deciding what you need next. You may find that the cards are enough, or you may realise that your team would benefit from having somewhere to keep building this thinking as new situations arise.
+            If it gives your educators a more useful way to talk about participation, use it before deciding what you need next. You may find that the cards are enough, or you may realise that your team would benefit from having somewhere to keep building this thinking as new situations arise.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href="#free-ladder"
-              className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28]"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] transition hover:bg-[#EDCD82]"
             >
               Open the Free Regulation Ladder
             </a>
 
             <Link
               href="/director-review"
-              className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-bold text-white"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/25 bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
             >
               Talk About Your Team
             </Link>
@@ -417,13 +605,13 @@ function PerspectiveRow({
   text: string;
 }) {
   return (
-    <div className="grid gap-4 border-b border-[#D8CFC2] py-7 first:border-t-0 md:grid-cols-[150px_1fr] md:gap-8">
+    <div className="grid gap-4 border-b border-[#D8CFC2] py-7 md:grid-cols-[150px_1fr] md:gap-8">
       <p className="text-lg font-extrabold text-[#9A793D]">
         {role}
       </p>
 
       <div>
-        <h3 className="text-xl font-extrabold leading-7 text-[#1C3B34]">
+        <h3 className="text-xl font-extrabold leading-7">
           {question}
         </h3>
 
@@ -447,9 +635,9 @@ function DownloadRow({
   button: string;
 }) {
   return (
-    <div className="grid gap-5 border-b border-[#D8CFC2] py-7 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
+    <div className="grid gap-5 border-b border-[#CFC5B7] py-7 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
       <div>
-        <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+        <h3 className="text-2xl font-extrabold">
           {title}
         </h3>
 
@@ -462,7 +650,7 @@ function DownloadRow({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+        className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
       >
         {button}
       </a>
@@ -485,7 +673,7 @@ function NextStep({
 }) {
   return (
     <div className="grid gap-5 border-b border-[#D8CFC2] py-7 md:grid-cols-[0.72fr_1.28fr] md:gap-10">
-      <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+      <h3 className="text-2xl font-extrabold">
         {title}
       </h3>
 
@@ -494,8 +682,9 @@ function NextStep({
           {text}
         </p>
 
-        {href && linkText && (
-          external ? (
+        {href &&
+          linkText &&
+          (external ? (
             <a
               href={href}
               className="mt-5 inline-flex font-extrabold text-[#8A6F3E] underline decoration-[#C29F60] decoration-2 underline-offset-4"
@@ -509,8 +698,7 @@ function NextStep({
             >
               {linkText}
             </Link>
-          )
-        )}
+          ))}
       </div>
     </div>
   );

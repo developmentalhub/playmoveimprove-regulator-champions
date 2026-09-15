@@ -34,38 +34,45 @@ const CURRENT_LADDERS = [
     image: '/images/ladders/ladder2_rung05.png',
     tag: 'Regulated Educator',
     title: 'Start with the educator',
-    text: 'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
+    text:
+      'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
   },
   {
     image: '/images/ladders/ladder1_rung08.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
-    text: 'Look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer as they move from home into the early childhood environment.',
+    text:
+      'Look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer as they move from home into the early childhood environment.',
   },
   {
     image: '/images/ladders/ladder3_rung06.png',
     tag: 'Participation Beyond Sitting',
     title: 'Rethink participation',
-    text: 'Support children to join in ways their bodies can manage, rather than assuming that sitting still is the only sign that a child is listening, learning or belonging.',
+    text:
+      'Support children to join in ways their bodies can manage, rather than assuming that sitting still is the only sign that a child is listening, learning or belonging.',
   },
 ];
 
 const CAPACITY_STEPS = [
   {
     title: 'Read',
-    text: 'Start with one practical idea that relates to something your team is already noticing.',
+    text:
+      'Start with one practical idea that relates to something your team is already noticing.',
   },
   {
     title: 'Try',
-    text: 'Use it in a real situation and notice what changes in the child, the environment or the interaction.',
+    text:
+      'Use it in a real situation and notice what changes in the child, the environment or the interaction.',
   },
   {
     title: 'Watch',
-    text: 'Return to the recordings when your team has the time and headspace to take more in.',
+    text:
+      'Return to the recordings when your team has the time and headspace to take more in.',
   },
   {
     title: 'Go deeper',
-    text: 'Teams wanting more support can continue into additional resources, implementation support, questions, live sessions and optional recognition.',
+    text:
+      'Teams wanting more support can continue into additional resources, implementation support, questions, live sessions and optional recognition.',
   },
 ];
 
@@ -184,8 +191,8 @@ export default function HomePageClient() {
           <div className="mx-auto w-full max-w-2xl">
             <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
               <Image
-                src="/images/early-childhood-regulation-program.png"
-                alt="Two early childhood educators looking through Regulator Champions Regulation Cards"
+                src="/images/educator-pair-regulation-cards-outdoors.jpg"
+                alt="Early childhood educators discussing Regulation Cards while continuing to supervise children playing outdoors"
                 width={1400}
                 height={1000}
                 priority
@@ -263,7 +270,7 @@ export default function HomePageClient() {
             <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3 shadow-sm">
               <Image
                 src="/images/early-childhood-regulation-program.png"
-                alt="Educators using Regulator Champions practical Regulation Cards"
+                alt="Educators looking through printed Regulator Champions Regulation Cards"
                 width={1400}
                 height={1000}
                 loading="lazy"
@@ -316,41 +323,36 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* CARDS */}
+      {/* PRACTICE, NOT JUST CARDS */}
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                Designed to be picked up and used, not watched once and forgotten.
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                The cards are a starting point
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Regulation work should eventually move off the card and into the way the day actually feels.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Keep the cards in the staff room, planning space or classroom. Pick up the one that relates to what is happening. Try something. Notice what changes. Talk about it with your team.
+                I do not want educators sitting around memorising strategies while children continue with their day somewhere else. The card might begin the conversation, but the useful part is when two educators try something together, notice what happens, and begin weaving regulation into ordinary moments.
               </p>
 
-              <div className="mt-8 border-l-4 border-[#E0BC68] pl-6">
-                <p className="text-xl font-extrabold">
-                  Not ready for the full program?
-                </p>
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                That might mean taking a cup of herbal tea into the outdoor space rather than having another coffee meeting inside. It might mean using the mud kitchen, herbs, water, rhythm, movement or a shared sensory experience as part of the way adults and children reconnect.
+              </p>
 
-                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                  You can purchase one Regulation Ladder or the three-ladder collection without joining Regulator Champions.
-                </p>
-
-                <a
-                  href={REGULATION_CARDS_URL}
-                  className="mt-6 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-                >
-                  Start with the Regulation Cards
-                </a>
-              </div>
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                Regulation is not something we should only ask children to do once they have already become overwhelmed. It can be part of the environment, routines, relationships and small moments of connection that happen throughout the day.
+              </p>
             </div>
 
             <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
               <Image
-                src="/images/regulation-training-for-educators.png"
-                alt="Regulator Champions Regulation Cards being used in an outdoor early childhood setting"
+                src="/images/tea-ritual-childcare-mud-kitchen.jpg"
+                alt="Educators and children sharing a calm herbal tea experience beside an outdoor mud kitchen and sand play area"
                 width={1400}
                 height={1000}
                 loading="lazy"
@@ -362,8 +364,61 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* DIFFERENCE */}
+      {/* EVERYDAY ROUTINES */}
       <section className="bg-[#F1ECE4] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-12 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="overflow-hidden rounded-3xl bg-white p-2">
+                <Image
+                  src="/images/educators-washing-herbs-with-children.jpg"
+                  alt="Educators and children washing freshly picked herbs together in an early childhood kitchen"
+                  width={900}
+                  height={900}
+                  loading="lazy"
+                  className="aspect-square w-full rounded-2xl object-cover"
+                />
+              </div>
+
+              <div className="mt-8 overflow-hidden rounded-3xl bg-white p-2 sm:mt-12">
+                <Image
+                  src="/images/educator-pair-with-child-regulation-support.jpg"
+                  alt="Two early childhood educators supporting a child through a calm co-regulation moment while other children continue playing"
+                  width={900}
+                  height={900}
+                  loading="lazy"
+                  className="aspect-square w-full rounded-2xl object-cover"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Regulation inside ordinary moments
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Sometimes regulation looks less like a strategy and more like doing something meaningful together.
+              </h2>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Picking herbs, carrying a watering can, washing leaves under running water, pouring, stirring, kneading, digging, humming or sitting beside someone can create very different body experiences from being repeatedly asked to stop, sit, listen or calm down.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                None of those activities is automatically regulating for every child. The important part is that educators begin noticing what happens in the child&apos;s body, engagement and connection as the experience changes.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                Over time, that noticing can help a team become more thoughtful about when to change the environment, when to offer movement, when to reduce a demand, when to stay close, and when a child may simply need more time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DIFFERENCE */}
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
             We&apos;ve already done regulation training.
@@ -388,9 +443,9 @@ export default function HomePageClient() {
       </section>
 
       {/* BODY */}
-      <section className="bg-white py-14 sm:py-20">
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="grid gap-10 lg:grid-cols-[0.88fr_1.12fr]">
             <div>
               <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 Before we ask how to stop the behaviour, we look at what the child&apos;s body may be telling us.
@@ -399,6 +454,18 @@ export default function HomePageClient() {
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
                 This does not mean ignoring unsafe behaviour or removing boundaries. It means looking closely enough at the child, the environment and the adult response to understand what may be increasing the pressure before we decide what to do next.
               </p>
+
+              <div className="mt-8 overflow-hidden rounded-3xl border border-[#E5DED4] bg-white p-3 shadow-sm">
+                <Image
+                  src="/images/educator-feather-breathing-circle.jpg"
+                  alt="Early childhood educators practising feather breathing alongside children in a classroom"
+                  width={1400}
+                  height={1000}
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="h-auto w-full rounded-2xl object-cover"
+                />
+              </div>
             </div>
 
             <div className="border-t border-[#D8CFC2]">
@@ -427,7 +494,7 @@ export default function HomePageClient() {
       </section>
 
       {/* VAGUS */}
-      <section className="border-y border-[#D8CFC2] bg-[#FAF5EC] py-14 sm:py-20">
+      <section className="border-y border-[#D8CFC2] bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
@@ -457,28 +524,40 @@ export default function HomePageClient() {
 
                 <a
                   href={VAGUS_CARDS_PAYMENT_URL}
-                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34]"
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
                 >
                   Get the Cards for $14 AUD
                 </a>
               </div>
             </div>
 
-            <div className="rounded-4xl border border-[#D8CFC2] bg-white p-7 shadow-sm sm:p-9">
-              <p className="text-xl font-extrabold leading-relaxed">
-                I do not want regulation to become another instruction that children are expected to perform correctly.
-              </p>
+            <div className="overflow-hidden rounded-4xl border border-[#D8CFC2] bg-[#FAF5EC] p-3 shadow-sm">
+              <Image
+                src="/images/educators-herb-window-garden.jpg"
+                alt="Educators and children touching and smelling fresh herbs together in an early childhood room"
+                width={1400}
+                height={1000}
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 48vw"
+                className="h-auto w-full rounded-3xl object-cover"
+              />
 
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Buzzing like a bee, blowing bubbles, hissing like a snake, squeezing a teddy or moving like an animal can give us opportunities to explore breathing, sound, movement and body awareness while the child is still playing and connected.
-              </p>
+              <div className="p-5 sm:p-7">
+                <p className="text-xl font-extrabold leading-relaxed">
+                  Regulation does not have to become another instruction children are expected to perform correctly.
+                </p>
 
-              <Link
-                href={VAGUS_ARTICLE_URL}
-                className="mt-6 inline-flex text-base font-extrabold text-[#8A6F3E]"
-              >
-                Read the full article and watch the video
-              </Link>
+                <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                  Smelling herbs, noticing textures, breathing, vocalising, moving and sharing sensory experiences can give children opportunities to notice their bodies while they are still playing and connected.
+                </p>
+
+                <Link
+                  href={VAGUS_ARTICLE_URL}
+                  className="mt-6 inline-flex text-base font-extrabold text-[#8A6F3E]"
+                >
+                  Read the full article and watch the video
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -512,7 +591,50 @@ export default function HomePageClient() {
               <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
                 Regulator Champions includes learning and recordings your team can return to when they have the time and headspace. Teams wanting more support can also use questions and live sessions.
               </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+                The intention is for educators to be able to come back when something happening in their room makes the learning relevant, rather than completing content simply because it is next on a course list.
+              </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* IMPLEMENTATION */}
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              What implementation can look like
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              The adults need opportunities to experience regulation too.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              It is difficult to support a child&apos;s regulation when educators are expected to understand everything intellectually but never have the opportunity to notice what different experiences feel like in their own bodies.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              A team might try the breathing activity themselves, move a meeting outdoors, use a sensory experience together, talk through one Regulation Card in pairs or notice how their own pace and voice change when a room becomes stressful.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              This is not about turning staff meetings into therapy. It is about making professional learning physical and practical enough that educators can recognise what regulation may actually feel like before they are asked to support it in somebody else.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/children-and-educators-sensory-reset.jpg"
+              alt="Educators and children sharing a simple sensory regulation activity in an early childhood room"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 54vw"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
           </div>
         </div>
       </section>
@@ -536,7 +658,7 @@ export default function HomePageClient() {
 
           <Link
             href={BLOG_URL}
-            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-white px-7 py-4 text-base font-extrabold shadow-sm transition hover:bg-[#1C3B34] hover:text-white"
+            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#1C3B34] hover:text-white"
           >
             Explore the Blog
           </Link>
@@ -603,7 +725,7 @@ export default function HomePageClient() {
 
               <Link
                 href={FREE_SAMPLE_URL}
-                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] px-6 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
+                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
               >
                 Open the free example
               </Link>
@@ -612,14 +734,14 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* DIRECTOR ROI / SHARED PRACTICE */}
+      {/* DIRECTOR ROI */}
       <section className="bg-[#F1ECE4] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
             <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
               <Image
-                src="/images/regulator-champions-team-planning.png"
-                alt="Early childhood educational leader and educators discussing Regulation Ladder cards together"
+                src="/images/small-group-educators-staffroom-regulation.jpg"
+                alt="Small group of early childhood educators exploring practical regulation experiences together during planning time"
                 width={1400}
                 height={1000}
                 loading="lazy"
@@ -643,7 +765,7 @@ export default function HomePageClient() {
                 </p>
 
                 <p>
-                  The pressure begins to build when the same situations keep returning and the adults around the child are still having to work out, from scratch, what might be happening and what to try next. A director may find themselves returning to the same conversations with different educators, while an educational leader searches for another strategy, families hear slightly different explanations depending on who they speak with, and educators who understand the theory of co-regulation still feel unsure about what that theory actually means in the middle of a busy room.
+                  The pressure begins to build when the same situations keep returning and the adults around the child are still having to work out, from scratch, what might be happening and what to try next.
                 </p>
 
                 <p className="text-xl font-extrabold leading-relaxed text-[#1C3B34]">
@@ -663,7 +785,7 @@ export default function HomePageClient() {
 
               <div className="mt-7 space-y-5 text-lg leading-relaxed text-[#53645D]">
                 <p>
-                  The 6-Month Preview is $1,790 AUD because it is designed as a whole-team implementation period, not simply another resource for one educator to download. It gives your team time to use the Regulation Ladders, return to recordings when they have capacity, bring questions back, and begin building a more shared way of thinking about the regulation difficulties that keep appearing across the week.
+                  The 6-Month Preview is $1,790 AUD because it is designed as a whole-team implementation period, not simply another resource for one educator to download. It gives your team time to use the Regulation Ladders, return to recordings when they have capacity, bring questions back, and begin building a more shared way of thinking.
                 </p>
 
                 <p>
@@ -767,7 +889,7 @@ export default function HomePageClient() {
               title="6-Month Preview"
               price={PREVIEW_PRICE}
               period={`${PREVIEW_ACCESS_MONTHS} months`}
-              text="A smaller whole-team introduction for organisations wanting to use the current Regulation Ladders alongside recordings, questions and support before deciding what they need longer term."
+              text="A whole-team introduction for organisations wanting to use the current Regulation Ladders alongside recordings, questions and support before deciding what they need longer term."
               href="/proposal?plan=preview"
               button="View 6-Month Preview"
             />
@@ -876,7 +998,7 @@ export default function HomePageClient() {
 
                 <Link
                   href={`/proposal?plan=${quoteForm.programOption}`}
-                  className="mt-5 inline-flex min-h-12 items-center rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-[#12362F]"
+                  className="mt-5 inline-flex min-h-12 items-center rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8]"
                 >
                   Open proposal
                 </Link>
@@ -1123,7 +1245,7 @@ function ProgramOption({
 
       <Link
         href={href}
-        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
+        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
       >
         {button}
       </Link>
