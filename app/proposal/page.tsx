@@ -1,11 +1,12 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import React, {
   Suspense,
   useMemo,
   useState,
 } from 'react';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 const PREVIEW_PRICE = 1790;
@@ -24,8 +25,10 @@ const PLAN_DETAILS = {
     label: '6-Month Preview',
     price: PREVIEW_PRICE,
     access: `${PREVIEW_MONTHS} months`,
+    shortLabel:
+      'A practical whole-team starting point',
     description:
-      'A smaller whole-team introduction for organisations that want to begin with the Regulation Ladders currently available and have access to recordings, questions and implementation support without committing to a full year straight away.',
+      'Six months gives your team time to begin using the Regulation Ladders in real situations, return to recordings when there is capacity, submit questions and see how this way of thinking fits your service before deciding whether you want longer-term support.',
     inclusions: [
       'Whole-team access for 6 months',
       'The Regulation Ladders currently available',
@@ -44,8 +47,10 @@ const PLAN_DETAILS = {
     label: '12-Month Regulator Champions',
     price: FULL_PRICE,
     access: `${FULL_MONTHS} months`,
+    shortLabel:
+      'For teams wanting longer-term implementation support',
     description:
-      'Year-round whole-team support for organisations that want to keep returning to the Regulation Ladders, recordings and Robyn as different behaviour, regulation and participation questions arise across the year.',
+      'Twelve months gives your organisation more time to keep returning to the Regulation Ladders, recordings, questions and live support as different regulation, behaviour and participation challenges arise across the year.',
     inclusions: [
       'Whole-team access for 12 months',
       'All Regulation Ladders available during your access period',
@@ -62,6 +67,33 @@ const PLAN_DETAILS = {
     ],
   },
 } as const;
+
+const SIX_MONTH_QUESTIONS = [
+  {
+    question:
+      'Do we need to work through everything in six months?',
+    answer:
+      'No. The intention is not to race through content. Start with the Regulation Ladder or resource that relates most closely to what your team is dealing with and return to the deeper learning when there is time.',
+  },
+  {
+    question:
+      'Does every educator need to attend live sessions?',
+    answer:
+      'No. Live participation is optional. Recordings and practical resources are there so services can use the program around staffing, planning time and the realities of an early childhood week.',
+  },
+  {
+    question:
+      'What if we have already completed regulation training?',
+    answer:
+      'That is very common. Regulator Champions is not built around assuming educators know nothing about regulation. It is designed to help teams use what they know when a real situation is unfolding and the answer is not immediately obvious.',
+  },
+  {
+    question:
+      'What if we only want the cards?',
+    answer:
+      'That is completely fine. The Regulation Cards can be purchased separately without joining the broader program.',
+  },
+];
 
 function ProposalContent() {
   const searchParams =
@@ -162,7 +194,7 @@ Thank you`);
             </p>
 
             <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#BFD0C8] print:text-black">
-              Your educators can use the practical resources now, return to recordings when they have the time and headspace, and use questions or live support when they want to go deeper. It is not designed to become another course your team has to race through.
+              Your educators can use practical resources when a situation arises, return to recordings when they have the time and headspace, and bring questions back when they want more support. It is not designed to become another course your team has to race through.
             </p>
 
             <p className="mt-5 max-w-4xl text-base leading-relaxed text-[#BFD0C8] print:text-black">
@@ -195,20 +227,24 @@ Thank you`);
       </section>
 
       {/* WHY */}
-      <section className="bg-white py-12 sm:py-16 print:py-8">
+      <section className="bg-white py-14 sm:py-20 print:py-8">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start">
+          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-start">
             <div className="max-w-4xl">
               <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 The hard part is usually not knowing another strategy.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Most teams already understand that behaviour communicates something and that children may need adults to help them regulate. The difficulty comes when one child is screaming, another is running away, a family member is waiting at the door and the strategy that worked yesterday is not helping today.
+                Most early childhood teams already know that behaviour communicates something, that children may need co-regulation and that the environment around a child matters. The challenge is using that knowledge when one child is screaming, another is running away, an educator needs support, a family is waiting at the door and the strategy that worked yesterday does not seem to be helping today.
               </p>
 
-              <p className="mt-5 text-lg font-semibold leading-relaxed">
-                Regulator Champions is designed for that gap between knowing the theory and making a thoughtful decision in the room.
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Those are the moments where teams can easily fall back into reacting quickly, trying another strategy or relying on whichever educator happens to be most confident. Regulator Champions is designed to slow that process down enough for adults to notice what may be contributing before deciding what to change.
+              </p>
+
+              <p className="mt-5 text-xl font-extrabold leading-relaxed">
+                It is designed for the gap between understanding the theory and making a thoughtful decision in the room.
               </p>
             </div>
 
@@ -223,8 +259,154 @@ Thank you`);
         </div>
       </section>
 
+      {/* ORGANISATIONAL CAPACITY */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20 print:py-8">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-[#9A793D]">
+                What repeated regulation difficulties ask from a team
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                One difficult moment is part of early childhood. The pressure builds when everybody has to work it out again from the beginning.
+              </h2>
+
+              <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
+                <p>
+                  A difficult drop-off is part of early childhood, and so is the child who struggles to stay with group time, the educator who needs help when behaviour escalates, or the family who is trying to understand why their child responds differently in different environments.
+                </p>
+
+                <p>
+                  The pressure begins to build when the same situations keep returning and the adults around the child still do not have a shared way to look at what is happening.
+                </p>
+
+                <p>
+                  A director may find themselves returning to the same conversation with different educators, while an educational leader searches for another idea, families receive slightly different explanations depending on who they speak with, and educators who understand co-regulation in theory remain unsure about what it means in the middle of a busy room.
+                </p>
+              </div>
+            </div>
+
+            <div className="overflow-hidden border border-[#DDD5C9] bg-white p-3 shadow-sm print:hidden">
+              <Image
+                src="/images/regulator-champions-team-planning.png"
+                alt="Early childhood educators discussing Regulation Ladder cards together during team planning"
+                width={1400}
+                height={1050}
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* THINKING SHIFT */}
+      <section className="bg-white py-14 sm:py-20 print:py-8">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#657B6C]">
+                A shared way of thinking
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                The goal is not to give educators a scripted answer for every behaviour.
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-lg leading-relaxed text-[#53645D]">
+                I want teams to become more confident at asking useful questions before jumping straight to another strategy. Instead of beginning only with “How do we stop this?”, the team can begin widening the conversation.
+              </p>
+
+              <div className="mt-7 border-y border-[#D8CFC2]">
+                <ThinkingQuestion>
+                  What are we actually noticing?
+                </ThinkingQuestion>
+
+                <ThinkingQuestion>
+                  What was happening before this became difficult?
+                </ThinkingQuestion>
+
+                <ThinkingQuestion>
+                  What is the child&apos;s body doing?
+                </ThinkingQuestion>
+
+                <ThinkingQuestion>
+                  What demand is this moment placing on the child?
+                </ThinkingQuestion>
+
+                <ThinkingQuestion>
+                  Is something in the environment, routine or adult response adding pressure?
+                </ThinkingQuestion>
+
+                <ThinkingQuestion>
+                  What is one thoughtful thing we could change, then watch?
+                </ThinkingQuestion>
+              </div>
+
+              <p className="mt-7 text-lg leading-relaxed text-[#53645D]">
+                This does not mean ignoring unsafe behaviour, removing boundaries or assuming every difficulty has a hidden sensory explanation. It means taking enough time to consider the child, the environment and the interaction before deciding what the response should be.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY SIX MONTHS */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20 print:bg-white print:py-8 print:text-black">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#E4C98E] print:text-black">
+                Why there is a six-month option
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl print:text-black">
+                You should not need to commit your service for a full year just to find out whether this approach is useful.
+              </h2>
+            </div>
+
+            <div>
+              <div className="space-y-5 text-lg leading-relaxed text-[#D8E1DC] print:text-black">
+                <p>
+                  The 6-Month Preview is designed as a genuine whole-team starting point rather than a reduced version that exists only to move you towards the larger program.
+                </p>
+
+                <p>
+                  Six months gives educators time to start with the situations already creating pressure, use the Regulation Ladders in practice, return to recordings when there is capacity, bring questions back and begin noticing whether a more shared way of thinking is useful for your team.
+                </p>
+
+                <p>
+                  You do not need to believe that one program will solve every behaviour challenge before deciding whether to begin. Children will still become frustrated, overwhelmed, tired, excited and dysregulated, and educators will still encounter situations where the answer is not obvious.
+                </p>
+
+                <p className="font-semibold text-white print:text-black">
+                  The more useful question is whether giving your team a more consistent way to notice, discuss and respond to those recurring situations would be valuable in your service.
+                </p>
+              </div>
+
+              <div className="mt-8 border-l-4 border-[#E0BC68] pl-6">
+                <p className="text-2xl font-extrabold text-white print:text-black">
+                  6-Month Preview
+                </p>
+
+                <p className="mt-2 text-4xl font-extrabold text-[#E4C98E] print:text-black">
+                  $1,790 AUD
+                </p>
+
+                <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#C8D6D0] print:text-black">
+                  Whole-team access for six months, including the current Regulation Ladders, practical resources, recordings, questions and implementation support.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
-      <section className="bg-[#F3EEE7] py-12 sm:py-16 print:py-8">
+      <section className="bg-[#F3EEE7] py-14 sm:py-20 print:py-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
@@ -263,16 +445,60 @@ Thank you`);
         </div>
       </section>
 
+      {/* COMMON QUESTIONS */}
+      <section className="bg-white py-14 sm:py-20 print:py-8">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#657B6C]">
+                Before choosing a program
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                You do not need to reorganise your whole service to begin.
+              </h2>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Regulator Champions is intended to sit alongside the work your educators are already doing rather than create another large list of tasks to complete.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D8CFC2]">
+              {SIX_MONTH_QUESTIONS.map(
+                (item) => (
+                  <div
+                    key={item.question}
+                    className="border-b border-[#D8CFC2] py-6"
+                  >
+                    <h3 className="text-xl font-extrabold">
+                      {item.question}
+                    </h3>
+
+                    <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                      {item.answer}
+                    </p>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PLAN SELECTION */}
-      <section className="py-12 sm:py-16 print:py-8">
+      <section className="bg-[#FAF8F5] py-14 sm:py-20 print:py-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Choose your starting point
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               Choose the level of support that makes sense for your team.
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              Both options provide whole-team access. The six-month option gives you a smaller starting point, while the twelve-month option gives your team more time to return to the support as different situations arise.
+              Both options provide whole-team access. The six-month option is there for organisations that want a meaningful starting period without committing for a full year, while the twelve-month option gives teams more time to return to support as different situations arise.
             </p>
 
             <p className="mt-3 text-base leading-relaxed text-[#6A7873]">
@@ -280,9 +506,10 @@ Thank you`);
             </p>
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2 print:grid-cols-2">
+          <div className="mt-9 grid gap-7 md:grid-cols-2 print:grid-cols-2">
             <PlanChoice
               title="6-Month Preview"
+              label="A practical place to start"
               price={PREVIEW_PRICE}
               months={PREVIEW_MONTHS}
               description="Begin with the Regulation Ladders currently available and use the recordings, questions and support for six months before deciding what your team needs next."
@@ -296,6 +523,7 @@ Thank you`);
 
             <PlanChoice
               title="12-Month Regulator Champions"
+              label="For longer-term support"
               price={FULL_PRICE}
               months={FULL_MONTHS}
               description="Give your team year-round access to the Regulation Ladders, recordings, questions, implementation support and live sessions when those are useful."
@@ -311,12 +539,16 @@ Thank you`);
       </section>
 
       {/* SELECTED PLAN */}
-      <section className="bg-white py-12 sm:py-16 print:py-8">
+      <section className="bg-white py-14 sm:py-20 print:py-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-base font-semibold text-[#657B6C]">
                 Current selection
+              </p>
+
+              <p className="mt-4 text-sm font-extrabold text-[#9A793D]">
+                {plan.shortLabel}
               </p>
 
               <h2 className="mt-2 text-3xl font-extrabold">
@@ -363,7 +595,7 @@ Thank you`);
       </section>
 
       {/* LIVE AND RECORDINGS */}
-      <section className="bg-[#1C3B34] py-12 text-white sm:py-16 print:bg-white print:py-8 print:text-black">
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20 print:bg-white print:py-8 print:text-black">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl print:text-black">
@@ -426,7 +658,7 @@ Thank you`);
         </div>
       </section>
 
-      {/* LOCATION / QUALITY INFORMATION */}
+      {/* LOCATION */}
       <section className="border-y border-[#E5DED4] bg-[#F7F3ED] py-12 print:py-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
@@ -465,6 +697,32 @@ Thank you`);
                 text="Information for Queensland kindergarten services."
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* UNSURE */}
+      <section className="bg-[#FAF5EC] py-12 sm:py-16 print:hidden">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold text-[#9A793D]">
+              Still unsure which option makes sense?
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight">
+              You do not need to decide before you contact me.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              You can tell me what your educators are currently finding difficult, how your team usually approaches professional learning and what you realistically have capacity for. If I think the cards alone are a better starting point, I would rather tell you that than place your team into a larger program you are not ready to use.
+            </p>
+
+            <a
+              href="mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20team%20enquiry"
+              className="mt-7 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-6 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
+            >
+              Talk to Robyn about your team
+            </a>
           </div>
         </div>
       </section>
@@ -569,6 +827,10 @@ Thank you`);
             >
               Email Robyn to request proposal
             </a>
+
+            <p className="mt-4 text-sm leading-relaxed text-[#BFD0C8]">
+              This sends an email request only. Your organisation is not enrolled and no payment is processed until the next steps are confirmed with you.
+            </p>
           </div>
         </div>
       </section>
@@ -587,6 +849,20 @@ export default function ProposalPage() {
     >
       <ProposalContent />
     </Suspense>
+  );
+}
+
+function ThinkingQuestion({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-b border-[#D8CFC2] py-4 last:border-b-0">
+      <p className="text-lg font-extrabold leading-relaxed text-[#29483F]">
+        “{children}”
+      </p>
+    </div>
   );
 }
 
@@ -620,6 +896,7 @@ function SupportStep({
 
 function PlanChoice({
   title,
+  label,
   price,
   months,
   description,
@@ -627,6 +904,7 @@ function PlanChoice({
   onClick,
 }: {
   title: string;
+  label: string;
   price: number;
   months: number;
   description: string;
@@ -644,7 +922,11 @@ function PlanChoice({
           : 'border-[#D8CFC2] bg-transparent hover:bg-white'
       }`}
     >
-      <h3 className="text-2xl font-extrabold">
+      <p className="text-sm font-extrabold text-[#9A793D]">
+        {label}
+      </p>
+
+      <h3 className="mt-2 text-2xl font-extrabold">
         {title}
       </h3>
 

@@ -126,7 +126,7 @@ export default function PlaybooksPage() {
             <PerspectiveRow
               role="Family"
               question="What does this child show us outside the early childhood setting?"
-              text="The family cards create space for information that may not be visible during the day, including the child's preferences, movement needs, communication and what participation looks like in other environments."
+              text="The family cards create space for information that may not be visible during the day, including the child&apos;s preferences, movement needs, communication and what participation looks like in other environments."
             />
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function PlaybooksPage() {
 
             <DownloadRow
               title="For families"
-              description="Use this version to bring the family's knowledge of the child into the conversation rather than expecting the early childhood team to work everything out alone."
+              description="Use this version to bring the family&apos;s knowledge of the child into the conversation rather than expecting the early childhood team to work everything out alone."
               href={FAMILY_PDF}
               button="Open Family Cards"
             />
@@ -196,7 +196,7 @@ export default function PlaybooksPage() {
             </p>
 
             <p>
-              What you notice afterwards matters just as much as whether the behaviour stops. A child may stay with the group slightly longer, move closer to the educator, accept an invitation more easily, recover more quickly or need fewer repeated instructions, and those smaller changes can tell us that we are beginning to understand the situation differently.
+              What you notice afterwards matters just as much as whether the behaviour stops. A child may stay with the group slightly longer, move closer to the educator, accept an invitation more easily, recover more quickly or need fewer repeated instructions. Those smaller changes do not prove that you have found the whole answer, but they can give the team useful information about what may be helping.
             </p>
 
             <p>
@@ -233,83 +233,164 @@ export default function PlaybooksPage() {
         </div>
       </section>
 
-      {/* PAID CARDS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                Want more Regulation Ladders without joining the full program?
-              </p>
+      {/* TEAM PRACTICE IMAGE */}
+      <section className="bg-[#F3EEE7] py-14 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="overflow-hidden border border-[#DDD5C9] bg-white p-3 shadow-sm">
+            <Image
+              src="/images/regulator-champions-team-planning.png"
+              alt="Early childhood educators discussing Regulation Ladder cards together during team planning"
+              width={1400}
+              height={1050}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="h-auto w-full object-cover"
+            />
+          </div>
 
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-                You can start with the practical cards.
-              </h2>
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Try it with your own team
+            </p>
 
-              <p className="mt-5 text-lg leading-8 text-[#53645D]">
-                Some teams do not have the capacity for another professional learning program right now, and that is exactly why the Regulation Cards can also be purchased separately. You can begin with the practical resources, use them in the situations that are already creating pressure and decide later whether your team needs anything more.
-              </p>
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              The value of the ladder is in the conversation it helps your team have.
+            </h2>
 
-              <a
-                href={REGULATION_CARDS_URL}
-                className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-              >
-                Explore the Regulation Cards
-              </a>
-            </div>
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              Print the educator and manager versions, choose one situation that has been coming up in your service and put a few of the cards on the table. You do not need to agree immediately about what the behaviour means. In fact, the differences in what educators notice can be useful because they show you where the team may be interpreting the same moment in different ways.
+            </p>
 
-            <div className="border-l-0 border-[#D8CFC2] lg:border-l lg:pl-10">
-              <p className="text-xl font-extrabold leading-8 text-[#1C3B34]">
-                The cards are not designed to give you a perfect answer for every child.
-              </p>
-
-              <p className="mt-5 text-lg leading-8 text-[#53645D]">
-                They are designed to help teams ask better questions before everybody becomes stuck in the same cycle of behaviour, correction, escalation and frustration.
-              </p>
-            </div>
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              I would be more interested in whether the discussion becomes more thoughtful than whether everybody reaches the same conclusion. If the cards help your team move from “this child just won&apos;t participate” towards a conversation about what the child, environment and interaction may be telling you, then you have already started using the process the way it was intended.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* FULL PROGRAM */}
+      {/* WHICH NEXT STEP */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              What happens after the free sample?
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              You may not need the full Regulator Champions program.
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              I would rather you use this free ladder with your team and work out what you actually need next than assume every service should move into a larger program. For some teams, a small collection of practical Regulation Cards may be enough. For others, the cards may reveal that the team needs more time, discussion and support to build this way of thinking into everyday practice.
+            </p>
+          </div>
+
+          <div className="mt-10 border-y border-[#D8CFC2]">
+            <NextStep
+              title="Keep using the free ladder"
+              text="If this one topic is enough for what your team is working on right now, keep using it. There is no requirement to purchase anything after downloading the sample."
+            />
+
+            <NextStep
+              title="Purchase the Regulation Cards"
+              text="If your team likes the practical card format and wants more situations to work through, you can purchase the Regulation Cards separately without joining Regulator Champions."
+              href={REGULATION_CARDS_URL}
+              linkText="Explore the Regulation Cards"
+              external
+            />
+
+            <NextStep
+              title="Use the 6-Month Preview"
+              text="If the bigger need is helping educators develop a more shared way of noticing, discussing and responding to recurring regulation and behaviour situations, the six-month option adds recordings, questions, practical resources and implementation support around the Regulation Ladders."
+              href="/proposal?plan=preview"
+              linkText="View the 6-Month Preview"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* SIX MONTH BRIDGE */}
       <section className="bg-[#FAF5EC] py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid gap-10 lg:grid-cols-[0.84fr_1.16fr]">
             <div>
               <p className="text-sm font-extrabold text-[#9A793D]">
-                When your team wants more support
+                When the cards are only the beginning
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-                Regulator Champions goes beyond the cards.
+                Sometimes the resource is not the part the team is missing.
               </h2>
             </div>
 
             <div>
               <p className="text-lg leading-8 text-[#53645D]">
-                The broader program gives teams somewhere to keep building the thinking behind the Regulation Ladders through recordings, questions, practical resources, implementation support and live learning when those things are useful.
+                A director may already have shelves of professional development resources, posters and strategy lists. The difficulty can be helping educators know which ideas matter in a particular moment, how to talk about what they are seeing together and what to do when the first strategy does not quite fit.
               </p>
 
               <p className="mt-5 text-lg leading-8 text-[#53645D]">
-                The aim is not to make educators complete more content. It is to help the team become more confident at noticing what may be happening underneath behaviour and deciding what to try when the same difficult moments keep returning.
+                That is where the broader Regulator Champions program begins to make more sense. The Regulation Ladders remain the practical starting point, but the team can also return to recordings, submit de-identified questions, use additional implementation resources and join live learning when that support is useful.
               </p>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/#full-program"
-                  className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-                >
-                  Explore the Full Program
-                </Link>
+              <div className="mt-7 border-l-4 border-[#C29F60] pl-6">
+                <p className="text-2xl font-extrabold">
+                  6-Month Preview — $1,790 AUD
+                </p>
 
-                <a
-                  href="mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20team%20enquiry"
-                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-                >
-                  Talk to Robyn
-                </a>
+                <p className="mt-3 text-lg leading-8 text-[#53645D]">
+                  This is a whole-team starting period rather than a course educators have to complete. The intention is to give the service enough time to use the approach in real situations and decide whether it is valuable for the way your team works.
+                </p>
+
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/proposal?plan=preview"
+                    className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+                  >
+                    View the 6-Month Proposal
+                  </Link>
+
+                  <Link
+                    href="/director-review"
+                    className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+                  >
+                    Tell Me About Your Team
+                  </Link>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-sm font-semibold text-[#E4C98E]">
+            Start where your team is
+          </p>
+
+          <h2 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+            Use the free ladder first and see what conversation it creates.
+          </h2>
+
+          <p className="mt-5 max-w-4xl text-lg leading-8 text-[#D8E1DC]">
+            If it gives your educators a more useful way to talk about participation, try it before deciding what you need next. You may find that the cards are enough, or you may realise that your team would benefit from having somewhere to keep building this thinking as new situations arise.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#free-ladder"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28]"
+            >
+              Open the Free Regulation Ladder
+            </a>
+
+            <Link
+              href="/director-review"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-bold text-white"
+            >
+              Talk About Your Team
+            </Link>
           </div>
         </div>
       </section>
@@ -385,6 +466,52 @@ function DownloadRow({
       >
         {button}
       </a>
+    </div>
+  );
+}
+
+function NextStep({
+  title,
+  text,
+  href,
+  linkText,
+  external = false,
+}: {
+  title: string;
+  text: string;
+  href?: string;
+  linkText?: string;
+  external?: boolean;
+}) {
+  return (
+    <div className="grid gap-5 border-b border-[#D8CFC2] py-7 md:grid-cols-[0.72fr_1.28fr] md:gap-10">
+      <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+        {title}
+      </h3>
+
+      <div>
+        <p className="text-lg leading-8 text-[#53645D]">
+          {text}
+        </p>
+
+        {href && linkText && (
+          external ? (
+            <a
+              href={href}
+              className="mt-5 inline-flex font-extrabold text-[#8A6F3E] underline decoration-[#C29F60] decoration-2 underline-offset-4"
+            >
+              {linkText}
+            </a>
+          ) : (
+            <Link
+              href={href}
+              className="mt-5 inline-flex font-extrabold text-[#8A6F3E] underline decoration-[#C29F60] decoration-2 underline-offset-4"
+            >
+              {linkText}
+            </Link>
+          )
+        )}
+      </div>
     </div>
   );
 }

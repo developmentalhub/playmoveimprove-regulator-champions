@@ -612,6 +612,76 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* DIRECTOR ROI / SHARED PRACTICE */}
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+            <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
+              <Image
+                src="/images/regulator-champions-team-planning.png"
+                alt="Early childhood educational leader and educators discussing Regulation Ladder cards together"
+                width={1400}
+                height={1000}
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-auto w-full rounded-3xl object-cover"
+              />
+            </div>
+
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                For directors, owners and educational leaders
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                What are repeated regulation difficulties asking from your team?
+              </h2>
+
+              <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
+                <p>
+                  One difficult drop-off is part of early childhood, and so is the educator who needs support when group time keeps falling apart, the child who becomes overwhelmed when the room gets noisy, or the family who is unsure why their child is coping differently at home and care. None of those moments automatically mean something is wrong with the child, the educator or the service.
+                </p>
+
+                <p>
+                  The pressure begins to build when the same situations keep returning and the adults around the child are still having to work out, from scratch, what might be happening and what to try next. A director may find themselves returning to the same conversations with different educators, while an educational leader searches for another strategy, families hear slightly different explanations depending on who they speak with, and educators who understand the theory of co-regulation still feel unsure about what that theory actually means in the middle of a busy room.
+                </p>
+
+                <p className="text-xl font-extrabold leading-relaxed text-[#1C3B34]">
+                  That is the gap I want Regulator Champions to sit in.
+                </p>
+
+                <p>
+                  The aim is not to remove difficult behaviour from early childhood, because children will still become frustrated, overwhelmed, tired, excited and dysregulated. Instead, I want the adults around them to have a more useful way to slow the situation down, notice what may be contributing, consider what could change in the environment or interaction, and decide together what is worth trying next.
+                </p>
+              </div>
+
+              <div className="mt-7 border-l-4 border-[#C29F60] bg-white px-6 py-5">
+                <p className="text-lg font-extrabold leading-relaxed text-[#1C3B34]">
+                  Rather than every difficult moment beginning with “How do we stop this?”, the conversation can gradually become “What are we noticing here? What was happening before this? What is the child&apos;s body telling us? Is the demand too high? Is the environment adding pressure? Is there something we could change before expecting the child to change?”
+                </p>
+              </div>
+
+              <div className="mt-7 space-y-5 text-lg leading-relaxed text-[#53645D]">
+                <p>
+                  The 6-Month Preview is $1,790 AUD because it is designed as a whole-team implementation period, not simply another resource for one educator to download. It gives your team time to use the Regulation Ladders, return to recordings when they have capacity, bring questions back, and begin building a more shared way of thinking about the regulation difficulties that keep appearing across the week.
+                </p>
+
+                <p>
+                  You do not need to believe that one program will solve every behaviour challenge to decide whether that would be useful. The more practical question is whether having a more consistent way for your team to notice, discuss and respond to recurring situations would make a meaningful difference in your service.
+                </p>
+              </div>
+
+              <Link
+                href="/proposal?plan=preview"
+                className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+              >
+                Explore the 6-Month Preview
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FULL PROGRAM */}
       <section
         id="full-program"
@@ -1044,7 +1114,7 @@ function ProgramOption({
       </p>
 
       <p className="mt-1 text-base text-[#6B7772]">
-        incl. GST, {period}
+        {period}
       </p>
 
       <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
@@ -1099,7 +1169,7 @@ function PlanButton({
             : 'text-[#D8E1DC]'
         }`}
       >
-        ${price.toLocaleString()} AUD incl. GST
+        ${price.toLocaleString()} AUD
       </span>
     </button>
   );
