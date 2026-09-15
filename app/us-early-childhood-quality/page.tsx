@@ -204,28 +204,28 @@ export default function USEarlyChildhoodQualityPage() {
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-4">
-                <div className="overflow-hidden rounded-3xl bg-white p-2">
-                  <Image
-                    src="/images/ladders/ladder2_rung05.png"
-                    alt="Watercolour illustration from a Regulator Champions Regulation Ladder"
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    className="aspect-4/5 w-full rounded-2xl object-cover"
-                  />
-                </div>
+  <div className="overflow-hidden rounded-3xl bg-white/10 p-3">
+    <Image
+      src="/images/ladders/ladder2_rung05.png"
+      alt="Watercolour illustration from a Regulator Champions Regulation Ladder"
+      width={800}
+      height={1000}
+      priority
+      className="aspect-4/5 w-full rounded-2xl object-cover"
+    />
+  </div>
 
-                <div className="overflow-hidden rounded-3xl bg-white p-2">
-                  <Image
-                    src="/images/ladders/ladder3_rung06.png"
-                    alt="Watercolour illustration from a Regulator Champions Regulation Ladder"
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    className="aspect-4/5 w-full rounded-2xl object-cover"
-                  />
-                </div>
-              </div>
+  <div className="mt-10 overflow-hidden rounded-3xl bg-white/10 p-3">
+    <Image
+      src="/images/ladders/ladder1_rung08.png"
+      alt="Watercolour illustration from a Regulator Champions Regulation Ladder"
+      width={800}
+      height={1000}
+      priority
+      className="aspect-4/5 w-full rounded-2xl object-cover"
+    />
+  </div>
+</div>
             </div>
 
             <div className="order-1 lg:order-2">
@@ -338,8 +338,8 @@ export default function USEarlyChildhoodQualityPage() {
           <div>
             <div className="overflow-hidden rounded-3xl bg-white p-3">
               <Image
-                src="/images/children-and-educators-sensory-reset.jpg"
-                alt="Illustration showing calm early childhood co-regulation support"
+                src="/images/cards/card6-rhythm.png"
+                alt="Watercolour illustration showing rhythm and movement as part of early childhood regulation support"
                 width={900}
                 height={900}
                 loading="lazy"

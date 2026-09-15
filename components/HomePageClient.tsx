@@ -31,21 +31,24 @@ const PRESSURE_QUESTIONS = [
 
 const CURRENT_LADDERS = [
   {
-    image: '/images/ladders/ladder2_rung05.png',
+    image:
+      '/images/ladders/ladder2_rung05.png',
     tag: 'Regulated Educator',
     title: 'Start with the educator',
     text:
       'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
   },
   {
-    image: '/images/ladders/ladder1_rung08.png',
+    image:
+      '/images/ladders/ladder1_rung08.png',
     tag: 'Connected Drop-Offs',
     title: 'Make drop-off feel smaller',
     text:
       'Look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer as they move from home into the early childhood environment.',
   },
   {
-    image: '/images/ladders/ladder3_rung06.png',
+    image:
+      '/images/ladders/ladder3_rung06.png',
     tag: 'Participation Beyond Sitting',
     title: 'Rethink participation',
     text:
@@ -77,16 +80,17 @@ const CAPACITY_STEPS = [
 ];
 
 export default function HomePageClient() {
-  const [quoteForm, setQuoteForm] = useState({
-    fullName: '',
-    email: '',
-    serviceName: '',
-    fundingSource:
-      'Annual professional learning budget',
-    programOption: 'preview' as
-      | 'full'
-      | 'preview',
-  });
+  const [quoteForm, setQuoteForm] =
+    useState({
+      fullName: '',
+      email: '',
+      serviceName: '',
+      fundingSource:
+        'Annual professional learning budget',
+      programOption: 'preview' as
+        | 'full'
+        | 'preview',
+    });
 
   const [isSubmitting, setIsSubmitting] =
     useState(false);
@@ -152,23 +156,40 @@ export default function HomePageClient() {
         <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-12 md:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
             <p className="text-base font-semibold text-[#F0D99A]">
-              Early childhood regulation support for the moments that keep coming back
+              Early childhood regulation
+              support for the moments that keep
+              coming back
             </p>
 
             <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-[1.14] tracking-tight text-white sm:text-4xl lg:text-[2.9rem]">
-              When the same behaviours keep happening, your team shouldn&apos;t have to keep guessing what to try next.
+              When the same behaviours keep
+              happening, your team shouldn&apos;t
+              have to keep guessing what to try
+              next.
             </h1>
 
             <p className="mt-6 max-w-3xl text-xl leading-relaxed text-[#E0E8E4]">
-              A child freezes at drop-off. Another can&apos;t stay with the group. Someone is throwing, biting, running or becoming overwhelmed when the room gets busy.
+              A child freezes at drop-off.
+              Another can&apos;t stay with the
+              group. Someone is throwing,
+              biting, running or becoming
+              overwhelmed when the room gets
+              busy.
             </p>
 
             <p className="mt-4 max-w-3xl text-xl leading-relaxed text-[#E0E8E4]">
-              Regulator Champions helps early childhood teams notice what may be happening underneath the behaviour, work out what might need to change, and decide what to try next.
+              Regulator Champions helps early
+              childhood teams notice what may be
+              happening underneath the
+              behaviour, work out what might
+              need to change, and decide what to
+              try next.
             </p>
 
             <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
-              Created in Australia and available to early childhood teams internationally.
+              Created in Australia and
+              available to early childhood
+              teams internationally.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -213,11 +234,17 @@ export default function HomePageClient() {
             </p>
 
             <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
-              Want to see what your educators would actually use?
+              Want to see what your educators
+              would actually use?
             </h2>
 
             <p className="mt-3 text-lg leading-relaxed text-[#374C45]">
-              Open a free Regulation Ladder example and see how the same difficult moment can be looked at through educator, manager and family perspectives before your team decides what to try next.
+              Open a free Regulation Ladder
+              example and see how the same
+              difficult moment can be looked at
+              through educator, manager and
+              family perspectives before your
+              team decides what to try next.
             </p>
           </div>
 
@@ -235,11 +262,18 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Does your team keep coming back to the same questions?
+              Does your team keep coming back
+              to the same questions?
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              The hard part is rarely remembering another definition of regulation. It is deciding what to do when the same situations keep unfolding in front of you and different adults are seeing something different.
+              The hard part is rarely
+              remembering another definition of
+              regulation. It is deciding what
+              to do when the same situations
+              keep unfolding in front of you and
+              different adults are seeing
+              something different.
             </p>
           </div>
 
@@ -281,15 +315,24 @@ export default function HomePageClient() {
 
             <div>
               <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                What does Regulator Champions actually look like?
+                What does Regulator Champions
+                actually look like?
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Each Regulation Ladder focuses on one everyday early childhood challenge.
+                Each Regulation Ladder focuses
+                on one everyday early childhood
+                challenge.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Every ladder includes 10 educator cards, 10 manager cards and 10 family cards, so the same situation can be looked at from different perspectives without expecting everyone to respond in exactly the same way.
+                Every ladder includes 10
+                educator cards, 10 manager cards
+                and 10 family cards, so the same
+                situation can be looked at from
+                different perspectives without
+                expecting everyone to respond in
+                exactly the same way.
               </p>
 
               <div className="mt-8 border-y border-[#D8CFC2]">
@@ -311,11 +354,16 @@ export default function HomePageClient() {
 
               <div className="mt-8">
                 <p className="text-2xl font-extrabold">
-                  One Regulation Ladder = 30 practical cards
+                  One Regulation Ladder = 30
+                  practical cards
                 </p>
 
                 <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                  10 for educators, 10 for managers and 10 for families, all looking at the same challenge through the role each person actually has.
+                  10 for educators, 10 for
+                  managers and 10 for families,
+                  all looking at the same
+                  challenge through the role each
+                  person actually has.
                 </p>
               </div>
             </div>
@@ -333,19 +381,47 @@ export default function HomePageClient() {
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Regulation work should eventually move off the card and into the way the day actually feels.
+                Regulation work should
+                eventually move off the card and
+                into the way the day actually
+                feels.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                I do not want educators sitting around memorising strategies while children continue with their day somewhere else. The card might begin the conversation, but the useful part is when two educators try something together, notice what happens, and begin weaving regulation into ordinary moments.
+                I do not want educators sitting
+                around memorising strategies
+                while children continue with
+                their day somewhere else. The
+                card might begin the
+                conversation, but the useful
+                part is when two educators try
+                something together, notice what
+                happens, and begin weaving
+                regulation into ordinary
+                moments.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                That might mean taking a cup of herbal tea into the outdoor space rather than having another coffee meeting inside. It might mean using the mud kitchen, herbs, water, rhythm, movement or a shared sensory experience as part of the way adults and children reconnect.
+                That might mean taking a cup of
+                herbal tea into the outdoor
+                space rather than having another
+                coffee meeting inside. It might
+                mean using the mud kitchen,
+                herbs, water, rhythm, movement
+                or a shared sensory experience
+                as part of the way adults and
+                children reconnect.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Regulation is not something we should only ask children to do once they have already become overwhelmed. It can be part of the environment, routines, relationships and small moments of connection that happen throughout the day.
+                Regulation is not something we
+                should only ask children to do
+                once they have already become
+                overwhelmed. It can be part of
+                the environment, routines,
+                relationships and small moments
+                of connection that happen
+                throughout the day.
               </p>
             </div>
 
@@ -382,8 +458,8 @@ export default function HomePageClient() {
 
               <div className="mt-8 overflow-hidden rounded-3xl bg-white p-2 sm:mt-12">
                 <Image
-                  src="/images/educator-pair-with-child-regulation-support.jpg"
-                  alt="Two early childhood educators supporting a child through a calm co-regulation moment while other children continue playing"
+                  src="/images/ladders/ladder1_rung04.png"
+                  alt="Watercolour illustration showing an everyday early childhood regulation and connection moment"
                   width={900}
                   height={900}
                   loading="lazy"
@@ -394,23 +470,48 @@ export default function HomePageClient() {
 
             <div>
               <p className="text-sm font-extrabold text-[#9A793D]">
-                Regulation inside ordinary moments
+                Regulation inside ordinary
+                moments
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Sometimes regulation looks less like a strategy and more like doing something meaningful together.
+                Sometimes regulation looks less
+                like a strategy and more like
+                doing something meaningful
+                together.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Picking herbs, carrying a watering can, washing leaves under running water, pouring, stirring, kneading, digging, humming or sitting beside someone can create very different body experiences from being repeatedly asked to stop, sit, listen or calm down.
+                Picking herbs, carrying a
+                watering can, washing leaves
+                under running water, pouring,
+                stirring, kneading, digging,
+                humming or sitting beside
+                someone can create very
+                different body experiences from
+                being repeatedly asked to stop,
+                sit, listen or calm down.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                None of those activities is automatically regulating for every child. The important part is that educators begin noticing what happens in the child&apos;s body, engagement and connection as the experience changes.
+                None of those activities is
+                automatically regulating for
+                every child. The important part
+                is that educators begin noticing
+                what happens in the child&apos;s
+                body, engagement and connection
+                as the experience changes.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Over time, that noticing can help a team become more thoughtful about when to change the environment, when to offer movement, when to reduce a demand, when to stay close, and when a child may simply need more time.
+                Over time, that noticing can
+                help a team become more
+                thoughtful about when to change
+                the environment, when to offer
+                movement, when to reduce a
+                demand, when to stay close, and
+                when a child may simply need
+                more time.
               </p>
             </div>
           </div>
@@ -421,7 +522,8 @@ export default function HomePageClient() {
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-            We&apos;ve already done regulation training.
+            We&apos;ve already done regulation
+            training.
           </h2>
 
           <p className="mt-6 text-xl leading-relaxed text-[#29483F]">
@@ -429,15 +531,25 @@ export default function HomePageClient() {
           </p>
 
           <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-            The difficult part isn&apos;t knowing that children need co-regulation.
+            The difficult part isn&apos;t
+            knowing that children need
+            co-regulation.
           </p>
 
           <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-            The difficult part is knowing what that actually looks like when one child is screaming, another educator needs your help, a parent is waiting at the door, and the strategy that worked yesterday isn&apos;t working today.
+            The difficult part is knowing what
+            that actually looks like when one
+            child is screaming, another educator
+            needs your help, a parent is waiting
+            at the door, and the strategy that
+            worked yesterday isn&apos;t working
+            today.
           </p>
 
           <p className="mt-6 text-xl font-extrabold leading-relaxed">
-            Regulator Champions is designed for the gap between knowing the theory and making a decision in the room.
+            Regulator Champions is designed for
+            the gap between knowing the theory
+            and making a decision in the room.
           </p>
         </div>
       </section>
@@ -448,11 +560,22 @@ export default function HomePageClient() {
           <div className="grid gap-10 lg:grid-cols-[0.88fr_1.12fr]">
             <div>
               <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                Before we ask how to stop the behaviour, we look at what the child&apos;s body may be telling us.
+                Before we ask how to stop the
+                behaviour, we look at what the
+                child&apos;s body may be telling
+                us.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                This does not mean ignoring unsafe behaviour or removing boundaries. It means looking closely enough at the child, the environment and the adult response to understand what may be increasing the pressure before we decide what to do next.
+                This does not mean ignoring
+                unsafe behaviour or removing
+                boundaries. It means looking
+                closely enough at the child, the
+                environment and the adult
+                response to understand what may
+                be increasing the pressure
+                before we decide what to do
+                next.
               </p>
 
               <div className="mt-8 overflow-hidden rounded-3xl border border-[#E5DED4] bg-white p-3 shadow-sm">
@@ -499,19 +622,33 @@ export default function HomePageClient() {
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
               <p className="text-sm font-extrabold text-[#9A793D]">
-                Free training and practical ideas
+                Free training and practical
+                ideas
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Want to understand more about what may be happening in the body?
+                Want to understand more about
+                what may be happening in the
+                body?
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                I have made my full vagus nerve and parasympathetic nervous system training available free on the blog because I would rather educators understand the thinking underneath these activities than simply collect another list of things to try.
+                I have made my full vagus nerve
+                and parasympathetic nervous
+                system training available free
+                on the blog because I would
+                rather educators understand the
+                thinking underneath these
+                activities than simply collect
+                another list of things to try.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                The video is completely free to watch. If you want the practical ideas beside you afterwards, the activities are also available as printable cards.
+                The video is completely free to
+                watch. If you want the practical
+                ideas beside you afterwards, the
+                activities are also available as
+                printable cards.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -523,7 +660,9 @@ export default function HomePageClient() {
                 </Link>
 
                 <a
-                  href={VAGUS_CARDS_PAYMENT_URL}
+                  href={
+                    VAGUS_CARDS_PAYMENT_URL
+                  }
                   className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
                 >
                   Get the Cards for $14 AUD
@@ -544,18 +683,29 @@ export default function HomePageClient() {
 
               <div className="p-5 sm:p-7">
                 <p className="text-xl font-extrabold leading-relaxed">
-                  Regulation does not have to become another instruction children are expected to perform correctly.
+                  Regulation does not have to
+                  become another instruction
+                  children are expected to
+                  perform correctly.
                 </p>
 
                 <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                  Smelling herbs, noticing textures, breathing, vocalising, moving and sharing sensory experiences can give children opportunities to notice their bodies while they are still playing and connected.
+                  Smelling herbs, noticing
+                  textures, breathing,
+                  vocalising, moving and sharing
+                  sensory experiences can give
+                  children opportunities to
+                  notice their bodies while they
+                  are still playing and
+                  connected.
                 </p>
 
                 <Link
                   href={VAGUS_ARTICLE_URL}
                   className="mt-6 inline-flex text-base font-extrabold text-[#8A6F3E]"
                 >
-                  Read the full article and watch the video
+                  Read the full article and
+                  watch the video
                 </Link>
               </div>
             </div>
@@ -581,19 +731,35 @@ export default function HomePageClient() {
 
             <div>
               <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                Learn when your team actually has the capacity.
+                Learn when your team actually
+                has the capacity.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
-                Professional learning should not feel like another thing your educators have to squeeze into an already exhausting week.
+                Professional learning should not
+                feel like another thing your
+                educators have to squeeze into
+                an already exhausting week.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                Regulator Champions includes learning and recordings your team can return to when they have the time and headspace. Teams wanting more support can also use questions and live sessions.
+                Regulator Champions includes
+                learning and recordings your
+                team can return to when they
+                have the time and headspace.
+                Teams wanting more support can
+                also use questions and live
+                sessions.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                The intention is for educators to be able to come back when something happening in their room makes the learning relevant, rather than completing content simply because it is next on a course list.
+                The intention is for educators
+                to be able to come back when
+                something happening in their
+                room makes the learning
+                relevant, rather than completing
+                content simply because it is
+                next on a course list.
               </p>
             </div>
           </div>
@@ -609,19 +775,41 @@ export default function HomePageClient() {
             </p>
 
             <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-              The adults need opportunities to experience regulation too.
+              The adults need opportunities to
+              experience regulation too.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              It is difficult to support a child&apos;s regulation when educators are expected to understand everything intellectually but never have the opportunity to notice what different experiences feel like in their own bodies.
+              It is difficult to support a
+              child&apos;s regulation when
+              educators are expected to
+              understand everything
+              intellectually but never have the
+              opportunity to notice what
+              different experiences feel like
+              in their own bodies.
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              A team might try the breathing activity themselves, move a meeting outdoors, use a sensory experience together, talk through one Regulation Card in pairs or notice how their own pace and voice change when a room becomes stressful.
+              A team might try the breathing
+              activity themselves, move a
+              meeting outdoors, use a sensory
+              experience together, talk through
+              one Regulation Card in pairs or
+              notice how their own pace and
+              voice change when a room becomes
+              stressful.
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              This is not about turning staff meetings into therapy. It is about making professional learning physical and practical enough that educators can recognise what regulation may actually feel like before they are asked to support it in somebody else.
+              This is not about turning staff
+              meetings into therapy. It is about
+              making professional learning
+              physical and practical enough that
+              educators can recognise what
+              regulation may actually feel like
+              before they are asked to support
+              it in somebody else.
             </p>
           </div>
 
@@ -644,15 +832,23 @@ export default function HomePageClient() {
         <div className="mx-auto grid max-w-7xl gap-6 px-6 py-9 md:grid-cols-[1fr_auto] md:items-center">
           <div className="max-w-4xl">
             <p className="text-sm font-extrabold text-[#8A6F3E]">
-              Free articles for early childhood teams
+              Free articles for early childhood
+              teams
             </p>
 
             <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
-              There is much more here than one training video.
+              There is much more here than one
+              training video.
             </h2>
 
             <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-              Explore longer articles about regulation, body awareness, movement, attention, participation, play and the everyday moments that can tell us much more about a child than behaviour alone.
+              Explore longer articles about
+              regulation, body awareness,
+              movement, attention,
+              participation, play and the
+              everyday moments that can tell us
+              much more about a child than
+              behaviour alone.
             </p>
           </div>
 
@@ -670,11 +866,17 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Three Regulation Ladders are available now.
+              Three Regulation Ladders are
+              available now.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Your team does not need to complete them in a fixed order. Start with the situation creating the most pressure and use the closest ladder as a place to begin.
+              Your team does not need to
+              complete them in a fixed order.
+              Start with the situation creating
+              the most pressure and use the
+              closest ladder as a place to
+              begin.
             </p>
           </div>
 
@@ -715,11 +917,17 @@ export default function HomePageClient() {
             <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
               <div>
                 <h3 className="text-2xl font-extrabold">
-                  Not sure what this looks like in practice?
+                  Not sure what this looks like
+                  in practice?
                 </h3>
 
                 <p className="mt-2 max-w-3xl text-lg leading-relaxed text-[#53645D]">
-                  Start with the free example and see how one Regulation Ladder is structured before deciding whether the cards or broader program are right for your team.
+                  Start with the free example
+                  and see how one Regulation
+                  Ladder is structured before
+                  deciding whether the cards or
+                  broader program are right for
+                  your team.
                 </p>
               </div>
 
@@ -752,44 +960,115 @@ export default function HomePageClient() {
 
             <div>
               <p className="text-sm font-extrabold text-[#9A793D]">
-                For directors, owners and educational leaders
+                For directors, owners and
+                educational leaders
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                What are repeated regulation difficulties asking from your team?
+                What are repeated regulation
+                difficulties asking from your
+                team?
               </h2>
 
               <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
                 <p>
-                  One difficult drop-off is part of early childhood, and so is the educator who needs support when group time keeps falling apart, the child who becomes overwhelmed when the room gets noisy, or the family who is unsure why their child is coping differently at home and care. None of those moments automatically mean something is wrong with the child, the educator or the service.
+                  One difficult drop-off is part
+                  of early childhood, and so is
+                  the educator who needs support
+                  when group time keeps falling
+                  apart, the child who becomes
+                  overwhelmed when the room gets
+                  noisy, or the family who is
+                  unsure why their child is
+                  coping differently at home and
+                  care. None of those moments
+                  automatically mean something
+                  is wrong with the child, the
+                  educator or the service.
                 </p>
 
                 <p>
-                  The pressure begins to build when the same situations keep returning and the adults around the child are still having to work out, from scratch, what might be happening and what to try next.
+                  The pressure begins to build
+                  when the same situations keep
+                  returning and the adults
+                  around the child are still
+                  having to work out, from
+                  scratch, what might be
+                  happening and what to try
+                  next.
                 </p>
 
                 <p className="text-xl font-extrabold leading-relaxed text-[#1C3B34]">
-                  That is the gap I want Regulator Champions to sit in.
+                  That is the gap I want
+                  Regulator Champions to sit in.
                 </p>
 
                 <p>
-                  The aim is not to remove difficult behaviour from early childhood, because children will still become frustrated, overwhelmed, tired, excited and dysregulated. Instead, I want the adults around them to have a more useful way to slow the situation down, notice what may be contributing, consider what could change in the environment or interaction, and decide together what is worth trying next.
+                  The aim is not to remove
+                  difficult behaviour from early
+                  childhood, because children
+                  will still become frustrated,
+                  overwhelmed, tired, excited
+                  and dysregulated. Instead, I
+                  want the adults around them to
+                  have a more useful way to slow
+                  the situation down, notice
+                  what may be contributing,
+                  consider what could change in
+                  the environment or
+                  interaction, and decide
+                  together what is worth trying
+                  next.
                 </p>
               </div>
 
               <div className="mt-7 border-l-4 border-[#C29F60] bg-white px-6 py-5">
                 <p className="text-lg font-extrabold leading-relaxed text-[#1C3B34]">
-                  Rather than every difficult moment beginning with “How do we stop this?”, the conversation can gradually become “What are we noticing here? What was happening before this? What is the child&apos;s body telling us? Is the demand too high? Is the environment adding pressure? Is there something we could change before expecting the child to change?”
+                  Rather than every difficult
+                  moment beginning with “How do
+                  we stop this?”, the
+                  conversation can gradually
+                  become “What are we noticing
+                  here? What was happening
+                  before this? What is the
+                  child&apos;s body telling us?
+                  Is the demand too high? Is the
+                  environment adding pressure?
+                  Is there something we could
+                  change before expecting the
+                  child to change?”
                 </p>
               </div>
 
               <div className="mt-7 space-y-5 text-lg leading-relaxed text-[#53645D]">
                 <p>
-                  The 6-Month Preview is $1,790 AUD because it is designed as a whole-team implementation period, not simply another resource for one educator to download. It gives your team time to use the Regulation Ladders, return to recordings when they have capacity, bring questions back, and begin building a more shared way of thinking.
+                  The 6-Month Preview is $1,790
+                  AUD because it is designed as
+                  a whole-team implementation
+                  period, not simply another
+                  resource for one educator to
+                  download. It gives your team
+                  time to use the Regulation
+                  Ladders, return to recordings
+                  when they have capacity, bring
+                  questions back, and begin
+                  building a more shared way of
+                  thinking.
                 </p>
 
                 <p>
-                  You do not need to believe that one program will solve every behaviour challenge to decide whether that would be useful. The more practical question is whether having a more consistent way for your team to notice, discuss and respond to recurring situations would make a meaningful difference in your service.
+                  You do not need to believe
+                  that one program will solve
+                  every behaviour challenge to
+                  decide whether that would be
+                  useful. The more practical
+                  question is whether having a
+                  more consistent way for your
+                  team to notice, discuss and
+                  respond to recurring
+                  situations would make a
+                  meaningful difference in your
+                  service.
                 </p>
               </div>
 
@@ -812,11 +1091,18 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Use Regulator Champions in the way your team has capacity for.
+              Use Regulator Champions in the way
+              your team has capacity for.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Some teams will begin with the cards and stay there for a while. Others will want recordings, questions and live support as well. The full program is there when your organisation wants deeper support.
+              Some teams will begin with the
+              cards and stay there for a while.
+              Others will want recordings,
+              questions and live support as
+              well. The full program is there
+              when your organisation wants
+              deeper support.
             </p>
           </div>
 
@@ -846,25 +1132,43 @@ export default function HomePageClient() {
           <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <h3 className="text-2xl font-extrabold">
-                Want formal recognition as well?
+                Want formal recognition as
+                well?
               </h3>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Educators who choose to complete the full pathway can submit their reflections and practical work for review by Robyn.
+                Educators who choose to complete
+                the full pathway can submit
+                their reflections and practical
+                work for review by Robyn.
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                This is optional. Your team can still use the Regulation Ladders, resources and recordings without completing the recognition pathway.
+                This is optional. Your team can
+                still use the Regulation
+                Ladders, resources and
+                recordings without completing
+                the recognition pathway.
               </p>
             </div>
 
             <div className="lg:border-l lg:border-[#D8CFC2] lg:pl-8">
               <h3 className="text-2xl font-extrabold">
-                For leaders who are carrying too much of this already
+                For leaders who are carrying
+                too much of this already
               </h3>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Child care owners, directors and educational leaders are already holding staffing, families, inclusion, incidents, documentation, budgets and everything else that lands across the week. Regulator Champions is intended to build more of the noticing and problem-solving across the team.
+                Child care owners, directors and
+                educational leaders are already
+                holding staffing, families,
+                inclusion, incidents,
+                documentation, budgets and
+                everything else that lands
+                across the week. Regulator
+                Champions is intended to build
+                more of the noticing and
+                problem-solving across the team.
               </p>
             </div>
           </div>
@@ -876,11 +1180,16 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              If your team wants the broader Regulator Champions support
+              If your team wants the broader
+              Regulator Champions support
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              These whole-team options include the Regulation Ladders alongside recordings, questions and implementation support. Prices below are in Australian dollars.
+              These whole-team options include
+              the Regulation Ladders alongside
+              recordings, questions and
+              implementation support. Prices
+              below are in Australian dollars.
             </p>
           </div>
 
@@ -916,11 +1225,19 @@ export default function HomePageClient() {
               </p>
 
               <h2 className="mt-3 text-3xl font-extrabold leading-tight">
-                Looking at how Regulator Champions fits your local early childhood system?
+                Looking at how Regulator
+                Champions fits your local early
+                childhood system?
               </h2>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                The core program can be used internationally. These pages explain some of the quality, professional development and funding language that may be relevant where your team is based.
+                The core program can be used
+                internationally. These pages
+                explain some of the quality,
+                professional development and
+                funding language that may be
+                relevant where your team is
+                based.
               </p>
             </div>
 
@@ -939,14 +1256,26 @@ export default function HomePageClient() {
 
               <LocationLink
                 href="/school-readiness-funding"
-                title="School Readiness Funding"
-                text="Information for Victorian kindergarten services."
+                title="Victoria · School Readiness Funding"
+                text="Professional learning and regulation support information for Victorian kindergarten services."
               />
 
               <LocationLink
                 href="/kindy-uplift"
-                title="Kindy Uplift"
-                text="Information for Queensland kindergarten services."
+                title="Queensland · Kindy Uplift"
+                text="Professional learning and quality improvement information for Queensland kindergarten services."
+              />
+
+              <LocationLink
+                href="/nsw-early-childhood-professional-development"
+                title="NSW · Early Childhood Professional Development"
+                text="Start Strong, quality uplift, professional learning and early childhood quality improvement information for NSW services."
+              />
+
+              <LocationLink
+                href="/south-australia-early-childhood-professional-development"
+                title="South Australia · Early Childhood Professional Development"
+                text="Professional learning, educator capacity and quality improvement information for South Australian early childhood services."
               />
             </div>
           </div>
@@ -958,15 +1287,22 @@ export default function HomePageClient() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="max-w-4xl">
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Tell me what&apos;s happening in your rooms.
+              Tell me what&apos;s happening in
+              your rooms.
             </h2>
 
             <p className="mt-5 text-xl leading-relaxed text-[#D8E1DC]">
-              If you&apos;re not sure whether Regulator Champions is right for your organisation, you don&apos;t need to know which option you want yet.
+              If you&apos;re not sure whether
+              Regulator Champions is right for
+              your organisation, you don&apos;t
+              need to know which option you want
+              yet.
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-              Tell me what your team keeps getting stuck on and we can work out where I would start.
+              Tell me what your team keeps
+              getting stuck on and we can work
+              out where I would start.
             </p>
 
             <a
@@ -979,11 +1315,15 @@ export default function HomePageClient() {
 
           <div className="mt-12 border-t border-white/20 pt-8">
             <p className="text-lg font-extrabold">
-              Already ready for the full program?
+              Already ready for the full
+              program?
             </p>
 
             <p className="mt-2 max-w-3xl text-base leading-relaxed text-[#D8E1DC]">
-              The formal proposal is available below for organisations that already know they want to take the broader program to leadership.
+              The formal proposal is available
+              below for organisations that
+              already know they want to take the
+              broader program to leadership.
             </p>
 
             {quoteSubmitted ? (
@@ -993,7 +1333,9 @@ export default function HomePageClient() {
                 </h3>
 
                 <p className="mt-3 text-base leading-relaxed text-[#D8E1DC]">
-                  You can also open the printable proposal information now.
+                  You can also open the
+                  printable proposal information
+                  now.
                 </p>
 
                 <Link
@@ -1048,7 +1390,9 @@ export default function HomePageClient() {
                     required
                     aria-label="Director or contact name"
                     placeholder="Director / contact name"
-                    value={quoteForm.fullName}
+                    value={
+                      quoteForm.fullName
+                    }
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
@@ -1082,7 +1426,9 @@ export default function HomePageClient() {
                     required
                     aria-label="Service or centre name"
                     placeholder="Centre / program / service name"
-                    value={quoteForm.serviceName}
+                    value={
+                      quoteForm.serviceName
+                    }
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
@@ -1094,7 +1440,9 @@ export default function HomePageClient() {
                   />
 
                   <select
-                    value={quoteForm.fundingSource}
+                    value={
+                      quoteForm.fundingSource
+                    }
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
@@ -1106,19 +1454,34 @@ export default function HomePageClient() {
                     className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                   >
                     <option value="Annual professional learning budget">
-                      Professional learning budget
+                      Professional learning
+                      budget
                     </option>
 
                     <option value="US childcare professional development budget">
-                      US child care professional development budget
+                      US child care professional
+                      development budget
                     </option>
 
                     <option value="Victorian School Readiness Funding (SRF)">
-                      Victorian School Readiness Funding
+                      Victorian School Readiness
+                      Funding
                     </option>
 
                     <option value="Queensland Kindy Uplift">
                       Queensland Kindy Uplift
+                    </option>
+
+                    <option value="NSW Early Childhood Funding / Professional Learning Budget">
+                      NSW Early Childhood Funding
+                      / Professional Learning
+                      Budget
+                    </option>
+
+                    <option value="SA Early Childhood Professional Development / 3-Year-Old Preschool">
+                      SA Early Childhood
+                      Professional Development /
+                      3-Year-Old Preschool
                     </option>
 
                     <option value="Other / not sure">

@@ -42,6 +42,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/nsw-early-childhood-professional-development`,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/south-australia-early-childhood-professional-development`,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+    {
       url: `${baseUrl}/co-regulation-early-childhood`,
       changeFrequency: 'monthly',
       priority: 0.9,
@@ -75,6 +87,54 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/blog/vagus-nerve-regulation-activities`,
       changeFrequency: 'monthly',
       priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/blog/regulation-training-but-same-behaviour`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/co-regulation-in-a-busy-early-childhood-room`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/why-the-same-behaviour-strategy-does-not-work-for-every-child`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/what-does-educator-capacity-building-mean-in-early-childhood`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/professional-development-that-changes-early-childhood-practice`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/start-strong-2026-quality-uplift-nsw`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/preparing-educators-for-3-year-old-preschool-south-australia`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/using-professional-learning-in-your-quality-improvement-plan`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
 
     {
@@ -136,18 +196,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.2,
     },
-
-    {
-  url: `${baseUrl}/nsw-early-childhood-professional-development`,
-  changeFrequency: 'monthly',
-  priority: 0.9,
-},
-
-{
-  url: `${baseUrl}/south-australia-early-childhood-professional-development`,
-  changeFrequency: 'monthly',
-  priority: 0.9,
-},
 
     {
       url: `${baseUrl}/terms`,

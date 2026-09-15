@@ -22,6 +22,92 @@ export const metadata: Metadata = {
   },
 };
 
+const practiceArticles = [
+  {
+    slug:
+      '/blog/regulation-training-but-same-behaviour',
+    title:
+      'When Your Team Has Already Done Regulation Training, But the Same Problems Keep Returning',
+    category:
+      'Regulation and professional learning',
+    description:
+      'Why knowing regulation theory does not always help educators decide what to do when the same difficult situations keep returning in the room.',
+  },
+  {
+    slug:
+      '/blog/co-regulation-in-a-busy-early-childhood-room',
+    title:
+      'What Does Co-Regulation Actually Look Like in a Busy Early Childhood Room?',
+    category:
+      'Co-regulation',
+    description:
+      'What co-regulation can look like when the room is noisy, several children need support and educators are trying to hold safety, connection and routines at the same time.',
+  },
+  {
+    slug:
+      '/blog/why-the-same-behaviour-strategy-does-not-work-for-every-child',
+    title:
+      'Why the Same Behaviour Strategy Does Not Work for Every Child',
+    category:
+      'Behaviour and educator judgement',
+    description:
+      'The same visible behaviour can be happening for very different reasons, which is why strategy lists can only take educators so far.',
+  },
+  {
+    slug:
+      '/blog/what-does-educator-capacity-building-mean-in-early-childhood',
+    title:
+      'What Does Educator Capacity Building Actually Mean in Early Childhood?',
+    category:
+      'Educator capacity',
+    description:
+      'Capacity building becomes meaningful when knowledge turns into stronger observation, reflection, professional judgement and everyday decision-making.',
+  },
+  {
+    slug:
+      '/blog/professional-development-that-changes-early-childhood-practice',
+    title:
+      'What Makes Professional Development Actually Change Early Childhood Practice?',
+    category:
+      'Professional development',
+    description:
+      'Why the most important part of professional learning often happens after the webinar or training session has finished.',
+  },
+  {
+    slug:
+      '/blog/using-professional-learning-in-your-quality-improvement-plan',
+    title:
+      'Using Professional Learning Within Your Quality Improvement Plan',
+    category:
+      'Quality improvement',
+    description:
+      'How professional learning, reflective practice and the everyday situations educators are already discussing can become part of meaningful quality improvement.',
+  },
+];
+
+const fundingArticles = [
+  {
+    slug:
+      '/blog/start-strong-2026-quality-uplift-nsw',
+    title:
+      'Start Strong 2026: What Does Quality Uplift Mean for NSW Early Childhood Services?',
+    category:
+      'New South Wales',
+    description:
+      'A practical look at quality uplift, professional learning and educator capability within the current NSW Start Strong context.',
+  },
+  {
+    slug:
+      '/blog/preparing-educators-for-3-year-old-preschool-south-australia',
+    title:
+      'Preparing Educators for 3-Year-Old Preschool in South Australia',
+    category:
+      'South Australia',
+    description:
+      'What the rollout of 3-year-old preschool may mean for transitions, participation, co-regulation, environments and professional learning.',
+  },
+];
+
 const natureArticles = [
   {
     slug:
@@ -131,6 +217,98 @@ export default function BlogIndexPage() {
             >
               View the Free Regulation Ladder
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED PRACTICE ARTICLES */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Regulation, behaviour and professional practice
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+              Start with the situations your team keeps coming back to
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              These articles look at the gap between knowing the theory and making a decision in a real early childhood room. They are written for teams who want to become better at noticing, reflecting and adapting rather than simply collecting more strategies.
+            </p>
+          </div>
+
+          <div className="mt-10 divide-y divide-[#D8CFC2] border-y border-[#D8CFC2]">
+            {practiceArticles.map((article) => (
+              <Link
+                key={article.slug}
+                href={article.slug}
+                className="group block py-7"
+              >
+                <p className="text-sm font-extrabold text-[#9A793D]">
+                  {article.category}
+                </p>
+
+                <h3 className="mt-2 max-w-4xl text-2xl font-extrabold leading-snug text-[#1C3B34] transition group-hover:text-[#657B6C]">
+                  {article.title}
+                </h3>
+
+                <p className="mt-3 max-w-4xl text-base leading-7 text-[#6A7873]">
+                  {article.description}
+                </p>
+
+                <span className="mt-4 inline-flex text-sm font-extrabold text-[#8A6F3E]">
+                  Read the article
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STATE / FUNDING ARTICLES */}
+      <section className="bg-[#F7F3ED] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Funding, reform and quality improvement
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+                Professional learning within changing state systems
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                Funding and reform language can change quickly. These articles connect current state initiatives with practical questions about educator capability, professional learning and quality improvement without assuming that every service has the same eligibility or funding conditions.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D8CFC2]">
+              {fundingArticles.map((article) => (
+                <Link
+                  key={article.slug}
+                  href={article.slug}
+                  className="group block border-b border-[#D8CFC2] py-7"
+                >
+                  <p className="text-sm font-extrabold text-[#9A793D]">
+                    {article.category}
+                  </p>
+
+                  <h3 className="mt-2 text-2xl font-extrabold leading-snug text-[#1C3B34] transition group-hover:text-[#657B6C]">
+                    {article.title}
+                  </h3>
+
+                  <p className="mt-3 text-base leading-7 text-[#6A7873]">
+                    {article.description}
+                  </p>
+
+                  <span className="mt-4 inline-flex text-sm font-extrabold text-[#8A6F3E]">
+                    Read the article
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

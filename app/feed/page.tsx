@@ -445,7 +445,7 @@ export default function FeedPage() {
               href="/proposal?plan=preview"
               className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
             >
-              View the 3 Ladder Preview
+              View the 6-Month Preview
             </Link>
 
             <Link
