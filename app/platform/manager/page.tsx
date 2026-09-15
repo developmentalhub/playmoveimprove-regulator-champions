@@ -511,7 +511,7 @@ export default function ManagerDashboardPage() {
                         : 'border-[#E5DED4] bg-white hover:border-[#657B6C]'
                     }`}
                   >
-                    <span className="text-sm font-extrabold uppercase tracking-[0.1em] text-[#657B6C]">
+                    <span className="text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
                       {item.element}
                     </span>
 

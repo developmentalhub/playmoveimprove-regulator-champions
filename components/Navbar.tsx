@@ -8,6 +8,7 @@ type NavigationLink = {
   href: string;
   label: string;
   external?: boolean;
+  featured?: boolean;
 };
 
 const navigationLinks: NavigationLink[] = [
@@ -16,8 +17,13 @@ const navigationLinks: NavigationLink[] = [
     label: 'How It Works',
   },
   {
+    href: '/playbooks',
+    label: 'Free Regulation Ladder',
+    featured: true,
+  },
+  {
     href: 'https://playmoveimprove.com.au/products/regulation-cards-for-early-childhood-teams',
-    label: 'Regulation Cards',
+    label: 'Buy Regulation Cards',
     external: true,
   },
   {
@@ -33,7 +39,8 @@ const navigationLinks: NavigationLink[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
   const isActive = (href: string) => {
     if (href.startsWith('/#')) {
@@ -86,12 +93,26 @@ export default function Navbar() {
           aria-label="Main navigation"
         >
           {navigationLinks.map((link) => {
+            const active = isActive(
+              link.href,
+            );
+
+            const baseClass =
+              'rounded-xl px-4 py-3 text-base font-bold transition';
+
+            const featuredClass =
+              link.featured
+                ? 'bg-[#C29F60] text-[#1C3B34] hover:bg-[#D1B477]'
+                : active
+                  ? 'bg-white/10 text-white'
+                  : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white';
+
             if (link.external) {
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-xl px-4 py-3 text-base font-bold text-[#D8E1DC] transition hover:bg-white/10 hover:text-white"
+                  className={`${baseClass} ${featuredClass}`}
                 >
                   {link.label}
                 </a>
@@ -102,11 +123,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-xl px-4 py-3 text-base font-bold transition ${
-                  isActive(link.href)
-                    ? 'bg-white/10 text-white'
-                    : 'text-[#D8E1DC] hover:bg-white/10 hover:text-white'
-                }`}
+                className={`${baseClass} ${featuredClass}`}
               >
                 {link.label}
               </Link>
@@ -126,11 +143,15 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() =>
-            setMobileMenuOpen((current) => !current)
+            setMobileMenuOpen(
+              (current) => !current,
+            )
           }
           className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
           aria-label="Toggle navigation menu"
-          aria-expanded={mobileMenuOpen}
+          aria-expanded={
+            mobileMenuOpen
+          }
           aria-controls="mobile-navigation"
         >
           <svg
@@ -162,41 +183,57 @@ export default function Navbar() {
           aria-label="Mobile navigation"
         >
           <div className="space-y-1">
-            {navigationLinks.map((link) => {
-              if (link.external) {
+            {navigationLinks.map(
+              (link) => {
+                const active =
+                  isActive(
+                    link.href,
+                  );
+
+                const featuredClass =
+                  link.featured
+                    ? 'bg-[#C29F60] text-[#1C3B34]'
+                    : active
+                      ? 'text-white'
+                      : 'text-[#D8E1DC] hover:text-white';
+
+                if (link.external) {
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={
+                        closeMobileMenu
+                      }
+                      className={`block border-b border-white/10 px-3 py-4 text-lg font-bold transition ${featuredClass}`}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                }
+
                 return (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
-                    onClick={closeMobileMenu}
-                    className="block border-b border-white/10 px-2 py-4 text-lg font-bold text-[#D8E1DC] transition hover:text-white"
+                    onClick={
+                      closeMobileMenu
+                    }
+                    className={`block border-b border-white/10 px-3 py-4 text-lg font-bold transition ${featuredClass}`}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 );
-              }
-
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMobileMenu}
-                  className={`block border-b border-white/10 px-2 py-4 text-lg font-bold transition ${
-                    isActive(link.href)
-                      ? 'text-white'
-                      : 'text-[#D8E1DC] hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+              },
+            )}
           </div>
 
           <div className="mt-6 pt-2">
             <Link
               href="/member-access"
-              onClick={closeMobileMenu}
+              onClick={
+                closeMobileMenu
+              }
               className="block rounded-2xl border border-white/20 px-5 py-4 text-center text-base font-semibold text-[#D8E1DC] transition hover:bg-white/5 hover:text-white"
             >
               Member Login

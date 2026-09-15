@@ -8,6 +8,15 @@ const FULL_PRICE = 4790;
 const PREVIEW_PRICE = 1790;
 const PREVIEW_ACCESS_MONTHS = 6;
 
+const FREE_SAMPLE_URL = '/playbooks';
+const BLOG_URL = '/blog';
+
+const VAGUS_ARTICLE_URL =
+  '/blog/vagus-nerve-regulation-activities';
+
+const VAGUS_CARDS_PAYMENT_URL =
+  'https://buy.stripe.com/14AbIUgaeb9C0Vze549fW0d';
+
 const REGULATION_CARDS_URL =
   'https://playmoveimprove.com.au/products/regulation-cards-for-early-childhood-teams';
 
@@ -56,7 +65,7 @@ const CAPACITY_STEPS = [
   },
   {
     title: 'Go deeper',
-    text: 'Services wanting more support can continue into additional ladders, implementation support, questions, live sessions and optional recognition.',
+    text: 'Teams wanting more support can continue into additional resources, implementation support, questions, live sessions and optional recognition.',
   },
 ];
 
@@ -65,12 +74,20 @@ export default function HomePageClient() {
     fullName: '',
     email: '',
     serviceName: '',
-    fundingSource: 'Victorian School Readiness Funding (SRF)',
-    programOption: 'preview' as 'full' | 'preview',
+    fundingSource:
+      'Annual professional learning budget',
+    programOption: 'preview' as
+      | 'full'
+      | 'preview',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [quoteSubmitted, setQuoteSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  const [
+    quoteSubmitted,
+    setQuoteSubmitted,
+  ] = useState(false);
 
   const selectedPrice =
     quoteForm.programOption === 'preview'
@@ -84,13 +101,19 @@ export default function HomePageClient() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/quote', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        '/api/quote',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+          body: JSON.stringify(
+            quoteForm,
+          ),
         },
-        body: JSON.stringify(quoteForm),
-      });
+      );
 
       if (!response.ok) {
         console.error(
@@ -101,7 +124,11 @@ export default function HomePageClient() {
 
       setQuoteSubmitted(true);
     } catch (error) {
-      console.error('Quote submit error:', error);
+      console.error(
+        'Quote submit error:',
+        error,
+      );
+
       setQuoteSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -133,6 +160,10 @@ export default function HomePageClient() {
               Regulator Champions helps early childhood teams notice what may be happening underneath the behaviour, work out what might need to change, and decide what to try next.
             </p>
 
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
+              Created in Australia and available to early childhood teams internationally.
+            </p>
+
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#regulation-ladders"
@@ -143,7 +174,7 @@ export default function HomePageClient() {
 
               <a
                 href="#full-program"
-                className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-white bg-white px-7 py-4 text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8] hover:text-[#12362F]"
+                className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-white bg-white px-7 py-4 text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8]"
               >
                 Explore the full program
               </a>
@@ -166,32 +197,37 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* QUIET CARDS STRIP */}
-      <section className="border-b border-[#E5DED4] bg-[#F5F0E7]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-3xl">
-            <p className="text-lg font-extrabold text-[#1C3B34]">
-              Prefer to start with the resources?
+      {/* FREE SAMPLE */}
+      <section className="border-b border-[#CDAF70] bg-[#E8D39D]">
+        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:items-center">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#6E5426]">
+              Free Regulation Ladder sample
             </p>
-            <p className="mt-1 text-base leading-relaxed text-[#53645D]">
-              You can now purchase the Regulation Cards separately and use them with your team in your own time.
+
+            <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
+              Want to see what your educators would actually use?
+            </h2>
+
+            <p className="mt-3 text-lg leading-relaxed text-[#374C45]">
+              Open a free Regulation Ladder example and see how the same difficult moment can be looked at through educator, manager and family perspectives before your team decides what to try next.
             </p>
           </div>
 
-          <a
-            href={REGULATION_CARDS_URL}
-            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+          <Link
+            href={FREE_SAMPLE_URL}
+            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
           >
-            View the Regulation Cards
-          </a>
+            View the Free Regulation Ladder
+          </Link>
         </div>
       </section>
 
       {/* PAIN POINTS */}
-      <section className="bg-white py-14 sm:py-18">
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Does your team keep coming back to the same questions?
             </h2>
 
@@ -200,25 +236,27 @@ export default function HomePageClient() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-x-10 gap-y-0 md:grid-cols-2">
-            {PRESSURE_QUESTIONS.map((question) => (
-              <div
-                key={question}
-                className="border-t border-[#DDD5C9] py-5 first:border-t-0 md:first:border-t"
-              >
-                <p className="text-lg font-semibold leading-relaxed text-[#29483F]">
-                  {question}
-                </p>
-              </div>
-            ))}
+          <div className="mt-10 grid gap-x-10 md:grid-cols-2">
+            {PRESSURE_QUESTIONS.map(
+              (question) => (
+                <div
+                  key={question}
+                  className="border-t border-[#DDD5C9] py-5"
+                >
+                  <p className="text-lg font-semibold leading-relaxed text-[#29483F]">
+                    {question}
+                  </p>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </section>
 
-      {/* CARD SYSTEM */}
+      {/* REGULATION LADDERS */}
       <section
         id="regulation-ladders"
-        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-18"
+        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-20"
       >
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
@@ -235,7 +273,7 @@ export default function HomePageClient() {
             </div>
 
             <div>
-              <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 What does Regulator Champions actually look like?
               </h2>
 
@@ -252,20 +290,23 @@ export default function HomePageClient() {
                   role="Educators"
                   text="What am I noticing? What could I try in the room?"
                 />
+
                 <RoleRow
                   role="Managers"
                   text="What could we change in the environment, routines or team support?"
                 />
+
                 <RoleRow
                   role="Families"
-                  text="What might help us understand or support this outside the service?"
+                  text="What might help us understand or support this outside the program or service?"
                 />
               </div>
 
               <div className="mt-8">
-                <p className="text-2xl font-extrabold text-[#1C3B34]">
+                <p className="text-2xl font-extrabold">
                   One Regulation Ladder = 30 practical cards
                 </p>
+
                 <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
                   10 for educators, 10 for managers and 10 for families, all looking at the same challenge through the role each person actually has.
                 </p>
@@ -275,30 +316,31 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* OUTDOOR CARDS */}
-      <section className="bg-white py-14 sm:py-18">
+      {/* CARDS */}
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
             <div>
-              <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 Designed to be picked up and used, not watched once and forgotten.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Keep the cards in the staff room, planning space or room. Pick up the one that relates to what is happening. Try something. Notice what changes. Talk about it with your team.
+                Keep the cards in the staff room, planning space or classroom. Pick up the one that relates to what is happening. Try something. Notice what changes. Talk about it with your team.
               </p>
 
               <div className="mt-8 border-l-4 border-[#E0BC68] pl-6">
-                <p className="text-xl font-extrabold text-[#1C3B34]">
+                <p className="text-xl font-extrabold">
                   Not ready for the full program?
                 </p>
+
                 <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
                   You can purchase one Regulation Ladder or the three-ladder collection without joining Regulator Champions.
                 </p>
 
                 <a
                   href={REGULATION_CARDS_URL}
-                  className="mt-6 inline-flex min-h-13 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+                  className="mt-6 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
                 >
                   Start with the Regulation Cards
                 </a>
@@ -321,9 +363,9 @@ export default function HomePageClient() {
       </section>
 
       {/* DIFFERENCE */}
-      <section className="bg-[#F1ECE4] py-14 sm:py-18">
+      <section className="bg-[#F1ECE4] py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+          <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
             We&apos;ve already done regulation training.
           </h2>
 
@@ -339,18 +381,18 @@ export default function HomePageClient() {
             The difficult part is knowing what that actually looks like when one child is screaming, another educator needs your help, a parent is waiting at the door, and the strategy that worked yesterday isn&apos;t working today.
           </p>
 
-          <p className="mt-6 text-xl font-extrabold leading-relaxed text-[#1C3B34]">
+          <p className="mt-6 text-xl font-extrabold leading-relaxed">
             Regulator Champions is designed for the gap between knowing the theory and making a decision in the room.
           </p>
         </div>
       </section>
 
-      {/* CHILD BODY */}
-      <section className="bg-white py-14 sm:py-18">
+      {/* BODY */}
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <div>
-              <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 Before we ask how to stop the behaviour, we look at what the child&apos;s body may be telling us.
               </h2>
 
@@ -364,14 +406,17 @@ export default function HomePageClient() {
                 title="Running during group time"
                 text="Is the child simply refusing to participate, or does their body need movement before they can stay with the group?"
               />
+
               <BodyExample
                 title="Throwing repeatedly"
                 text="Are we only seeing defiance, or could high arousal, sensory seeking, play schema or the need for a different outlet be contributing?"
               />
+
               <BodyExample
                 title="Pulling away from comforting touch"
                 text="Once contact begins, does the child soften and settle, or stiffen, pull away or turn their face?"
               />
+
               <BodyExample
                 title="Messy outdoor play"
                 text="Are we looking at chaos, or a deeply engaged child whose body may be getting the movement and sensory input it needs?"
@@ -381,8 +426,66 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* WEBINAR / RECORDINGS */}
-      <section className="bg-[#1C3B34] py-14 text-white sm:py-18">
+      {/* VAGUS */}
+      <section className="border-y border-[#D8CFC2] bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Free training and practical ideas
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Want to understand more about what may be happening in the body?
+              </h2>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                I have made my full vagus nerve and parasympathetic nervous system training available free on the blog because I would rather educators understand the thinking underneath these activities than simply collect another list of things to try.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                The video is completely free to watch. If you want the practical ideas beside you afterwards, the activities are also available as printable cards.
+              </p>
+
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href={VAGUS_ARTICLE_URL}
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+                >
+                  Watch the Free Training
+                </Link>
+
+                <a
+                  href={VAGUS_CARDS_PAYMENT_URL}
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34]"
+                >
+                  Get the Cards for $14 AUD
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-4xl border border-[#D8CFC2] bg-white p-7 shadow-sm sm:p-9">
+              <p className="text-xl font-extrabold leading-relaxed">
+                I do not want regulation to become another instruction that children are expected to perform correctly.
+              </p>
+
+              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+                Buzzing like a bee, blowing bubbles, hissing like a snake, squeezing a teddy or moving like an animal can give us opportunities to explore breathing, sound, movement and body awareness while the child is still playing and connected.
+              </p>
+
+              <Link
+                href={VAGUS_ARTICLE_URL}
+                className="mt-6 inline-flex text-base font-extrabold text-[#8A6F3E]"
+              >
+                Read the full article and watch the video
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RECORDINGS */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
             <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-xl">
@@ -398,7 +501,7 @@ export default function HomePageClient() {
             </div>
 
             <div>
-              <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 Learn when your team actually has the capacity.
               </h2>
 
@@ -407,61 +510,104 @@ export default function HomePageClient() {
               </p>
 
               <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                Regulator Champions includes learning and recordings that your team can return to when they have the time and headspace. Services that want more support can also use the broader Regulator Champions pathway, questions and live sessions.
+                Regulator Champions includes learning and recordings your team can return to when they have the time and headspace. Teams wanting more support can also use questions and live sessions.
               </p>
-
-              <div className="mt-8 border-t border-white/20 pt-6">
-                <p className="text-xl font-extrabold leading-relaxed text-white">
-                  Use the resources now. Watch when you have time. Go deeper when your team is ready.
-                </p>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* THREE LADDERS */}
-      <section className="bg-white py-14 sm:py-18">
+      {/* BLOG */}
+      <section className="border-b border-[#E5DED4] bg-[#EDE6DC]">
+        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-9 md:grid-cols-[1fr_auto] md:items-center">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#8A6F3E]">
+              Free articles for early childhood teams
+            </p>
+
+            <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
+              There is much more here than one training video.
+            </h2>
+
+            <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
+              Explore longer articles about regulation, body awareness, movement, attention, participation, play and the everyday moments that can tell us much more about a child than behaviour alone.
+            </p>
+          </div>
+
+          <Link
+            href={BLOG_URL}
+            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-white px-7 py-4 text-base font-extrabold shadow-sm transition hover:bg-[#1C3B34] hover:text-white"
+          >
+            Explore the Blog
+          </Link>
+        </div>
+      </section>
+
+      {/* LADDERS */}
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Three Regulation Ladders are available now.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Your team does not need to complete them in a fixed order. Start with the situation that is creating the most pressure and use the closest ladder as a place to begin.
+              Your team does not need to complete them in a fixed order. Start with the situation creating the most pressure and use the closest ladder as a place to begin.
             </p>
           </div>
 
           <div className="mt-10 grid gap-8 lg:grid-cols-3">
-            {CURRENT_LADDERS.map((ladder) => (
-              <article
-                key={ladder.tag}
-                className="overflow-hidden border-t border-[#D8CFC2] pt-5"
-              >
-                <Image
-                  src={ladder.image}
-                  alt=""
-                  width={700}
-                  height={820}
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="aspect-4/5 w-full rounded-3xl object-cover"
-                />
+            {CURRENT_LADDERS.map(
+              (ladder) => (
+                <article
+                  key={ladder.tag}
+                  className="border-t border-[#D8CFC2] pt-5"
+                >
+                  <Image
+                    src={ladder.image}
+                    alt=""
+                    width={700}
+                    height={820}
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="aspect-4/5 w-full rounded-3xl object-cover"
+                  />
 
-                <p className="mt-5 text-base font-extrabold text-[#9A793D]">
-                  {ladder.tag}
-                </p>
+                  <p className="mt-5 text-base font-extrabold text-[#9A793D]">
+                    {ladder.tag}
+                  </p>
 
-                <h3 className="mt-2 text-2xl font-extrabold leading-tight text-[#1C3B34]">
-                  {ladder.title}
+                  <h3 className="mt-2 text-2xl font-extrabold leading-tight">
+                    {ladder.title}
+                  </h3>
+
+                  <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
+                    {ladder.text}
+                  </p>
+                </article>
+              ),
+            )}
+          </div>
+
+          <div className="mt-12 border-y border-[#D8CFC2] py-7">
+            <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <h3 className="text-2xl font-extrabold">
+                  Not sure what this looks like in practice?
                 </h3>
 
-                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                  {ladder.text}
+                <p className="mt-2 max-w-3xl text-lg leading-relaxed text-[#53645D]">
+                  Start with the free example and see how one Regulation Ladder is structured before deciding whether the cards or broader program are right for your team.
                 </p>
-              </article>
-            ))}
+              </div>
+
+              <Link
+                href={FREE_SAMPLE_URL}
+                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] px-6 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
+              >
+                Open the free example
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -469,42 +615,45 @@ export default function HomePageClient() {
       {/* FULL PROGRAM */}
       <section
         id="full-program"
-        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-18"
+        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-20"
       >
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Use Regulator Champions in the way your team has capacity for.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Some teams will begin with the cards and stay there for a while. Others will want the recordings, monthly questions and live support as well. The full program is there when your service wants a deeper pathway, but it should not create another layer of pressure for educators who are already stretched.
+              Some teams will begin with the cards and stay there for a while. Others will want recordings, questions and live support as well. The full program is there when your organisation wants deeper support.
             </p>
           </div>
 
           <div className="mt-10 border-y border-[#D8CFC2] md:grid md:grid-cols-4">
-            {CAPACITY_STEPS.map((step, index) => (
-              <div
-                key={step.title}
-                className={`py-6 md:px-6 ${
-                  index > 0
-                    ? 'border-t border-[#D8CFC2] md:border-l md:border-t-0'
-                    : ''
-                }`}
-              >
-                <h3 className="text-xl font-extrabold text-[#1C3B34]">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-[#53645D]">
-                  {step.text}
-                </p>
-              </div>
-            ))}
+            {CAPACITY_STEPS.map(
+              (step, index) => (
+                <div
+                  key={step.title}
+                  className={`py-6 md:px-6 ${
+                    index > 0
+                      ? 'border-t border-[#D8CFC2] md:border-l md:border-t-0'
+                      : ''
+                  }`}
+                >
+                  <h3 className="text-xl font-extrabold">
+                    {step.title}
+                  </h3>
+
+                  <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                    {step.text}
+                  </p>
+                </div>
+              ),
+            )}
           </div>
 
           <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+              <h3 className="text-2xl font-extrabold">
                 Want formal recognition as well?
               </h3>
 
@@ -517,13 +666,13 @@ export default function HomePageClient() {
               </p>
             </div>
 
-            <div className="border-l-0 border-[#D8CFC2] lg:border-l lg:pl-8">
-              <h3 className="text-2xl font-extrabold text-[#1C3B34]">
-                For directors who are carrying too much of this already
+            <div className="lg:border-l lg:border-[#D8CFC2] lg:pl-8">
+              <h3 className="text-2xl font-extrabold">
+                For leaders who are carrying too much of this already
               </h3>
 
               <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Directors and educational leaders are already holding staffing, families, inclusion, incidents, documentation, budgets and everything else that lands across the week. Regulator Champions is intended to build more of the noticing and problem-solving across the team, so every difficult child situation does not automatically become another problem for one leader to solve alone.
+                Child care owners, directors and educational leaders are already holding staffing, families, inclusion, incidents, documentation, budgets and everything else that lands across the week. Regulator Champions is intended to build more of the noticing and problem-solving across the team.
               </p>
             </div>
           </div>
@@ -531,15 +680,15 @@ export default function HomePageClient() {
       </section>
 
       {/* PROGRAM OPTIONS */}
-      <section className="bg-white py-14 sm:py-18">
+      <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
-              If your service wants the broader Regulator Champions support
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
+              If your team wants the broader Regulator Champions support
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              These whole-service options include the Regulation Ladders alongside the ongoing Regulator Champions support. If the cards are all your team has capacity for right now, you can start there instead.
+              These whole-team options include the Regulation Ladders alongside recordings, questions and implementation support. Prices below are in Australian dollars.
             </p>
           </div>
 
@@ -548,7 +697,7 @@ export default function HomePageClient() {
               title="6-Month Preview"
               price={PREVIEW_PRICE}
               period={`${PREVIEW_ACCESS_MONTHS} months`}
-              text="A smaller whole-service introduction for services that want to use the current Regulation Ladders alongside recordings, questions and monthly support before deciding what they need longer term."
+              text="A smaller whole-team introduction for organisations wanting to use the current Regulation Ladders alongside recordings, questions and support before deciding what they need longer term."
               href="/proposal?plan=preview"
               button="View 6-Month Preview"
             />
@@ -557,7 +706,7 @@ export default function HomePageClient() {
               title="12-Month Regulator Champions"
               price={FULL_PRICE}
               period="12 months"
-              text="Year-round whole-service access for teams wanting the Regulation Ladders, recordings, Ask Robyn support, live sessions and new member resources as the program develops."
+              text="Year-round whole-team access for organisations wanting the Regulation Ladders, recordings, Ask Robyn support, live sessions and new member resources as the program develops."
               href="/proposal?plan=full"
               button="View 12-Month Program"
             />
@@ -565,46 +714,63 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* FUNDING */}
+      {/* LOCATION PATHWAYS */}
       <section className="border-y border-[#E5DED4] bg-[#F7F3ED] py-12">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-          <div>
-            <h2 className="text-2xl font-extrabold text-[#1C3B34]">
-              Need information for leadership or funding discussions?
-            </h2>
-            <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-              Services can consider Regulator Champions alongside their own professional learning priorities, improvement planning and current funding eligibility requirements.
-            </p>
-          </div>
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Quality and funding information
+              </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/school-readiness-funding"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-center font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-            >
-              Victorian funding information
-            </Link>
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight">
+                Looking at how Regulator Champions fits your local early childhood system?
+              </h2>
 
-            <Link
-              href="/kindy-uplift"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-center font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-            >
-              Queensland funding information
-            </Link>
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                The core program can be used internationally. These pages explain some of the quality, professional development and funding language that may be relevant where your team is based.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D8CFC2]">
+              <LocationLink
+                href="/us-early-childhood-quality"
+                title="United States"
+                text="NAEYC, Developmentally Appropriate Practice, QRIS and child care quality improvement."
+              />
+
+              <LocationLink
+                href="/nqs-mapping"
+                title="NQS and QIP"
+                text="National Quality Standard and Quality Improvement Plan reflection for Australian early childhood services."
+              />
+
+              <LocationLink
+                href="/school-readiness-funding"
+                title="School Readiness Funding"
+                text="Information for Victorian kindergarten services."
+              />
+
+              <LocationLink
+                href="/kindy-uplift"
+                title="Kindy Uplift"
+                text="Information for Queensland kindergarten services."
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-[#1C3B34] py-14 text-white sm:py-18">
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
         <div className="mx-auto max-w-5xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Tell me what&apos;s happening in your rooms.
             </h2>
 
             <p className="mt-5 text-xl leading-relaxed text-[#D8E1DC]">
-              If you&apos;re not sure whether Regulator Champions is right for your service, you don&apos;t need to know which package you want yet.
+              If you&apos;re not sure whether Regulator Champions is right for your organisation, you don&apos;t need to know which option you want yet.
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
@@ -613,23 +779,24 @@ export default function HomePageClient() {
 
             <a
               href="mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20team%20enquiry"
-              className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] transition hover:bg-[#EDCD82]"
+              className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28]"
             >
               Talk to Robyn about our team
             </a>
           </div>
 
           <div className="mt-12 border-t border-white/20 pt-8">
-            <p className="text-lg font-extrabold text-white">
+            <p className="text-lg font-extrabold">
               Already ready for the full program?
             </p>
+
             <p className="mt-2 max-w-3xl text-base leading-relaxed text-[#D8E1DC]">
-              The formal centre proposal is still available below. This is for services that already know they want to take the broader program to leadership.
+              The formal proposal is available below for organisations that already know they want to take the broader program to leadership.
             </p>
 
             {quoteSubmitted ? (
               <div className="mt-6 max-w-2xl rounded-3xl border border-white/15 bg-white/5 p-7">
-                <h3 className="text-xl font-extrabold text-white">
+                <h3 className="text-xl font-extrabold">
                   Proposal request received
                 </h3>
 
@@ -639,7 +806,7 @@ export default function HomePageClient() {
 
                 <Link
                   href={`/proposal?plan=${quoteForm.programOption}`}
-                  className="mt-5 inline-flex min-h-12 items-center rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8]"
+                  className="mt-5 inline-flex min-h-12 items-center rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-[#12362F]"
                 >
                   Open proposal
                 </Link>
@@ -651,25 +818,33 @@ export default function HomePageClient() {
               >
                 <div className="grid gap-3 sm:grid-cols-2">
                   <PlanButton
-                    active={quoteForm.programOption === 'preview'}
+                    active={
+                      quoteForm.programOption ===
+                      'preview'
+                    }
                     title="6-Month Preview"
                     price={PREVIEW_PRICE}
                     onClick={() =>
                       setQuoteForm({
                         ...quoteForm,
-                        programOption: 'preview',
+                        programOption:
+                          'preview',
                       })
                     }
                   />
 
                   <PlanButton
-                    active={quoteForm.programOption === 'full'}
+                    active={
+                      quoteForm.programOption ===
+                      'full'
+                    }
                     title="12-Month Regulator Champions"
                     price={FULL_PRICE}
                     onClick={() =>
                       setQuoteForm({
                         ...quoteForm,
-                        programOption: 'full',
+                        programOption:
+                          'full',
                       })
                     }
                   />
@@ -685,10 +860,11 @@ export default function HomePageClient() {
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
-                        fullName: event.target.value,
+                        fullName:
+                          event.target.value,
                       })
                     }
-                    className="min-h-13 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
+                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                   />
 
                   <input
@@ -700,10 +876,11 @@ export default function HomePageClient() {
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
-                        email: event.target.value,
+                        email:
+                          event.target.value,
                       })
                     }
-                    className="min-h-13 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
+                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                   />
                 </div>
 
@@ -712,15 +889,16 @@ export default function HomePageClient() {
                     type="text"
                     required
                     aria-label="Service or centre name"
-                    placeholder="Centre / service name"
+                    placeholder="Centre / program / service name"
                     value={quoteForm.serviceName}
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
-                        serviceName: event.target.value,
+                        serviceName:
+                          event.target.value,
                       })
                     }
-                    className="min-h-13 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
+                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                   />
 
                   <select
@@ -728,22 +906,27 @@ export default function HomePageClient() {
                     onChange={(event) =>
                       setQuoteForm({
                         ...quoteForm,
-                        fundingSource: event.target.value,
+                        fundingSource:
+                          event.target.value,
                       })
                     }
                     aria-label="Funding pathway"
-                    className="min-h-13 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
+                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
                   >
+                    <option value="Annual professional learning budget">
+                      Professional learning budget
+                    </option>
+
+                    <option value="US childcare professional development budget">
+                      US child care professional development budget
+                    </option>
+
                     <option value="Victorian School Readiness Funding (SRF)">
                       Victorian School Readiness Funding
                     </option>
 
                     <option value="Queensland Kindy Uplift">
                       Queensland Kindy Uplift
-                    </option>
-
-                    <option value="Annual professional learning budget">
-                      Annual professional learning budget
                     </option>
 
                     <option value="Other / not sure">
@@ -755,11 +938,11 @@ export default function HomePageClient() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="min-h-13 rounded-2xl bg-white px-6 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-14 rounded-2xl bg-white px-6 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting
                     ? 'Sending request…'
-                    : `Request $${selectedPrice.toLocaleString()} centre proposal`}
+                    : `Request $${selectedPrice.toLocaleString()} AUD proposal`}
                 </button>
               </form>
             )}
@@ -779,9 +962,10 @@ function RoleRow({
 }) {
   return (
     <div className="grid gap-2 border-t border-[#D8CFC2] py-5 first:border-t-0 sm:grid-cols-[120px_1fr]">
-      <p className="font-extrabold text-[#1C3B34]">
+      <p className="font-extrabold">
         {role}
       </p>
+
       <p className="leading-relaxed text-[#53645D]">
         {text}
       </p>
@@ -798,13 +982,39 @@ function BodyExample({
 }) {
   return (
     <div className="border-b border-[#D8CFC2] py-5">
-      <h3 className="text-xl font-extrabold text-[#1C3B34]">
+      <h3 className="text-xl font-extrabold">
         {title}
       </h3>
+
       <p className="mt-2 text-base leading-relaxed text-[#53645D]">
         {text}
       </p>
     </div>
+  );
+}
+
+function LocationLink({
+  href,
+  title,
+  text,
+}: {
+  href: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="block border-b border-[#D8CFC2] py-5"
+    >
+      <p className="text-xl font-extrabold text-[#1C3B34]">
+        {title}
+      </p>
+
+      <p className="mt-2 text-base leading-7 text-[#53645D]">
+        {text}
+      </p>
+    </Link>
   );
 }
 
@@ -825,12 +1035,12 @@ function ProgramOption({
 }) {
   return (
     <article className="border-t border-[#D8CFC2] pt-6">
-      <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+      <h3 className="text-2xl font-extrabold">
         {title}
       </h3>
 
-      <p className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
-        ${price.toLocaleString()}
+      <p className="mt-3 text-3xl font-extrabold">
+        ${price.toLocaleString()} AUD
       </p>
 
       <p className="mt-1 text-base text-[#6B7772]">
@@ -843,7 +1053,7 @@ function ProgramOption({
 
       <Link
         href={href}
-        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
       >
         {button}
       </Link>
@@ -874,7 +1084,9 @@ function PlanButton({
     >
       <span
         className={`block text-base font-extrabold ${
-          active ? 'text-[#12362F]' : 'text-white'
+          active
+            ? 'text-[#12362F]'
+            : 'text-white'
         }`}
       >
         {title}
@@ -882,10 +1094,12 @@ function PlanButton({
 
       <span
         className={`mt-1 block text-sm ${
-          active ? 'text-[#42544D]' : 'text-[#D8E1DC]'
+          active
+            ? 'text-[#42544D]'
+            : 'text-[#D8E1DC]'
         }`}
       >
-        ${price.toLocaleString()} incl. GST
+        ${price.toLocaleString()} AUD incl. GST
       </span>
     </button>
   );

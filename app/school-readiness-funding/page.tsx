@@ -3,18 +3,13 @@ import Link from 'next/link';
 
 const PREVIEW_PRICE = 1790;
 const FULL_PRICE = 4790;
-const CONTINUATION_STANDARD_PRICE = 4000;
-const CONTINUATION_DISCOUNT_PCT = 20;
-const CONTINUATION_PRICE = 3200;
-const STAGED_TOTAL = PREVIEW_PRICE + CONTINUATION_PRICE;
-const UPFRONT_SAVING = STAGED_TOTAL - FULL_PRICE;
 
 export const metadata: Metadata = {
   title:
     'School Readiness Funding Professional Learning | Regulator Champions',
 
   description:
-    'Information for Victorian kindergarten services considering Regulator Champions as part of their School Readiness Funding planning, including wellbeing alignment, educator capability, pricing and procurement information.',
+    'Information for Victorian kindergarten services considering Regulator Champions alongside School Readiness Funding, including wellbeing, educator capability, QIP reflection, pricing and procurement information.',
 
   alternates: {
     canonical: '/school-readiness-funding',
@@ -24,51 +19,51 @@ export const metadata: Metadata = {
     title:
       'School Readiness Funding | Regulator Champions',
     description:
-      'Explore how Regulator Champions may support Victorian kindergarten services working on educator capability, co-regulation, wellbeing and reflective practice through School Readiness Funding.',
+      'Explore how Regulator Champions may support Victorian kindergarten teams working on wellbeing, co-regulation, participation, educator capability and reflective practice.',
     url: '/school-readiness-funding',
     type: 'website',
   },
 };
 
-const SRF_PRIORITY_AREAS = [
+const PRIORITY_AREAS = [
   {
     title: 'Wellbeing',
-    text: 'The strongest connection for Regulator Champions. The Victorian School Readiness Funding framework includes social, emotional and executive function within the Wellbeing priority area.',
+    text: 'Regulator Champions has a strong connection with social and emotional wellbeing, co-regulation and helping educators notice what may be happening before behaviour escalates.',
   },
   {
-    title: 'Access, Inclusion and Participation',
-    text: 'The program can also support reflection on the environmental, sensory and participation barriers that may make everyday routines more difficult for some children.',
+    title: 'Access and participation',
+    text: 'The Regulation Ladders encourage teams to consider sensory load, movement, routines, environment and whether current expectations are making participation harder for some children.',
   },
   {
     title: 'Educator capability',
-    text: 'Regulator Champions is designed to build the capability of educators and leaders rather than provide individual clinical treatment to children.',
+    text: 'The program is designed to build educator and leadership capability rather than provide individual assessment or therapy for children.',
   },
 ];
 
 const PRACTICE_AREAS = [
   {
     title: 'Co-regulation',
-    text: 'Build a shared understanding of how adult pace, voice, proximity, expectations and responses can influence difficult moments.',
+    text: 'Consider how adult pace, voice, proximity, expectations and responses may influence difficult moments.',
   },
   {
-    title: 'Social and emotional wellbeing',
-    text: 'Help educators notice early body-based signs of distress, overload, shutdown and reduced capacity.',
+    title: 'Body cues and emotional wellbeing',
+    text: 'Help educators notice earlier signs of overload, shutdown, rising arousal and reduced capacity.',
   },
   {
-    title: 'Executive function',
-    text: 'Consider the demands being placed on children during transitions, waiting, group experiences, instructions and changes in routine.',
+    title: 'Executive functioning',
+    text: 'Think about the demands involved in waiting, transitions, following instructions, group experiences and adapting when plans change.',
   },
   {
     title: 'Participation',
-    text: 'Look underneath behaviour and consider what may be making it difficult for a child to enter, remain in or return to an experience.',
+    text: 'Look underneath behaviour and consider what may be making it harder for a child to enter, remain in or return to an experience.',
   },
   {
     title: 'Reflective practice',
-    text: 'Use real room moments to help educators notice patterns, trial practical changes and return to what happened afterwards.',
+    text: 'Use real situations from the room to notice patterns, trial one practical change and return to what happened afterwards.',
   },
   {
-    title: 'Whole-service consistency',
-    text: 'Develop shared language and practice across educators, room leaders and leadership rather than relying on different responses in every room.',
+    title: 'Whole-team consistency',
+    text: 'Give educators, leaders and families a shared way of looking at difficult moments rather than relying on different responses in every room.',
   },
 ];
 
@@ -83,19 +78,15 @@ const PROCUREMENT_DETAILS = [
   ],
   [
     'Delivery',
-    'Online whole-service professional learning and implementation resources',
+    'Online whole-team professional learning, Regulation Ladders and implementation resources',
   ],
   [
-    '3 Ladder Preview',
-    `$${PREVIEW_PRICE.toLocaleString()} incl. GST · 6 months whole-service access`,
+    '6-Month Preview',
+    `$${PREVIEW_PRICE.toLocaleString()} incl. GST · whole-team access`,
   ],
   [
-    'Full 8 Ladder Pathway',
-    `$${FULL_PRICE.toLocaleString()} incl. GST · 12 months whole-service access`,
-  ],
-  [
-    'Continuation after Preview',
-    `$${CONTINUATION_PRICE.toLocaleString()} incl. GST for Ladders 4 to 8`,
+    '12-Month Regulator Champions',
+    `$${FULL_PRICE.toLocaleString()} incl. GST · whole-team access`,
   ],
   ['Email', 'robyn@playmoveimprove.com.au'],
   [
@@ -109,263 +100,200 @@ export default function SchoolReadinessFundingPage() {
     <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
       {/* HERO */}
       <section className="bg-[#1C3B34] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 py-14 sm:py-20">
           <div className="max-w-4xl">
-            <span className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#C29F60]/10 px-4 py-2 text-[10px] font-extrabold uppercase tracking-widest text-[#E4C98E]">
-              Victorian School Readiness Funding
-            </span>
+            <p className="text-base font-semibold text-[#E4C98E]">
+              School Readiness Funding
+            </p>
 
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Considering Regulator Champions in your School Readiness Funding
-              plan?
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              Considering Regulator Champions as part of your School Readiness Funding planning?
             </h1>
 
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#D8E1DC] sm:text-lg">
-              This page gives directors, educational leaders and Approved
-              Providers a clearer picture of the professional learning focus,
-              pricing and potential links with School Readiness Funding
-              priorities.
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#D8E1DC]">
+              This page is for Victorian kindergarten leaders who are looking at regulation, wellbeing, participation or educator capability within their current priorities and want to understand where Regulator Champions may fit.
             </p>
 
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#BFD0C8]">
-              Your service remains responsible for deciding whether a purchase
-              is appropriate for its current SRF plan and for meeting Department
-              of Education purchasing and documentation requirements.
+            <p className="mt-5 max-w-3xl text-sm leading-6 text-[#BFD0C8]">
+              Your service remains responsible for deciding whether a purchase is appropriate within its current School Readiness Funding plan and for meeting any current Department of Education purchasing and documentation requirements.
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/proposal?plan=preview"
-                className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
               >
-                View $1,790 Preview proposal
+                View 6-Month Preview
               </Link>
 
               <Link
                 href="/proposal?plan=full"
-                className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
               >
-                View $4,790 Full proposal
+                View 12-Month Program
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* IMPORTANT POSITIONING */}
+      {/* FUNDING NOTE */}
       <section className="border-b border-[#E6E2DC] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6">
-          <div className="rounded-3xl border border-[#C29F60]/40 bg-[#FAF5EC] p-6 sm:p-7">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
-              Important funding note
-            </span>
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <div className="border-l-4 border-[#C29F60] pl-6">
+            <h2 className="text-xl font-extrabold text-[#1C3B34]">
+              Start with the need in your current cohort, not with the funding.
+            </h2>
 
-            <p className="mt-3 max-w-4xl text-sm leading-relaxed text-[#53645D]">
-              Regulator Champions is not presented as a Department of Education
-              endorsed program and inclusion on this website does not guarantee
-              that a service can use School Readiness Funding to purchase it.
-              Services should connect any proposed purchase to their identified
-              cohort needs, SRF goals and an appropriate current funding
-              pathway.
+            <p className="mt-3 max-w-4xl text-base leading-7 text-[#53645D]">
+              Regulator Champions is not presented as a Department-endorsed program and this page does not guarantee that School Readiness Funding can be used for a purchase. The strongest starting point is identifying what children and educators are currently experiencing, what your team wants to improve and how the proposed professional learning connects with that priority.
             </p>
           </div>
         </div>
       </section>
 
-      {/* SRF CONTEXT */}
+      {/* CONNECTION */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-                Where the connection sits
-              </span>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Where the connection may sit
+              </p>
 
-              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-                Start with your children and your service priority, not the
-                program.
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+                What is your team actually trying to change?
               </h2>
 
-              <p className="mt-4 text-sm leading-relaxed text-[#53645D]">
-                School Readiness Funding is intended to build the capacity of
-                educators and families to respond to children&apos;s learning
-                and development, particularly for children experiencing
-                educational disadvantage.
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                I would not begin by asking whether Regulator Champions fits a funding category. I would begin with the situations your educators keep getting stuck on and the capability you want the team to build.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {SRF_PRIORITY_AREAS.map((area) => (
-                <article
+            <div className="border-t border-[#D8CFC2]">
+              {PRIORITY_AREAS.map((area) => (
+                <div
                   key={area.title}
-                  className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6"
+                  className="border-b border-[#D8CFC2] py-6"
                 >
-                  <h3 className="text-lg font-extrabold text-[#1C3B34]">
+                  <h3 className="text-xl font-extrabold text-[#1C3B34]">
                     {area.title}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-relaxed text-[#53645D]">
+                  <p className="mt-3 text-base leading-7 text-[#53645D]">
                     {area.text}
                   </p>
-                </article>
+                </div>
               ))}
             </div>
           </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="https://www.vic.gov.au/school-readiness-funding"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center rounded-xl border border-[#D8D0C4] bg-white px-4 py-2.5 text-xs font-bold text-[#1C3B34] transition hover:bg-[#FAF5EC]"
-            >
-              Victorian Government SRF information ↗
-            </a>
-
-            <a
-              href="https://www.vic.gov.au/coaching"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center rounded-xl border border-[#D8D0C4] bg-white px-4 py-2.5 text-xs font-bold text-[#1C3B34] transition hover:bg-[#FAF5EC]"
-            >
-              Victorian Government coaching information ↗
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* 2026 OPTIONS */}
+      {/* QIP */}
       <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="mx-auto mb-9 max-w-3xl text-center">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
-              Two starting points
-            </span>
-
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-              Match the investment to what your service is ready to implement.
-            </h2>
-
-            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-              Services can begin with three ladders or purchase the complete
-              eight-ladder pathway upfront.
-            </p>
-          </div>
-
-          <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-2">
-            <article className="rounded-4xl border-2 border-[#C29F60] bg-white p-7">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
-                3 Ladder Preview
-              </span>
-
-              <p className="mt-3 text-5xl font-extrabold text-[#1C3B34]">
-                ${PREVIEW_PRICE.toLocaleString()}
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                QIP and reflective practice
               </p>
 
-              <p className="mt-1 text-sm text-[#6A7873]">
-                including GST · 6 months
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+                Regulator Champions can also give teams something practical to reflect on together.
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-lg leading-8 text-[#53645D]">
+                The Regulation Ladders are designed around real situations such as drop-off, participation and educator regulation, which means teams can use them to discuss what they are noticing in practice rather than writing broad improvement goals that become disconnected from the room.
               </p>
 
-              <p className="mt-5 text-sm leading-relaxed text-[#53645D]">
-                Begin with the first three Regulation Ladders and give your team
-                time to use the approach in real routines before deciding
-                whether to continue.
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                Those discussions may help inform Quality Improvement Plan reflection around relationships, environments, participation, educator practice and the consistency of responses across the service.
               </p>
-
-              <div className="mt-5 space-y-2 text-sm text-[#53645D]">
-                <p>✓ Whole-service access</p>
-                <p>✓ Ladders 1 to 3</p>
-                <p>✓ Educator implementation resources</p>
-                <p>✓ Leadership reflection tools</p>
-              </div>
 
               <Link
-                href="/proposal?plan=preview"
-                className="mt-6 flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-5 py-3.5 text-center text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+                href="/nqs-mapping"
+                className="mt-7 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
               >
-                View Preview proposal
+                Explore NQS and QIP Reflection
               </Link>
-            </article>
-
-            <article className="rounded-4xl bg-[#1C3B34] p-7 text-white">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#E4C98E]">
-                Full 8 Ladder Pathway
-              </span>
-
-              <p className="mt-3 text-5xl font-extrabold">
-                ${FULL_PRICE.toLocaleString()}
-              </p>
-
-              <p className="mt-1 text-sm text-[#C8D6D0]">
-                including GST · 12 months
-              </p>
-
-              <p className="mt-5 text-sm leading-relaxed text-[#D8E1DC]">
-                Give your team access to the complete Regulator Champions
-                pathway and implementation resources from the beginning.
-              </p>
-
-              <div className="mt-5 space-y-2 text-sm text-[#D8E1DC]">
-                <p>✓ Complete eight-ladder pathway</p>
-                <p>✓ Whole-service access</p>
-                <p>✓ Practice leadership resources</p>
-                <p>✓ NQS and QIP reflection support</p>
-              </div>
-
-              <Link
-                href="/proposal?plan=full"
-                className="mt-6 flex min-h-12 items-center justify-center rounded-2xl bg-white px-5 py-3.5 text-center text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#F3F0EA]"
-              >
-                View Full pathway proposal
-              </Link>
-            </article>
-          </div>
-
-          <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-[#D8D0C4] bg-white p-5 text-center">
-            <p className="text-xs leading-relaxed text-[#6A7873]">
-              If a service begins with the Preview, Ladders 4 to 8 are currently
-              ${CONTINUATION_PRICE.toLocaleString()} including GST after the{' '}
-              {CONTINUATION_DISCOUNT_PCT}% continuation discount. The two stages
-              total ${STAGED_TOTAL.toLocaleString()}. Purchasing the complete
-              pathway upfront is ${UPFRONT_SAVING.toLocaleString()} less.
-            </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* WHAT IT BUILDS */}
+      {/* PROGRAM OPTIONS */}
       <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="mx-auto mb-9 max-w-3xl text-center">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-              Professional learning focus
-            </span>
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Program options
+            </p>
 
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-              What Regulator Champions is designed to build.
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              Choose the level of support your team currently has capacity to use.
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-              The program focuses on educator capability and service-wide
-              practice rather than individual assessment or therapy for
-              children.
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              The program no longer needs to be approached as a fixed course that everybody completes in order. Teams can begin with the current Regulation Ladders and practical resources, then use recordings, questions and broader support when they have the capacity.
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <ProgramOption
+              title="6-Month Preview"
+              price={PREVIEW_PRICE}
+              period="6 months"
+              text="A smaller whole-team starting point for services that want to use the current Regulation Ladders, recordings and implementation support before deciding what they need longer term."
+              href="/proposal?plan=preview"
+              button="View Preview Proposal"
+            />
+
+            <ProgramOption
+              title="12-Month Regulator Champions"
+              price={FULL_PRICE}
+              period="12 months"
+              text="Year-round whole-team access for services wanting the Regulation Ladders, recordings, Ask Robyn support, live sessions and additional member resources as the program develops."
+              href="/proposal?plan=full"
+              button="View 12-Month Proposal"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* PRACTICE AREAS */}
+      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Professional learning focus
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              What Regulator Champions is designed to build
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              The focus is educator capability and whole-team practice rather than individual clinical treatment for children.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-x-10 md:grid-cols-2">
             {PRACTICE_AREAS.map((area) => (
-              <article
+              <div
                 key={area.title}
-                className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6"
+                className="border-t border-[#D8CFC2] py-6"
               >
-                <h3 className="text-lg font-extrabold text-[#1C3B34]">
+                <h3 className="text-xl font-extrabold text-[#1C3B34]">
                   {area.title}
                 </h3>
 
-                <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
+                <p className="mt-3 text-base leading-7 text-[#53645D]">
                   {area.text}
                 </p>
-              </article>
+              </div>
             ))}
           </div>
         </div>
@@ -373,32 +301,25 @@ export default function SchoolReadinessFundingPage() {
 
       {/* ROBYN */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#E4C98E]">
+              <p className="text-sm font-semibold text-[#E4C98E]">
                 Created by Robyn Papworth
-              </span>
+              </p>
 
-              <h2 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
                 Developmental knowledge translated into everyday practice.
               </h2>
             </div>
 
-            <div>
-              <p className="text-base leading-relaxed text-[#D8E1DC]">
-                Robyn is an Accredited Exercise Physiologist and Developmental
-                Educator. Her work with early childhood teams focuses on helping
-                educators understand regulation, sensory processing, movement
-                and development in ways that are realistic to use in busy
-                kindergarten rooms.
+            <div className="space-y-5 text-lg leading-8 text-[#D8E1DC]">
+              <p>
+                I am an Accredited Exercise Physiologist and Developmental Educator, and my work with early childhood teams focuses on regulation, sensory processing, movement, participation and helping educators understand what a child&apos;s body may be communicating.
               </p>
 
-              <p className="mt-4 text-base leading-relaxed text-[#D8E1DC]">
-                Regulator Champions brings that knowledge into a structured
-                whole-service pathway so teams can reflect on real pressure
-                points, trial changes and build greater consistency across
-                educators.
+              <p>
+                Regulator Champions was created because I kept seeing the same gap between professional learning and the reality of the room. Educators often understand the theory, but still need support working out what to notice and what to try when a difficult moment is unfolding in front of them.
               </p>
             </div>
           </div>
@@ -406,200 +327,152 @@ export default function SchoolReadinessFundingPage() {
       </section>
 
       {/* PROCUREMENT */}
-      <section className="bg-[#FAF8F5] py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="mb-8 max-w-3xl">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-3xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
               Procurement information
-            </span>
+            </p>
 
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34]">
-              Information for your Approved Provider or finance team.
+            <h2 className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+              Information for your Approved Provider or finance team
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-4xl border border-[#E6E2DC] bg-white">
-            <dl className="divide-y divide-[#E6E2DC]">
-              {PROCUREMENT_DETAILS.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="grid gap-2 px-5 py-4 sm:grid-cols-[240px_1fr] sm:px-7"
-                >
-                  <dt className="text-xs font-extrabold uppercase tracking-wide text-[#657B6C]">
-                    {label}
-                  </dt>
+          <div className="mt-8 overflow-hidden border-y border-[#D8CFC2]">
+            <dl>
+              {PROCUREMENT_DETAILS.map(
+                ([label, value]) => (
+                  <div
+                    key={label}
+                    className="grid gap-2 border-b border-[#D8CFC2] py-5 sm:grid-cols-[240px_1fr]"
+                  >
+                    <dt className="text-sm font-extrabold text-[#657B6C]">
+                      {label}
+                    </dt>
 
-                  <dd className="text-sm font-semibold leading-relaxed text-[#2B3833]">
-                    {value}
-                  </dd>
-                </div>
-              ))}
+                    <dd className="text-base font-semibold leading-7 text-[#2B3833]">
+                      {value}
+                    </dd>
+                  </div>
+                ),
+              )}
             </dl>
           </div>
-
-          <p className="mt-4 text-xs leading-relaxed text-[#6A7873]">
-            Prices shown are current website prices and include GST. Your
-            service should confirm current pricing and purchasing information
-            before approval.
-          </p>
         </div>
       </section>
 
       {/* PLANNING QUESTIONS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="mx-auto max-w-3xl">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-              Before adding it to your plan
-            </span>
-
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34]">
-              Four questions worth answering first.
-            </h2>
-
-            <div className="mt-7 space-y-3">
-              {[
-                'What are we seeing in our current cohort of children that has led us to prioritise regulation, wellbeing, participation or educator capability?',
-                'What would we like educators to understand or do differently after this professional learning?',
-                'How will the team have opportunities to use, discuss and revisit the learning in everyday practice?',
-                'What evidence will help us determine whether our practice is changing?',
-              ].map((question, index) => (
-                <div
-                  key={question}
-                  className="flex gap-4 rounded-2xl border border-[#E6E2DC] bg-[#FAF8F5] p-5"
-                >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C29F60] text-xs font-extrabold text-[#1C3B34]">
-                    {index + 1}
-                  </span>
-
-                  <p className="pt-1 text-sm font-semibold leading-relaxed text-[#53645D]">
-                    {question}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <Link
-              href="/nqs-mapping"
-              className="mt-6 inline-flex min-h-12 items-center rounded-xl border border-[#D8D0C4] bg-white px-5 py-3 text-sm font-bold text-[#1C3B34] transition hover:bg-[#FAF5EC]"
-            >
-              Explore NQS & QIP reflection support →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESS */}
       <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="mx-auto mb-9 max-w-3xl text-center">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
-              Next steps
-            </span>
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-sm font-extrabold text-[#9A793D]">
+            Before adding it to your plan
+          </p>
 
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34]">
-              Keep the purchasing process simple.
-            </h2>
-          </div>
+          <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            Questions worth discussing with your team first
+          </h2>
 
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="mt-8 border-y border-[#D8CFC2]">
             {[
-              {
-                number: '01',
-                title: 'Identify the need',
-                text: 'Start with your current cohort, educator capability priorities and SRF plan.',
-              },
-              {
-                number: '02',
-                title: 'Choose the pathway',
-                text: 'Select the 3 Ladder Preview or complete 8 Ladder pathway.',
-              },
-              {
-                number: '03',
-                title: 'Take it for approval',
-                text: 'Use the proposal and procurement information for your Approved Provider or internal process.',
-              },
-              {
-                number: '04',
-                title: 'Request your invoice',
-                text: 'Email Robyn and the tax invoice can be organised with the service details you require.',
-              },
-            ].map((step) => (
-              <article
-                key={step.number}
-                className="rounded-3xl border border-[#E6E2DC] bg-white p-6"
+              'What are we currently seeing in our cohort that has led us to prioritise regulation, wellbeing, participation or educator capability?',
+              'What would we like educators to notice or do differently after this professional learning?',
+              'How will the team have opportunities to use and revisit the learning during everyday practice?',
+              'What small changes would tell us that our practice is becoming more effective or consistent?',
+            ].map((question) => (
+              <div
+                key={question}
+                className="border-b border-[#D8CFC2] py-5"
               >
-                <span className="text-sm font-extrabold text-[#C29F60]">
-                  {step.number}
-                </span>
-
-                <h3 className="mt-2 text-lg font-extrabold text-[#1C3B34]">
-                  {step.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                  {step.text}
+                <p className="text-lg font-semibold leading-8 text-[#53645D]">
+                  {question}
                 </p>
-              </article>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FINAL NOTE */}
-      <section className="bg-white py-10">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="rounded-3xl border border-[#D8D0C4] bg-[#FAF8F5] p-6">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#657B6C]">
-              Funding responsibility
-            </span>
-
-            <p className="mt-3 text-xs leading-relaxed text-[#6A7873]">
-              Each service remains responsible for deciding whether Regulator
-              Champions is an appropriate expenditure within its current School
-              Readiness Funding plan, identifying the relevant Menu or
-              purchasing pathway and maintaining the documentation required by
-              the Victorian Department of Education. References to School
-              Readiness Funding do not imply Department endorsement of Play Move
-              Improve or Regulator Champions.
-            </p>
-          </div>
+      {/* FUNDING RESPONSIBILITY */}
+      <section className="border-t border-[#E6E2DC] bg-white py-10">
+        <div className="mx-auto max-w-6xl px-6">
+          <p className="text-sm leading-7 text-[#6A7873]">
+            Each service remains responsible for deciding whether Regulator Champions is an appropriate expenditure within its current School Readiness Funding plan, identifying the relevant purchasing pathway and maintaining the documentation required by the Victorian Department of Education. References to School Readiness Funding do not imply Department endorsement of Play Move Improve or Regulator Champions.
+          </p>
         </div>
       </section>
 
       {/* FINAL CTA */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
-          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#E4C98E]">
-            Regulator Champions
-          </span>
-
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Ready to take the idea to your Approved Provider?
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="max-w-4xl text-3xl font-extrabold leading-tight sm:text-4xl">
+            Want to discuss whether it fits what your team is currently working on?
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#D8E1DC]">
-            Choose the pathway you are considering and open the proposal page
-            with the pricing and service information ready to discuss.
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-[#D8E1DC]">
+            You do not need to decide on a program option before contacting me. Tell me what your educators are seeing and what you are hoping to improve, and I can explain where I would start.
           </p>
 
-          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="mailto:robyn@playmoveimprove.com.au?subject=School%20Readiness%20Funding%20and%20Regulator%20Champions"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#C29F60] px-7 py-4 text-base font-extrabold text-[#1C3B34]"
             >
-              $1,790 Preview proposal
-            </Link>
+              Talk to Robyn
+            </a>
 
             <Link
-              href="/proposal?plan=full"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              href="/proposal?plan=preview"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-bold text-white"
             >
-              $4,790 Full proposal
+              View the Proposal
             </Link>
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+function ProgramOption({
+  title,
+  price,
+  period,
+  text,
+  href,
+  button,
+}: {
+  title: string;
+  price: number;
+  period: string;
+  text: string;
+  href: string;
+  button: string;
+}) {
+  return (
+    <article className="border-t border-[#D8CFC2] pt-6">
+      <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+        {title}
+      </h3>
+
+      <p className="mt-3 text-3xl font-extrabold text-[#1C3B34]">
+        ${price.toLocaleString()}
+      </p>
+
+      <p className="mt-1 text-base text-[#6B7772]">
+        incl. GST, {period}
+      </p>
+
+      <p className="mt-5 text-lg leading-8 text-[#53645D]">
+        {text}
+      </p>
+
+      <Link
+        href={href}
+        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+      >
+        {button}
+      </Link>
+    </article>
   );
 }

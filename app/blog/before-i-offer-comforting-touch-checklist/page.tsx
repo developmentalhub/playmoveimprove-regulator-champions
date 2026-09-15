@@ -1,246 +1,321 @@
-'use client';
-
-import React, { useState } from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
+export const metadata: Metadata = {
+  title:
+    'Before I Offer Comforting Touch | Early Childhood Reflection Checklist',
+
+  description:
+    'A practical reflection checklist for early childhood educators who want to think through child cues, purpose, professional boundaries and appropriate comforting touch.',
+
+  alternates: {
+    canonical:
+      '/blog/before-i-offer-comforting-touch-checklist',
+  },
+
+  openGraph: {
+    title:
+      'Before I Offer Comforting Touch | Early Childhood Reflection Checklist',
+    description:
+      'A practical reflection tool for early childhood teams who are genuinely having questions about appropriate comforting touch.',
+    url:
+      '/blog/before-i-offer-comforting-touch-checklist',
+    type: 'article',
+  },
+};
+
+const checklistQuestions = [
+  {
+    step: '1',
+    title: 'What is happening for this child right now?',
+    detail:
+      'Are they distressed, hurt, overwhelmed, seeking reassurance, needing help to move safely, or simply wanting closeness?',
+  },
+  {
+    step: '2',
+    title: 'Is the child moving towards connection?',
+    detail:
+      'Are they reaching for me, leaning in, holding out their hand, asking to be picked up, or showing another sign that closeness is welcome?',
+  },
+  {
+    step: '3',
+    title:
+      'What is their body telling me once contact begins?',
+    detail:
+      'Are they softening and settling, or are they stiffening, pulling away, turning their face or trying to move out of the interaction?',
+  },
+  {
+    step: '4',
+    title: 'What is the purpose of the touch?',
+    detail:
+      'Is it supporting comfort, safety, care or wellbeing, or am I responding this way simply because it is what I usually do?',
+  },
+  {
+    step: '5',
+    title:
+      'Does the contact make sense for this child and this situation?',
+    detail:
+      'Consider their age, developmental stage, communication style, individual needs and what is happening around them.',
+  },
+  {
+    step: '6',
+    title:
+      'Is there a less intrusive response that may work just as well?',
+    detail:
+      'Sometimes sitting nearby, offering a hand, reducing language, changing the environment or giving more space may be enough.',
+  },
+  {
+    step: '7',
+    title: 'Is there an immediate safety risk?',
+    detail:
+      'If the child or somebody else may be hurt, safety becomes the priority. Any physical intervention should follow the requirements, policies and guidance that apply in your setting.',
+  },
+  {
+    step: '8',
+    title:
+      'Could I clearly explain why I responded this way?',
+    detail:
+      'Would the purpose of the interaction make sense to another educator, leader or family member observing it?',
+  },
+  {
+    step: '9',
+    title: 'Do I need to adjust or stop?',
+    detail:
+      'Keep noticing the child throughout the interaction because what they need, or what they are communicating, can change quickly.',
+  },
+];
+
 export default function ComfortingTouchChecklistPage() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubmitted(true);
-    }
-  };
-
-  const checklistQuestions = [
-    {
-      step: '1. Child State',
-      question: 'What is happening for this child right now?',
-      detail: 'Are they distressed, hurt, overwhelmed, seeking reassurance, needing help to move safely, or simply wanting closeness?'
-    },
-    {
-      step: '2. Connection Signal',
-      question: 'Is the child moving towards connection?',
-      detail: 'Are they reaching for me, leaning in, holding out their hand, asking to be picked up, or showing another clear sign that closeness is welcome?'
-    },
-    {
-      step: '3. Somatic Response',
-      question: 'What is their body telling me once contact begins?',
-      detail: 'Are they softening and settling, or are they stiffening, pulling away, turning their face, or trying to move out of the interaction?'
-    },
-    {
-      step: '4. Purpose of Touch',
-      question: 'What is the purpose of the touch?',
-      detail: 'Is it helping with comfort, safety, care, or wellbeing, or am I doing it from habit because this is how I usually respond?'
-    },
-    {
-      step: '5. Context & Developmental Stage',
-      question: 'Does the contact make sense for this child and this situation?',
-      detail: 'Consider their age, developmental stage, communication style, individual needs, and what is happening around them.'
-    },
-    {
-      step: '6. Alternative Options',
-      question: 'Is there a less intrusive response that may work just as well?',
-      detail: 'Sometimes sitting nearby, offering a hand, reducing language, changing the environment, or giving more space may be enough.'
-    },
-    {
-      step: '7. Safety Assessment',
-      question: 'Is there an immediate safety risk?',
-      detail: 'If the child or someone else may be hurt, safety becomes the priority and physical intervention may be necessary, using only the support needed to interrupt the danger.'
-    },
-    {
-      step: '8. Professional Boundaries',
-      question: 'Would this interaction make sense to another educator or family member observing it?',
-      detail: 'Could I clearly explain why I responded in this way to support the child’s wellbeing?'
-    },
-    {
-      step: '9. Real-Time Adjustment',
-      question: 'Do I need to adjust or stop?',
-      detail: 'Keep noticing the child throughout the interaction, because what they need can change quickly.'
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] font-sans pb-20">
-      
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b-2 border-[#E6E2DC] px-4 py-3">
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+    <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34]">
+      {/* HERO */}
+      <section className="bg-white border-b border-[#E6E2DC]">
+        <div className="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-16">
           <Link
-            href="/"
-            className="text-sm font-bold text-[#657B6C] hover:text-[#1C3B34] flex items-center gap-1"
+            href="/blog"
+            className="text-sm font-bold text-[#657B6C] transition hover:text-[#1C3B34]"
           >
-            Back to Home
+            Back to articles
           </Link>
-          <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase">
-            Reflection Checklist
-          </span>
+
+          <p className="mt-8 text-sm font-semibold text-[#9A793D]">
+            A reflection tool for teams who need it
+          </p>
+
+          <h1 className="mt-3 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            Before I offer comforting touch
+          </h1>
+
+          <p className="mt-5 max-w-3xl text-xl font-semibold leading-relaxed text-[#53645D]">
+            A simple checklist for educators who are genuinely second-guessing how to respond when a distressed child seeks physical comfort.
+          </p>
+
+          <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#6A7873]">
+            Many early childhood teams already feel confident in this area and may not need this resource at all. This checklist is here for teams that are having questions about child cues, purpose, professional boundaries and how to remain warm and responsive without acting automatically.
+          </p>
+
+          <p className="mt-5 text-sm font-semibold text-[#657B6C]">
+            By Robyn Papworth
+          </p>
+
+          <div className="mt-8 overflow-hidden">
+            <img
+              src="/images/feed/comforting-touch-checklist.png"
+              alt="Before I offer comforting touch reflection checklist for early childhood educators"
+              className="h-auto w-full object-cover"
+            />
+          </div>
         </div>
-      </header>
+      </section>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <article className="space-y-8">
-          
-          {/* Header */}
-          <header className="space-y-4 border-b-2 border-[#E6E2DC] pb-8">
-            <div className="flex items-center gap-2">
-              <span className="bg-[#FAF5EC] border border-[#C29F60] text-[#1C3B34] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">
-                Staffroom Reflection Tool
-              </span>
-              <span className="text-xs text-[#657B6C] font-bold">
-                By Robyn Papworth
-              </span>
-            </div>
-
-            <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#1C3B34] leading-tight">
-              Before I Offer Comforting Touch: A Quick Reflection Checklist for ECEC Educators
-            </h1>
-
-            <p className="text-base md:text-lg text-[#2B3833] font-medium leading-relaxed">
-              Safe practice is not about avoiding connection[cite: 2]. It is about making thoughtful, child-centred decisions in the moment[cite: 2]. Use this 9-step reflection framework to guide room interactions[cite: 2].
-            </p>
-
-            {/* Featured Image */}
-            <div className="pt-4">
-              <img
-                src="/images/feed/comforting-touch-checklist.png"
-                alt="Before I offer comforting touch reflection checklist for early childhood educators"
-                className="w-full h-auto rounded-3xl border-2 border-[#E6E2DC] shadow-sm object-cover max-h-120"
-              />
-            </div>
-          </header>
-
-          {/* Article Introduction */}
-          <section className="space-y-4 text-sm md:text-base text-[#2B3833] leading-relaxed">
+      {/* INTRO */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-4xl px-5 sm:px-6">
+          <div className="space-y-6 text-lg leading-relaxed text-[#53645D]">
             <p>
-              When a child is distressed or seeking connection, educators must move quickly while remaining mindful of professional boundaries and regulatory expectations[cite: 1, 2]. There is no single right answer for every situation, but taking a moment to notice can help you make thoughtful, child-centred decisions[cite: 2].
+              When a child is distressed or seeking connection, there is not always time to mentally work through a long policy document before responding.
             </p>
 
-            <div className="bg-[#FAF5EC] border-2 border-[#C29F60] p-6 rounded-3xl space-y-2 text-center">
-              <span className="text-xs font-black uppercase text-[#C29F60] tracking-wider block">
-                Core Practice Anchor
-              </span>
-              <p className="text-lg md:text-xl font-serif font-bold text-[#1C3B34]">
-                Pause. Notice. Then Respond[cite: 2].
+            <p>
+              But there can still be a short moment of professional reflection. What is the child communicating? Why am I considering touch? Is the contact welcome? Is there another response that may meet the same need?
+            </p>
+
+            <p>
+              For me, the simplest anchor is:
+            </p>
+
+            <div className="border-l-4 border-[#C29F60] bg-[#FAF5EC] p-6">
+              <p className="text-2xl font-extrabold text-[#1C3B34]">
+                Pause. Notice. Respond.
+              </p>
+
+              <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                Not because every comforting interaction requires a nine-point mental checklist, but because pausing for a moment can stop fear, habit or urgency from making the decision for us.
               </p>
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
-          {/* Checklist Questions Grid */}
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif font-bold text-[#1C3B34]">
-              The 9 Reflection Questions
+      {/* CHECKLIST */}
+      <section className="bg-[#FAF8F5] py-14 sm:py-20">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-[#9A793D]">
+              The reflection questions
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Nine things you can think about when touch feels less straightforward.
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {checklistQuestions.map((item, idx) => (
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              These are prompts for reflection rather than a compliance test. Your organisation&apos;s policies, safeguarding procedures and local requirements still apply.
+            </p>
+          </div>
+
+          <div className="mt-10 border-y border-[#D8CFC2]">
+            {checklistQuestions.map(
+              (item) => (
                 <div
-                  key={idx}
-                  className="bg-white p-6 rounded-3xl border-2 border-[#E6E2DC] shadow-sm space-y-2 hover:border-[#657B6C] transition-all flex flex-col justify-between"
+                  key={item.step}
+                  className="grid gap-3 border-b border-[#D8CFC2] py-6 last:border-b-0 md:grid-cols-[60px_1fr]"
                 >
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF5EC] border border-[#C29F60]/40 text-[#1C3B34]">
-                      {item.step}
-                    </span>
-                    <h3 className="text-base font-bold text-[#1C3B34]">
-                      {item.question}[cite: 2]
+                  <span className="text-lg font-extrabold text-[#9A793D]">
+                    {item.step}
+                  </span>
+
+                  <div>
+                    <h3 className="text-xl font-extrabold">
+                      {item.title}
                     </h3>
-                    <p className="text-xs font-medium text-[#2B3833] leading-relaxed bg-[#FAF8F5] p-3 rounded-xl border border-[#E6E2DC]">
-                      {item.detail}[cite: 2]
+
+                    <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                      {item.detail}
                     </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
+              ),
+            )}
+          </div>
+        </div>
+      </section>
 
-          {/* Lead Capture Box */}
-          <aside className="mt-12 bg-[#1C3B34] text-white p-6 md:p-10 rounded-3xl border-2 border-[#1C3B34] shadow-md space-y-6">
-            <div className="space-y-2 text-center max-w-2xl mx-auto">
-              <span className="text-xs font-black uppercase tracking-wider text-[#C29F60] block">
-                Printable Staffroom Resource
-              </span>
-              <h3 className="text-2xl md:text-3xl font-serif font-bold text-white">
-                Download the 1-Page Printable Checklist PDF
-              </h3>
-              <p className="text-xs md:text-sm text-white/90 font-light leading-relaxed">
-                Print this high-contrast reflection poster for your staffroom wall, room lanyards, or team meeting agendas[cite: 2].
+      {/* DOWNLOAD */}
+      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-[#E4C98E]">
+                Want a copy for your team?
               </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Print the one-page checklist.
+              </h2>
             </div>
 
-            <div className="bg-white/10 p-4 rounded-2xl max-w-xl mx-auto space-y-2 text-xs text-white/80">
-              <div className="flex items-center gap-2">
-                <span className="text-[#C29F60] font-black">Active</span>
-                <span>Pause, Notice, Respond decision framework[cite: 2]</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#C29F60] font-black">Active</span>
-                <span>ACECQA-aligned reflection prompts for room teams[cite: 2]</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#C29F60] font-black">Active</span>
-                <span>Print-ready 1-page A4 format[cite: 2]</span>
-              </div>
-            </div>
+            <div>
+              <p className="text-lg leading-relaxed text-[#D8E1DC]">
+                If this is a conversation your educators are currently having, you can print the reflection checklist and use it during a team discussion.
+              </p>
 
-            {!submitted ? (
-              <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your work email address"
-                  className="w-full p-4 rounded-2xl border-2 border-[#E6E2DC] text-sm text-[#1C3B34] font-medium outline-none focus:border-[#C29F60] bg-[#FAF8F5]"
-                />
-                <button
-                  type="submit"
-                  className="w-full py-4 px-6 bg-[#C29F60] text-[#1C3B34] font-bold rounded-2xl hover:bg-opacity-90 transition-all text-sm shadow-sm min-h-12 flex items-center justify-center"
-                >
-                  Download Free Checklist PDF
-                </button>
-              </form>
-            ) : (
-              <div className="max-w-md mx-auto p-6 bg-[#FAF5EC] border-2 border-[#C29F60] rounded-2xl text-center space-y-4 text-[#1C3B34]">
-                <div className="border-b border-[#C29F60]/30 pb-2">
-                  <span className="text-xs font-black uppercase text-[#C29F60] block">
-                    Checklist Unlocked
-                  </span>
-                  <h4 className="text-base font-bold">Your PDF Download is Ready</h4>
-                </div>
+              <p className="mt-4 text-base leading-relaxed text-[#BFD0C8]">
+                If your team already feels confident about appropriate touch and professional boundaries, there is no need to create another area of concern.
+              </p>
 
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="/pdf/Before-I-Offer-Comforting-Touch-Checklist.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex py-3.5 px-6 bg-[#657B6C] text-white font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 items-center justify-center shadow-sm w-full"
+                  className="flex min-h-12 items-center justify-center rounded-xl bg-[#C29F60] px-6 py-3 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
                 >
-                  Open Printable Checklist PDF
+                  Open the Printable Checklist
                 </a>
 
-                <div className="pt-2 border-t border-[#C29F60]/30 space-y-2">
-                  <span className="text-xs font-bold block text-[#1C3B34]">
-                    Need Full Program Licensing for Your Centre?
-                  </span>
-                  <Link
-                    href="/proposal"
-                    className="inline-flex py-3.5 px-6 bg-[#1C3B34] text-white font-bold rounded-xl text-xs hover:bg-opacity-90 transition-all min-h-12 items-center justify-center shadow-sm w-full"
-                  >
-                    Request Official Funding Quote
-                  </Link>
-                </div>
+                <Link
+                  href="/free-guide"
+                  className="flex min-h-12 items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  Read the Full Safe Touch Guide
+                </Link>
               </div>
-            )}
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <p className="text-[11px] text-center text-white/60 font-medium">
-              Checked for ECEC compliance accuracy as of August 2026[cite: 2]. Zero spam. Unsubscribe anytime.
-            </p>
-          </aside>
+      {/* BROADER REGULATION BRIDGE */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-semibold text-[#657B6C]">
+                If this is not the issue in your rooms
+              </p>
 
-        </article>
-      </main>
-    </div>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Start with the behaviour or regulation moment your team keeps getting stuck on.
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-lg leading-relaxed text-[#53645D]">
+                Your educators may be far more concerned about children struggling at drop-off, group participation, noisy transitions, sensory overload, biting, running, shutdown or repeated escalation.
+              </p>
+
+              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+                The Free Regulation Ladder is a better starting point for those broader questions. It helps educators, leaders and families look at the same situation from different perspectives before deciding what to try next.
+              </p>
+
+              <Link
+                href="/playbooks"
+                className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-6 py-3 text-sm font-extrabold text-white transition hover:bg-[#284E45]"
+              >
+                Try the Free Regulation Ladder
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RELATED ARTICLE */}
+      <section className="bg-[#FAF5EC] py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div className="max-w-3xl">
+              <p className="text-sm font-semibold text-[#9A793D]">
+                More context
+              </p>
+
+              <h2 className="mt-3 text-2xl font-extrabold sm:text-3xl">
+                Safe touch in early childhood
+              </h2>
+
+              <p className="mt-3 text-base leading-relaxed text-[#53645D]">
+                Read more about why some educators are second-guessing comforting touch, while many other teams remain confident and may not need additional support in this area.
+              </p>
+            </div>
+
+            <Link
+              href="/blog/safe-touch-early-childhood"
+              className="flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#284E45]"
+            >
+              Read the Article
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* DISCLAIMER */}
+      <section className="bg-white py-8">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <p className="max-w-4xl text-xs leading-5 text-[#75827D]">
+            This resource supports professional reflection and team discussion. It is not legal advice and does not replace your organisation&apos;s policies, safeguarding procedures, provider or leadership guidance, licensing requirements, regulatory guidance or other requirements that apply in your location.
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }

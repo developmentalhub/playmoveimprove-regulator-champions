@@ -23,13 +23,13 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      'Regulator Champions | Early Childhood Regulation Support',
+      'Regulator Champions | Early Childhood Regulation & Behaviour Support',
     template:
       '%s | Regulator Champions',
   },
 
   description:
-    'Practical early childhood regulation support helping educators understand behaviour, notice what children may be communicating and decide what to try next. Use the Regulation Cards, recordings and deeper support in the way your team has capacity for.',
+    'Practical regulation and behaviour support for early childhood teams, child care centres and preschool programs. Regulation Ladders, professional development, recordings and ongoing support for educators, directors and families.',
 
   keywords: [
     'Regulator Champions',
@@ -37,21 +37,36 @@ export const metadata: Metadata = {
     'early childhood regulation support',
     'early childhood co-regulation',
     'early childhood behaviour support',
-    'behaviour support early childhood',
-    'early childhood behaviour',
+    'child care behaviour support',
+    'child care behavior support',
+    'challenging behaviour child care',
+    'challenging behavior child care',
+    'preschool behaviour support',
+    'preschool behavior support',
+    'child care professional development',
+    'early childhood professional development',
+    'professional development for preschool teachers',
+    'professional development for child care staff',
+    'child care director professional development',
+    'teacher child interactions',
+    'social emotional development preschool',
+    'co-regulation preschool',
     'regulation cards early childhood',
+    'Regulation Ladders',
     'sensory regulation children',
     'sensory processing early childhood',
-    'early childhood educators',
-    'early childhood professional learning',
-    'educator professional development',
-    'co-regulation educators',
-    'early childhood regulation strategies',
+    'executive function preschool',
     'early childhood transitions',
-    'whole service professional learning',
-    'School Readiness Funding',
-    'Kindy Uplift',
+    'quality improvement child care',
+    'QRIS',
+    'Developmentally Appropriate Practice',
+    'NAEYC',
+    'Quality Improvement Plan',
+    'QIP early childhood',
     'National Quality Standard',
+    'School Readiness Funding',
+    'SRF Victoria',
+    'Kindy Uplift',
     'Play Move Improve',
     'Robyn Papworth',
   ],
@@ -67,7 +82,7 @@ export const metadata: Metadata = {
   publisher: 'Play Move Improve',
 
   category:
-    'Early Childhood Professional Learning',
+    'Early Childhood Professional Development',
 
   robots: {
     index: true,
@@ -84,7 +99,8 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: 'website',
-    locale: 'en_AU',
+    locale: 'en_US',
+    alternateLocale: ['en_AU'],
     url: SITE_URL,
     siteName: 'Regulator Champions',
 
@@ -92,14 +108,14 @@ export const metadata: Metadata = {
       'Regulator Champions | Practical Regulation Support for Early Childhood Teams',
 
     description:
-      'Practical Regulation Cards, recordings and support helping early childhood teams work out what to notice and what to try when behaviour and regulation become difficult.',
+      'Practical Regulation Ladders, professional development, recordings and support helping early childhood teams work out what to notice and what to try when behaviour and regulation become difficult.',
 
     images: [
       {
         url: '/images/early-childhood-regulation-program.png',
         width: 1200,
         height: 630,
-        alt: 'Two early childhood educators reviewing Regulator Champions regulation cards together',
+        alt: 'Early childhood educators reviewing Regulator Champions Regulation Cards together',
       },
     ],
   },
@@ -111,7 +127,7 @@ export const metadata: Metadata = {
       'Regulator Champions | Early Childhood Regulation Support',
 
     description:
-      'Practical Regulation Cards, recordings and support helping early childhood teams know what to notice and what to try when behaviour becomes difficult.',
+      'Practical Regulation Ladders, professional development and support for early childhood educators, child care directors and preschool teams.',
 
     images: [
       '/images/early-childhood-regulation-program.png',
@@ -147,7 +163,7 @@ export default function RootLayout({
       SITE_URL,
 
     description:
-      'Practical regulation support for early childhood teams using Regulation Ladders, recordings and professional guidance to help educators understand behaviour and decide what to try next.',
+      'Practical regulation and behaviour support for early childhood teams using Regulation Ladders, professional development, recordings and ongoing guidance to help educators understand behaviour and decide what to try next.',
 
     founder: {
       '@id':
@@ -167,6 +183,17 @@ export default function RootLayout({
       url:
         PLAY_MOVE_IMPROVE_URL,
     },
+
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'Australia',
+      },
+      {
+        '@type': 'Country',
+        name: 'United States',
+      },
+    ],
   };
 
   const personSchema = {
@@ -197,12 +224,15 @@ export default function RootLayout({
       'Early childhood regulation',
       'Early childhood co-regulation',
       'Early childhood behaviour',
+      'Child care behaviour support',
       'Sensory processing',
       'Child development',
       'Movement development',
-      'Gross motor development',
       'Executive function',
-      'Educator professional learning',
+      'Social emotional development',
+      'Teacher-child interactions',
+      'Early childhood participation',
+      'Educator professional development',
       'Responsive practice',
     ],
   };
@@ -224,7 +254,7 @@ export default function RootLayout({
       SITE_URL,
 
     description:
-      'Early childhood regulation support helping educators understand behaviour, read children’s body cues and decide what to try next in difficult everyday moments.',
+      'Early childhood regulation and behaviour support helping educators understand behaviour, notice children’s body cues and decide what to try next in difficult everyday moments.',
 
     publisher: {
       '@id':
@@ -237,11 +267,11 @@ export default function RootLayout({
     },
 
     inLanguage:
-      'en-AU',
+      'en',
   };
 
   return (
-    <html lang="en-AU">
+    <html lang="en">
       <body className={inter.className}>
         <script
           type="application/ld+json"

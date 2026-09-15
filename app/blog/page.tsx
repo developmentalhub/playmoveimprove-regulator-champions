@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title:
-    'Early Childhood Regulation, Nature Play & Practice Articles | Regulator Champions',
+    'Early Childhood Regulation, Behaviour & Practice Articles | Regulator Champions',
 
   description:
-    'Read evidence-informed articles for parents, educators and early childhood leaders about co-regulation, nature play, slowing down, emotional regulation, safe touch, child development and reflective practice.',
+    'Free early childhood articles and training about regulation, behaviour, co-regulation, sensory needs, movement, participation, educator judgement and everyday practice.',
 
   alternates: {
     canonical: '/blog',
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      'Early Childhood Regulation, Nature Play & Practice Articles | Regulator Champions',
+      'Early Childhood Regulation, Behaviour & Practice Articles | Regulator Champions',
     description:
-      'Thoughtful articles about regulation, nature connection, child development, co-regulation, safe touch and everyday early childhood practice.',
+      'Thoughtful, practical articles for early childhood educators and child care leaders about regulation, behaviour, co-regulation, sensory needs, movement, participation and child development.',
     url: '/blog',
     type: 'website',
   },
@@ -24,64 +24,60 @@ export const metadata: Metadata = {
 
 const natureArticles = [
   {
-    slug: '/blog/children-slow-down-notice-world',
+    slug:
+      '/blog/children-slow-down-notice-world',
     number: '01',
     title:
       'Are Our Children Losing the Ability to Slow Down and Notice the World Around Them?',
     description:
       'What happens when children become so used to moving towards the next thing that sitting outside, hearing a bird, noticing the clouds or sharing an ordinary conversation no longer seems to hold them for very long?',
     focus:
-      'Slowing down, attention, nervous system flexibility and nature connection',
+      'Attention, regulation and nature connection',
   },
   {
-    slug: '/blog/children-care-for-worms-nature',
+    slug:
+      '/blog/children-care-for-worms-nature',
     number: '02',
     title:
       'Before We Teach Children to Care for the Planet, Do They Know How to Care for a Worm?',
     description:
       'A reflection on worms, snails, plants and the small everyday experiences through which children begin learning gentleness, responsibility and respect for other living things.',
     focus:
-      'Empathy, stewardship, impulse control and caring for living things',
+      'Empathy, impulse control and caring for living things',
   },
   {
-    slug: '/blog/children-respect-gardens-nature',
+    slug:
+      '/blog/children-respect-gardens-nature',
     number: '03',
     title:
       'Our Gardens Should Not Just Be Somewhere Children Run Through',
     description:
       'Why children need enough time in familiar natural places to notice what changes, develop affection for where they are and begin treating gardens as living environments rather than scenery.',
     focus:
-      'Place connection, mindfulness, gardens and mind-body awareness',
+      'Place connection, gardens and body awareness',
   },
 ];
 
-const practiceArticles = [
+const specificPracticeArticles = [
   {
-    slug: '/blog/safe-touch-early-childhood',
+    slug:
+      '/blog/safe-touch-early-childhood',
     title:
-      'The Heartbreak of Second-Guessing a Hug: Why Safe Touch Needs Humanity, Not Just Legislation',
-    category: 'Safe touch and co-regulation',
+      'Safe Touch in Early Childhood: When Educators Start Second-Guessing Comfort',
+    category:
+      'Safe touch and responsive care',
     description:
-      'Why compassionate early childhood educators can find themselves hesitating in moments of child distress, and how safeguarding, professional judgement and warm responsive care can exist together.',
-    image:
-      '/images/feed/safe-touch-early-childhood.png',
-    pdfLink:
-      '/pdf/Safe-Touch-Early-Childhood-Guide.pdf',
-    pdfTag: '19-Page ECEC Guide',
+      'For teams who are genuinely uncertain about comforting distressed children, this article looks at child cues, professional boundaries and thoughtful responsive care without suggesting that every service has this concern.',
   },
   {
     slug:
       '/blog/before-i-offer-comforting-touch-checklist',
     title:
       'Before I Offer Comforting Touch: A Quick Reflection Checklist for ECEC Educators',
-    category: 'Educator reflection',
+    category:
+      'Educator reflection',
     description:
-      'A practical reflection framework to help room teams pause, notice the child and consider context, boundaries and professional judgement before responding with physical comfort.',
-    image:
-      '/images/feed/comforting-touch-checklist.png',
-    pdfLink:
-      '/pdf/Before-I-Offer-Comforting-Touch-Checklist.pdf',
-    pdfTag: 'Printable Checklist',
+      'A short reflection framework for teams that want to think more carefully about child cues, context, professional boundaries and safe responsive care.',
   },
 ];
 
@@ -92,383 +88,341 @@ export default function BlogIndexPage() {
       <section className="bg-[#1C3B34] text-white">
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20">
           <div className="max-w-4xl">
-            <span className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#C29F60]/10 px-4 py-2 text-[10px] font-extrabold uppercase tracking-widest text-[#E4C98E]">
-              Regulator Champions articles
-            </span>
-
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Thoughtful conversations about children,
-              regulation and the world around them
-            </h1>
-
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#D8E1DC] sm:text-lg">
-              This is where I explore the questions that
-              often sit underneath everyday early
-              childhood practice, including why children
-              are finding it harder to slow down, how
-              nature can support mind-body connection,
-              what behaviour may be communicating, and
-              how educators can remain warm, responsive
-              and thoughtful when situations become
-              difficult.
+            <p className="text-sm font-semibold text-[#E4C98E]">
+              Free articles and training for early childhood teams
             </p>
 
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#BFD0C8]">
-              These articles are written for educators,
-              service leaders and parents who want to
-              understand children more deeply rather than
-              simply collect another list of strategies.
+            <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              The questions I keep coming back to when behaviour, regulation and everyday practice become complicated
+            </h1>
+
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#D8E1DC]">
+              This is where I write about the things I keep noticing in early childhood rooms, including the small body cues that can appear before behaviour escalates, why movement matters, what co-regulation actually looks like when a room is busy, and how we can become more curious about what a child may be communicating before reaching for another strategy.
+            </p>
+
+            <p className="mt-5 max-w-3xl text-base leading-7 text-[#BFD0C8]">
+              Some articles come from research, some from conversations with educators, some from my work as an Exercise Physiologist and Developmental Educator, and many begin with a small moment involving a child that I cannot quite stop thinking about.
             </p>
           </div>
         </div>
       </section>
 
-      {/* FEATURED NATURE SERIES */}
-      <section className="bg-white py-14 sm:py-20">
+      {/* FREE REGULATION LADDER */}
+      <section className="bg-[#E8D39D] py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
-            <div>
-              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
-                Featured series
-              </span>
+          <div className="grid gap-7 md:grid-cols-[1fr_auto] md:items-center">
+            <div className="max-w-4xl">
+              <p className="text-sm font-extrabold text-[#6E5426]">
+                Want something practical before you keep reading?
+              </p>
 
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-[#1C3B34] sm:text-4xl">
-                Children, nature and the ability to
-                notice
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-[#1C3B34]">
+                Try a free Regulation Ladder
               </h2>
 
-              <p className="mt-5 text-base leading-relaxed text-[#53645D]">
-                I began writing this series after
-                watching children struggle to remain on
-                a picnic rug for a short conversation,
-                seeing a little boy point towards an
-                aeroplane that almost nobody else
-                noticed, and watching worms being picked
-                up with very little understanding that
-                these tiny creatures needed care.
+              <p className="mt-4 text-lg leading-8 text-[#374C45]">
+                The articles explain the thinking behind my work. The Regulation Ladders are designed to help teams use that thinking when a difficult situation is actually happening. Open the free example and see how educators, managers and families can look at the same moment from different perspectives before deciding what to try next.
+              </p>
+            </div>
+
+            <Link
+              href="/playbooks"
+              className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+            >
+              View the Free Regulation Ladder
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED TRAINING */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Featured free training
               </p>
 
-              <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-                None of those moments meant that the
-                children were uncaring or that something
-                was inherently wrong with them. They
-                made me wonder instead about the
-                childhood we are building around
-                children, how little empty space is left
-                in their days, and whether direct
-                connection with nature may be one of the
-                experiences we need to protect more
-                deliberately.
+              <h2 className="mt-3 max-w-4xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+                The Vagus Nerve, Children&apos;s Regulation and the Playful Activities I Use in Early Childhood
+              </h2>
+
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-[#53645D]">
+                When a child appears to move from coping to overwhelmed very quickly, I often wonder what was happening in their body before the behaviour became obvious to us. This article explores the vagus nerve and parasympathetic nervous system within that much bigger picture, without treating either of them as a magic switch for regulation.
               </p>
 
-              <div className="mt-6 rounded-3xl bg-[#FAF5EC] p-5">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#9A793D]">
-                  Why this belongs in Regulator Champions
-                </span>
+              <p className="mt-4 max-w-3xl text-lg leading-8 text-[#53645D]">
+                I have also included my full training video for free, where I talk through the window of tolerance, early body cues, my own lived experience of childhood trauma, and the playful breathing, sound, movement and sensory activities I use with young children.
+              </p>
 
-                <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                  Nature and mind-body connection are
-                  deliberately woven through our
-                  Regulation Ladders because regulation
-                  is not only about what happens once a
-                  child becomes overwhelmed. It also
-                  involves learning to notice the body,
-                  shift between different levels of
-                  energy, share attention with another
-                  person and remain connected to the
-                  environment around us.
-                </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/blog/vagus-nerve-regulation-activities"
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+                >
+                  Read the Article and Watch the Training
+                </Link>
+
+                <a
+                  href="https://buy.stripe.com/14AbIUgaeb9C0Vze549fW0d"
+                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+                >
+                  Get the Activity Cards for $14 AUD
+                </a>
               </div>
             </div>
 
-            <div className="space-y-4">
-              {natureArticles.map((article) => (
-                <Link
-                  key={article.slug}
-                  href={article.slug}
-                  className="group block rounded-4xl border border-[#E6E2DC] bg-[#FAF8F5] p-6 transition hover:border-[#C29F60] hover:bg-white sm:p-7"
-                >
-                  <div className="flex gap-5">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#C29F60] text-sm font-extrabold text-[#1C3B34]">
-                      {article.number}
-                    </span>
+            <div className="border-y border-[#D8CFC2] py-8 lg:border-y-0 lg:border-l lg:py-0 lg:pl-10">
+              <p className="text-xl font-extrabold leading-8 text-[#1C3B34]">
+                When someone tells me a child goes from zero to one hundred, I often wonder whether that child was actually already sitting at eighty.
+              </p>
 
-                    <div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#657B6C]">
-                        {article.focus}
-                      </span>
-
-                      <h3 className="mt-2 text-xl font-extrabold leading-snug text-[#1C3B34] transition group-hover:text-[#657B6C] sm:text-2xl">
-                        {article.title}
-                      </h3>
-
-                      <p className="mt-3 text-sm leading-relaxed text-[#6A7873]">
-                        {article.description}
-                      </p>
-
-                      <span className="mt-4 inline-flex text-xs font-extrabold text-[#9A793D]">
-                        Read the article →
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                The larger behaviour may be the first thing that catches our attention, but it is not always the first thing that changed. Squinting, chewing clothing, touching the face, hiding, moving faster, becoming louder or suddenly struggling to process language may have been telling us something much earlier.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* QUOTE / POSITIONING */}
-      <section className="bg-[#1C3B34] py-12 text-white sm:py-16">
-        <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
-          <p className="text-2xl font-extrabold leading-relaxed tracking-tight sm:text-3xl">
-            “Perhaps children need enough time for the
-            world they are already standing in to become
-            interesting again.”
-          </p>
+      {/* PRACTICE FIRST */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Start with what your team is already talking about
+              </p>
 
-          <p className="mt-4 text-sm text-[#BFD0C8]">
-            Robyn Papworth, Regulator Champions
-          </p>
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+                You do not need to read these articles in order.
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-[#53645D]">
+                If your educators are talking about behaviour, start there. If group time keeps becoming difficult, think about participation and movement. If a child seems to become overwhelmed very quickly, begin with body cues and regulation.
+              </p>
+
+              <p className="mt-4 text-lg leading-8 text-[#53645D]">
+                I would rather an article help your team have one useful conversation about a real situation than become another piece of professional learning everybody saves and never returns to.
+              </p>
+            </div>
+
+            <div className="border-t border-[#D8CFC2]">
+              <TopicRow
+                title="Behaviour and regulation"
+                text="Look underneath what is visible and consider arousal, sensory load, movement, connection, predictability and what happened before the behaviour."
+                href="/emotional-regulation-early-childhood"
+              />
+
+              <TopicRow
+                title="Co-regulation"
+                text="Think about the adult nervous system too, including voice, pace, proximity, language, expectations and what the child is experiencing within the interaction."
+                href="/co-regulation-early-childhood"
+              />
+
+              <TopicRow
+                title="Educator judgement"
+                text="Move beyond collecting more strategies and help educators become more confident at noticing, reflecting and deciding what to try next."
+                href="/educator-capacity-building"
+              />
+
+              <TopicRow
+                title="Professional development"
+                text="Explore what makes early childhood professional learning more likely to influence real practice rather than becoming another one-off session."
+                href="/early-childhood-professional-development"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* PRACTICE ARTICLES */}
+      {/* NATURE SERIES */}
       <section className="bg-[#FAF8F5] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="mb-9 max-w-3xl">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-              Regulation, connection and educator practice
-            </span>
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Children, nature and the ability to notice
+            </p>
 
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-              More conversations for early childhood
-              teams
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+              A series that began with some very ordinary moments outside
             </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-[#53645D]">
-              These articles explore the moments where
-              regulation, relationships, child safety
-              and professional judgement meet, with
-              practical resources that teams can use to
-              continue the conversation together.
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              These articles began after watching children struggle to remain on a picnic rug for a short conversation, seeing one child become excited about an aeroplane that almost nobody else looked up to notice, and watching worms being handled without much awareness that these tiny living things needed care.
+            </p>
+
+            <p className="mt-4 text-lg leading-8 text-[#53645D]">
+              None of those moments made me think that children were uncaring or that something was wrong with them. They made me wonder about the amount of stimulation surrounding childhood, how little empty space is left in many children&apos;s days, and what may be lost when we become so accustomed to moving immediately towards whatever comes next.
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            {practiceArticles.map((item) => (
-              <article
-                key={item.slug}
-                className="overflow-hidden rounded-4xl border border-[#E6E2DC] bg-white shadow-sm"
+          <div className="mt-10 divide-y divide-[#D8CFC2] border-y border-[#D8CFC2]">
+            {natureArticles.map((article) => (
+              <Link
+                key={article.slug}
+                href={article.slug}
+                className="group grid gap-4 py-7 transition md:grid-cols-[60px_1fr_auto] md:items-start md:gap-6"
               >
-                <div className="aspect-16/8 overflow-hidden bg-[#F0ECE6]">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <span className="text-sm font-extrabold text-[#9A793D]">
+                  {article.number}
+                </span>
 
-                <div className="p-6 sm:p-7">
-                  <span className="inline-flex rounded-full border border-[#C29F60]/40 bg-[#FAF5EC] px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-[#1C3B34]">
-                    {item.category}
-                  </span>
-
-                  <h3 className="mt-4 text-2xl font-extrabold leading-snug text-[#1C3B34]">
-                    <Link
-                      href={item.slug}
-                      className="transition hover:text-[#657B6C]"
-                    >
-                      {item.title}
-                    </Link>
-                  </h3>
-
-                  <p className="mt-4 text-sm leading-relaxed text-[#6A7873]">
-                    {item.description}
+                <div>
+                  <p className="text-sm font-extrabold text-[#657B6C]">
+                    {article.focus}
                   </p>
 
-                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                    <Link
-                      href={item.slug}
-                      className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-[#1C3B34] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#284E45]"
-                    >
-                      Read the article
-                    </Link>
+                  <h3 className="mt-2 text-2xl font-extrabold leading-snug text-[#1C3B34] transition group-hover:text-[#657B6C]">
+                    {article.title}
+                  </h3>
 
-                    <a
-                      href={item.pdfLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex min-h-12 flex-1 items-center justify-center rounded-xl border border-[#C29F60] bg-[#FAF5EC] px-5 py-3 text-center text-sm font-bold text-[#1C3B34] transition hover:bg-white"
-                    >
-                      Download {item.pdfTag}
-                    </a>
-                  </div>
+                  <p className="mt-3 max-w-4xl text-base leading-7 text-[#6A7873]">
+                    {article.description}
+                  </p>
                 </div>
-              </article>
+
+                <span className="text-sm font-extrabold text-[#8A6F3E] md:pt-8">
+                  Read article
+                </span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* EXPLORE CORE TOPICS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="mb-8 max-w-3xl">
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#657B6C]">
-              Build the bigger picture
-            </span>
-
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1C3B34]">
-              Explore the ideas behind Regulator
-              Champions
-            </h2>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            <Link
-              href="/emotional-regulation-early-childhood"
-              className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6 transition hover:border-[#C29F60]"
-            >
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
-                Emotional regulation
-              </span>
-
-              <h3 className="mt-3 text-xl font-extrabold">
-                What is the child&apos;s body telling us?
-              </h3>
-
-              <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                Look beyond visible behaviour and
-                consider movement, sensory load,
-                shutdown, attention and emotional
-                capacity.
-              </p>
-            </Link>
-
-            <Link
-              href="/co-regulation-early-childhood"
-              className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6 transition hover:border-[#C29F60]"
-            >
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
-                Co-regulation
-              </span>
-
-              <h3 className="mt-3 text-xl font-extrabold">
-                What do children need from adults?
-              </h3>
-
-              <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                Explore how relationships, language,
-                pace, environment and adult responses
-                support developing regulation.
-              </p>
-            </Link>
-
-            <Link
-              href="/educator-capacity-building"
-              className="rounded-3xl border border-[#E6E2DC] bg-[#FAF8F5] p-6 transition hover:border-[#C29F60]"
-            >
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#9A793D]">
-                Educator capability
-              </span>
-
-              <h3 className="mt-3 text-xl font-extrabold">
-                Build judgement, not just strategy lists
-              </h3>
-
-              <p className="mt-2 text-sm leading-relaxed text-[#6A7873]">
-                Help educators turn professional
-                learning into better noticing, shared
-                reflection and more thoughtful everyday
-                decisions.
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* FREE GUIDE */}
-      <section className="bg-[#FAF5EC] py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-7 rounded-4xl border border-[#C29F60]/35 bg-white p-7 lg:grid-cols-[1fr_auto] lg:items-center sm:p-9">
-            <div className="max-w-3xl">
-              <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#9A793D]">
-                Free educator resource
-              </span>
-
-              <h2 className="mt-3 text-2xl font-extrabold text-[#1C3B34] sm:text-3xl">
-                Can I still comfort a distressed child?
-              </h2>
-
-              <p className="mt-3 text-sm leading-relaxed text-[#53645D]">
-                Download our free guide exploring safe,
-                appropriate comforting touch,
-                professional judgement, boundaries and
-                why safeguarding and warm responsive
-                care do not need to become competing
-                ideas.
-              </p>
-            </div>
-
-            <Link
-              href="/free-guide"
-              className="flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#284E45]"
-            >
-              Download the free guide
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* PROGRAM CTA */}
-      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
-          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#E4C98E]">
-            Regulator Champions
-          </span>
-
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Reading can start the conversation.
-            Regulator Champions helps your whole team
-            keep building the practice.
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-[#D8E1DC]">
-            The Regulation Ladders help early childhood
-            teams build shared understanding around
-            regulation, co-regulation, sensory needs,
-            mind-body connection, participation and
-            everyday professional judgement, with
-            learning that can be applied to what
-            educators are actually experiencing in
-            their rooms.
+      {/* PULL QUOTE */}
+      <section className="bg-[#1C3B34] py-12 text-white sm:py-16">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <p className="max-w-4xl text-2xl font-extrabold leading-relaxed tracking-tight sm:text-3xl">
+            “Perhaps there are times when children do not need another strategy added to their day. Perhaps we need to become better at noticing what is already happening around them and inside their body.”
           </p>
 
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/proposal?plan=preview"
-              className="flex min-h-12 items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-3.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
-            >
-              Start with the 3 Ladder Preview
-            </Link>
+          <p className="mt-5 text-sm text-[#BFD0C8]">
+            Robyn Papworth
+          </p>
+        </div>
+      </section>
 
-            <Link
-              href="/proposal?plan=full"
-              className="flex min-h-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
-            >
-              View the Full 8 Ladder Pathway
-            </Link>
+      {/* SPECIFIC PRACTICE QUESTIONS */}
+      <section className="bg-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Specific practice questions
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+              Resources that may be useful for some teams, but not every team
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-[#53645D]">
+              Some services have told me their educators are second-guessing physical comfort after child-safety training. Other services feel completely confident in this area and do not see it as a current need. These resources are here for the teams who are actually having that conversation.
+            </p>
           </div>
 
-          <Link
-            href="/director-review"
-            className="mt-5 inline-flex text-sm font-bold text-[#E4C98E] underline decoration-[#E4C98E]/40 underline-offset-4"
-          >
-            Not sure which pathway fits your service?
-          </Link>
+          <div className="mt-10 divide-y divide-[#D8CFC2] border-y border-[#D8CFC2]">
+            {specificPracticeArticles.map(
+              (article) => (
+                <Link
+                  key={article.slug}
+                  href={article.slug}
+                  className="group block py-7"
+                >
+                  <p className="text-sm font-extrabold text-[#9A793D]">
+                    {article.category}
+                  </p>
+
+                  <h3 className="mt-2 max-w-4xl text-2xl font-extrabold leading-snug text-[#1C3B34] transition group-hover:text-[#657B6C]">
+                    {article.title}
+                  </h3>
+
+                  <p className="mt-3 max-w-4xl text-base leading-7 text-[#6A7873]">
+                    {article.description}
+                  </p>
+
+                  <span className="mt-4 inline-flex text-sm font-extrabold text-[#8A6F3E]">
+                    Read the article
+                  </span>
+                </Link>
+              ),
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* PROGRAM CONNECTION */}
+      <section className="bg-[#FAF5EC] py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <p className="text-sm font-extrabold text-[#9A793D]">
+                Regulator Champions
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+                Reading can start the conversation, but teams still need help making decisions in the room.
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-lg leading-8 text-[#53645D]">
+                Regulator Champions takes the same noticing-first approach into practical Regulation Ladders, recordings, questions and implementation support, so educators are not simply left with another article, webinar or list of strategies and expected to work everything out alone.
+              </p>
+
+              <p className="mt-4 text-lg leading-8 text-[#53645D]">
+                Some teams begin with the cards. Others want the broader six-month or twelve-month program. The important part is starting with what your educators are actually dealing with rather than asking them to complete learning that has no connection to the room they are standing in.
+              </p>
+
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/playbooks"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-sm font-extrabold text-white transition hover:bg-[#29483F]"
+                >
+                  Try the Free Regulation Ladder
+                </Link>
+
+                <Link
+                  href="/#full-program"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+                >
+                  Explore the Full Program
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
+  );
+}
+
+function TopicRow({
+  title,
+  text,
+  href,
+}: {
+  title: string;
+  text: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group block border-b border-[#D8CFC2] py-6"
+    >
+      <h3 className="text-2xl font-extrabold text-[#1C3B34] transition group-hover:text-[#657B6C]">
+        {title}
+      </h3>
+
+      <p className="mt-3 text-base leading-7 text-[#53645D]">
+        {text}
+      </p>
+
+      <span className="mt-3 inline-flex text-sm font-extrabold text-[#8A6F3E]">
+        Explore this topic
+      </span>
+    </Link>
   );
 }

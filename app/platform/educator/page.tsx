@@ -437,7 +437,7 @@ Element ${activeCard.nqs} – ${activeCard.nqsTitle}`;
                   }`}
                 >
                   <span
-                    className={`block text-sm font-extrabold uppercase tracking-[0.1em] ${
+                    className={`block text-sm font-extrabold uppercase tracking-widest ${
                       selected
                         ? 'text-[#E4C98E]'
                         : 'text-[#657B6C]'
@@ -480,7 +480,7 @@ Element ${activeCard.nqs} – ${activeCard.nqsTitle}`;
 
             <div className="mt-5 inline-flex rounded-2xl border border-[#C29F60]/40 bg-white px-4 py-3">
               <div>
-                <span className="block text-sm font-extrabold uppercase tracking-[0.1em] text-[#657B6C]">
+                <span className="block text-sm font-extrabold uppercase tracking-widest text-[#657B6C]">
                   NQS practice connection
                 </span>
 

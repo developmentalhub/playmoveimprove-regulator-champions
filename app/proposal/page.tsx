@@ -25,17 +25,17 @@ const PLAN_DETAILS = {
     price: PREVIEW_PRICE,
     access: `${PREVIEW_MONTHS} months`,
     description:
-      'A smaller whole-service introduction for teams that want to begin with the three Regulation Ladders currently available and have access to recordings, questions and support without committing to a full year straight away.',
+      'A smaller whole-team introduction for organisations that want to begin with the Regulation Ladders currently available and have access to recordings, questions and implementation support without committing to a full year straight away.',
     inclusions: [
-      'Whole-service access for 6 months',
-      'The 3 Regulation Ladders currently available',
+      'Whole-team access for 6 months',
+      'The Regulation Ladders currently available',
       'Educator, manager and family card sets',
-      'Educator Floor Deck for practical in-room support',
+      'Practical in-room resources',
       'Private Ask Robyn question submissions',
-      'Monthly online sessions for educators who want to join live',
-      'Recordings added after monthly sessions',
+      'Online sessions for educators who want to join live',
+      'Recordings added to the Member Hub',
       'Reflection and implementation resources',
-      'Manager QIP and critical reflection support',
+      'Leadership and quality improvement reflection support',
       'Printable resources connected to the program',
     ],
   },
@@ -45,19 +45,19 @@ const PLAN_DETAILS = {
     price: FULL_PRICE,
     access: `${FULL_MONTHS} months`,
     description:
-      'Year-round whole-service support for teams that want to keep returning to the Regulation Ladders, recordings and Robyn as different behaviour and regulation questions arise across the year.',
+      'Year-round whole-team support for organisations that want to keep returning to the Regulation Ladders, recordings and Robyn as different behaviour, regulation and participation questions arise across the year.',
     inclusions: [
-      'Whole-service access for 12 months',
+      'Whole-team access for 12 months',
       'All Regulation Ladders available during your access period',
       'New Regulation Ladder content added as the program develops',
       'Educator, manager and family card sets',
-      'Educator Floor Deck for practical in-room support',
+      'Practical in-room resources',
       'Private Ask Robyn question submissions',
-      'Monthly online sessions for educators who want to join live',
+      'Online sessions for educators who want to join live',
       'Access to the growing recording library',
       'Reflection and implementation resources',
-      'Manager QIP and critical reflection support',
-      'Family Bridge resources and conversation prompts',
+      'Leadership and quality improvement reflection support',
+      'Family resources and conversation prompts',
       'Printable resources connected to the program',
     ],
   },
@@ -96,7 +96,7 @@ function ProposalContent() {
     fundingSource,
     setFundingSource,
   ] = useState(
-    'Victorian School Readiness Funding (SRF)',
+    'Professional learning / staff development budget',
   );
 
   const plan =
@@ -106,7 +106,7 @@ function ProposalContent() {
     useMemo(() => {
       const subject =
         encodeURIComponent(
-          `Regulator Champions invoice request - ${
+          `Regulator Champions proposal request - ${
             serviceName || plan.label
           }`,
         );
@@ -114,17 +114,17 @@ function ProposalContent() {
       const body =
         encodeURIComponent(`Hi Robyn,
 
-I would like to request an invoice / proposal for Regulator Champions.
+I would like to request a proposal / invoice for Regulator Champions.
 
-Service name: ${serviceName || ''}
+Organisation / centre name: ${serviceName || ''}
 Contact name: ${contactName || ''}
 Work email: ${workEmail || ''}
-Funding pathway: ${fundingSource}
+Funding / purchasing pathway: ${fundingSource}
 
 Program:
 ${plan.label}
-$${plan.price.toLocaleString()} including GST
-${plan.access} whole-service access
+$${plan.price.toLocaleString()} AUD
+${plan.access} whole-team access
 
 Please let me know if you need any further information.
 
@@ -145,9 +145,9 @@ Thank you`);
 
   return (
     <main className="min-h-screen bg-[#FAF8F5] text-[#1C3B34] print:bg-white">
-      {/* INTRO */}
+      {/* HERO */}
       <section className="bg-[#1C3B34] text-white print:bg-white print:text-black">
-        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 sm:py-16">
+        <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
           <div className="max-w-4xl">
             <p className="text-base font-semibold text-[#E4C98E] print:text-black">
               Regulator Champions
@@ -162,7 +162,11 @@ Thank you`);
             </p>
 
             <p className="mt-4 max-w-4xl text-lg leading-relaxed text-[#BFD0C8] print:text-black">
-              Your educators can use the practical cards now, return to recordings when they have the time and headspace, and use questions or live support when they want to go deeper. It is not designed to become another course your team has to race through.
+              Your educators can use the practical resources now, return to recordings when they have the time and headspace, and use questions or live support when they want to go deeper. It is not designed to become another course your team has to race through.
+            </p>
+
+            <p className="mt-5 max-w-4xl text-base leading-relaxed text-[#BFD0C8] print:text-black">
+              Created in Australia and available to early childhood organisations internationally.
             </p>
           </div>
         </div>
@@ -170,9 +174,9 @@ Thank you`);
 
       {/* LOWER PRESSURE OPTION */}
       <section className="border-b border-[#E5DED4] bg-[#F5F0E7] print:hidden">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-3xl">
-            <p className="text-lg font-extrabold text-[#1C3B34]">
+            <p className="text-lg font-extrabold">
               Only need the Regulation Cards right now?
             </p>
 
@@ -183,27 +187,27 @@ Thank you`);
 
           <a
             href={REGULATION_CARDS_URL}
-            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
+            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-base font-extrabold transition hover:bg-[#1C3B34] hover:text-white"
           >
             View the Regulation Cards
           </a>
         </div>
       </section>
 
-      {/* WHAT THIS SUPPORTS */}
+      {/* WHY */}
       <section className="bg-white py-12 sm:py-16 print:py-8">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start">
             <div className="max-w-4xl">
-              <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
                 The hard part is usually not knowing another strategy.
               </h2>
 
               <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Most teams already understand that behaviour communicates something and that children may need adults to help them settle. The difficulty comes when one child is screaming, another is running away, a parent is waiting at the door and the strategy that worked yesterday is not helping today.
+                Most teams already understand that behaviour communicates something and that children may need adults to help them regulate. The difficulty comes when one child is screaming, another is running away, a family member is waiting at the door and the strategy that worked yesterday is not helping today.
               </p>
 
-              <p className="mt-5 text-lg font-semibold leading-relaxed text-[#1C3B34]">
+              <p className="mt-5 text-lg font-semibold leading-relaxed">
                 Regulator Champions is designed for that gap between knowing the theory and making a thoughtful decision in the room.
               </p>
             </div>
@@ -211,7 +215,7 @@ Thank you`);
             <button
               type="button"
               onClick={handlePrint}
-              className="hidden min-h-12 rounded-2xl border border-[#D8D0C4] bg-[#FAF5EC] px-5 py-3 text-base font-semibold text-[#1C3B34] transition hover:bg-white sm:inline-flex print:hidden"
+              className="hidden min-h-12 rounded-2xl border border-[#D8D0C4] bg-[#FAF5EC] px-5 py-3 text-base font-semibold transition hover:bg-white sm:inline-flex print:hidden"
             >
               Print this proposal
             </button>
@@ -219,23 +223,23 @@ Thank you`);
         </div>
       </section>
 
-      {/* HOW IT IS USED */}
+      {/* HOW IT WORKS */}
       <section className="bg-[#F3EEE7] py-12 sm:py-16 print:py-8">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34] sm:text-4xl">
+            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               Use Regulator Champions in the way your team has capacity for.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              A service does not need every educator to attend every live session or work through the program at the same pace. The practical resources can be used when a situation arises, while recordings and deeper support are there when the team has more time.
+              Every educator does not need to attend every live session or work through the program at the same pace. The practical resources can be used when a situation arises, while recordings and deeper support are there when the team has more time.
             </p>
           </div>
 
           <div className="mt-8 border-y border-[#D8CFC2] md:grid md:grid-cols-4">
             <SupportStep
               title="Read"
-              text="Start with one practical idea that relates to something already happening in the room."
+              text="Start with one practical idea connected to something already happening in the room."
             />
 
             <SupportStep
@@ -246,13 +250,13 @@ Thank you`);
 
             <SupportStep
               title="Watch"
-              text="Return to the recordings when educators have the time and headspace to take more in."
+              text="Return to recordings when educators have the time and headspace to take more in."
               divided
             />
 
             <SupportStep
               title="Go deeper"
-              text="Use questions, live sessions and additional resources when your service wants more support."
+              text="Use questions, live sessions and additional resources when your team wants more support."
               divided
             />
           </div>
@@ -261,14 +265,18 @@ Thank you`);
 
       {/* PLAN SELECTION */}
       <section className="py-12 sm:py-16 print:py-8">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#1C3B34] sm:text-4xl">
-              Choose the level of support that makes sense for your service.
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Choose the level of support that makes sense for your team.
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              Both options are whole-service arrangements. The six-month option gives you a smaller starting point, while the twelve-month option gives your team more time to return to the support as different situations arise.
+              Both options provide whole-team access. The six-month option gives you a smaller starting point, while the twelve-month option gives your team more time to return to the support as different situations arise.
+            </p>
+
+            <p className="mt-3 text-base leading-relaxed text-[#6A7873]">
+              All prices shown on this page are in Australian dollars (AUD). Any applicable taxes or invoicing requirements can be confirmed when your proposal is prepared.
             </p>
           </div>
 
@@ -277,7 +285,7 @@ Thank you`);
               title="6-Month Preview"
               price={PREVIEW_PRICE}
               months={PREVIEW_MONTHS}
-              description="Begin with the three Regulation Ladders currently available and use the recordings, questions and monthly support for six months before deciding what your service needs next."
+              description="Begin with the Regulation Ladders currently available and use the recordings, questions and support for six months before deciding what your team needs next."
               selected={
                 selectedPlan === 'preview'
               }
@@ -304,24 +312,24 @@ Thank you`);
 
       {/* SELECTED PLAN */}
       <section className="bg-white py-12 sm:py-16 print:py-8">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-base font-semibold text-[#657B6C]">
                 Current selection
               </p>
 
-              <h2 className="mt-2 text-3xl font-extrabold text-[#1C3B34]">
+              <h2 className="mt-2 text-3xl font-extrabold">
                 {plan.label}
               </h2>
 
               <div className="mt-5">
-                <strong className="text-5xl font-extrabold text-[#1C3B34]">
+                <strong className="text-5xl font-extrabold">
                   ${plan.price.toLocaleString()}
                 </strong>
 
                 <p className="mt-2 text-base text-[#6A7873]">
-                  including GST · {plan.access}
+                  AUD · {plan.access}
                 </p>
               </div>
 
@@ -331,8 +339,8 @@ Thank you`);
             </div>
 
             <div>
-              <h3 className="text-2xl font-extrabold text-[#1C3B34]">
-                What your service receives
+              <h3 className="text-2xl font-extrabold">
+                What your team receives
               </h3>
 
               <div className="mt-5 border-t border-[#D8CFC2]">
@@ -354,9 +362,9 @@ Thank you`);
         </div>
       </section>
 
-      {/* RECORDINGS */}
+      {/* LIVE AND RECORDINGS */}
       <section className="bg-[#1C3B34] py-12 text-white sm:py-16 print:bg-white print:py-8 print:text-black">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl print:text-black">
               Learn when your team actually has the capacity.
@@ -367,7 +375,7 @@ Thank you`);
             </p>
 
             <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC] print:text-black">
-              Monthly online sessions are available for educators who want to join live, but live attendance is not required. Recordings are added to the Member Hub so teams can return to the learning during planning time, staff meetings or whenever they actually have the capacity to take it in.
+              Online sessions are available for educators who want to join live, but live attendance is not required. Recordings are added to the Member Hub so teams can return to the learning during planning time, staff meetings or whenever they actually have the capacity to take it in.
             </p>
           </div>
 
@@ -386,7 +394,7 @@ Thank you`);
 
             <SimpleRow
               title="Join live if it helps"
-              text="Teams can participate in the monthly online conversation when staffing and capacity allow."
+              text="Teams can participate in an online conversation when staffing, time zones and capacity allow."
               dark
             />
 
@@ -401,9 +409,9 @@ Thank you`);
 
       {/* OPTIONAL RECOGNITION */}
       <section className="bg-white py-12 sm:py-16 print:py-8">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <div className="mx-auto max-w-5xl px-6">
           <div className="border-l-4 border-[#C29F60] pl-6 sm:pl-8">
-            <h2 className="text-3xl font-extrabold leading-tight text-[#1C3B34]">
+            <h2 className="text-3xl font-extrabold leading-tight">
               Want formal recognition as well?
             </h2>
 
@@ -411,66 +419,76 @@ Thank you`);
               Educators who choose to complete the fuller pathway can submit reflections and practical work for review by Robyn.
             </p>
 
-            <p className="mt-4 text-lg font-semibold leading-relaxed text-[#1C3B34]">
+            <p className="mt-4 text-lg font-semibold leading-relaxed">
               This is optional. Your team can still use the Regulation Ladders, resources, questions and recordings without completing a recognition pathway.
             </p>
           </div>
         </div>
       </section>
 
-      {/* FUNDING */}
+      {/* LOCATION / QUALITY INFORMATION */}
       <section className="border-y border-[#E5DED4] bg-[#F7F3ED] py-12 print:py-8">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <h2 className="text-2xl font-extrabold text-[#1C3B34]">
-                Need information for leadership or funding discussions?
+              <h2 className="text-2xl font-extrabold">
+                Need information for leadership, quality improvement or funding discussions?
               </h2>
 
               <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                Services can consider Regulator Champions alongside their own professional learning priorities, improvement planning and current funding eligibility requirements.
+                We have separate information for teams using different quality, professional development and funding systems.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row print:hidden">
-              <Link
-                href="/school-readiness-funding"
-                className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-center font-semibold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-              >
-                Victorian funding information
-              </Link>
+            <div className="border-t border-[#D8CFC2] print:hidden">
+              <QualityLink
+                href="/us-early-childhood-quality"
+                title="United States"
+                text="NAEYC, Developmentally Appropriate Practice, QRIS and child care quality improvement."
+              />
 
-              <Link
+              <QualityLink
+                href="/nqs-mapping"
+                title="NQS and QIP"
+                text="Australian National Quality Standard and Quality Improvement Plan reflection."
+              />
+
+              <QualityLink
+                href="/school-readiness-funding"
+                title="School Readiness Funding"
+                text="Information for Victorian kindergarten services."
+              />
+
+              <QualityLink
                 href="/kindy-uplift"
-                className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] px-5 py-3 text-center font-semibold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-              >
-                Queensland funding information
-              </Link>
+                title="Kindy Uplift"
+                text="Information for Queensland kindergarten services."
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* INVOICE */}
+      {/* REQUEST */}
       <section className="bg-[#1C3B34] py-14 text-white sm:py-20 print:hidden">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <div className="mx-auto max-w-5xl px-6">
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              Ready to request a centre proposal or invoice?
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Ready to request a proposal or invoice?
             </h2>
 
             <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-              Add your service details below and your selected option will be included automatically when you email Robyn. No payment is taken on this page.
+              Add your organisation details below and your selected option will be included automatically when you email Robyn. No payment is taken on this page.
             </p>
           </div>
 
           <div className="mt-8 max-w-3xl border-t border-white/20 pt-7">
             <div className="grid gap-4 sm:grid-cols-2">
               <FormField
-                label="Service / centre name"
+                label="Organisation / centre name"
                 value={serviceName}
                 onChange={setServiceName}
-                placeholder="Your service name"
+                placeholder="Your centre or organisation"
               />
 
               <FormField
@@ -484,7 +502,7 @@ Thank you`);
                 label="Work email"
                 value={workEmail}
                 onChange={setWorkEmail}
-                placeholder="director@service.com.au"
+                placeholder="name@organisation.com"
                 type="email"
               />
 
@@ -493,7 +511,7 @@ Thank you`);
                   htmlFor="fundingSource"
                   className="mb-2 block text-sm font-semibold text-[#D8E1DC]"
                 >
-                  Funding pathway
+                  Funding / purchasing pathway
                 </label>
 
                 <select
@@ -506,16 +524,20 @@ Thank you`);
                   }
                   className="min-h-14 w-full rounded-2xl border border-white/15 bg-[#132C27] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#C29F60]"
                 >
+                  <option value="Professional learning / staff development budget">
+                    Professional learning / staff development budget
+                  </option>
+
+                  <option value="US child care professional development budget">
+                    US child care professional development budget
+                  </option>
+
                   <option value="Victorian School Readiness Funding (SRF)">
                     Victorian School Readiness Funding
                   </option>
 
                   <option value="Queensland Kindy Uplift">
                     Queensland Kindy Uplift
-                  </option>
-
-                  <option value="Annual professional learning budget">
-                    Annual professional learning budget
                   </option>
 
                   <option value="Other / not sure">
@@ -536,7 +558,7 @@ Thank you`);
                 </strong>
 
                 <strong className="text-2xl text-[#E4C98E]">
-                  ${plan.price.toLocaleString()} incl. GST
+                  ${plan.price.toLocaleString()} AUD
                 </strong>
               </div>
             </div>
@@ -545,7 +567,7 @@ Thank you`);
               href={emailHref}
               className="mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#C29F60] px-6 py-4 text-center text-base font-extrabold text-[#1C3B34] transition hover:bg-[#D1B477]"
             >
-              Email Robyn to request invoice
+              Email Robyn to request proposal
             </a>
           </div>
         </div>
@@ -585,7 +607,7 @@ function SupportStep({
           : ''
       }`}
     >
-      <h3 className="text-xl font-extrabold text-[#1C3B34]">
+      <h3 className="text-xl font-extrabold">
         {title}
       </h3>
 
@@ -622,16 +644,16 @@ function PlanChoice({
           : 'border-[#D8CFC2] bg-transparent hover:bg-white'
       }`}
     >
-      <h3 className="text-2xl font-extrabold text-[#1C3B34]">
+      <h3 className="text-2xl font-extrabold">
         {title}
       </h3>
 
-      <p className="mt-4 text-4xl font-extrabold text-[#1C3B34]">
-        ${price.toLocaleString()}
+      <p className="mt-4 text-4xl font-extrabold">
+        ${price.toLocaleString()} AUD
       </p>
 
       <p className="mt-1 text-base text-[#6A7873]">
-        including GST · {months} months
+        {months} months
       </p>
 
       <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
@@ -644,6 +666,31 @@ function PlanChoice({
         </p>
       )}
     </button>
+  );
+}
+
+function QualityLink({
+  href,
+  title,
+  text,
+}: {
+  href: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="block border-b border-[#D8CFC2] py-4"
+    >
+      <p className="text-lg font-extrabold">
+        {title}
+      </p>
+
+      <p className="mt-1 text-sm leading-6 text-[#53645D]">
+        {text}
+      </p>
+    </Link>
   );
 }
 

@@ -6,12 +6,16 @@ const exploreLinks = [
     label: 'How it works',
   },
   {
-    href: '/#full-program',
-    label: 'Full program',
+    href: '/playbooks',
+    label: 'Free Regulation Ladder',
   },
   {
-    href: '/free-guide',
-    label: 'Free Safe Touch Guide',
+    href: '/blog',
+    label: 'Articles and free training',
+  },
+  {
+    href: '/#full-program',
+    label: 'Full program',
   },
   {
     href: 'mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20enquiry',
@@ -20,14 +24,33 @@ const exploreLinks = [
   },
 ];
 
-const fundingLinks = [
+const resourceLinks = [
+  {
+    href: '/blog/vagus-nerve-regulation-activities',
+    label: 'Free Vagus Nerve Training',
+  },
+  {
+    href: '/free-guide',
+    label: 'Safe Touch Guide',
+  },
+];
+
+const qualityLinks = [
+  {
+    href: '/nqs-mapping',
+    label: 'Quality Improvement Plan (QIP)',
+  },
   {
     href: '/school-readiness-funding',
-    label: 'School Readiness Funding',
+    label: 'School Readiness Funding (SRF)',
   },
   {
     href: '/kindy-uplift',
     label: 'Kindy Uplift',
+  },
+  {
+    href: '/us-early-childhood-quality',
+    label: 'US Child Care & Quality Improvement',
   },
 ];
 
@@ -60,7 +83,7 @@ const legalLinks = [
 export default function Footer() {
   return (
     <footer className="border-t border-[#E5DED4] bg-[#1C3B34] text-white">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 sm:grid-cols-2 lg:grid-cols-[1.45fr_1fr_1fr_1fr]">
         <div>
           <p className="text-base font-semibold text-[#E4C98E]">
             Play Move Improve
@@ -75,7 +98,7 @@ export default function Footer() {
           </p>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-[#BFD0C8]">
-            Start with the practical resources, return to the recordings when your team has time, and use the broader program when you want more support.
+            Start with a free article, training or Regulation Ladder, then use the broader resources and program when your team wants more support.
           </p>
 
           <a
@@ -114,15 +137,33 @@ export default function Footer() {
               ),
             )}
           </div>
+
+          <div className="mt-8 border-t border-white/10 pt-6">
+            <h3 className="text-base font-extrabold text-white">
+              Free resources
+            </h3>
+
+            <div className="mt-4 space-y-3">
+              {resourceLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-sm leading-relaxed text-[#BFD0C8] transition hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div>
           <h3 className="text-lg font-extrabold text-white">
-            Funding information
+            Funding and quality improvement
           </h3>
 
           <div className="mt-5 space-y-3">
-            {fundingLinks.map((link) => (
+            {qualityLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -134,7 +175,7 @@ export default function Footer() {
           </div>
 
           <p className="mt-5 text-sm leading-relaxed text-[#BFD0C8]">
-            Funding suitability depends on your service priorities and current eligibility requirements.
+            Funding, licensing and quality requirements vary by location, so services should confirm what applies in their own state, territory or country.
           </p>
         </div>
 
@@ -178,7 +219,7 @@ export default function Footer() {
           </p>
 
           <p>
-            Regulator Champions · Victoria, Australia
+            Regulator Champions · Play Move Improve
           </p>
         </div>
       </div>
