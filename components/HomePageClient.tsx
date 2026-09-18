@@ -4,92 +4,151 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-const FULL_PRICE = 4790;
-const PREVIEW_PRICE = 1790;
-const PREVIEW_ACCESS_MONTHS = 6;
+const EARLY_BIRD_PRICE = 4790;
+const STANDARD_PRICE = 5290;
+const PREMIUM_PRICE = 5990;
 
 const FREE_SAMPLE_URL = '/playbooks';
 const BLOG_URL = '/blog';
 
-const VAGUS_ARTICLE_URL =
-  '/blog/vagus-nerve-regulation-activities';
+type ProgramOption =
+  | 'early-bird'
+  | 'premium';
 
-const VAGUS_CARDS_PAYMENT_URL =
-  'https://buy.stripe.com/14AbIUgaeb9C0Vze549fW0d';
+type QuoteForm = {
+  programOption: ProgramOption;
+  serviceName: string;
+  managerName: string;
+  managerEmail: string;
+  phone: string;
+  postalAddress: string;
+  serviceType: string;
+  educatorCount: string;
+  fundingSource: string;
+  fundingOther: string;
+  billingName: string;
+  billingEmail: string;
+  notes: string;
+};
 
-const REGULATION_CARDS_URL =
-  'https://playmoveimprove.com.au/products/regulation-cards-for-early-childhood-teams';
-
-const PRESSURE_QUESTIONS = [
-  'Why does this child seem fine one minute and completely overwhelmed the next?',
-  "What do we do when a child is throwing, biting, running or pushing and talking isn't helping?",
-  "Are they refusing to participate, or is their body struggling with what we're asking of them?",
-  'How do we support a child without every educator responding differently?',
-  'How do we know when to step in, when to give space and when to change the environment?',
-  "How do we explain what we're doing to families without sounding like we're making excuses for behaviour?",
+const ROADMAP = [
+  {
+    number: 1,
+    title:
+      'Morning routines, separation and drop-off',
+    description:
+      'Supporting children and families through separation, connection, predictability and the nervous-system demands that can make the start of the day feel so big.',
+  },
+  {
+    number: 2,
+    title:
+      'Mat time, participation and static sitting',
+    description:
+      'Looking beyond “sit still and listen” to postural control, core strength, sensory processing, executive function and different ways children can participate.',
+  },
+  {
+    number: 3,
+    title:
+      'Transitions and bottlenecks',
+    description:
+      'Why doorways, pack-up, room changes and multi-step routines can overwhelm children, and how rhythm, movement, visual support and co-regulation can reduce the load.',
+  },
+  {
+    number: 4,
+    title:
+      'Heavy work, sensory seeking and rough play',
+    description:
+      'Understanding proprioception, vestibular processing, risky play, movement needs and why some children seek pushing, crashing, climbing and big-body play.',
+  },
+  {
+    number: 5,
+    title:
+      'Following instructions when capacity is low',
+    description:
+      'What happens when language, working memory, inhibition and regulation demands collide, and how educators can reduce friction without removing fair boundaries.',
+  },
+  {
+    number: 6,
+    title:
+      'Play schemas and the changing way children play',
+    description:
+      'Exploring common play schemas, movement, imagination, social play and how screen-heavy experiences may influence the way children engage with people, objects and environments.',
+  },
+  {
+    number: 7,
+    title:
+      'Impulse control and co-regulation',
+    description:
+      'Connecting executive function, interoception, the 8 senses, emotional regulation and the role adults play while children are still developing their own self-regulation.',
+  },
+  {
+    number: 8,
+    title:
+      'When children are running out of capacity',
+    description:
+      'Recognising cumulative fatigue, sensory load and end-of-winter strain before behaviour becomes the only thing adults can see.',
+  },
+  {
+    number: 9,
+    title:
+      'Designing environments for movement, connection and play',
+    description:
+      'Using biophilic principles, movement opportunities, spatial awareness, sensory diversity and inclusive environmental design to support different nervous-system needs.',
+  },
+  {
+    number: 10,
+    title:
+      'Noise, clutter and sensory load',
+    description:
+      'Looking at visual, auditory, vestibular and environmental demands and how small changes can make participation easier for neurodivergent and divergent learners.',
+  },
+  {
+    number: 11,
+    title:
+      'Building consistency across the team',
+    description:
+      'Bringing together neuroplasticity, reflective practice, family voice, QIP evidence and shared educator decision-making so learning becomes part of everyday practice.',
+  },
+  {
+    number: 12,
+    title:
+      'Review, resilience and what comes next',
+    description:
+      'Looking back at what changed, what families noticed, what educators discovered, and how growth mindset, resilience and ongoing reflection can shape the year ahead.',
+  },
 ];
 
-const CURRENT_LADDERS = [
-  {
-    image:
-      '/images/ladders/ladder2_rung05.png',
-    tag: 'Regulated Educator',
-    title: 'Start with the educator',
-    text:
-      'Notice your own pace, body, voice and the pressure you may be bringing into the interaction, because co-regulation begins with what the adult nervous system is communicating too.',
-  },
-  {
-    image:
-      '/images/ladders/ladder1_rung08.png',
-    tag: 'Connected Drop-Offs',
-    title: 'Make drop-off feel smaller',
-    text:
-      'Look beyond the tears or clinging and think about predictability, separation, connection and what might help the child feel safer as they move from home into the early childhood environment.',
-  },
-  {
-    image:
-      '/images/ladders/ladder3_rung06.png',
-    tag: 'Participation Beyond Sitting',
-    title: 'Rethink participation',
-    text:
-      'Support children to join in ways their bodies can manage, rather than assuming that sitting still is the only sign that a child is listening, learning or belonging.',
-  },
-];
-
-const CAPACITY_STEPS = [
-  {
-    title: 'Read',
-    text:
-      'Start with one practical idea that relates to something your team is already noticing.',
-  },
-  {
-    title: 'Try',
-    text:
-      'Use it in a real situation and notice what changes in the child, the environment or the interaction.',
-  },
-  {
-    title: 'Watch',
-    text:
-      'Return to the recordings when your team has the time and headspace to take more in.',
-  },
-  {
-    title: 'Go deeper',
-    text:
-      'Teams wanting more support can continue into additional resources, implementation support, questions, live sessions and optional recognition.',
-  },
+const PROGRAM_INCLUDES = [
+  'Up to 15 educators from one service',
+  '12 practical professional learning topics',
+  'Live online coaching with Robyn, with recordings added for self-paced access',
+  '1.5 CPD hours available for each completed topic',
+  '18 CPD hours available across the full program',
+  'Individual certificates for completed topics',
+  'Practical Regulation Ladder resources',
+  'Educator reflections and professional learning documentation',
+  'Manager dashboard and team CPD records',
+  'Family Voice feedback tools and monthly QR codes',
+  'QIP reflection, evidence and downloadable reporting',
+  'Access until 31 December 2027',
 ];
 
 export default function HomePageClient() {
   const [quoteForm, setQuoteForm] =
-    useState({
-      fullName: '',
-      email: '',
+    useState<QuoteForm>({
+      programOption: 'early-bird',
       serviceName: '',
-      fundingSource:
-        'Annual professional learning budget',
-      programOption: 'preview' as
-        | 'full'
-        | 'preview',
+      managerName: '',
+      managerEmail: '',
+      phone: '',
+      postalAddress: '',
+      serviceType: '',
+      educatorCount: '',
+      fundingSource: '',
+      fundingOther: '',
+      billingName: '',
+      billingEmail: '',
+      notes: '',
     });
 
   const [isSubmitting, setIsSubmitting] =
@@ -100,16 +159,33 @@ export default function HomePageClient() {
     setQuoteSubmitted,
   ] = useState(false);
 
+  const [submitError, setSubmitError] =
+    useState('');
+
   const selectedPrice =
-    quoteForm.programOption === 'preview'
-      ? PREVIEW_PRICE
-      : FULL_PRICE;
+    quoteForm.programOption === 'premium'
+      ? PREMIUM_PRICE
+      : EARLY_BIRD_PRICE;
+
+  const updateField = <
+    K extends keyof QuoteForm,
+  >(
+    key: K,
+    value: QuoteForm[K],
+  ) => {
+    setQuoteForm((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  };
 
   const handleQuoteSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
+
     setIsSubmitting(true);
+    setSubmitError('');
 
     try {
       const response = await fetch(
@@ -126,21 +202,41 @@ export default function HomePageClient() {
         },
       );
 
-      if (!response.ok) {
+      const result = await response
+        .json()
+        .catch(() => null);
+
+      if (
+        !response.ok ||
+        !result?.success
+      ) {
         console.error(
-          'Quote request failed:',
-          await response.text(),
+          'Invoice request failed:',
+          result,
         );
+
+        setSubmitError(
+          result?.error ||
+            'Something went wrong while sending your request. Please try again.',
+        );
+
+        return;
       }
 
       setQuoteSubmitted(true);
+
+      window.location.assign(
+        '/invoice-request-received',
+      );
     } catch (error) {
       console.error(
-        'Quote submit error:',
+        'Invoice request error:',
         error,
       );
 
-      setQuoteSubmitted(true);
+      setSubmitError(
+        'Something went wrong while sending your request. Please try again.',
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -148,63 +244,101 @@ export default function HomePageClient() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FAF8F5] text-[#1C3B34]">
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-[#1C3B34] text-white">
-        <div className="absolute -left-28 -top-28 h-80 w-80 rounded-full bg-[#657B6C]/18 blur-3xl" />
-        <div className="absolute -bottom-36 -right-16 h-96 w-96 rounded-full bg-[#C29F60]/10 blur-3xl" />
-
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-12 md:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <p className="text-base font-semibold text-[#F0D99A]">
-              Early childhood regulation
-              support for the moments that keep
-              coming back
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b border-[#E5DED4] bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-4 sm:px-6">
+          <Link
+            href="/"
+            className="min-w-0"
+          >
+            <p className="text-lg font-extrabold leading-tight text-[#1C3B34] sm:text-xl">
+              Play Move Improve
             </p>
 
-            <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-[1.14] tracking-tight text-white sm:text-4xl lg:text-[2.9rem]">
-              When the same behaviours keep
-              happening, your team shouldn&apos;t
-              have to keep guessing what to try
-              next.
+            <p className="mt-0.5 text-xs font-semibold text-[#8A6F3E] sm:text-sm">
+              Regulator Champions Program
+            </p>
+          </Link>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="#early-bird"
+              className="hidden rounded-xl bg-[#E0BC68] px-4 py-2.5 text-sm font-extrabold text-[#17352F] transition hover:bg-[#E8C879] sm:inline-flex"
+            >
+              Request an invoice
+            </a>
+
+            <Link
+              href="/login"
+              className="rounded-xl border border-[#1C3B34] bg-white px-4 py-2.5 text-sm font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
+            >
+              Login
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-[#1C3B34] text-white">
+        <div className="absolute -left-28 -top-28 h-80 w-80 rounded-full bg-[#657B6C]/20 blur-3xl" />
+        <div className="absolute -bottom-36 -right-16 h-96 w-96 rounded-full bg-[#C29F60]/15 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 md:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
+            <p className="text-base font-extrabold text-[#F0D99A]">
+              Play Move Improve
+            </p>
+
+            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#BFD0C8]">
+              Regulator Champions Program 2027
+            </p>
+
+            <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl">
+              A year of professional learning that
+              actually follows educators back into
+              the room.
             </h1>
 
             <p className="mt-6 max-w-3xl text-xl leading-relaxed text-[#E0E8E4]">
-              A child freezes at drop-off.
-              Another can&apos;t stay with the
-              group. Someone is throwing,
-              biting, running or becoming
-              overwhelmed when the room gets
-              busy.
+              Practical learning for whole early
+              childhood teams, bringing together
+              movement, co-regulation, sensory
+              processing, play, executive function,
+              family voice and Quality Improvement
+              Plan evidence.
             </p>
 
-            <p className="mt-4 max-w-3xl text-xl leading-relaxed text-[#E0E8E4]">
-              Regulator Champions helps early
-              childhood teams notice what may be
-              happening underneath the
-              behaviour, work out what might
-              need to change, and decide what to
-              try next.
-            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Pill>
+                Up to 15 educators
+              </Pill>
 
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#BFD0C8]">
-              Created in Australia and
-              available to early childhood
-              teams internationally.
-            </p>
+              <Pill>
+                18 CPD hours
+              </Pill>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Pill>
+                Self-paced
+              </Pill>
+
+              <Pill>
+                Family Voice + QIP
+              </Pill>
+            </div>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#regulation-ladders"
-                className="flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] shadow-lg transition hover:bg-[#EDCD82]"
+                href="#early-bird"
+                className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] shadow-lg transition hover:bg-[#EDCD82]"
               >
-                See how it works
+                Request an Early Bird invoice
               </a>
 
               <a
-                href="#full-program"
-                className="flex min-h-14 items-center justify-center rounded-2xl border-2 border-white bg-white px-7 py-4 text-base font-extrabold text-[#12362F] shadow-sm transition hover:bg-[#F4F0E8]"
+                href="#roadmap"
+                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-white/40 bg-white/5 px-7 py-4 text-base font-extrabold text-white transition hover:bg-white/10"
               >
-                Explore the full program
+                See the 2027 roadmap
               </a>
             </div>
           </div>
@@ -213,7 +347,7 @@ export default function HomePageClient() {
             <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-2xl">
               <Image
                 src="/images/educator-pair-regulation-cards-outdoors.jpg"
-                alt="Early childhood educators discussing Regulation Cards while continuing to supervise children playing outdoors"
+                alt="Early childhood educators using Play Move Improve regulation resources"
                 width={1400}
                 height={1000}
                 priority
@@ -225,1310 +359,882 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* FREE SAMPLE */}
+      {/* EARLY BIRD STRIP */}
       <section className="border-b border-[#CDAF70] bg-[#E8D39D]">
-        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-8 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#765B29]">
+              2027 Early Bird
+            </p>
+
+            <h2 className="mt-2 text-3xl font-extrabold text-[#1C3B34]">
+              $4,790 AUD for your whole team
+            </h2>
+
+            <p className="mt-3 max-w-4xl text-lg leading-relaxed text-[#374C45]">
+              Secure the full 2027 digital program
+              for up to 15 educators by 31 December
+              2026. Once your invoice is paid, your
+              service receives access straight away
+              and can begin using the existing
+              Regulation Ladder content while you
+              prepare for the 2027 program.
+            </p>
+          </div>
+
+          <a
+            href="#early-bird"
+            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+          >
+            Request an invoice
+          </a>
+        </div>
+      </section>
+
+      {/* NOT JUST ANOTHER WEBINAR */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-4xl">
-            <p className="text-sm font-extrabold text-[#6E5426]">
-              Free Regulation Ladder sample
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Professional learning that keeps moving
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              I don&apos;t want your team to watch
+              another webinar, download a PDF and
+              forget about it by Monday.
+            </h2>
+
+            <p className="mt-6 text-lg leading-relaxed text-[#53645D]">
+              Regulator Champions is being built as
+              a full-year implementation program.
+              Educators learn, try ideas in their
+              rooms, reflect on what they noticed,
+              hear from families, collect
+              professional learning evidence and
+              gradually build a more consistent way
+              of responding together.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <FeatureCard
+              number="01"
+              title="Learn"
+              text="Join Robyn live or return to the recording when your team has the time and headspace."
+            />
+
+            <FeatureCard
+              number="02"
+              title="Try"
+              text="Take practical Regulation Ladders, movement ideas and environmental changes back into everyday practice."
+            />
+
+            <FeatureCard
+              number="03"
+              title="Reflect"
+              text="Capture three key takeaways, professional reflection, team actions and evidence of what changed."
+            />
+
+            <FeatureCard
+              number="04"
+              title="Connect"
+              text="Bring family voice into the process and use what families tell you to help shape practice and future learning."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* TEAM JOURNEY */}
+      <section className="bg-[#F1ECE4] py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="overflow-hidden rounded-4xl bg-white p-3 shadow-sm">
+            <Image
+              src="/images/small-group-educators-staffroom-regulation.jpg"
+              alt="Early childhood educators completing professional learning together"
+              width={1400}
+              height={1000}
+              loading="lazy"
+              className="h-auto w-full rounded-3xl object-cover"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              One service. One shared journey.
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Every educator has their own login,
+              learning record and certificates.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Your service can enrol up to 15
+              educators. Each person works through
+              the program at their own pace, while
+              the team can still come together around
+              shared reflection, family feedback and
+              practical changes.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              <JourneyRow
+                title="Watch"
+                text="Complete the webinar or recording."
+              />
+
+              <JourneyRow
+                title="Notice"
+                text="Record three key takeaways from the learning."
+              />
+
+              <JourneyRow
+                title="Explore"
+                text="Open the practical resources and Regulation Ladders."
+              />
+
+              <JourneyRow
+                title="Reflect"
+                text="Complete the professional reflection and consider what could change in practice."
+              />
+
+              <JourneyRow
+                title="Complete"
+                text="Download the 1.5-hour CPD certificate and unlock the next topic."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ROADMAP */}
+      <section
+        id="roadmap"
+        className="scroll-mt-24 bg-white py-16 sm:py-20"
+      >
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              The 2027 roadmap
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Practical topics on the surface, with
+              developmental science underneath.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              The wording and examples may continue
+              to evolve as I hear what educators and
+              families need, but this is the direction
+              of the year. You&apos;ll see ideas
+              drawn from co-regulation, sensory
+              processing, executive function,
+              neuroplasticity, movement, the 8 senses,
+              play, motor development and inclusive
+              environments without turning the
+              learning into a university lecture.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {ROADMAP.map((topic) => (
+              <article
+                key={topic.number}
+                className="rounded-3xl border border-[#E0D8CC] bg-[#FAF8F5] p-6"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1C3B34] text-sm font-extrabold text-white">
+                    {topic.number}
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-extrabold leading-snug">
+                      {topic.title}
+                    </h3>
+
+                    <p className="mt-3 leading-7 text-[#53645D]">
+                      {topic.description}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAMILY VOICE */}
+      <section className="bg-[#FAF5EC] py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              Family Voice
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Families become part of the learning,
+              not an afterthought at the end.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Each topic can include a short,
+              anonymous family feedback form that
+              your service shares through its own QR
+              code. Families can tell you what
+              they&apos;re noticing at home, what
+              they need more help with and which
+              areas they would like your team to
+              explore next.
+            </p>
+
+            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
+              Managers can bring the themes into QIP
+              reflection and reporting, while I can
+              look across the broader Regulator
+              Champions community and use that
+              feedback to make future learning more
+              relevant.
+            </p>
+          </div>
+
+          <div className="rounded-4xl border border-[#DDD5C9] bg-white p-7 shadow-sm sm:p-9">
+            <p className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#9A793D]">
+              Each service receives
+            </p>
+
+            <div className="mt-6 space-y-5">
+              <SimplePoint>
+                A unique family feedback link and QR
+                code for each topic
+              </SimplePoint>
+
+              <SimplePoint>
+                Short multiple-choice questions with
+                room for “Other”
+              </SimplePoint>
+
+              <SimplePoint>
+                Anonymous family comments
+              </SimplePoint>
+
+              <SimplePoint>
+                Family Voice summaries for QIP
+                documentation
+              </SimplePoint>
+
+              <SimplePoint>
+                Manager actions based on what
+                families are telling the service
+              </SimplePoint>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* QIP */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#9A793D]">
+              QIP documentation without starting
+              from a blank page
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              Turn professional learning into
+              evidence of what your team actually
+              noticed, tried and changed.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+              Educators can contribute reflections
+              and suggested team actions. Managers
+              can review, edit and approve them, add
+              family voice and generate downloadable
+              monthly documentation without changing
+              the original learning records.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            <InfoBlock
+              title="Professional learning"
+              text="Individual CPD records, certificates, key takeaways and Professional Learning Report PDFs."
+            />
+
+            <InfoBlock
+              title="Team reflection"
+              text="Educator and manager reflections, team actions and evidence that can support ongoing quality improvement."
+            />
+
+            <InfoBlock
+              title="Family voice"
+              text="Monthly family themes, selected anonymous comments and manager responses gathered into useful documentation."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* PROGRAM INCLUDES */}
+      <section className="bg-[#1C3B34] py-16 text-white sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm font-extrabold text-[#F0D99A]">
+              Included in the 2027 program
+            </p>
+
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+              One program for educator learning,
+              family engagement and team
+              documentation.
+            </h2>
+
+            <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
+              Access begins as soon as your invoice
+              is paid and continues until 31 December
+              2027.
+            </p>
+          </div>
+
+          <div className="grid gap-x-8 md:grid-cols-2">
+            {PROGRAM_INCLUDES.map(
+              (item) => (
+                <div
+                  key={item}
+                  className="border-t border-white/20 py-4"
+                >
+                  <p className="leading-7 text-[#E4ECE8]">
+                    {item}
+                  </p>
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* EXISTING CONTENT */}
+      <section className="bg-[#E8D39D] py-12">
+        <div className="mx-auto grid max-w-7xl gap-7 px-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="max-w-4xl">
+            <p className="text-sm font-extrabold text-[#765B29]">
+              Early Bird access starts now
             </p>
 
             <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
-              Want to see what your educators
-              would actually use?
+              You don&apos;t have to wait until 2027
+              to begin.
             </h2>
 
             <p className="mt-3 text-lg leading-relaxed text-[#374C45]">
-              Open a free Regulation Ladder
-              example and see how the same
-              difficult moment can be looked at
-              through educator, manager and
-              family perspectives before your
-              team decides what to try next.
+              Once your invoice is paid, your team
+              can begin exploring the existing
+              Regulation Ladder content while I
+              continue building the full 2027
+              learning pathway.
             </p>
           </div>
 
           <Link
             href={FREE_SAMPLE_URL}
-            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-[#1C3B34] px-7 py-4 text-base font-extrabold text-white transition hover:bg-[#29483F]"
+            className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#F6F1E8]"
           >
-            View the Free Regulation Ladder
+            See a Regulation Ladder
           </Link>
         </div>
       </section>
 
-      {/* PAIN POINTS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Does your team keep coming back
-              to the same questions?
-            </h2>
-
-            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              The hard part is rarely
-              remembering another definition of
-              regulation. It is deciding what
-              to do when the same situations
-              keep unfolding in front of you and
-              different adults are seeing
-              something different.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-x-10 md:grid-cols-2">
-            {PRESSURE_QUESTIONS.map(
-              (question) => (
-                <div
-                  key={question}
-                  className="border-t border-[#DDD5C9] py-5"
-                >
-                  <p className="text-lg font-semibold leading-relaxed text-[#29483F]">
-                    {question}
-                  </p>
-                </div>
-              ),
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* REGULATION LADDERS */}
+      {/* PRICING */}
       <section
-        id="regulation-ladders"
-        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-20"
+        id="early-bird"
+        className="scroll-mt-24 bg-[#FAF8F5] py-16 sm:py-20"
       >
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
-            <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-white p-3 shadow-sm">
-              <Image
-                src="/images/early-childhood-regulation-program.png"
-                alt="Educators looking through printed Regulator Champions Regulation Cards"
-                width={1400}
-                height={1000}
-                loading="lazy"
-                sizes="(max-width: 1024px) 100vw, 52vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                What does Regulator Champions
-                actually look like?
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Each Regulation Ladder focuses
-                on one everyday early childhood
-                challenge.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Every ladder includes 10
-                educator cards, 10 manager cards
-                and 10 family cards, so the same
-                situation can be looked at from
-                different perspectives without
-                expecting everyone to respond in
-                exactly the same way.
-              </p>
-
-              <div className="mt-8 border-y border-[#D8CFC2]">
-                <RoleRow
-                  role="Educators"
-                  text="What am I noticing? What could I try in the room?"
-                />
-
-                <RoleRow
-                  role="Managers"
-                  text="What could we change in the environment, routines or team support?"
-                />
-
-                <RoleRow
-                  role="Families"
-                  text="What might help us understand or support this outside the program or service?"
-                />
-              </div>
-
-              <div className="mt-8">
-                <p className="text-2xl font-extrabold">
-                  One Regulation Ladder = 30
-                  practical cards
-                </p>
-
-                <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                  10 for educators, 10 for
-                  managers and 10 for families,
-                  all looking at the same
-                  challenge through the role each
-                  person actually has.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PRACTICE, NOT JUST CARDS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                The cards are a starting point
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Regulation work should
-                eventually move off the card and
-                into the way the day actually
-                feels.
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                I do not want educators sitting
-                around memorising strategies
-                while children continue with
-                their day somewhere else. The
-                card might begin the
-                conversation, but the useful
-                part is when two educators try
-                something together, notice what
-                happens, and begin weaving
-                regulation into ordinary
-                moments.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                That might mean taking a cup of
-                herbal tea into the outdoor
-                space rather than having another
-                coffee meeting inside. It might
-                mean using the mud kitchen,
-                herbs, water, rhythm, movement
-                or a shared sensory experience
-                as part of the way adults and
-                children reconnect.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Regulation is not something we
-                should only ask children to do
-                once they have already become
-                overwhelmed. It can be part of
-                the environment, routines,
-                relationships and small moments
-                of connection that happen
-                throughout the day.
-              </p>
-            </div>
-
-            <div className="overflow-hidden rounded-4xl border border-[#E5DED4] bg-[#FAF5EC] p-3 shadow-sm">
-              <Image
-                src="/images/tea-ritual-childcare-mud-kitchen.jpg"
-                alt="Educators and children sharing a calm herbal tea experience beside an outdoor mud kitchen and sand play area"
-                width={1400}
-                height={1000}
-                loading="lazy"
-                sizes="(max-width: 1024px) 100vw, 54vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* EVERYDAY ROUTINES */}
-      <section className="bg-[#F1ECE4] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="overflow-hidden rounded-3xl bg-white p-2">
-                <Image
-                  src="/images/educators-washing-herbs-with-children.jpg"
-                  alt="Educators and children washing freshly picked herbs together in an early childhood kitchen"
-                  width={900}
-                  height={900}
-                  loading="lazy"
-                  className="aspect-square w-full rounded-2xl object-cover"
-                />
-              </div>
-
-              <div className="mt-8 overflow-hidden rounded-3xl bg-white p-2 sm:mt-12">
-                <Image
-                  src="/images/ladders/ladder1_rung04.png"
-                  alt="Watercolour illustration showing an everyday early childhood regulation and connection moment"
-                  width={900}
-                  height={900}
-                  loading="lazy"
-                  className="aspect-square w-full rounded-2xl object-cover"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                Regulation inside ordinary
-                moments
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Sometimes regulation looks less
-                like a strategy and more like
-                doing something meaningful
-                together.
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                Picking herbs, carrying a
-                watering can, washing leaves
-                under running water, pouring,
-                stirring, kneading, digging,
-                humming or sitting beside
-                someone can create very
-                different body experiences from
-                being repeatedly asked to stop,
-                sit, listen or calm down.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                None of those activities is
-                automatically regulating for
-                every child. The important part
-                is that educators begin noticing
-                what happens in the child&apos;s
-                body, engagement and connection
-                as the experience changes.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Over time, that noticing can
-                help a team become more
-                thoughtful about when to change
-                the environment, when to offer
-                movement, when to reduce a
-                demand, when to stay close, and
-                when a child may simply need
-                more time.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DIFFERENCE */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-            We&apos;ve already done regulation
-            training.
-          </h2>
-
-          <p className="mt-6 text-xl leading-relaxed text-[#29483F]">
-            Most teams have.
-          </p>
-
-          <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-            The difficult part isn&apos;t
-            knowing that children need
-            co-regulation.
-          </p>
-
-          <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-            The difficult part is knowing what
-            that actually looks like when one
-            child is screaming, another educator
-            needs your help, a parent is waiting
-            at the door, and the strategy that
-            worked yesterday isn&apos;t working
-            today.
-          </p>
-
-          <p className="mt-6 text-xl font-extrabold leading-relaxed">
-            Regulator Champions is designed for
-            the gap between knowing the theory
-            and making a decision in the room.
-          </p>
-        </div>
-      </section>
-
-      {/* BODY */}
-      <section className="bg-[#FAF5EC] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[0.88fr_1.12fr]">
-            <div>
-              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                Before we ask how to stop the
-                behaviour, we look at what the
-                child&apos;s body may be telling
-                us.
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                This does not mean ignoring
-                unsafe behaviour or removing
-                boundaries. It means looking
-                closely enough at the child, the
-                environment and the adult
-                response to understand what may
-                be increasing the pressure
-                before we decide what to do
-                next.
-              </p>
-
-              <div className="mt-8 overflow-hidden rounded-3xl border border-[#E5DED4] bg-white p-3 shadow-sm">
-                <Image
-                  src="/images/educator-feather-breathing-circle.jpg"
-                  alt="Early childhood educators practising feather breathing alongside children in a classroom"
-                  width={1400}
-                  height={1000}
-                  loading="lazy"
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="h-auto w-full rounded-2xl object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="border-t border-[#D8CFC2]">
-              <BodyExample
-                title="Running during group time"
-                text="Is the child simply refusing to participate, or does their body need movement before they can stay with the group?"
-              />
-
-              <BodyExample
-                title="Throwing repeatedly"
-                text="Are we only seeing defiance, or could high arousal, sensory seeking, play schema or the need for a different outlet be contributing?"
-              />
-
-              <BodyExample
-                title="Pulling away from comforting touch"
-                text="Once contact begins, does the child soften and settle, or stiffen, pull away or turn their face?"
-              />
-
-              <BodyExample
-                title="Messy outdoor play"
-                text="Are we looking at chaos, or a deeply engaged child whose body may be getting the movement and sensory input it needs?"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* VAGUS */}
-      <section className="border-y border-[#D8CFC2] bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                Free training and practical
-                ideas
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                Want to understand more about
-                what may be happening in the
-                body?
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                I have made my full vagus nerve
-                and parasympathetic nervous
-                system training available free
-                on the blog because I would
-                rather educators understand the
-                thinking underneath these
-                activities than simply collect
-                another list of things to try.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                The video is completely free to
-                watch. If you want the practical
-                ideas beside you afterwards, the
-                activities are also available as
-                printable cards.
-              </p>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href={VAGUS_ARTICLE_URL}
-                  className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-                >
-                  Watch the Free Training
-                </Link>
-
-                <a
-                  href={
-                    VAGUS_CARDS_PAYMENT_URL
-                  }
-                  className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#F3EEE7]"
-                >
-                  Get the Cards for $14 AUD
-                </a>
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-4xl border border-[#D8CFC2] bg-[#FAF5EC] p-3 shadow-sm">
-              <Image
-                src="/images/educators-herb-window-garden.jpg"
-                alt="Educators and children touching and smelling fresh herbs together in an early childhood room"
-                width={1400}
-                height={1000}
-                loading="lazy"
-                sizes="(max-width: 1024px) 100vw, 48vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-
-              <div className="p-5 sm:p-7">
-                <p className="text-xl font-extrabold leading-relaxed">
-                  Regulation does not have to
-                  become another instruction
-                  children are expected to
-                  perform correctly.
-                </p>
-
-                <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-                  Smelling herbs, noticing
-                  textures, breathing,
-                  vocalising, moving and sharing
-                  sensory experiences can give
-                  children opportunities to
-                  notice their bodies while they
-                  are still playing and
-                  connected.
-                </p>
-
-                <Link
-                  href={VAGUS_ARTICLE_URL}
-                  className="mt-6 inline-flex text-base font-extrabold text-[#8A6F3E]"
-                >
-                  Read the full article and
-                  watch the video
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RECORDINGS */}
-      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:items-center">
-            <div className="overflow-hidden rounded-4xl border border-white/15 bg-white/5 p-3 shadow-xl">
-              <Image
-                src="/images/robyn-papworth-regulation-webinar.png"
-                alt="Robyn Papworth delivering an online early childhood regulation session"
-                width={1400}
-                height={1000}
-                loading="lazy"
-                sizes="(max-width: 1024px) 100vw, 52vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-                Learn when your team actually
-                has the capacity.
-              </h2>
-
-              <p className="mt-5 text-lg leading-relaxed text-[#D8E1DC]">
-                Professional learning should not
-                feel like another thing your
-                educators have to squeeze into
-                an already exhausting week.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                Regulator Champions includes
-                learning and recordings your
-                team can return to when they
-                have the time and headspace.
-                Teams wanting more support can
-                also use questions and live
-                sessions.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-                The intention is for educators
-                to be able to come back when
-                something happening in their
-                room makes the learning
-                relevant, rather than completing
-                content simply because it is
-                next on a course list.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* IMPLEMENTATION */}
-      <section className="bg-[#F1ECE4] py-14 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
+          <div className="max-w-4xl">
             <p className="text-sm font-extrabold text-[#9A793D]">
-              What implementation can look like
+              2027 team pricing
             </p>
 
             <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-              The adults need opportunities to
-              experience regulation too.
+              Choose the level of support that suits
+              your service.
             </h2>
 
             <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              It is difficult to support a
-              child&apos;s regulation when
-              educators are expected to
-              understand everything
-              intellectually but never have the
-              opportunity to notice what
-              different experiences feel like
-              in their own bodies.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              A team might try the breathing
-              activity themselves, move a
-              meeting outdoors, use a sensory
-              experience together, talk through
-              one Regulation Card in pairs or
-              notice how their own pace and
-              voice change when a room becomes
-              stressful.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-              This is not about turning staff
-              meetings into therapy. It is about
-              making professional learning
-              physical and practical enough that
-              educators can recognise what
-              regulation may actually feel like
-              before they are asked to support
-              it in somebody else.
+              All prices are in Australian dollars
+              and cover one service with up to 15
+              educators.
             </p>
           </div>
 
-          <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
-            <Image
-              src="/images/children-and-educators-sensory-reset.jpg"
-              alt="Educators and children sharing a simple sensory regulation activity in an early childhood room"
-              width={1400}
-              height={1000}
-              loading="lazy"
-              sizes="(max-width: 1024px) 100vw, 54vw"
-              className="h-auto w-full rounded-3xl object-cover"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* BLOG */}
-      <section className="border-b border-[#E5DED4] bg-[#EDE6DC]">
-        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-9 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="max-w-4xl">
-            <p className="text-sm font-extrabold text-[#8A6F3E]">
-              Free articles for early childhood
-              teams
-            </p>
-
-            <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
-              There is much more here than one
-              training video.
-            </h2>
-
-            <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-              Explore longer articles about
-              regulation, body awareness,
-              movement, attention,
-              participation, play and the
-              everyday moments that can tell us
-              much more about a child than
-              behaviour alone.
-            </p>
-          </div>
-
-          <Link
-            href={BLOG_URL}
-            className="inline-flex min-h-14 shrink-0 items-center justify-center rounded-2xl bg-white px-7 py-4 text-base font-extrabold text-[#1C3B34] shadow-sm transition hover:bg-[#1C3B34] hover:text-white"
-          >
-            Explore the Blog
-          </Link>
-        </div>
-      </section>
-
-      {/* LADDERS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Three Regulation Ladders are
-              available now.
-            </h2>
-
-            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Your team does not need to
-              complete them in a fixed order.
-              Start with the situation creating
-              the most pressure and use the
-              closest ladder as a place to
-              begin.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-8 lg:grid-cols-3">
-            {CURRENT_LADDERS.map(
-              (ladder) => (
-                <article
-                  key={ladder.tag}
-                  className="border-t border-[#D8CFC2] pt-5"
-                >
-                  <Image
-                    src={ladder.image}
-                    alt=""
-                    width={700}
-                    height={820}
-                    loading="lazy"
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="aspect-4/5 w-full rounded-3xl object-cover"
-                  />
-
-                  <p className="mt-5 text-base font-extrabold text-[#9A793D]">
-                    {ladder.tag}
-                  </p>
-
-                  <h3 className="mt-2 text-2xl font-extrabold leading-tight">
-                    {ladder.title}
-                  </h3>
-
-                  <p className="mt-3 text-lg leading-relaxed text-[#53645D]">
-                    {ladder.text}
-                  </p>
-                </article>
-              ),
-            )}
-          </div>
-
-          <div className="mt-12 border-y border-[#D8CFC2] py-7">
-            <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
-              <div>
-                <h3 className="text-2xl font-extrabold">
-                  Not sure what this looks like
-                  in practice?
-                </h3>
-
-                <p className="mt-2 max-w-3xl text-lg leading-relaxed text-[#53645D]">
-                  Start with the free example
-                  and see how one Regulation
-                  Ladder is structured before
-                  deciding whether the cards or
-                  broader program are right for
-                  your team.
-                </p>
-              </div>
-
-              <Link
-                href={FREE_SAMPLE_URL}
-                className="inline-flex min-h-14 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-6 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-              >
-                Open the free example
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DIRECTOR ROI */}
-      <section className="bg-[#F1ECE4] py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-            <div className="overflow-hidden rounded-4xl border border-[#DDD5C9] bg-white p-3 shadow-sm">
-              <Image
-                src="/images/small-group-educators-staffroom-regulation.jpg"
-                alt="Small group of early childhood educators exploring practical regulation experiences together during planning time"
-                width={1400}
-                height={1000}
-                loading="lazy"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="h-auto w-full rounded-3xl object-cover"
-              />
-            </div>
-
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                For directors, owners and
-                educational leaders
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
-                What are repeated regulation
-                difficulties asking from your
-                team?
-              </h2>
-
-              <div className="mt-6 space-y-5 text-lg leading-relaxed text-[#53645D]">
-                <p>
-                  One difficult drop-off is part
-                  of early childhood, and so is
-                  the educator who needs support
-                  when group time keeps falling
-                  apart, the child who becomes
-                  overwhelmed when the room gets
-                  noisy, or the family who is
-                  unsure why their child is
-                  coping differently at home and
-                  care. None of those moments
-                  automatically mean something
-                  is wrong with the child, the
-                  educator or the service.
-                </p>
-
-                <p>
-                  The pressure begins to build
-                  when the same situations keep
-                  returning and the adults
-                  around the child are still
-                  having to work out, from
-                  scratch, what might be
-                  happening and what to try
-                  next.
-                </p>
-
-                <p className="text-xl font-extrabold leading-relaxed text-[#1C3B34]">
-                  That is the gap I want
-                  Regulator Champions to sit in.
-                </p>
-
-                <p>
-                  The aim is not to remove
-                  difficult behaviour from early
-                  childhood, because children
-                  will still become frustrated,
-                  overwhelmed, tired, excited
-                  and dysregulated. Instead, I
-                  want the adults around them to
-                  have a more useful way to slow
-                  the situation down, notice
-                  what may be contributing,
-                  consider what could change in
-                  the environment or
-                  interaction, and decide
-                  together what is worth trying
-                  next.
-                </p>
-              </div>
-
-              <div className="mt-7 border-l-4 border-[#C29F60] bg-white px-6 py-5">
-                <p className="text-lg font-extrabold leading-relaxed text-[#1C3B34]">
-                  Rather than every difficult
-                  moment beginning with “How do
-                  we stop this?”, the
-                  conversation can gradually
-                  become “What are we noticing
-                  here? What was happening
-                  before this? What is the
-                  child&apos;s body telling us?
-                  Is the demand too high? Is the
-                  environment adding pressure?
-                  Is there something we could
-                  change before expecting the
-                  child to change?”
-                </p>
-              </div>
-
-              <div className="mt-7 space-y-5 text-lg leading-relaxed text-[#53645D]">
-                <p>
-                  The 6-Month Preview is $1,790
-                  AUD because it is designed as
-                  a whole-team implementation
-                  period, not simply another
-                  resource for one educator to
-                  download. It gives your team
-                  time to use the Regulation
-                  Ladders, return to recordings
-                  when they have capacity, bring
-                  questions back, and begin
-                  building a more shared way of
-                  thinking.
-                </p>
-
-                <p>
-                  You do not need to believe
-                  that one program will solve
-                  every behaviour challenge to
-                  decide whether that would be
-                  useful. The more practical
-                  question is whether having a
-                  more consistent way for your
-                  team to notice, discuss and
-                  respond to recurring
-                  situations would make a
-                  meaningful difference in your
-                  service.
-                </p>
-              </div>
-
-              <Link
-                href="/proposal?plan=preview"
-                className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#1C3B34] px-6 py-3 text-base font-extrabold text-white transition hover:bg-[#29483F]"
-              >
-                Explore the 6-Month Preview
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FULL PROGRAM */}
-      <section
-        id="full-program"
-        className="scroll-mt-24 bg-[#FAF5EC] py-14 sm:py-20"
-      >
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Use Regulator Champions in the way
-              your team has capacity for.
-            </h2>
-
-            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              Some teams will begin with the
-              cards and stay there for a while.
-              Others will want recordings,
-              questions and live support as
-              well. The full program is there
-              when your organisation wants
-              deeper support.
-            </p>
-          </div>
-
-          <div className="mt-10 border-y border-[#D8CFC2] md:grid md:grid-cols-4">
-            {CAPACITY_STEPS.map(
-              (step, index) => (
-                <div
-                  key={step.title}
-                  className={`py-6 md:px-6 ${
-                    index > 0
-                      ? 'border-t border-[#D8CFC2] md:border-l md:border-t-0'
-                      : ''
-                  }`}
-                >
-                  <h3 className="text-xl font-extrabold">
-                    {step.title}
-                  </h3>
-
-                  <p className="mt-3 text-base leading-relaxed text-[#53645D]">
-                    {step.text}
-                  </p>
-                </div>
-              ),
-            )}
-          </div>
-
-          <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <h3 className="text-2xl font-extrabold">
-                Want formal recognition as
-                well?
-              </h3>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Educators who choose to complete
-                the full pathway can submit
-                their reflections and practical
-                work for review by Robyn.
-              </p>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                This is optional. Your team can
-                still use the Regulation
-                Ladders, resources and
-                recordings without completing
-                the recognition pathway.
-              </p>
-            </div>
-
-            <div className="lg:border-l lg:border-[#D8CFC2] lg:pl-8">
-              <h3 className="text-2xl font-extrabold">
-                For leaders who are carrying
-                too much of this already
-              </h3>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                Child care owners, directors and
-                educational leaders are already
-                holding staffing, families,
-                inclusion, incidents,
-                documentation, budgets and
-                everything else that lands
-                across the week. Regulator
-                Champions is intended to build
-                more of the noticing and
-                problem-solving across the team.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PROGRAM OPTIONS */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              If your team wants the broader
-              Regulator Champions support
-            </h2>
-
-            <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
-              These whole-team options include
-              the Regulation Ladders alongside
-              recordings, questions and
-              implementation support. Prices
-              below are in Australian dollars.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-8 md:grid-cols-2">
-            <ProgramOption
-              title="6-Month Preview"
-              price={PREVIEW_PRICE}
-              period={`${PREVIEW_ACCESS_MONTHS} months`}
-              text="A whole-team introduction for organisations wanting to use the current Regulation Ladders alongside recordings, questions and support before deciding what they need longer term."
-              href="/proposal?plan=preview"
-              button="View 6-Month Preview"
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            <PriceCard
+              eyebrow="Available until 31 December 2026"
+              title="Early Bird Digital"
+              price={EARLY_BIRD_PRICE}
+              text="The complete 2027 digital Regulator Champions program, with immediate access to existing ladder content once your invoice is paid."
+              highlight
             />
 
-            <ProgramOption
-              title="12-Month Regulator Champions"
-              price={FULL_PRICE}
-              period="12 months"
-              text="Year-round whole-team access for organisations wanting the Regulation Ladders, recordings, Ask Robyn support, live sessions and new member resources as the program develops."
-              href="/proposal?plan=full"
-              button="View 12-Month Program"
+            <PriceCard
+              eyebrow="2027 standard price"
+              title="Standard Digital"
+              price={STANDARD_PRICE}
+              text="The same full digital program for services enrolling after the Early Bird period."
+            />
+
+            <PriceCard
+              eyebrow="Printed documentation included"
+              title="Premium"
+              price={PREMIUM_PRICE}
+              text="The full program plus three professionally printed and bound resources for educators, managers and families."
             />
           </div>
-        </div>
-      </section>
 
-      {/* LOCATION PATHWAYS */}
-      <section className="border-y border-[#E5DED4] bg-[#F7F3ED] py-12">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-            <div>
-              <p className="text-sm font-extrabold text-[#9A793D]">
-                Quality and funding information
-              </p>
-
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight">
-                Looking at how Regulator
-                Champions fits your local early
-                childhood system?
-              </h2>
-
-              <p className="mt-4 text-lg leading-relaxed text-[#53645D]">
-                The core program can be used
-                internationally. These pages
-                explain some of the quality,
-                professional development and
-                funding language that may be
-                relevant where your team is
-                based.
-              </p>
-            </div>
-
-            <div className="border-t border-[#D8CFC2]">
-              <LocationLink
-                href="/us-early-childhood-quality"
-                title="United States"
-                text="NAEYC, Developmentally Appropriate Practice, QRIS and child care quality improvement."
-              />
-
-              <LocationLink
-                href="/nqs-mapping"
-                title="NQS and QIP"
-                text="National Quality Standard and Quality Improvement Plan reflection for Australian early childhood services."
-              />
-
-              <LocationLink
-                href="/school-readiness-funding"
-                title="Victoria · School Readiness Funding"
-                text="Professional learning and regulation support information for Victorian kindergarten services."
-              />
-
-              <LocationLink
-                href="/kindy-uplift"
-                title="Queensland · Kindy Uplift"
-                text="Professional learning and quality improvement information for Queensland kindergarten services."
-              />
-
-              <LocationLink
-                href="/nsw-early-childhood-professional-development"
-                title="NSW · Early Childhood Professional Development"
-                text="Start Strong, quality uplift, professional learning and early childhood quality improvement information for NSW services."
-              />
-
-              <LocationLink
-                href="/south-australia-early-childhood-professional-development"
-                title="South Australia · Early Childhood Professional Development"
-                text="Professional learning, educator capacity and quality improvement information for South Australian early childhood services."
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="bg-[#1C3B34] py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-5xl px-6">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              Tell me what&apos;s happening in
-              your rooms.
-            </h2>
-
-            <p className="mt-5 text-xl leading-relaxed text-[#D8E1DC]">
-              If you&apos;re not sure whether
-              Regulator Champions is right for
-              your organisation, you don&apos;t
-              need to know which option you want
-              yet.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
-              Tell me what your team keeps
-              getting stuck on and we can work
-              out where I would start.
-            </p>
-
-            <a
-              href="mailto:robyn@playmoveimprove.com.au?subject=Regulator%20Champions%20team%20enquiry"
-              className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28]"
-            >
-              Talk to Robyn about our team
-            </a>
-          </div>
-
-          <div className="mt-12 border-t border-white/20 pt-8">
-            <p className="text-lg font-extrabold">
-              Already ready for the full
-              program?
-            </p>
-
-            <p className="mt-2 max-w-3xl text-base leading-relaxed text-[#D8E1DC]">
-              The formal proposal is available
-              below for organisations that
-              already know they want to take the
-              broader program to leadership.
-            </p>
-
+          {/* INVOICE FORM */}
+          <div className="mt-14 rounded-4xl bg-[#1C3B34] p-6 text-white shadow-xl sm:p-9 lg:p-11">
             {quoteSubmitted ? (
-              <div className="mt-6 max-w-2xl rounded-3xl border border-white/15 bg-white/5 p-7">
-                <h3 className="text-xl font-extrabold">
-                  Proposal request received
-                </h3>
-
-                <p className="mt-3 text-base leading-relaxed text-[#D8E1DC]">
-                  You can also open the
-                  printable proposal information
-                  now.
+              <div className="max-w-3xl">
+                <p className="text-sm font-extrabold text-[#F0D99A]">
+                  Request received
                 </p>
 
-                <Link
-                  href={`/proposal?plan=${quoteForm.programOption}`}
-                  className="mt-5 inline-flex min-h-12 items-center rounded-2xl bg-white px-5 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8]"
-                >
-                  Open proposal
-                </Link>
+                <h3 className="mt-3 text-3xl font-extrabold">
+                  Thank you. I&apos;ll be in touch
+                  about your invoice.
+                </h3>
+
+                <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+                  Once payment is confirmed, your
+                  service can be activated and your
+                  manager will receive the team
+                  access details.
+                </p>
               </div>
             ) : (
-              <form
-                onSubmit={handleQuoteSubmit}
-                className="mt-6 max-w-3xl space-y-4 rounded-3xl border border-white/15 bg-white/5 p-6"
-              >
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <PlanButton
-                    active={
-                      quoteForm.programOption ===
-                      'preview'
-                    }
-                    title="6-Month Preview"
-                    price={PREVIEW_PRICE}
-                    onClick={() =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        programOption:
-                          'preview',
-                      })
-                    }
-                  />
+              <>
+                <div className="max-w-4xl">
+                  <p className="text-sm font-extrabold text-[#F0D99A]">
+                    Request an invoice
+                  </p>
 
-                  <PlanButton
-                    active={
-                      quoteForm.programOption ===
-                      'full'
-                    }
-                    title="12-Month Regulator Champions"
-                    price={FULL_PRICE}
-                    onClick={() =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        programOption:
-                          'full',
-                      })
-                    }
-                  />
+                  <h3 className="mt-3 text-3xl font-extrabold">
+                    Tell me about your service.
+                  </h3>
+
+                  <p className="mt-4 text-lg leading-relaxed text-[#D8E1DC]">
+                    This information will also help
+                    us set up your service dashboard
+                    once your invoice is paid, so you
+                    won&apos;t need to give me the
+                    same details twice.
+                  </p>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <input
-                    type="text"
-                    required
-                    aria-label="Director or contact name"
-                    placeholder="Director / contact name"
-                    value={
-                      quoteForm.fullName
-                    }
-                    onChange={(event) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        fullName:
-                          event.target.value,
-                      })
-                    }
-                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
-                  />
-
-                  <input
-                    type="email"
-                    required
-                    aria-label="Work email address"
-                    placeholder="Work email address"
-                    value={quoteForm.email}
-                    onChange={(event) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        email:
-                          event.target.value,
-                      })
-                    }
-                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
-                  />
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <input
-                    type="text"
-                    required
-                    aria-label="Service or centre name"
-                    placeholder="Centre / program / service name"
-                    value={
-                      quoteForm.serviceName
-                    }
-                    onChange={(event) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        serviceName:
-                          event.target.value,
-                      })
-                    }
-                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#CBD8D3] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
-                  />
-
-                  <select
-                    value={
-                      quoteForm.fundingSource
-                    }
-                    onChange={(event) =>
-                      setQuoteForm({
-                        ...quoteForm,
-                        fundingSource:
-                          event.target.value,
-                      })
-                    }
-                    aria-label="Funding pathway"
-                    className="min-h-14 rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:outline-none focus:ring-2 focus:ring-[#E0BC68]"
-                  >
-                    <option value="Annual professional learning budget">
-                      Professional learning
-                      budget
-                    </option>
-
-                    <option value="US childcare professional development budget">
-                      US child care professional
-                      development budget
-                    </option>
-
-                    <option value="Victorian School Readiness Funding (SRF)">
-                      Victorian School Readiness
-                      Funding
-                    </option>
-
-                    <option value="Queensland Kindy Uplift">
-                      Queensland Kindy Uplift
-                    </option>
-
-                    <option value="NSW Early Childhood Funding / Professional Learning Budget">
-                      NSW Early Childhood Funding
-                      / Professional Learning
-                      Budget
-                    </option>
-
-                    <option value="SA Early Childhood Professional Development / 3-Year-Old Preschool">
-                      SA Early Childhood
-                      Professional Development /
-                      3-Year-Old Preschool
-                    </option>
-
-                    <option value="Other / not sure">
-                      Other / not sure yet
-                    </option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="min-h-14 rounded-2xl bg-white px-6 py-3 text-base font-extrabold text-[#12362F] transition hover:bg-[#F4F0E8] disabled:cursor-not-allowed disabled:opacity-60"
+                <form
+                  onSubmit={handleQuoteSubmit}
+                  className="mt-8 space-y-6"
                 >
-                  {isSubmitting
-                    ? 'Sending request…'
-                    : `Request $${selectedPrice.toLocaleString()} AUD proposal`}
-                </button>
-              </form>
+                  <div>
+                    <FieldLabel>
+                      Program option
+                    </FieldLabel>
+
+                    <div className="mt-2 grid gap-3 md:grid-cols-2">
+                      <PlanButton
+                        active={
+                          quoteForm.programOption ===
+                          'early-bird'
+                        }
+                        title="Early Bird Digital"
+                        price={
+                          EARLY_BIRD_PRICE
+                        }
+                        onClick={() =>
+                          updateField(
+                            'programOption',
+                            'early-bird',
+                          )
+                        }
+                      />
+
+                      <PlanButton
+                        active={
+                          quoteForm.programOption ===
+                          'premium'
+                        }
+                        title="Premium"
+                        price={PREMIUM_PRICE}
+                        onClick={() =>
+                          updateField(
+                            'programOption',
+                            'premium',
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <FormGrid>
+                    <FormInput
+                      label="Service name"
+                      required
+                      value={
+                        quoteForm.serviceName
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'serviceName',
+                          value,
+                        )
+                      }
+                    />
+
+                    <FormSelect
+                      label="Service type"
+                      required
+                      value={
+                        quoteForm.serviceType
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'serviceType',
+                          value,
+                        )
+                      }
+                      options={[
+                        '',
+                        'Kindergarten / preschool',
+                        'Long day care',
+                        'Early learning centre',
+                        'School',
+                        'Other',
+                      ]}
+                    />
+                  </FormGrid>
+
+                  <FormGrid>
+                    <FormInput
+                      label="Manager / main contact name"
+                      required
+                      value={
+                        quoteForm.managerName
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'managerName',
+                          value,
+                        )
+                      }
+                    />
+
+                    <FormInput
+                      label="Manager / main contact email"
+                      type="email"
+                      required
+                      value={
+                        quoteForm.managerEmail
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'managerEmail',
+                          value,
+                        )
+                      }
+                    />
+                  </FormGrid>
+
+                  <FormGrid>
+                    <FormInput
+                      label="Phone number"
+                      type="tel"
+                      required
+                      value={quoteForm.phone}
+                      onChange={(value) =>
+                        updateField(
+                          'phone',
+                          value,
+                        )
+                      }
+                    />
+
+                    <FormInput
+                      label="Number of educators"
+                      type="number"
+                      min="1"
+                      max="15"
+                      required
+                      value={
+                        quoteForm.educatorCount
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'educatorCount',
+                          value,
+                        )
+                      }
+                    />
+                  </FormGrid>
+
+                  <FormTextArea
+                    label="Postal address"
+                    required
+                    value={
+                      quoteForm.postalAddress
+                    }
+                    onChange={(value) =>
+                      updateField(
+                        'postalAddress',
+                        value,
+                      )
+                    }
+                    rows={3}
+                  />
+
+                  <FormGrid>
+                    <FormSelect
+                      label="Government funding / budget"
+                      required
+                      value={
+                        quoteForm.fundingSource
+                      }
+                      onChange={(value) =>
+                        updateField(
+                          'fundingSource',
+                          value,
+                        )
+                      }
+                      options={[
+                        '',
+                        'School Readiness Funding (SRF)',
+                        'Preschool Boost',
+                        'Kindy Uplift',
+                        'Professional learning budget',
+                        'Other government funding',
+                        'No government funding',
+                        'Not sure yet',
+                      ]}
+                    />
+
+                    {quoteForm.fundingSource ===
+                    'Other government funding' ? (
+                      <FormInput
+                        label="Other funding"
+                        value={
+                          quoteForm.fundingOther
+                        }
+                        onChange={(value) =>
+                          updateField(
+                            'fundingOther',
+                            value,
+                          )
+                        }
+                      />
+                    ) : (
+                      <div />
+                    )}
+                  </FormGrid>
+
+                  <div className="border-t border-white/15 pt-6">
+                    <p className="text-lg font-extrabold">
+                      Billing contact
+                    </p>
+
+                    <p className="mt-1 text-sm leading-6 text-[#CBD8D3]">
+                      Leave these blank if the
+                      billing contact is the same as
+                      the manager.
+                    </p>
+
+                    <div className="mt-4">
+                      <FormGrid>
+                        <FormInput
+                          label="Billing contact name"
+                          value={
+                            quoteForm.billingName
+                          }
+                          onChange={(value) =>
+                            updateField(
+                              'billingName',
+                              value,
+                            )
+                          }
+                        />
+
+                        <FormInput
+                          label="Billing email"
+                          type="email"
+                          value={
+                            quoteForm.billingEmail
+                          }
+                          onChange={(value) =>
+                            updateField(
+                              'billingEmail',
+                              value,
+                            )
+                          }
+                        />
+                      </FormGrid>
+                    </div>
+                  </div>
+
+                  <FormTextArea
+                    label="Anything else you'd like me to know?"
+                    value={quoteForm.notes}
+                    onChange={(value) =>
+                      updateField(
+                        'notes',
+                        value,
+                      )
+                    }
+                    rows={4}
+                  />
+
+                  {submitError ? (
+                    <p className="rounded-xl bg-[#7A312F] px-4 py-3 text-sm font-semibold text-white">
+                      {submitError}
+                    </p>
+                  ) : null}
+
+                  <div className="flex flex-col gap-4 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-sm text-[#CBD8D3]">
+                        Selected program
+                      </p>
+
+                      <p className="mt-1 text-2xl font-extrabold">
+                        $
+                        {selectedPrice.toLocaleString()}
+                        {' '}
+                        AUD
+                      </p>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 text-base font-extrabold text-[#102E28] transition hover:bg-[#EDCD82] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isSubmitting
+                        ? 'Sending request…'
+                        : 'Request my invoice'}
+                    </button>
+                  </div>
+                </form>
+              </>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* FREE CONTENT */}
+      <section className="border-t border-[#E5DED4] bg-white py-12">
+        <div className="mx-auto grid max-w-7xl gap-7 px-6 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <h2 className="text-2xl font-extrabold">
+              Want to look around before you
+              enquire?
+            </h2>
+
+            <p className="mt-3 max-w-4xl text-lg leading-relaxed text-[#53645D]">
+              Explore the free Regulation Ladder
+              sample and Play Move Improve articles
+              to get a feel for the way I approach
+              movement, regulation, play and
+              educator decision-making.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={FREE_SAMPLE_URL}
+              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-[#1C3B34] px-5 py-3 font-extrabold text-[#1C3B34]"
+            >
+              Free ladder sample
+            </Link>
+
+            <Link
+              href={BLOG_URL}
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#1C3B34] px-5 py-3 font-extrabold text-white"
+            >
+              Explore the blog
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL */}
+      <section className="bg-[#1C3B34] py-12 text-white">
+        <div className="mx-auto max-w-5xl px-6 text-center">
+          <p className="text-sm font-extrabold text-[#F0D99A]">
+            Play Move Improve
+          </p>
+
+          <h2 className="mt-3 text-3xl font-extrabold">
+            Regulator Champions Program 2027
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-[#D8E1DC]">
+            Professional learning should help
+            educators feel more capable in the
+            moments that are actually difficult, not
+            simply give them more information to
+            remember.
+          </p>
+
+          <a
+            href="#early-bird"
+            className="mt-7 inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#E0BC68] px-7 py-4 font-extrabold text-[#102E28]"
+          >
+            Request an invoice
+          </a>
         </div>
       </section>
     </main>
   );
 }
 
-function RoleRow({
-  role,
-  text,
+function Pill({
+  children,
 }: {
-  role: string;
-  text: string;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 border-t border-[#D8CFC2] py-5 first:border-t-0 sm:grid-cols-[120px_1fr]">
-      <p className="font-extrabold">
-        {role}
-      </p>
-
-      <p className="leading-relaxed text-[#53645D]">
-        {text}
-      </p>
-    </div>
+    <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white">
+      {children}
+    </span>
   );
 }
 
-function BodyExample({
+function FeatureCard({
+  number,
+  title,
+  text,
+}: {
+  number: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="rounded-3xl border border-[#E0D8CC] bg-[#FAF8F5] p-6">
+      <p className="text-sm font-extrabold text-[#9A793D]">
+        {number}
+      </p>
+
+      <h3 className="mt-3 text-2xl font-extrabold">
+        {title}
+      </h3>
+
+      <p className="mt-3 leading-7 text-[#53645D]">
+        {text}
+      </p>
+    </article>
+  );
+}
+
+function JourneyRow({
   title,
   text,
 }: {
@@ -1536,82 +1242,95 @@ function BodyExample({
   text: string;
 }) {
   return (
-    <div className="border-b border-[#D8CFC2] py-5">
+    <div className="grid gap-1 border-t border-[#D8CFC2] py-4 sm:grid-cols-[100px_1fr] sm:gap-5">
+      <p className="font-extrabold">
+        {title}
+      </p>
+
+      <p className="leading-7 text-[#53645D]">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function SimplePoint({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex gap-3">
+      <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#C29F60]" />
+
+      <p className="leading-7 text-[#53645D]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function InfoBlock({
+  title,
+  text,
+}: {
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="border-t border-[#D8CFC2] pt-5">
       <h3 className="text-xl font-extrabold">
         {title}
       </h3>
 
-      <p className="mt-2 text-base leading-relaxed text-[#53645D]">
+      <p className="mt-3 leading-7 text-[#53645D]">
         {text}
       </p>
-    </div>
+    </article>
   );
 }
 
-function LocationLink({
-  href,
-  title,
-  text,
-}: {
-  href: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="block border-b border-[#D8CFC2] py-5"
-    >
-      <p className="text-xl font-extrabold text-[#1C3B34]">
-        {title}
-      </p>
-
-      <p className="mt-2 text-base leading-7 text-[#53645D]">
-        {text}
-      </p>
-    </Link>
-  );
-}
-
-function ProgramOption({
+function PriceCard({
+  eyebrow,
   title,
   price,
-  period,
   text,
-  href,
-  button,
+  highlight = false,
 }: {
+  eyebrow: string;
   title: string;
   price: number;
-  period: string;
   text: string;
-  href: string;
-  button: string;
+  highlight?: boolean;
 }) {
   return (
-    <article className="border-t border-[#D8CFC2] pt-6">
-      <h3 className="text-2xl font-extrabold">
+    <article
+      className={`rounded-3xl border p-7 ${
+        highlight
+          ? 'border-[#C29F60] bg-[#FFF8E7] shadow-md'
+          : 'border-[#DDD5C9] bg-white'
+      }`}
+    >
+      <p className="text-sm font-extrabold text-[#9A793D]">
+        {eyebrow}
+      </p>
+
+      <h3 className="mt-3 text-2xl font-extrabold">
         {title}
       </h3>
 
-      <p className="mt-3 text-3xl font-extrabold">
-        ${price.toLocaleString()} AUD
+      <p className="mt-4 text-4xl font-extrabold">
+        ${price.toLocaleString()}
       </p>
 
-      <p className="mt-1 text-base text-[#6B7772]">
-        {period}
+      <p className="mt-1 text-sm font-semibold text-[#6B7772]">
+        AUD · one service · up to 15
+        educators
       </p>
 
-      <p className="mt-5 text-lg leading-relaxed text-[#53645D]">
+      <p className="mt-5 leading-7 text-[#53645D]">
         {text}
       </p>
-
-      <Link
-        href={href}
-        className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#1C3B34] bg-white px-5 py-3 text-base font-extrabold text-[#1C3B34] transition hover:bg-[#1C3B34] hover:text-white"
-      >
-        {button}
-      </Link>
     </article>
   );
 }
@@ -1631,31 +1350,162 @@ function PlanButton({
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-22 rounded-2xl border p-4 text-left transition ${
+      className={`rounded-2xl border p-5 text-left transition ${
         active
           ? 'border-[#E0BC68] bg-white text-[#12362F]'
-          : 'border-white/30 bg-[#102E28] text-white'
+          : 'border-white/25 bg-[#102E28] text-white'
       }`}
     >
-      <span
-        className={`block text-base font-extrabold ${
-          active
-            ? 'text-[#12362F]'
-            : 'text-white'
-        }`}
-      >
+      <span className="block text-lg font-extrabold">
         {title}
       </span>
 
       <span
         className={`mt-1 block text-sm ${
           active
-            ? 'text-[#42544D]'
+            ? 'text-[#53645D]'
             : 'text-[#D8E1DC]'
         }`}
       >
         ${price.toLocaleString()} AUD
       </span>
     </button>
+  );
+}
+
+function FormGrid({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      {children}
+    </div>
+  );
+}
+
+function FieldLabel({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block text-sm font-extrabold text-white">
+      {children}
+    </label>
+  );
+}
+
+function FormInput({
+  label,
+  value,
+  onChange,
+  type = 'text',
+  required = false,
+  min,
+  max,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
+  required?: boolean;
+  min?: string;
+  max?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-extrabold text-white">
+        {label}
+      </span>
+
+      <input
+        type={type}
+        value={value}
+        required={required}
+        min={min}
+        max={max}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="min-h-14 w-full rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#AFC1BA] focus:border-[#E0BC68] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]/40"
+      />
+    </label>
+  );
+}
+
+function FormTextArea({
+  label,
+  value,
+  onChange,
+  required = false,
+  rows = 4,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  rows?: number;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-extrabold text-white">
+        {label}
+      </span>
+
+      <textarea
+        value={value}
+        required={required}
+        rows={rows}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="w-full rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white placeholder:text-[#AFC1BA] focus:border-[#E0BC68] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]/40"
+      />
+    </label>
+  );
+}
+
+function FormSelect({
+  label,
+  value,
+  onChange,
+  options,
+  required = false,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+  required?: boolean;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-extrabold text-white">
+        {label}
+      </span>
+
+      <select
+        value={value}
+        required={required}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="min-h-14 w-full rounded-xl border border-white/30 bg-[#102E28] p-4 text-base text-white focus:border-[#E0BC68] focus:outline-none focus:ring-2 focus:ring-[#E0BC68]/40"
+      >
+        {options.map((option) => (
+          <option
+            key={
+              option || 'blank-option'
+            }
+            value={option}
+          >
+            {option ||
+              'Please choose…'}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }

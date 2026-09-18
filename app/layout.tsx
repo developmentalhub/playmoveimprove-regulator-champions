@@ -1,8 +1,9 @@
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+
+import SiteChrome from '@/components/SiteChrome';
+
 import './globals.css';
 
 const inter = Inter({
@@ -20,7 +21,8 @@ const PLAY_MOVE_IMPROVE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  applicationName: 'Regulator Champions',
+  applicationName:
+    'Regulator Champions',
 
   title: {
     default:
@@ -79,8 +81,11 @@ export const metadata: Metadata = {
     },
   ],
 
-  creator: 'Robyn Papworth',
-  publisher: 'Play Move Improve',
+  creator:
+    'Robyn Papworth',
+
+  publisher:
+    'Play Move Improve',
 
   category:
     'Early Childhood Professional Development',
@@ -92,7 +97,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
+      'max-image-preview':
+        'large',
       'max-snippet': -1,
       'max-video-preview': -1,
     },
@@ -101,9 +107,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    alternateLocale: ['en_AU'],
+    alternateLocale: [
+      'en_AU',
+    ],
+
     url: SITE_URL,
-    siteName: 'Regulator Champions',
+
+    siteName:
+      'Regulator Champions',
 
     title:
       'Regulator Champions | Practical Regulation Support for Early Childhood Teams',
@@ -113,16 +124,21 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: '/images/early-childhood-regulation-program.png',
+        url:
+          '/images/early-childhood-regulation-program.png',
+
         width: 1200,
         height: 630,
-        alt: 'Early childhood educators reviewing Regulator Champions Regulation Cards together',
+
+        alt:
+          'Early childhood educators reviewing Regulator Champions Regulation Cards together',
       },
     ],
   },
 
   twitter: {
-    card: 'summary_large_image',
+    card:
+      'summary_large_image',
 
     title:
       'Regulator Champions | Early Childhood Regulation Support',
@@ -145,7 +161,8 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children:
+    React.ReactNode;
 }>) {
   const organisationSchema = {
     '@context':
@@ -187,12 +204,18 @@ export default function RootLayout({
 
     areaServed: [
       {
-        '@type': 'Country',
-        name: 'Australia',
+        '@type':
+          'Country',
+
+        name:
+          'Australia',
       },
       {
-        '@type': 'Country',
-        name: 'United States',
+        '@type':
+          'Country',
+
+        name:
+          'United States',
       },
     ],
   };
@@ -273,7 +296,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={
+          inter.className
+        }
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -304,18 +331,12 @@ export default function RootLayout({
           }}
         />
 
-  <div className="flex min-h-screen flex-col">
-    <Navbar />
+        <SiteChrome>
+          {children}
+        </SiteChrome>
 
-    <div className="flex-1">
-      {children}
-    </div>
-
-    <Footer />
-  </div>
-
-  <Analytics />
-</body>
-</html>
-);
+        <Analytics />
+      </body>
+    </html>
+  );
 }

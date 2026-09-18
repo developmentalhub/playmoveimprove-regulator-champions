@@ -4,23 +4,22 @@ import {
 } from 'next/server';
 
 import {
-  getMemberSession,
-  MEMBER_ACCESS_COOKIE,
-} from '@/lib/memberAccess';
+  createServerClient,
+} from '@supabase/ssr';
 
 const PROTECTED_PREFIXES = [
   '/portal',
+  '/platform',
   '/playbooks',
   '/month-2-ease',
   '/nqs-mapping',
   '/educator-confidence',
   '/learning-journey',
-  '/platform',
 ];
 
 function isProtectedPath(
   pathname: string,
-): boolean {
+) {
   return PROTECTED_PREFIXES.some(
     (prefix) =>
       pathname === prefix ||
@@ -44,99 +43,110 @@ export async function proxy(
     return NextResponse.next();
   }
 
-  /*
-   * Only the new signed
-   * member_access_token is valid.
-   *
-   * The old regulator_session
-   * cookie is deliberately no
-   * longer accepted.
-   */
-  const token =
-    request.cookies.get(
-      MEMBER_ACCESS_COOKIE,
-    )?.value;
+  let response =
+    NextResponse.next({
+      request,
+    });
 
-  const memberSession =
-    await getMemberSession(
-      token,
+  const supabaseUrl =
+    process.env
+      .NEXT_PUBLIC_SUPABASE_URL;
+
+  const supabaseAnonKey =
+    process.env
+      .NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (
+    !supabaseUrl ||
+    !supabaseAnonKey
+  ) {
+    console.error(
+      'Missing Supabase environment variables in proxy.',
     );
 
-  if (memberSession) {
-    return NextResponse.next();
+    return NextResponse.redirect(
+      new URL(
+        '/member-access',
+        request.url,
+      ),
+    );
   }
 
-  /*
-   * Send the educator to the
-   * correct Regulator Champions
-   * member access page.
-   */
-  const loginUrl =
-    new URL(
-      '/member-access',
-      request.url,
+  const supabase =
+    createServerClient(
+      supabaseUrl,
+      supabaseAnonKey,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+
+          setAll(
+            cookiesToSet,
+          ) {
+            cookiesToSet.forEach(
+              ({
+                name,
+                value,
+              }) => {
+                request.cookies.set(
+                  name,
+                  value,
+                );
+              },
+            );
+
+            response =
+              NextResponse.next({
+                request,
+              });
+
+            cookiesToSet.forEach(
+              ({
+                name,
+                value,
+                options,
+              }) => {
+                response.cookies.set(
+                  name,
+                  value,
+                  options,
+                );
+              },
+            );
+          },
+        },
+      },
     );
 
-  loginUrl.searchParams.set(
-    'returnTo',
-    `${pathname}${request.nextUrl.search}`,
-  );
+  const {
+    data: {
+      user,
+    },
+    error,
+  } =
+    await supabase.auth
+      .getUser();
 
-  const response =
-    NextResponse.redirect(
+  if (
+    error ||
+    !user
+  ) {
+    const loginUrl =
+      new URL(
+        '/member-access',
+        request.url,
+      );
+
+    loginUrl.searchParams.set(
+      'returnTo',
+      `${pathname}${request.nextUrl.search}`,
+    );
+
+    return NextResponse.redirect(
       loginUrl,
     );
-
-  /*
-   * If an invalid or old signed
-   * member cookie exists, clear it
-   * so the educator can log in
-   * cleanly with their existing
-   * service access code.
-   */
-  if (token) {
-    response.cookies.set({
-      name:
-        MEMBER_ACCESS_COOKIE,
-      value: '',
-      httpOnly: true,
-      secure:
-        process.env.NODE_ENV ===
-        'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 0,
-      expires:
-        new Date(0),
-    });
-  }
-
-  /*
-   * Also remove the old legacy
-   * regulator_session cookie.
-   *
-   * This does not change anyone's
-   * actual service access code.
-   */
-  if (
-    request.cookies.get(
-      'regulator_session',
-    )
-  ) {
-    response.cookies.set({
-      name:
-        'regulator_session',
-      value: '',
-      httpOnly: true,
-      secure:
-        process.env.NODE_ENV ===
-        'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 0,
-      expires:
-        new Date(0),
-    });
   }
 
   return response;
@@ -145,11 +155,11 @@ export async function proxy(
 export const config = {
   matcher: [
     '/portal/:path*',
+    '/platform/:path*',
     '/playbooks/:path*',
     '/month-2-ease/:path*',
     '/nqs-mapping/:path*',
     '/educator-confidence/:path*',
     '/learning-journey/:path*',
-    '/platform/:path*',
   ],
 };

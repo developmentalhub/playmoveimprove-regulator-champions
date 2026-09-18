@@ -1,25 +1,42 @@
 @import "tailwindcss";
 
+/* =========================================================
+   PLAY MOVE IMPROVE BRAND
+   ========================================================= */
+
 :root {
-  --background: #faf8f5;
-  --background-warm: #faf5ec;
-  --foreground: #1c3b34;
+  --pmi-navy: #232150;
+  --pmi-navy-deep: #19173f;
 
-  --green-dark: #12362f;
-  --green-mid: #526a60;
-  --green-hover: #3f574e;
+  --pmi-purple: #87317e;
+  --pmi-purple-dark: #702868;
 
-  --gold: #e0bc68;
-  --gold-light: #f0d99a;
+  --pmi-mint: #61b694;
+  --pmi-mint-dark: #449b7b;
+  --pmi-mint-soft: #e8f5ef;
 
-  --cream: #faf5ec;
+  --pmi-cream: #dccda8;
+  --pmi-cream-light: #f4eddd;
+
+  --background: #faf9fc;
+  --background-warm: #f8f3e9;
+
+  --foreground: #232150;
+
   --white: #ffffff;
-  --border: #e5ded4;
+  --border: #e3dfeb;
 
-  --text-main: #12362f;
-  --text-body: #42544d;
-  --text-muted: #5e6d67;
+  --text-main: #232150;
+  --text-body: #4c4a68;
+  --text-muted: #706e83;
+
+  --success: #449b7b;
+  --danger: #a34657;
 }
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 *,
 *::before,
@@ -35,6 +52,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+
   background: var(--background);
   color: var(--foreground);
 
@@ -138,6 +156,7 @@ button {
 
 button:disabled {
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 img {
@@ -151,40 +170,204 @@ iframe {
 }
 
 ::selection {
-  background: #e0bc68;
-  color: #12362f;
+  background: var(--pmi-mint);
+  color: var(--pmi-navy);
 }
 
 :focus-visible {
-  outline: 3px solid #e0bc68;
+  outline: 3px solid var(--pmi-mint);
   outline-offset: 4px;
 }
 
 /* =========================================================
-   BUTTONS
-   Strong contrast across the whole site
+   OLD SITE COLOUR COMPATIBILITY
+
+   These rules mean we do not need to immediately rewrite
+   every old Tailwind colour throughout every page.
    ========================================================= */
 
-/* GOLD BUTTONS */
+/* Old dark greens become PMI navy */
+
+[class*="bg-[#1C3B34]"],
+[class*="bg-[#12362F]"],
+[class*="bg-[#12362f]"],
+[class*="bg-[#132C27]"],
+[class*="bg-[#132c27]"],
+[class*="bg-[#16332D]"],
+[class*="bg-[#173B33]"],
+[class*="bg-[#134e4a]"],
+[class*="bg-[#042f2e]"] {
+  background-color: var(--pmi-navy) !important;
+}
+
+/* Old green text becomes navy */
+
+[class*="text-[#1C3B34]"],
+[class*="text-[#12362F]"],
+[class*="text-[#12362f]"],
+[class*="text-[#102E28]"],
+[class*="text-[#102e28]"],
+[class*="text-[#173B33]"] {
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+}
+
+/* Old gold headings/accents become PMI purple */
+
+[class*="text-[#C29F60]"],
+[class*="text-[#c29f60]"],
+[class*="text-[#9A793D]"],
+[class*="text-[#9a793d]"],
+[class*="text-[#8A6F3E]"],
+[class*="text-[#8a6f3e]"] {
+  color: var(--pmi-purple) !important;
+  -webkit-text-fill-color: var(--pmi-purple) !important;
+}
+
+/* Old muted greens become muted branded text */
+
+[class*="text-[#657B6C]"],
+[class*="text-[#657b6c]"],
+[class*="text-[#53645D]"],
+[class*="text-[#53645d]"],
+[class*="text-[#526A60]"],
+[class*="text-[#526a60]"] {
+  color: var(--text-body) !important;
+  -webkit-text-fill-color: var(--text-body) !important;
+}
+
+/* Old cream backgrounds become PMI warm cream */
+
+[class*="bg-[#FAF5EC]"],
+[class*="bg-[#faf5ec]"],
+[class*="bg-[#FAF8F5]"],
+[class*="bg-[#faf8f5]"] {
+  background-color: var(--background-warm) !important;
+}
+
+/* Old borders become soft PMI borders */
+
+[class*="border-[#E6E2DC]"],
+[class*="border-[#e6e2dc]"],
+[class*="border-[#E5DED4]"],
+[class*="border-[#e5ded4]"],
+[class*="border-[#DDD5C9]"],
+[class*="border-[#ddd5c9]"] {
+  border-color: var(--border) !important;
+}
+
+/* =========================================================
+   PRIMARY DARK BUTTONS
+   ========================================================= */
+
+button[class*="bg-[#1C3B34]"],
+a[class*="bg-[#1C3B34]"],
+button[class*="bg-[#12362F]"],
+a[class*="bg-[#12362F]"],
+button[class*="bg-[#12362f]"],
+a[class*="bg-[#12362f]"],
+button[class*="bg-[#132C27]"],
+a[class*="bg-[#132C27]"],
+button[class*="bg-[#132c27]"],
+a[class*="bg-[#132c27]"],
+button[class*="bg-[#173B33]"],
+a[class*="bg-[#173B33]"],
+button[class*="bg-[#16332D]"],
+a[class*="bg-[#16332D]"],
+button[class*="bg-[#134e4a]"],
+a[class*="bg-[#134e4a]"],
+button[class*="bg-[#042f2e]"],
+a[class*="bg-[#042f2e]"] {
+  background-color: var(--pmi-navy) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+
+  font-weight: 800 !important;
+}
+
+button[class*="bg-[#1C3B34]"] *,
+a[class*="bg-[#1C3B34]"] *,
+button[class*="bg-[#12362F]"] *,
+a[class*="bg-[#12362F]"] *,
+button[class*="bg-[#12362f]"] *,
+a[class*="bg-[#12362f]"] *,
+button[class*="bg-[#132C27]"] *,
+a[class*="bg-[#132C27]"] *,
+button[class*="bg-[#132c27]"] *,
+a[class*="bg-[#132c27]"] *,
+button[class*="bg-[#173B33]"] *,
+a[class*="bg-[#173B33]"] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+button[class*="bg-[#1C3B34]"]:hover,
+a[class*="bg-[#1C3B34]"]:hover,
+button[class*="bg-[#12362F]"]:hover,
+a[class*="bg-[#12362F]"]:hover,
+button[class*="bg-[#173B33]"]:hover,
+a[class*="bg-[#173B33]"]:hover {
+  background-color: var(--pmi-navy-deep) !important;
+}
+
+/* PMI NAVY BUTTONS - always white text */
+
+button[class*="bg-[#232150]"],
+a[class*="bg-[#232150]"] {
+  background-color: #232150 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+button[class*="bg-[#232150]"] *,
+a[class*="bg-[#232150]"] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+button[class*="bg-[#232150]"]:hover,
+a[class*="bg-[#232150]"]:hover {
+  background-color: #19173f !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* =========================================================
+   OLD GOLD BUTTONS → PMI MINT
+   ========================================================= */
 
 button[class*="bg-[#C29F60]"],
 a[class*="bg-[#C29F60]"],
+span[class*="bg-[#C29F60]"],
 button[class*="bg-[#D1B477]"],
 a[class*="bg-[#D1B477]"],
+span[class*="bg-[#D1B477]"],
 button[class*="bg-[#E0BC68]"],
-a[class*="bg-[#E0BC68]"] {
-  background-color: #e0bc68 !important;
-  color: #102e28 !important;
+a[class*="bg-[#E0BC68]"],
+span[class*="bg-[#E0BC68]"],
+button[class*="bg-[#e0bc68]"],
+a[class*="bg-[#e0bc68]"],
+span[class*="bg-[#e0bc68]"] {
+  background-color: var(--pmi-mint) !important;
+
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+
   font-weight: 800 !important;
 }
 
 button[class*="bg-[#C29F60]"] *,
 a[class*="bg-[#C29F60]"] *,
+span[class*="bg-[#C29F60]"] *,
 button[class*="bg-[#D1B477]"] *,
 a[class*="bg-[#D1B477]"] *,
+span[class*="bg-[#D1B477]"] *,
 button[class*="bg-[#E0BC68]"] *,
-a[class*="bg-[#E0BC68]"] * {
-  color: #102e28 !important;
+a[class*="bg-[#E0BC68]"] *,
+span[class*="bg-[#E0BC68]"] * {
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
 }
 
 button[class*="bg-[#C29F60]"]:hover,
@@ -193,55 +376,14 @@ button[class*="bg-[#D1B477]"]:hover,
 a[class*="bg-[#D1B477]"]:hover,
 button[class*="bg-[#E0BC68]"]:hover,
 a[class*="bg-[#E0BC68]"]:hover {
-  background-color: #edcd82 !important;
-  color: #102e28 !important;
-}
-
-/* DARK GREEN BUTTONS */
-
-button[class*="bg-[#1C3B34]"],
-a[class*="bg-[#1C3B34]"],
-button[class*="bg-[#12362F]"],
-a[class*="bg-[#12362F]"],
-button[class*="bg-[#132C27]"],
-a[class*="bg-[#132C27]"],
-button[class*="bg-[#16332D]"],
-a[class*="bg-[#16332D]"],
-button[class*="bg-[#134e4a]"],
-a[class*="bg-[#134e4a]"],
-button[class*="bg-[#042f2e]"],
-a[class*="bg-[#042f2e]"] {
-  background-color: #12362f !important;
+  background-color: var(--pmi-mint-dark) !important;
   color: #ffffff !important;
-  font-weight: 800 !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-button[class*="bg-[#1C3B34]"] *,
-a[class*="bg-[#1C3B34]"] *,
-button[class*="bg-[#12362F]"] *,
-a[class*="bg-[#12362F]"] *,
-button[class*="bg-[#132C27]"] *,
-a[class*="bg-[#132C27]"] *,
-button[class*="bg-[#16332D]"] *,
-a[class*="bg-[#16332D]"] *,
-button[class*="bg-[#134e4a]"] *,
-a[class*="bg-[#134e4a]"] *,
-button[class*="bg-[#042f2e]"] *,
-a[class*="bg-[#042f2e]"] * {
-  color: #ffffff !important;
-}
-
-button[class*="bg-[#1C3B34]"]:hover,
-a[class*="bg-[#1C3B34]"]:hover,
-button[class*="bg-[#12362F]"]:hover,
-a[class*="bg-[#12362F]"]:hover,
-button[class*="bg-[#132C27]"]:hover,
-a[class*="bg-[#132C27]"]:hover {
-  background-color: #224c42 !important;
-  color: #ffffff !important;
-}
-
-/* MID GREEN BUTTONS */
+/* =========================================================
+   MID GREEN BUTTONS → PMI PURPLE
+   ========================================================= */
 
 button[class*="bg-[#657B6C]"],
 a[class*="bg-[#657B6C]"],
@@ -249,10 +391,15 @@ button[class*="bg-[#53665A]"],
 a[class*="bg-[#53665A]"],
 button[class*="bg-[#526A60]"],
 a[class*="bg-[#526A60]"],
+button[class*="bg-[#526a60]"],
+a[class*="bg-[#526a60]"],
 button[class*="bg-[#284E45]"],
 a[class*="bg-[#284E45]"] {
-  background-color: #526a60 !important;
+  background-color: var(--pmi-purple) !important;
+
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+
   font-weight: 800 !important;
 }
 
@@ -262,84 +409,127 @@ button[class*="bg-[#53665A]"] *,
 a[class*="bg-[#53665A]"] *,
 button[class*="bg-[#526A60]"] *,
 a[class*="bg-[#526A60]"] *,
+button[class*="bg-[#526a60]"] *,
+a[class*="bg-[#526a60]"] *,
 button[class*="bg-[#284E45]"] *,
 a[class*="bg-[#284E45]"] * {
   color: #ffffff !important;
-}
-
-/* WHITE BUTTONS */
-
-button[class*="bg-white"],
-a[class*="bg-white"],
-button[class*="bg-[#FFFFFF]"],
-a[class*="bg-[#FFFFFF]"] {
-  background-color: #ffffff !important;
-  color: #12362f !important;
-  font-weight: 800 !important;
-}
-
-button[class*="bg-white"] *,
-a[class*="bg-white"] *,
-button[class*="bg-[#FFFFFF]"] *,
-a[class*="bg-[#FFFFFF]"] * {
-  color: #12362f !important;
-}
-
-/* CREAM / LIGHT BUTTONS */
-
-button[class*="bg-[#FAF5EC]"],
-a[class*="bg-[#FAF5EC]"],
-button[class*="bg-[#FAF8F5]"],
-a[class*="bg-[#FAF8F5]"],
-button[class*="bg-[#F1F4F2]"],
-a[class*="bg-[#F1F4F2]"] {
-  color: #12362f !important;
-  font-weight: 800 !important;
-}
-
-button[class*="bg-[#FAF5EC]"] *,
-a[class*="bg-[#FAF5EC]"] *,
-button[class*="bg-[#FAF8F5]"] *,
-a[class*="bg-[#FAF8F5]"] *,
-button[class*="bg-[#F1F4F2]"] *,
-a[class*="bg-[#F1F4F2]"] * {
-  color: #12362f !important;
-}
-
-/* TRANSPARENT / GHOST BUTTONS ON DARK BACKGROUNDS */
-
-.bg-\[\#1C3B34\] button[class*="bg-white/5"],
-.bg-\[\#1C3B34\] a[class*="bg-white/5"],
-.bg-\[\#1C3B34\] button[class*="bg-white/10"],
-.bg-\[\#1C3B34\] a[class*="bg-white/10"],
-.bg-\[\#12362F\] button[class*="bg-white/5"],
-.bg-\[\#12362F\] a[class*="bg-white/5"],
-.bg-\[\#12362F\] button[class*="bg-white/10"],
-.bg-\[\#12362F\] a[class*="bg-white/10"] {
-  color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
-}
-
-.bg-\[\#1C3B34\] button[class*="bg-white/5"] *,
-.bg-\[\#1C3B34\] a[class*="bg-white/5"] *,
-.bg-\[\#1C3B34\] button[class*="bg-white/10"] *,
-.bg-\[\#1C3B34\] a[class*="bg-white/10"] *,
-.bg-\[\#12362F\] button[class*="bg-white/5"] *,
-.bg-\[\#12362F\] a[class*="bg-white/5"] *,
-.bg-\[\#12362F\] button[class*="bg-white/10"] *,
-.bg-\[\#12362F\] a[class*="bg-white/10"] * {
-  color: #ffffff !important;
-}
-
-/* BUTTON LABELS */
-
-button > span,
-a[class*="rounded"] > span {
-  color: inherit;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 /* =========================================================
-   FORM FIELDS
+   WHITE BUTTONS
+   ========================================================= */
+
+button[class~="bg-white"],
+a[class~="bg-white"],
+span[class~="bg-white"] {
+  background-color: #ffffff !important;
+
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+
+  font-weight: 800 !important;
+}
+
+button[class~="bg-white"] *,
+a[class~="bg-white"] *,
+span[class~="bg-white"] * {
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+}
+
+button[class~="bg-white"]:hover,
+a[class~="bg-white"]:hover {
+  background-color: var(--pmi-cream-light) !important;
+}
+
+/* =========================================================
+   LIGHT / CREAM BUTTONS
+   ========================================================= */
+
+button[class*="bg-[#FAF5EC]"],
+a[class*="bg-[#FAF5EC]"],
+span[class*="bg-[#FAF5EC]"],
+button[class*="bg-[#FAF8F5]"],
+a[class*="bg-[#FAF8F5]"],
+span[class*="bg-[#FAF8F5]"],
+button[class*="bg-[#F1F4F2]"],
+a[class*="bg-[#F1F4F2]"],
+span[class*="bg-[#F1F4F2]"] {
+  background-color: var(--pmi-cream-light) !important;
+
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+
+  font-weight: 800 !important;
+}
+
+/* =========================================================
+   TRANSLUCENT / SIDEBAR BUTTONS
+   ========================================================= */
+
+[class*="bg-[#232150]"]
+button[class*="bg-white/"],
+[class*="bg-[#232150]"]
+a[class*="bg-white/"],
+[class*="bg-[#173B33]"]
+button[class*="bg-white/"],
+[class*="bg-[#173B33]"]
+a[class*="bg-white/"],
+[class*="bg-[#1C3B34]"]
+button[class*="bg-white/"],
+[class*="bg-[#1C3B34]"]
+a[class*="bg-white/"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+
+  border-color: rgba(
+    255,
+    255,
+    255,
+    0.28
+  ) !important;
+}
+
+/* =========================================================
+   LINKS / INTERACTIVE TEXT
+   ========================================================= */
+
+main a:not(
+    [class*="bg-"]
+  ) {
+  color: var(--pmi-purple);
+}
+
+main a:not(
+    [class*="bg-"]
+  ):hover {
+  color: var(--pmi-purple-dark);
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+article[class*="bg-white"],
+section[class*="bg-white"] {
+  border-color: var(--border);
+}
+
+article[class*="hover:border"] {
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+article[class*="hover:border"]:hover {
+  border-color: var(--pmi-mint) !important;
+}
+
+/* =========================================================
+   FORMS
    ========================================================= */
 
 input,
@@ -353,19 +543,68 @@ textarea::placeholder {
   opacity: 1;
 }
 
-/* DARK FORM FIELDS */
+input[class~="bg-white"],
+textarea[class~="bg-white"],
+select[class~="bg-white"] {
+  background-color: #ffffff !important;
+
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
+
+  caret-color: var(--pmi-navy) !important;
+
+  border-color: var(--border) !important;
+}
+
+input[class~="bg-white"]::placeholder,
+textarea[class~="bg-white"]::placeholder {
+  color: #77758d !important;
+  -webkit-text-fill-color: #77758d !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--pmi-mint) !important;
+}
+
+/* Dark legacy form fields */
 
 input[class*="bg-[#132C27]"],
 textarea[class*="bg-[#132C27]"],
-select[class*="bg-[#132C27]"] {
-  background: #102e28 !important;
+select[class*="bg-[#132C27]"],
+input[class*="bg-[#132c27]"],
+textarea[class*="bg-[#132c27]"],
+select[class*="bg-[#132c27]"] {
+  background-color: var(--pmi-navy) !important;
+
   color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
+  -webkit-text-fill-color: #ffffff !important;
+
+  caret-color: #ffffff !important;
+
+  border-color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ) !important;
 }
 
 input[class*="bg-[#132C27]"]::placeholder,
-textarea[class*="bg-[#132C27]"]::placeholder {
-  color: #d6e0dc !important;
+textarea[class*="bg-[#132C27]"]::placeholder,
+input[class*="bg-[#132c27]"]::placeholder,
+textarea[class*="bg-[#132c27]"]::placeholder {
+  color: #d2d0df !important;
+  -webkit-text-fill-color: #d2d0df !important;
+}
+
+select[class*="bg-[#132C27]"] option,
+select[class*="bg-[#132c27]"] option {
+  background-color: #ffffff !important;
+
+  color: var(--pmi-navy) !important;
+  -webkit-text-fill-color: var(--pmi-navy) !important;
 }
 
 /* =========================================================
@@ -394,7 +633,9 @@ section {
    MOBILE
    ========================================================= */
 
-@media (max-width: 640px) {
+@media (
+  max-width: 640px
+) {
   body {
     font-size: 17px;
     line-height: 1.68;
@@ -427,13 +668,17 @@ section {
    TABLET / DESKTOP
    ========================================================= */
 
-@media (min-width: 768px) {
+@media (
+  min-width: 768px
+) {
   body {
     font-size: 18px;
   }
 }
 
-@media (min-width: 1280px) {
+@media (
+  min-width: 1280px
+) {
   body {
     font-size: 19px;
   }
@@ -443,7 +688,10 @@ section {
    REDUCED MOTION
    ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
   html {
     scroll-behavior: auto;
   }
@@ -451,10 +699,17 @@ section {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    scroll-behavior:
+      auto !important;
   }
 }
 
@@ -466,6 +721,7 @@ section {
   body {
     background: #ffffff !important;
     color: #000000 !important;
+
     font-size: 12pt;
     line-height: 1.5;
   }
@@ -477,17 +733,27 @@ section {
   .print-only-container {
     box-shadow: none !important;
     border: none !important;
+
     width: 100% !important;
     max-width: 100% !important;
+
     margin: 0 !important;
     padding: 0 !important;
   }
 
   .qip-document-page {
     page-break-inside: avoid;
-    border: 2px solid #526a60 !important;
+
+    border:
+      2px solid
+      var(--pmi-navy) !important;
+
     padding: 24px !important;
-    border-radius: 12px !important;
-    background: #ffffff !important;
+
+    border-radius:
+      12px !important;
+
+    background:
+      #ffffff !important;
   }
 }

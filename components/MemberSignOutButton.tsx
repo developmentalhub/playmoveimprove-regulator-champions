@@ -1,63 +1,93 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import {
+  useState,
+} from 'react';
+
+import {
+  useRouter,
+} from 'next/navigation';
+
+import {
+  createRcBrowserClient,
+} from '@/lib/rcAuthClient';
 
 export default function MemberSignOutButton() {
-  const router = useRouter();
+  const router =
+    useRouter();
 
-  const [isSigningOut, setIsSigningOut] =
-    useState(false);
+  const [
+    isSigningOut,
+    setIsSigningOut,
+  ] = useState(false);
 
-  const handleSignOut = async () => {
+  const [
+    error,
+    setError,
+  ] = useState('');
+
+  async function handleSignOut() {
     setIsSigningOut(true);
+    setError('');
 
     try {
-      const response = await fetch(
-        '/api/member-signout',
-        {
-          method: 'POST',
-        },
-      );
+      const supabase =
+        createRcBrowserClient();
 
-      const result = await response.json();
+      const {
+        error:
+          signOutError,
+      } =
+        await supabase.auth
+          .signOut();
 
-      if (
-        !response.ok ||
-        result.success !== true
-      ) {
-        throw new Error(
-          result.error ||
-            'Member access could not be cleared.',
-        );
+      if (signOutError) {
+        throw signOutError;
       }
 
-      router.replace('/member-access');
-      router.refresh();
-    } catch (error) {
-      console.error(
-        'Member sign-out failed:',
-        error,
+      router.replace(
+        '/member-access',
       );
 
-      alert(
+      router.refresh();
+    } catch (
+      signOutError
+    ) {
+      console.error(
+        'Member sign out failed:',
+        signOutError,
+      );
+
+      setError(
         'Member access could not be cleared. Please try again.',
       );
-    } finally {
+
       setIsSigningOut(false);
     }
-  };
+  }
 
   return (
-    <button
-      type="button"
-      onClick={handleSignOut}
-      disabled={isSigningOut}
-      className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:border-teal-700 hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-60"
-    >
-      {isSigningOut
-        ? 'Signing out…'
-        : 'Sign out of member access'}
-    </button>
+    <div>
+      <button
+        type="button"
+        onClick={
+          handleSignOut
+        }
+        disabled={
+          isSigningOut
+        }
+        className="rounded-xl border border-[#D8D2C9] bg-white px-4 py-2 text-sm font-bold text-[#12362F] transition hover:bg-[#F6F2EC] disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isSigningOut
+          ? 'Signing out…'
+          : 'Sign out'}
+      </button>
+
+      {error ? (
+        <p className="mt-2 max-w-xs text-xs font-semibold text-rose-700">
+          {error}
+        </p>
+      ) : null}
+    </div>
   );
 }

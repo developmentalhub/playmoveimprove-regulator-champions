@@ -6,45 +6,38 @@ const siteUrl =
 
 export const metadata: Metadata = {
   title:
-    "Early Childhood Regulation & Behaviour Support | Regulator Champions",
+    "Play Move Improve | Regulator Champions Program 2027",
 
   description:
-    "Practical regulation and behaviour support for early childhood teams, child care centres and preschool programs. Regulation Ladders, professional development, recordings and ongoing support for educators and directors.",
+    "A 12-month professional learning and implementation program for early childhood teams. Regulator Champions combines practical educator training, co-regulation strategies, family voice, QIP documentation and 18 hours of professional development.",
 
   keywords: [
+    "Play Move Improve",
     "Regulator Champions",
-    "early childhood regulation",
-    "early childhood regulation support",
-    "early childhood co-regulation",
-    "behaviour support early childhood",
-    "child care behaviour support",
-    "challenging behaviour child care",
-    "challenging behavior child care",
-    "preschool behaviour support",
-    "preschool behavior support",
-    "child care professional development",
     "early childhood professional development",
-    "professional development for preschool teachers",
-    "professional development for child care staff",
-    "child care director professional development",
-    "social emotional development preschool",
-    "teacher child interactions",
-    "co-regulation preschool",
-    "regulation cards early childhood",
-    "Regulation Ladders",
-    "sensory processing early childhood",
-    "executive function preschool",
-    "early childhood transitions",
-    "quality improvement child care",
-    "QRIS professional development",
-    "Developmentally Appropriate Practice",
-    "NAEYC professional development",
+    "early childhood regulation",
+    "co-regulation early childhood",
+    "early childhood behaviour support",
+    "educator professional learning",
     "Quality Improvement Plan",
     "QIP early childhood",
+    "family engagement early childhood",
     "School Readiness Funding",
     "SRF Victoria",
+    "Preschool Boost",
     "Kindy Uplift",
-    "Play Move Improve",
+    "sensory processing early childhood",
+    "executive function preschool",
+    "vagus nerve early childhood",
+    "interoception early childhood",
+    "vestibular processing",
+    "proprioception",
+    "play schemas",
+    "neuroplasticity children",
+    "neurodivergence early childhood",
+    "biophilic early childhood environments",
+    "early childhood transitions",
+    "educator capacity building",
     "Robyn Papworth",
   ],
 
@@ -55,17 +48,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    siteName: "Regulator Champions",
+    siteName: "Play Move Improve",
     title:
-      "When Behaviour Keeps Happening, Help Your Team Know What to Try Next",
+      "Play Move Improve | Regulator Champions Program 2027",
     description:
-      "Regulator Champions helps early childhood teams notice what may be happening underneath behaviour, use practical Regulation Ladders and make more thoughtful decisions in everyday child care and preschool settings.",
+      "A year of practical professional learning, reflection, family engagement and QIP evidence for early childhood teams of up to 15 educators.",
     images: [
       {
         url: "/images/early-childhood-regulation-program.png",
         width: 1200,
         height: 630,
-        alt: "Two early childhood educators reviewing Regulator Champions Regulation Cards together",
+        alt: "Play Move Improve Regulator Champions professional learning program for early childhood teams",
       },
     ],
   },
@@ -73,9 +66,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Regulator Champions | Early Childhood Regulation & Behaviour Support",
+      "Play Move Improve | Regulator Champions Program 2027",
     description:
-      "Practical Regulation Ladders, professional development, recordings and support for early childhood educators, child care directors and preschool teams.",
+      "A 12-month early childhood professional learning program for whole teams, including practical resources, family voice, QIP evidence and 18 CPD hours.",
     images: [
       "/images/early-childhood-regulation-program.png",
     ],
@@ -99,13 +92,8 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${siteUrl}/#organization`,
-    name: "Regulator Champions",
+    name: "Play Move Improve",
     url: siteUrl,
-    parentOrganization: {
-      "@type": "Organization",
-      name: "Play Move Improve",
-      url: "https://www.playmoveimprove.com",
-    },
     founder: {
       "@id": `${siteUrl}/#robyn-papworth`,
     },
@@ -117,23 +105,22 @@ export default function HomePage() {
     "@id": `${siteUrl}/#robyn-papworth`,
     name: "Robyn Papworth",
     jobTitle:
-      "Accredited Exercise Physiologist and Developmental Educator",
+      "Developmental Educator and Certified Trainer",
     worksFor: {
       "@id": `${siteUrl}/#organization`,
     },
     knowsAbout: [
-      "Early childhood regulation",
-      "Early childhood co-regulation",
-      "Early childhood behaviour",
-      "Child care behaviour support",
+      "Early childhood development",
+      "Co-regulation",
       "Sensory processing",
-      "Child development",
-      "Movement development",
-      "Educator professional learning",
       "Executive function",
-      "Social emotional development",
-      "Teacher-child interactions",
+      "Neuroplasticity",
+      "Movement development",
+      "Play development",
+      "Educator professional learning",
       "Early childhood participation",
+      "Family engagement",
+      "Quality improvement in early childhood",
     ],
   };
 
@@ -141,56 +128,54 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${siteUrl}/#website`,
-    name: "Regulator Champions",
+    name: "Play Move Improve",
     url: siteUrl,
     description:
-      "Practical early childhood regulation and behaviour support helping educators and child care teams understand behaviour, notice children's body cues and decide what to try next.",
+      "Professional learning and practical implementation support for early childhood educators and teams.",
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },
-    inLanguage: "en",
+    inLanguage: "en-AU",
   };
 
-  const serviceSchema = {
+  const programSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": `${siteUrl}/#regulator-champions-service`,
-    name: "Regulator Champions",
+    "@id": `${siteUrl}/#regulator-champions`,
+    name: "Regulator Champions Program 2027",
     description:
-      "An early childhood regulation and behaviour support program using practical Regulation Ladders, professional development, recordings and ongoing support to help educators, directors, managers and families notice what may be contributing to difficult moments and decide what to try next.",
+      "A 12-month professional learning and implementation program for early childhood teams of up to 15 educators, including live and self-paced learning, practical resources, reflection, certificates, family voice and Quality Improvement Plan documentation.",
     provider: {
       "@id": `${siteUrl}/#organization`,
     },
-    audience: [
-      {
-        "@type": "EducationalAudience",
-        educationalRole:
-          "early childhood educator",
-      },
-      {
-        "@type": "Audience",
-        audienceType:
-          "Child care owners, directors and preschool leaders",
-      },
-      {
-        "@type": "Audience",
-        audienceType:
-          "Early childhood educational leaders and managers",
-      },
-    ],
-    areaServed: [
-      {
-        "@type": "Country",
-        name: "Australia",
-      },
-      {
-        "@type": "Country",
-        name: "United States",
-      },
-    ],
+    audience: {
+      "@type": "EducationalAudience",
+      educationalRole: "early childhood educator",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Australia",
+    },
     serviceType:
-      "Early childhood regulation support and professional development",
+      "Early childhood professional development and team capacity building",
     url: siteUrl,
+    offers: [
+      {
+        "@type": "Offer",
+        name: "2027 Early Bird Digital",
+        price: "4790",
+        priceCurrency: "AUD",
+        availability: "https://schema.org/InStock",
+        validThrough: "2026-12-31",
+      },
+      {
+        "@type": "Offer",
+        name: "2027 Premium Program",
+        price: "5990",
+        priceCurrency: "AUD",
+        availability: "https://schema.org/InStock",
+      },
+    ],
   };
 
   return (
@@ -198,36 +183,28 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            organisationSchema,
-          ),
+          __html: JSON.stringify(organisationSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            personSchema,
-          ),
+          __html: JSON.stringify(personSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            websiteSchema,
-          ),
+          __html: JSON.stringify(websiteSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            serviceSchema,
-          ),
+          __html: JSON.stringify(programSchema),
         }}
       />
 

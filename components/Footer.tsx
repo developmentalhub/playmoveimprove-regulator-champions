@@ -42,11 +42,19 @@ const qualityLinks = [
   },
   {
     href: '/school-readiness-funding',
-    label: 'School Readiness Funding (SRF)',
+    label: 'Victoria · School Readiness Funding',
   },
   {
     href: '/kindy-uplift',
-    label: 'Kindy Uplift',
+    label: 'Queensland · Kindy Uplift',
+  },
+  {
+    href: '/nsw-early-childhood-professional-development',
+    label: 'NSW · Early Childhood Professional Development',
+  },
+  {
+    href: '/south-australia-early-childhood-professional-development',
+    label: 'South Australia · Early Childhood Professional Development',
   },
   {
     href: '/us-early-childhood-quality',

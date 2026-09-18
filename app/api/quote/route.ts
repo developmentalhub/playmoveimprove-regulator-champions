@@ -1,373 +1,863 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import {
+  NextRequest,
+  NextResponse,
+} from 'next/server';
 
-const FULL_PRICE = 4790;
-const PREVIEW_PRICE = 1790;
+import {
+  createClient,
+} from '@supabase/supabase-js';
 
-type ProgramOption = 'preview' | 'full';
+import {
+  Resend,
+} from 'resend';
 
-// Initialize Supabase client
-const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vfflpjpvbazvzxbuxwme.supabase.co';
-const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(SB_URL, SB_KEY);
+const EARLY_BIRD_PRICE =
+  4790;
 
-function escapeHtml(value: string) {
+const PREMIUM_PRICE =
+  5990;
+
+type ProgramOption =
+  | 'early-bird'
+  | 'premium';
+
+function escapeHtml(
+  value: string,
+) {
   return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(
+      /&/g,
+      '&amp;',
+    )
+    .replace(
+      /</g,
+      '&lt;',
+    )
+    .replace(
+      />/g,
+      '&gt;',
+    )
+    .replace(
+      /"/g,
+      '&quot;',
+    )
+    .replace(
+      /'/g,
+      '&#039;',
+    );
 }
 
-export async function POST(req: NextRequest) {
+function cleanString(
+  value: unknown,
+) {
+  if (
+    typeof value !==
+    'string'
+  ) {
+    return '';
+  }
+
+  return value.trim();
+}
+
+function emailField(
+  label: string,
+  value: string,
+) {
+  return `
+    <div
+      style="
+        margin-bottom:18px;
+      "
+    >
+      <div
+        style="
+          margin-bottom:4px;
+          font-size:11px;
+          color:#8a6f3e;
+          font-weight:bold;
+          text-transform:uppercase;
+          letter-spacing:0.7px;
+        "
+      >
+        ${label}
+      </div>
+
+      <div
+        style="
+          font-size:15px;
+          line-height:1.6;
+          color:#1c3b34;
+          white-space:pre-wrap;
+        "
+      >
+        ${value}
+      </div>
+    </div>
+  `;
+}
+
+export async function POST(
+  req: NextRequest,
+) {
   try {
-    const body = await req.json();
+    const supabaseUrl =
+      process.env
+        .NEXT_PUBLIC_SUPABASE_URL;
 
-    const {
-      fullName,
-      email,
-      phone,
-      serviceName,
-      providerLegalName,
-      fundingSource,
-      message,
-      programOption,
-    } = body;
+    const serviceRoleKey =
+      process.env
+        .SUPABASE_SERVICE_ROLE_KEY;
 
-    // Server-side validation
-    if (!fullName || typeof fullName !== 'string' || !fullName.trim()) {
+    if (
+      !supabaseUrl ||
+      !serviceRoleKey
+    ) {
+      console.error(
+        'Invoice request configuration error:',
+        {
+          hasSupabaseUrl:
+            Boolean(
+              supabaseUrl,
+            ),
+
+          hasServiceRoleKey:
+            Boolean(
+              serviceRoleKey,
+            ),
+        },
+      );
+
       return NextResponse.json(
-        { error: 'Full name is required.' },
-        { status: 400 },
+        {
+          error:
+            'Server configuration error.',
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    const supabase =
+      createClient(
+        supabaseUrl,
+        serviceRoleKey,
+        {
+          auth: {
+            persistSession:
+              false,
+            autoRefreshToken:
+              false,
+          },
+        },
+      );
+
+    const body =
+      await req.json();
+
+    const serviceName =
+      cleanString(
+        body.serviceName,
+      );
+
+    const managerName =
+      cleanString(
+        body.managerName,
+      );
+
+    const managerEmail =
+      cleanString(
+        body.managerEmail,
+      ).toLowerCase();
+
+    const phone =
+      cleanString(
+        body.phone,
+      );
+
+    const postalAddress =
+      cleanString(
+        body.postalAddress,
+      );
+
+    const serviceType =
+      cleanString(
+        body.serviceType,
+      );
+
+    const fundingSource =
+      cleanString(
+        body.fundingSource,
+      );
+
+    const fundingOther =
+      cleanString(
+        body.fundingOther,
+      );
+
+    const billingName =
+      cleanString(
+        body.billingName,
+      );
+
+    const billingEmail =
+      cleanString(
+        body.billingEmail,
+      ).toLowerCase();
+
+    const notes =
+      cleanString(
+        body.notes,
+      );
+
+    const educatorCount =
+      Number(
+        body.educatorCount,
+      );
+
+    const programOption:
+      ProgramOption =
+      body.programOption ===
+      'premium'
+        ? 'premium'
+        : 'early-bird';
+
+    /*
+     * Validation
+     */
+
+    if (!serviceName) {
+      return NextResponse.json(
+        {
+          error:
+            'Service name is required.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (!managerName) {
+      return NextResponse.json(
+        {
+          error:
+            'Manager name is required.',
+        },
+        {
+          status: 400,
+        },
       );
     }
 
     if (
-      !email ||
-      typeof email !== 'string' ||
-      !email.includes('@')
+      !managerEmail ||
+      !managerEmail.includes(
+        '@',
+      )
     ) {
       return NextResponse.json(
-        { error: 'A valid email address is required.' },
-        { status: 400 },
+        {
+          error:
+            'A valid manager email is required.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (!phone) {
+      return NextResponse.json(
+        {
+          error:
+            'Phone number is required.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (!postalAddress) {
+      return NextResponse.json(
+        {
+          error:
+            'Postal address is required.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (!serviceType) {
+      return NextResponse.json(
+        {
+          error:
+            'Service type is required.',
+        },
+        {
+          status: 400,
+        },
       );
     }
 
     if (
-      !serviceName ||
-      typeof serviceName !== 'string' ||
-      !serviceName.trim()
+      !Number.isInteger(
+        educatorCount,
+      ) ||
+      educatorCount < 1 ||
+      educatorCount > 15
     ) {
       return NextResponse.json(
-        { error: 'Centre or Service name is required.' },
-        { status: 400 },
+        {
+          error:
+            'Number of educators must be between 1 and 15.',
+        },
+        {
+          status: 400,
+        },
       );
     }
 
-    // Normalise selected program option
-    const selectedProgram: ProgramOption =
-      programOption === 'preview' ? 'preview' : 'full';
+    if (!fundingSource) {
+      return NextResponse.json(
+        {
+          error:
+            'Please select a funding or budget option.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (
+      billingEmail &&
+      !billingEmail.includes(
+        '@',
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            'Billing email is not valid.',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
     const selectedPrice =
-      selectedProgram === 'preview' ? PREVIEW_PRICE : FULL_PRICE;
+      programOption ===
+      'premium'
+        ? PREMIUM_PRICE
+        : EARLY_BIRD_PRICE;
 
-    const selectedProgramLabel =
-      selectedProgram === 'preview'
-        ? '3-Ladder Preview'
-        : 'Full 8-Ladder Site Membership';
+    const programLabel =
+      programOption ===
+      'premium'
+        ? '2027 Premium Regulator Champions'
+        : '2027 Early Bird Digital Regulator Champions';
 
-    const selectedAccess =
-      selectedProgram === 'preview'
-        ? '6 months'
-        : '12 months';
+    const finalBillingName =
+      billingName ||
+      managerName;
 
-    // Clean input data
-    const cleanData = {
-      fullName: fullName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone ? String(phone).trim() : 'N/A',
-      serviceName: serviceName.trim(),
-      providerLegalName: providerLegalName
-        ? String(providerLegalName).trim()
-        : 'N/A',
-      fundingSource: fundingSource
-        ? String(fundingSource).trim()
-        : 'N/A',
-      message: message ? String(message).trim() : 'None provided',
-      programOption: selectedProgram,
-      programLabel: selectedProgramLabel,
-      price: selectedPrice,
-      accessPeriod: selectedAccess,
-      submittedAt: new Date().toISOString(),
-    };
+    const finalBillingEmail =
+      billingEmail ||
+      managerEmail;
 
-    console.log(
-      '--- NEW CENTRE QUOTE REQUEST RECEIVED ---',
-      cleanData,
-    );
+    /*
+     * Save invoice request.
+     *
+     * Only use fields confirmed for
+     * the 2027 regulator_leads setup.
+     */
 
-    // Save quote backup to Supabase
-    try {
-      await supabase.from('quote_requests').insert([
+    const {
+      data: savedLead,
+      error:
+        databaseError,
+    } = await supabase
+      .from(
+        'regulator_leads',
+      )
+      .insert({
+        name:
+          managerName,
+
+        email:
+          managerEmail,
+
+        organisation_name:
+          serviceName,
+
+        source:
+          '2027-homepage-invoice-request',
+
+        status:
+          'invoice-requested',
+
+        phone,
+
+        postal_address:
+          postalAddress,
+
+        service_type:
+          serviceType,
+
+        educator_count:
+          educatorCount,
+
+        funding_source:
+          fundingSource,
+
+        funding_other:
+          fundingOther ||
+          null,
+
+        billing_name:
+          finalBillingName,
+
+        billing_email:
+          finalBillingEmail,
+
+        notes:
+          notes || null,
+
+        program_option:
+          programOption,
+
+        amount:
+          selectedPrice,
+      })
+      .select(
+        'id',
+      )
+      .single();
+
+    if (
+      databaseError ||
+      !savedLead
+    ) {
+      console.error(
+        'SUPABASE INVOICE REQUEST INSERT FAILED',
         {
-          contact_name: cleanData.fullName,
-          email: cleanData.email,
-          phone: cleanData.phone,
-          centre_name: cleanData.serviceName,
-          provider_legal_name: cleanData.providerLegalName,
-          funding_source: cleanData.fundingSource,
-          message: cleanData.message,
-          plan: cleanData.programOption,
-          amount: cleanData.price,
-          created_at: cleanData.submittedAt,
+          message:
+            databaseError
+              ?.message,
+
+          details:
+            databaseError
+              ?.details,
+
+          hint:
+            databaseError
+              ?.hint,
+
+          code:
+            databaseError
+              ?.code,
         },
-      ]);
-    } catch (dbErr) {
-      console.error('Supabase backup error (non-blocking):', dbErr);
+      );
+
+      /*
+       * In local development we return
+       * more detail so errors are easy
+       * to diagnose.
+       *
+       * Production users still receive
+       * the friendly message only.
+       */
+      return NextResponse.json(
+        {
+          error:
+            'We could not save your invoice request.',
+
+          ...(process.env
+            .NODE_ENV ===
+          'development'
+            ? {
+                debug:
+                  databaseError
+                    ?.message ||
+                  'Unknown database error',
+
+                code:
+                  databaseError
+                    ?.code ||
+                  null,
+
+                details:
+                  databaseError
+                    ?.details ||
+                  null,
+
+                hint:
+                  databaseError
+                    ?.hint ||
+                  null,
+              }
+            : {}),
+        },
+        {
+          status: 500,
+        },
+      );
     }
 
-    // Escape user-provided values before inserting them into HTML email
-    const safeData = {
-      fullName: escapeHtml(cleanData.fullName),
-      email: escapeHtml(cleanData.email),
-      phone: escapeHtml(cleanData.phone),
-      serviceName: escapeHtml(cleanData.serviceName),
-      providerLegalName: escapeHtml(cleanData.providerLegalName),
-      fundingSource: escapeHtml(cleanData.fundingSource),
-      message: escapeHtml(cleanData.message),
-      programLabel: escapeHtml(cleanData.programLabel),
-      accessPeriod: escapeHtml(cleanData.accessPeriod),
-    };
+    console.log(
+      'Regulator Champions invoice request saved:',
+      {
+        leadId:
+          savedLead.id,
 
-    // Send styled HTML email notification via Resend
-    if (process.env.RESEND_API_KEY) {
-      try {
-        const emailHtml = `
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="UTF-8" />
-              <style>
-                body {
-                  font-family: Arial, sans-serif;
-                  line-height: 1.6;
-                  color: #1e293b;
-                  background-color: #f8fafc;
-                  padding: 20px;
-                }
+        serviceName,
 
-                .container {
-                  max-width: 600px;
-                  margin: 0 auto;
-                  background: #ffffff;
-                  padding: 30px;
-                  border-radius: 16px;
-                  border: 1px solid #e2e8f0;
-                }
+        managerEmail,
 
-                .header {
-                  border-bottom: 2px solid #0f766e;
-                  padding-bottom: 15px;
-                  margin-bottom: 20px;
-                }
+        programOption,
 
-                .title {
-                  font-size: 20px;
-                  color: #0f766e;
-                  font-weight: bold;
-                  margin: 0;
-                }
+        amount:
+          selectedPrice,
+      },
+    );
 
-                .price-box {
-                  margin: 20px 0;
-                  padding: 18px;
-                  border-radius: 12px;
-                  background: #f0fdfa;
-                  border: 1px solid #99f6e4;
-                }
+    /*
+     * Email Robyn.
+     *
+     * The database save is the important
+     * part. A Resend failure should not
+     * cause the customer's form to fail.
+     */
 
-                .price {
-                  font-size: 24px;
-                  font-weight: bold;
-                  color: #134e4a;
-                }
-
-                .field {
-                  margin-bottom: 12px;
-                }
-
-                .label {
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  color: #64748b;
-                  font-weight: bold;
-                  display: block;
-                }
-
-                .value {
-                  font-size: 14px;
-                  color: #0f172a;
-                  font-weight: 600;
-                  margin-top: 2px;
-                }
-
-                .footer {
-                  margin-top: 25px;
-                  padding-top: 15px;
-                  border-top: 1px solid #e2e8f0;
-                  font-size: 12px;
-                  color: #64748b;
-                  text-align: center;
-                }
-              </style>
-            </head>
-
-            <body>
-              <div class="container">
-                <div class="header">
-                  <h1 class="title">
-                    New ${safeData.programLabel} Proposal Request
-                  </h1>
-                </div>
-
-                <div class="price-box">
-                  <span class="label">Selected Program</span>
-                  <div class="value">${safeData.programLabel}</div>
-
-                  <div class="price">
-                    $${cleanData.price.toLocaleString('en-AU')} AUD
-                  </div>
-
-                  <div class="value">
-                    Incl. GST • ${safeData.accessPeriod}
-                  </div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Director / Contact Name</span>
-                  <div class="value">${safeData.fullName}</div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Email Address</span>
-                  <div class="value">
-                    <a href="mailto:${safeData.email}">
-                      ${safeData.email}
-                    </a>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Phone Number</span>
-                  <div class="value">${safeData.phone}</div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Centre / Service Name</span>
-                  <div class="value">${safeData.serviceName}</div>
-                </div>
-
-                <div class="field">
-                  <span class="label">
-                    Approved Provider / Legal Entity
-                  </span>
-                  <div class="value">
-                    ${safeData.providerLegalName}
-                  </div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Funding Pathway</span>
-                  <div class="value">
-                    ${safeData.fundingSource}
-                  </div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Program Option</span>
-                  <div class="value">
-                    ${safeData.programLabel}
-                  </div>
-                </div>
-
-                <div class="field">
-                  <span class="label">Additional Notes</span>
-                  <div class="value">
-                    ${safeData.message}
-                  </div>
-                </div>
-
-                <div class="footer">
-                  Regulator Champions Proposal Engine • Play Move Improve
-                </div>
-              </div>
-            </body>
-          </html>
-        `;
-
-        const resendResponse = await fetch(
-          'https://api.resend.com/emails',
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              from:
-                'Regulator Champions Quotes <quotes@playmoveimprove.com.au>',
-              to: ['robyn@playmoveimprove.com.au'],
-              reply_to: cleanData.email,
-              subject: `Quote Request: ${cleanData.serviceName} — ${selectedProgramLabel} ($${selectedPrice.toLocaleString(
-                'en-AU',
-              )})`,
-              html: emailHtml,
-            }),
-          },
+    if (
+      process.env
+        .RESEND_API_KEY
+    ) {
+      const resend =
+        new Resend(
+          process.env
+            .RESEND_API_KEY,
         );
 
-        if (!resendResponse.ok) {
-          const errorText = await resendResponse.text();
+      const safe = {
+        serviceName:
+          escapeHtml(
+            serviceName,
+          ),
 
-          console.error(
-            'Resend API returned error:',
-            errorText,
-          );
-        }
-      } catch (emailError) {
+        managerName:
+          escapeHtml(
+            managerName,
+          ),
+
+        managerEmail:
+          escapeHtml(
+            managerEmail,
+          ),
+
+        phone:
+          escapeHtml(
+            phone,
+          ),
+
+        postalAddress:
+          escapeHtml(
+            postalAddress,
+          ),
+
+        serviceType:
+          escapeHtml(
+            serviceType,
+          ),
+
+        fundingSource:
+          escapeHtml(
+            fundingSource,
+          ),
+
+        fundingOther:
+          escapeHtml(
+            fundingOther ||
+              'Not applicable',
+          ),
+
+        billingName:
+          escapeHtml(
+            finalBillingName,
+          ),
+
+        billingEmail:
+          escapeHtml(
+            finalBillingEmail,
+          ),
+
+        notes:
+          escapeHtml(
+            notes ||
+              'None provided',
+          ),
+
+        programLabel:
+          escapeHtml(
+            programLabel,
+          ),
+      };
+
+      const emailHtml = `
+        <!DOCTYPE html>
+        <html>
+          <body
+            style="
+              margin:0;
+              padding:24px;
+              background:#f7f3ed;
+              color:#1c3b34;
+              font-family:Arial,sans-serif;
+            "
+          >
+            <div
+              style="
+                max-width:680px;
+                margin:0 auto;
+                background:#ffffff;
+                border-radius:20px;
+                padding:32px;
+                border:1px solid #e5ded4;
+              "
+            >
+              <p
+                style="
+                  margin:0;
+                  font-size:13px;
+                  font-weight:bold;
+                  color:#9a793d;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                "
+              >
+                Play Move Improve
+              </p>
+
+              <h1
+                style="
+                  margin:8px 0 0;
+                  font-size:26px;
+                  color:#1c3b34;
+                "
+              >
+                New 2027 Regulator Champions invoice request
+              </h1>
+
+              <div
+                style="
+                  margin:24px 0;
+                  padding:20px;
+                  background:#fff8e7;
+                  border:1px solid #e0bc68;
+                  border-radius:16px;
+                "
+              >
+                <strong>
+                  ${safe.programLabel}
+                </strong>
+
+                <div
+                  style="
+                    margin-top:6px;
+                    font-size:28px;
+                    font-weight:bold;
+                  "
+                >
+                  $${selectedPrice.toLocaleString(
+                    'en-AU',
+                  )} AUD
+                </div>
+
+                <div
+                  style="
+                    margin-top:5px;
+                    color:#53645d;
+                  "
+                >
+                  ${educatorCount} educator${
+                    educatorCount ===
+                    1
+                      ? ''
+                      : 's'
+                  }
+                </div>
+              </div>
+
+              ${emailField(
+                'Service',
+                safe.serviceName,
+              )}
+
+              ${emailField(
+                'Service type',
+                safe.serviceType,
+              )}
+
+              ${emailField(
+                'Manager',
+                safe.managerName,
+              )}
+
+              ${emailField(
+                'Manager email',
+                safe.managerEmail,
+              )}
+
+              ${emailField(
+                'Phone',
+                safe.phone,
+              )}
+
+              ${emailField(
+                'Postal address',
+                safe.postalAddress,
+              )}
+
+              ${emailField(
+                'Funding / budget',
+                safe.fundingSource,
+              )}
+
+              ${
+                fundingOther
+                  ? emailField(
+                      'Other funding',
+                      safe.fundingOther,
+                    )
+                  : ''
+              }
+
+              ${emailField(
+                'Billing contact',
+                safe.billingName,
+              )}
+
+              ${emailField(
+                'Billing email',
+                safe.billingEmail,
+              )}
+
+              ${emailField(
+                'Notes',
+                safe.notes,
+              )}
+
+              <div
+                style="
+                  margin-top:28px;
+                  padding-top:18px;
+                  border-top:1px solid #e5ded4;
+                  color:#6b7772;
+                  font-size:12px;
+                "
+              >
+                Regulator Champions 2027
+                · Play Move Improve
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      const {
+        error:
+          emailError,
+      } =
+        await resend.emails
+          .send({
+            from:
+              'Robyn at Play Move Improve <robyn@playmoveimprove.com.au>',
+
+            to: [
+              'robyn@playmoveimprove.com.au',
+            ],
+
+            replyTo:
+              managerEmail,
+
+            subject:
+              `2027 invoice request — ${serviceName} — $${selectedPrice.toLocaleString(
+                'en-AU',
+              )}`,
+
+            html:
+              emailHtml,
+          });
+
+      if (
+        emailError
+      ) {
         console.error(
-          'Failed to dispatch notification email:',
+          'Resend invoice notification failed:',
           emailError,
         );
       }
     } else {
       console.warn(
-        'RESEND_API_KEY is not configured. Quote request was received but no notification email was sent.',
+        'RESEND_API_KEY is not configured. Invoice request saved without notification email.',
       );
     }
 
     return NextResponse.json(
       {
         success: true,
+
+        leadId:
+          savedLead.id,
+
         message:
-          'Your quote request has been processed successfully.',
-        programOption: selectedProgram,
-        programLabel: selectedProgramLabel,
-        price: selectedPrice,
-        redirectUrl: `/proposal?plan=${selectedProgram}`,
+          'Your invoice request has been received.',
+
+        programOption,
+
+        programLabel,
+
+        price:
+          selectedPrice,
       },
-      { status: 200 },
+      {
+        status: 200,
+      },
     );
   } catch (error) {
-    console.error('Unhandled Quote API Error:', error);
+    console.error(
+      'Unhandled invoice request error:',
+      error,
+    );
 
     return NextResponse.json(
       {
         error:
-          'An unexpected server error occurred. Please try again.',
+          'An unexpected error occurred. Please try again.',
+
+        ...(process.env
+          .NODE_ENV ===
+        'development'
+          ? {
+              debug:
+                error instanceof
+                Error
+                  ? error.message
+                  : String(
+                      error,
+                    ),
+            }
+          : {}),
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

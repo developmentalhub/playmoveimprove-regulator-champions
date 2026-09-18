@@ -208,7 +208,8 @@ function ResultBar({
       ? Math.max(
           8,
           Math.round(
-            (count / maximum) * 100,
+            (count / maximum) *
+              100,
           ),
         )
       : 0;
@@ -398,8 +399,28 @@ export default async function RegulatorChampionsAdminPage() {
   return (
     <main className="min-h-screen bg-[#FAF8F5] px-4 py-8 text-[#1C3B34] md:px-6 md:py-12">
       <section className="mx-auto max-w-6xl space-y-8">
+        {/* ADMIN HEADER */}
         <div>
-          <div className="mb-6 flex justify-end">
+          <div className="flex flex-col gap-5 border-b border-[#E6E2DC] pb-7 md:flex-row md:items-center md:justify-between">
+            <div>
+              <span className="block text-xs font-black uppercase tracking-[0.16em] text-[#C29F60]">
+                Play Move Improve
+              </span>
+
+              <h1 className="mt-2 text-3xl font-bold text-[#1C3B34] md:text-5xl">
+                Regulator Champions Admin
+              </h1>
+
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#657B6C] md:text-base">
+                Manage your 2027
+                services, invoices,
+                educator teams and
+                monthly Regulator
+                Champions activity from
+                one place.
+              </p>
+            </div>
+
             <form
               action="/admin/regulator-champions/logout"
               method="POST"
@@ -413,26 +434,119 @@ export default async function RegulatorChampionsAdminPage() {
             </form>
           </div>
 
-          <span className="block text-xs font-black uppercase tracking-[0.16em] text-[#C29F60]">
-            Regulator Champions
-          </span>
+          {/* MAIN ADMIN NAVIGATION */}
+          <div className="mt-7 grid gap-4 md:grid-cols-2">
+            <a
+              href="/admin/regulator-champions/services"
+              className="group rounded-3xl border border-[#12362F] bg-[#12362F] p-6 text-white shadow-sm transition hover:bg-[#224C42] md:p-7"
+            >
+              <span className="text-xs font-black uppercase tracking-[0.14em] text-[#E4C98E]">
+                2027 services
+              </span>
 
-          <h1 className="mt-2 text-3xl font-bold text-[#1C3B34] md:text-5xl">
-            Monthly Member
-            Conversations
-          </h1>
+              <h2 className="mt-3 text-2xl font-bold text-white">
+                Services & invoices
+              </h2>
 
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#657B6C] md:text-base">
-            Review educator
-            questions and see
-            which session days
-            and times are
-            working best for
-            Regulator Champion
-            teams.
-          </p>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-[#D8E1DC]">
+                Find a service, review
+                invoice requests, mark
+                payments as received,
+                check educator seats and
+                open individual service
+                records.
+              </p>
+
+              <span className="mt-6 inline-flex items-center rounded-xl bg-white px-4 py-2.5 text-sm font-black text-[#12362F]">
+                Open services →
+              </span>
+            </a>
+
+            <a
+              href="#monthly-conversations"
+              className="rounded-3xl border border-[#E6E2DC] bg-white p-6 shadow-sm transition hover:border-[#C29F60] md:p-7"
+            >
+              <span className="text-xs font-black uppercase tracking-[0.14em] text-[#C29F60]">
+                Monthly coaching
+              </span>
+
+              <h2 className="mt-3 text-2xl font-bold text-[#1C3B34]">
+                Monthly conversations
+              </h2>
+
+              <p className="mt-3 max-w-xl text-sm leading-7 text-[#657B6C]">
+                Review educator
+                questions, session votes
+                and the times teams are
+                most likely to attend
+                monthly coaching.
+              </p>
+
+              <span className="mt-6 inline-flex items-center rounded-xl border border-[#D8CFC2] bg-[#FAF8F5] px-4 py-2.5 text-sm font-black text-[#1C3B34]">
+                View activity ↓
+              </span>
+            </a>
+          </div>
+
+          {/* FUTURE ADMIN AREAS */}
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-[#E6E2DC] bg-[#F7F4EF] p-4">
+              <p className="text-xs font-black uppercase tracking-wider text-[#9A8F85]">
+                Coming later
+              </p>
+
+              <p className="mt-1 font-bold text-[#657B6C]">
+                Family Voice
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E6E2DC] bg-[#F7F4EF] p-4">
+              <p className="text-xs font-black uppercase tracking-wider text-[#9A8F85]">
+                Coming later
+              </p>
+
+              <p className="mt-1 font-bold text-[#657B6C]">
+                Topics & resources
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E6E2DC] bg-[#F7F4EF] p-4">
+              <p className="text-xs font-black uppercase tracking-wider text-[#9A8F85]">
+                Coming later
+              </p>
+
+              <p className="mt-1 font-bold text-[#657B6C]">
+                Reports & attention
+              </p>
+            </div>
+          </div>
         </div>
 
+        {/* MONTHLY ACTIVITY */}
+        <section
+          id="monthly-conversations"
+          className="scroll-mt-8 border-t border-[#E6E2DC] pt-8"
+        >
+          <div>
+            <span className="block text-xs font-black uppercase tracking-[0.16em] text-[#C29F60]">
+              Monthly conversations
+            </span>
+
+            <h2 className="mt-2 text-3xl font-bold text-[#1C3B34]">
+              September 2026 activity
+            </h2>
+
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#657B6C] md:text-base">
+              Review educator questions
+              and see which session days
+              and times are working best
+              for Regulator Champions
+              teams.
+            </p>
+          </div>
+        </section>
+
+        {/* SUMMARY CARDS */}
         <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <article className="rounded-3xl border border-[#E6E2DC] bg-white p-6 shadow-sm">
             <p className="text-xs font-bold uppercase tracking-wider text-[#C29F60]">
@@ -469,6 +583,7 @@ export default async function RegulatorChampionsAdminPage() {
           </article>
         </section>
 
+        {/* SESSION VOTING */}
         <section className="space-y-6 rounded-4xl border border-[#E6E2DC] bg-white p-6 shadow-sm md:p-8">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#C29F60]">
@@ -481,23 +596,21 @@ export default async function RegulatorChampionsAdminPage() {
 
             <p className="mt-2 text-sm leading-relaxed text-[#657B6C]">
               Results update as
-              educators submit
-              their preferences.
+              educators submit their
+              preferences.
             </p>
           </div>
 
           {votesResponse.error ? (
             <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm font-semibold text-rose-700">
-              Session voting
-              results could not
-              be loaded right
+              Session voting results
+              could not be loaded right
               now.
             </div>
           ) : votes.length === 0 ? (
             <div className="rounded-2xl bg-[#FAF8F5] p-5 text-sm text-[#657B6C]">
-              No September
-              session votes have
-              been submitted yet.
+              No September session votes
+              have been submitted yet.
             </div>
           ) : (
             <>
@@ -575,8 +688,8 @@ export default async function RegulatorChampionsAdminPage() {
 
               <div className="rounded-3xl border border-[#E6E2DC] p-5 md:p-6">
                 <h3 className="text-lg font-bold">
-                  How educators
-                  plan to attend
+                  How educators plan to
+                  attend
                 </h3>
 
                 <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -603,8 +716,7 @@ export default async function RegulatorChampionsAdminPage() {
                 0 && (
                 <div className="rounded-3xl bg-[#FAF5EC] p-5 md:p-6">
                   <h3 className="font-bold">
-                    Other suggested
-                    times
+                    Other suggested times
                   </h3>
 
                   <div className="mt-4 space-y-3">
@@ -641,8 +753,7 @@ export default async function RegulatorChampionsAdminPage() {
 
               <div>
                 <h3 className="text-lg font-bold">
-                  Individual
-                  responses
+                  Individual responses
                 </h3>
 
                 <div className="mt-4 divide-y divide-[#E6E2DC] overflow-hidden rounded-3xl border border-[#E6E2DC]">
@@ -724,6 +835,7 @@ export default async function RegulatorChampionsAdminPage() {
           )}
         </section>
 
+        {/* EDUCATOR QUESTIONS */}
         <section className="space-y-6">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#C29F60]">
@@ -735,8 +847,8 @@ export default async function RegulatorChampionsAdminPage() {
             </h2>
 
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#657B6C]">
-              Questions submitted
-              by Regulator Champion
+              Questions submitted by
+              Regulator Champions
               educators for upcoming
               monthly conversations.
             </p>
@@ -744,17 +856,15 @@ export default async function RegulatorChampionsAdminPage() {
 
           {questionsResponse.error ? (
             <div className="rounded-3xl border border-rose-200 bg-rose-50 p-6 text-sm font-semibold text-rose-700">
-              Educator questions
-              could not be loaded
-              right now.
+              Educator questions could
+              not be loaded right now.
             </div>
           ) : questions.length ===
             0 ? (
             <div className="rounded-3xl border border-[#E6E2DC] bg-white p-6 text-sm text-[#657B6C]">
-              No educator
-              questions have
-              been submitted
-              for September yet.
+              No educator questions have
+              been submitted for
+              September yet.
             </div>
           ) : (
             <div className="space-y-5">
