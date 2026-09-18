@@ -505,7 +505,7 @@ export default function TopicContentTracker({
                       }
                       title={`${item.title} preview`}
                       loading="lazy"
-                      className="h-[70vh] min-h-[520px] w-full bg-white"
+                      className="h-[70vh] min-h-130 w-full bg-white"
                     />
                   </div>
                 ) : null}

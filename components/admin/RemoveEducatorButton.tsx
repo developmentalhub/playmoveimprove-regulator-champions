@@ -35,7 +35,7 @@ export default function RemoveEducatorButton({
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-rose-200 bg-rose-50 p-4 md:w-[360px]">
+    <div className="w-full max-w-md rounded-2xl border border-rose-200 bg-rose-50 p-4 md:w-90">
       <p className="text-sm font-bold text-rose-900">
         Remove {educatorName}?
       </p>
