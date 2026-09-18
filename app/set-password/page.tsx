@@ -13,7 +13,7 @@ import {
 
 import {
   createRcBrowserClient,
-} from '@/lib/rcAuth';
+} from '@/lib/rcAuthClient';
 
 type PageState =
   | 'checking'

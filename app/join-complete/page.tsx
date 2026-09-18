@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Suspense,
   useEffect,
   useState,
 } from 'react';
@@ -14,7 +15,7 @@ import {
   createRcBrowserClient,
 } from '@/lib/rcAuthClient';
 
-export default function JoinCompletePage() {
+function JoinCompleteContent() {
   const router =
     useRouter();
 
@@ -36,16 +37,16 @@ export default function JoinCompletePage() {
         );
 
       const password =
-        sessionStorage.getItem(
-          'rc_join_password',
+        searchParams.get(
+          'password',
         );
 
       if (
         !email ||
         !password
       ) {
-        router.replace(
-          '/member-access',
+        setMessage(
+          'Your account could not be opened. Please return to the login page.',
         );
 
         return;
@@ -57,33 +58,22 @@ export default function JoinCompletePage() {
       const {
         error,
       } =
-        await supabase.auth
-          .signInWithPassword({
+        await supabase.auth.signInWithPassword(
+          {
             email,
             password,
-          });
-
-      sessionStorage.removeItem(
-        'rc_join_password',
-      );
+          },
+        );
 
       if (error) {
         console.error(
-          'Automatic educator login failed:',
+          'Join completion sign-in failed:',
           error,
         );
 
         setMessage(
-          'Your account was created. Please sign in to continue.',
+          'Your account has been created, but we could not sign you in automatically. Please use the login page.',
         );
-
-        setTimeout(() => {
-          router.replace(
-            `/member-access?email=${encodeURIComponent(
-              email,
-            )}`,
-          );
-        }, 1200);
 
         return;
       }
@@ -102,20 +92,46 @@ export default function JoinCompletePage() {
   ]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#FAF8F5] px-6 text-[#1C3B34]">
-      <div className="max-w-md text-center">
-        <p className="text-xs font-black uppercase tracking-[0.16em] text-[#C29F60]">
-          Play Move Improve
+    <main className="min-h-screen bg-[#FAF8F5] px-5 py-16 text-[#232150]">
+      <div className="mx-auto max-w-xl rounded-3xl border border-[#E4E1EA] bg-white p-8 text-center shadow-sm">
+        <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#87317E]">
+          Regulator Champions
         </p>
 
         <h1 className="mt-4 text-3xl font-bold">
-          Welcome to Regulator Champions
+          Setting up your access
         </h1>
 
-        <p className="mt-4 leading-7 text-[#657B6C]">
+        <p className="mt-4 leading-7 text-[#575570]">
           {message}
         </p>
       </div>
     </main>
+  );
+}
+
+export default function JoinCompletePage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#FAF8F5] px-5 py-16 text-[#232150]">
+          <div className="mx-auto max-w-xl rounded-3xl border border-[#E4E1EA] bg-white p-8 text-center shadow-sm">
+            <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#87317E]">
+              Regulator Champions
+            </p>
+
+            <h1 className="mt-4 text-3xl font-bold">
+              Setting up your access
+            </h1>
+
+            <p className="mt-4 leading-7 text-[#575570]">
+              Opening your account…
+            </p>
+          </div>
+        </main>
+      }
+    >
+      <JoinCompleteContent />
+    </Suspense>
   );
 }
